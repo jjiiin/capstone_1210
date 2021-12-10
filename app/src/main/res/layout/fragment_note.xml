@@ -50,27 +50,31 @@
                 android:weightSum="4">
                 <ImageView
                     android:id="@+id/homeTab"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
                     android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
                     android:src="@drawable/home_not" />
                 <ImageView
                     android:id="@+id/chatTab"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
                     android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
                     android:src="@drawable/chat_not" />
                 <ImageView
                     android:id="@+id/noteTab"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
                     android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
                     android:src="@drawable/bell_not" />
                 <ImageView
                     android:id="@+id/myTab"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
                     android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
                     android:src="@drawable/my_not" />
 
 
