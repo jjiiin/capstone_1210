@@ -9,7 +9,7 @@ class FBRef {
     companion object{
         private val database = Firebase.database
 
-        val boardRef=database.getReference("contents")
+        val boardRef=database.getReference("contents_gyeong")
         val joinRef = database.getReference("users")
     }
 

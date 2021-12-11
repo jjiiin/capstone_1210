@@ -55,7 +55,7 @@ class JoinActivity : AppCompatActivity() {
                             intent.flags=Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             startActivity(intent)
                             //회원 데이터베이스에 이메일, 닉에임 정보 저장
-                            val userData = UserData(id,id)
+                            val userData = UserData(id,name)
                             FBRef.joinRef.child(auth.currentUser!!.uid).setValue(userData)
                         } else {
                             //Toast.makeText(this,"실패",Toast.LENGTH_LONG).show()

@@ -39,7 +39,7 @@ class BoardWirteActivity : AppCompatActivity() {
         val myRef = database.getReference("contents")
         //사용자 uid얻어옴
         auth = Firebase.auth
-        val current_uid = auth.currentUser!!.uid
+        val current_uid = auth.currentUser!!.uid.toString()
 
         var time = ""
         binding.timeFree.setOnClickListener {
@@ -75,14 +75,15 @@ class BoardWirteActivity : AppCompatActivity() {
             Log.d("BWA", fee_dm)
             val place_dm = binding.placeList.text.toString()
             val mention_dm = binding.mention.text.toString()
+            //Log.d("아이디",current_uid)
             val writer_uid = current_uid
-
             val model = dataModel(
                 title_dm,
                 person_dm,
                 time_dm,
                 fee_dm,
                 place_dm,
+                "",
                 mention_dm,
                 writer_uid
             )
