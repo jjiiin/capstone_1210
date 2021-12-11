@@ -12,6 +12,6 @@ data class dataModel (
     val fee: String="",
     val place: String="",
     val link: String="",
-    val mention: String=""
-
+    val mention: String="",
+    val writer: String=""
 )

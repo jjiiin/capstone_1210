@@ -9,12 +9,16 @@ import com.capstone_design.a1209_app.dataModel
 import com.capstone_design.a1209_app.databinding.ActivityBoardWirteBinding
 import com.capstone_design.a1209_app.databinding.FragmentHomeBinding
 import com.capstone_design.a1209_app.utils.FBRef
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
 class BoardWirteActivity : AppCompatActivity() {
-//글쓰기 화면에 스피너 넣어야함.
-    private lateinit var binding : ActivityBoardWirteBinding
+    //글쓰기 화면에 스피너 넣어야함.
+    private lateinit var binding: ActivityBoardWirteBinding
+    //사용자 uid 얻어오기위함
+    private lateinit var auth: FirebaseAuth
 
     private val items = mutableListOf<dataModel>()
     public var title_detail = ""
@@ -24,19 +28,20 @@ class BoardWirteActivity : AppCompatActivity() {
     public var mention_detail = ""
     public var time_detail = ""
 
-    public var link_detail=""
+    public var link_detail = ""
     public var timeText = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding= DataBindingUtil.setContentView(this,R.layout.activity_board_wirte)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_board_wirte)
         // Write a message to the database
         val database = Firebase.database
         val myRef = database.getReference("contents")
+        //사용자 uid얻어옴
+        auth = Firebase.auth
+        val current_uid = auth.currentUser!!.uid
 
-
-
-        var time=""
+        var time = ""
         binding.timeFree.setOnClickListener {
             time = "협의 가능"
         }
@@ -60,32 +65,31 @@ class BoardWirteActivity : AppCompatActivity() {
 
 
         binding.saveBtn.setOnClickListener {
-            val title_dm=binding.titleList.text.toString()
+            val title_dm = binding.titleList.text.toString()
 
-            val person_dm=person
+            val person_dm = person
 
-            val time_dm=time
+            val time_dm = time
             //스피너로 입력하기
-            val fee_dm=binding.textFee.text.toString().plus("원")
-            Log.d("BWA",fee_dm)
-            val place_dm=binding.placeList.text.toString()
-            val mention_dm=binding.mention.text.toString()
+            val fee_dm = binding.textFee.text.toString().plus("원")
+            Log.d("BWA", fee_dm)
+            val place_dm = binding.placeList.text.toString()
+            val mention_dm = binding.mention.text.toString()
+            val writer_uid = current_uid
 
-            val model=dataModel(
+            val model = dataModel(
                 title_dm,
                 person_dm,
                 time_dm,
                 fee_dm,
                 place_dm,
-                mention_dm
+                mention_dm,
+                writer_uid
             )
             items.add(model)
             FBRef.boardRef.push().setValue(model)
 
             //글을 쓴 총대니까 채팅방으로 바로 이동
-
-
-
 
 
         }
