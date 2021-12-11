@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="array_hours">
+        <item>시</item>
+        <item>12시</item>
+        <item>1시</item>
+        <item>2시</item>
+        <item>3시</item>
+        <item>4시</item>
+        <item>5시</item>
+        <item>6시</item>
+        <item>7시</item>
+        <item>8시</item>
+        <item>9시</item>
+        <item>10시</item>
+        <item>11시</item>
+    </string-array>
+</resources>

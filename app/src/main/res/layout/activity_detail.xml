@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/detailView"
+    android:orientation="vertical"
+    tools:context=".DetailActivity">
+
+    <ImageView
+        android:id="@+id/detail_image"
+        android:layout_width="68dp"
+        android:layout_height="68dp"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/chicken" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/round_button"
+        android:layout_gravity="center_horizontal"
+        android:text="카페, 디저트"
+        android:textSize="14sp" />
+    <TextView
+        android:id="@+id/detailTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_gravity="center_horizontal"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:textColor="#101010"
+        android:letterSpacing="-0.03"
+        android:gravity="center_horizontal"
+        android:text="달리는 커피 시키실 분"/>
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/explain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="49dp"
+            android:orientation="vertical">
+            <!--중앙회색 선 넣어야함-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="35dp"
+                android:letterSpacing="-0.02"
+                android:text="신뢰도"
+                android:textColor="#808080"
+                android:textSize="14sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="35dp"
+                android:letterSpacing="-0.02"
+                android:text="만남 장소"
+                android:textColor="#808080"
+                android:textSize="14sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="35dp"
+                android:letterSpacing="-0.02"
+                android:text="배달비"
+                android:textColor="#808080"
+                android:textSize="14sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="35dp"
+                android:letterSpacing="-0.02"
+                android:text="주문예정"
+                android:textColor="#808080"
+                android:textSize="14sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="35dp"
+                android:letterSpacing="-0.02"
+                android:text="메뉴 링크"
+                android:textColor="#808080"
+                android:textSize="14sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="35dp"
+                android:letterSpacing="-0.02"
+                android:text="총대 멘트"
+                android:textColor="#808080"
+                android:textSize="14sp"
+                android:textStyle="normal" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="49dp"
+            android:layout_toRightOf="@id/explain"
+            android:orientation="vertical">
+
+            <RatingBar
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:rating="3"
+                android:stepSize="1" />
+
+            <TextView
+                android:id="@+id/detailPlace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:letterSpacing="-0.03"
+                android:text="광화문역 1번 출구"
+                android:textColor="#393939"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/detailFee"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:letterSpacing="-0.03"
+                android:text="3000원"
+                android:textColor="#393939"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/detailTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:letterSpacing="-0.03"
+                android:text="협의 가능"
+                android:textColor="#393939"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+            <Button
+                android:id="@+id/linkBtn"
+                android:layout_width="50dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="17dp"
+                android:letterSpacing="-0.03"
+                android:text="이동 >"
+                android:textColor="#393939"
+                android:textSize="16sp"
+                android:background="#00ff0000"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/detailMention"
+                android:layout_width="250dp"
+                android:layout_height="75dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/detail_window_mention"
+                android:letterSpacing="-0.03"
+                android:lineSpacingExtra="8sp"
+                android:padding="10dp"
+                android:text="안녕하세요 바로 주문하고 싶은 분들 환영합니다 :)"
+                android:textColor="#393939"
+                android:textSize="16sp"
+                android:textStyle="normal" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="34dp"
+        android:textStyle="normal"
+        android:textSize="16sp"
+        android:textColor="#ffffff"
+        android:letterSpacing="-0.03"
+        android:text="채팅방 입장하기 (1/3)"
+        android:backgroundTint="#fd5401"/>
+
+</LinearLayout>
+</layout>

@@ -1,13 +1,482 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".board.BoardWirteActivity">
 <!--글쓰기 폼 화면-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <!--뒤로 가기 버튼? -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="#101010"
+            android:letterSpacing="-0.03"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="19dp"
+            android:layout_marginTop="14dp"
+            android:text="글작성"/>
+
+    </LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="카테고리"
+                android:layout_margin="16dp"
+                android:textStyle="normal"
+                android:textSize="14sp"
+                android:textColor="#808080"
+                android:letterSpacing="-0.02"/>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <Button
+                        android:id="@+id/category_all"
+                        android:layout_width="50dp"
+                        android:layout_height="28dp"
+                        android:layout_marginLeft="16dp"
+                        android:background="@drawable/round_button"
+                        android:text="전체"
+                        android:textColor="#c4c4c4"
+                        android:textSize="14sp" />
+
+                    <Button
+                        android:id="@+id/category_kor"
+                        android:layout_width="50dp"
+                        android:layout_height="28dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/round_button"
+                        android:text="한식"
+                        android:textColor="#c4c4c4"
+                        android:textSize="14sp" />
+
+                    <Button
+                        android:id="@+id/category_bun"
+                        android:layout_width="50dp"
+                        android:layout_height="28dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/round_button"
+                        android:text="분식"
+                        android:textColor="#c4c4c4"
+                        android:textSize="14sp" />
+
+                    <Button
+                        android:id="@+id/category_jap"
+                        android:layout_width="50dp"
+                        android:layout_height="28dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/round_button"
+                        android:text="일식"
+                        android:textColor="#c4c4c4"
+                        android:textSize="14sp" />
+
+                    <Button
+                        android:id="@+id/category_asian"
+                        android:layout_width="90dp"
+                        android:layout_height="28dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/round_button"
+                        android:text="아시안, 양식"
+                        android:textColor="#c4c4c4"
+                        android:textSize="14sp" />
+
+                    <Button
+                        android:id="@+id/category_fast"
+                        android:layout_width="80dp"
+                        android:layout_height="28dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/round_button"
+                        android:text="패스트푸드"
+                        android:textColor="#c4c4c4"
+                        android:textSize="14sp" />
+
+                    <Button
+                        android:id="@+id/category_do"
+                        android:layout_width="60dp"
+                        android:layout_height="28dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/round_button"
+                        android:text="도시락"
+                        android:textSize="14sp" />
+                    <Button
+                        android:id="@+id/category_cafe"
+                        android:layout_width="85dp"
+                        android:layout_height="28dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/round_button"
+                        android:text="카페,디저트"
+                        android:textSize="14sp" />
+
+                    <Button
+                        android:id="@+id/category_chicken"
+                        android:layout_width="50dp"
+                        android:layout_height="28dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/round_button"
+                        android:text="치킨"
+                        android:textColor="#c4c4c4"
+                        android:textSize="14sp" />
+
+                    <Button
+                        android:id="@+id/category_pizza"
+                        android:layout_width="50dp"
+                        android:layout_height="28dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/round_button"
+                        android:text="피자"
+                        android:textColor="#c4c4c4"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="제목"
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="11dp"
+                android:textStyle="normal"
+                android:textSize="14sp"
+                android:textColor="#808080"
+                android:letterSpacing="-0.02"/>
+            <EditText
+                android:id="@+id/titleList"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="33dp"
+                android:layout_marginTop="-6dp"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:hint="   음식점 이름(ex)엽떡)과 함께 제목을 입력해주세요"
+                android:background="@drawable/dialog_edittext"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="사진(선택)"
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="11dp"
+                android:textStyle="normal"
+                android:textSize="14sp"
+                android:textColor="#808080"
+                android:letterSpacing="-0.02"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="33dp">
+                <EditText
+                    android:id="@+id/picList"
+                    android:layout_width="320dp"
+                    android:layout_height="40dp"
+                    android:textColor="#c4c4c4"
+                    android:textSize="14sp"
+                    android:hint="   사진을 첨부해주세요"
+                    android:background="@drawable/dialog_edittext"/>
+
+                <Button
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_marginLeft="16dp"
+                    android:background="@drawable/round_button" />
+            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="모집 인원"
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="11dp"
+                android:textStyle="normal"
+                android:textSize="14sp"
+                android:textColor="#808080"
+                android:letterSpacing="-0.02"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:orientation="horizontal"
+                android:layout_marginBottom="33dp">
+
+                <Button
+                    android:id="@+id/person1List"
+                    android:layout_width="73dp"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/dialog_person"
+                    android:letterSpacing="-0.03"
+                    android:text="1"
+                    android:textColor="#c4c4c4"
+                    android:textSize="16sp"
+                    android:textStyle="normal" />
+
+                <Button
+                    android:id="@+id/person2List"
+                    android:layout_width="73dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/dialog_person"
+                    android:textStyle="normal"
+                    android:textSize="16sp"
+                    android:layout_marginRight="10dp"
+                    android:textColor="#c4c4c4"
+                    android:letterSpacing="-0.03"
+                    android:text="2"/>
+                <Button
+                    android:id="@+id/person3List"
+                    android:layout_width="73dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/dialog_person"
+                    android:textStyle="normal"
+                    android:textSize="16sp"
+                    android:layout_marginRight="10dp"
+                    android:textColor="#c4c4c4"
+                    android:letterSpacing="-0.03"
+                    android:text="3"/>
+                <Button
+                    android:id="@+id/personN_list"
+                    android:layout_width="73dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/dialog_person"
+                    android:textStyle="normal"
+                    android:textSize="12sp"
+                    android:textColor="#c4c4c4"
+                    android:letterSpacing="-0.03"
+                    android:text="제한 없음"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="주문 예정 시간"
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="11dp"
+                android:textStyle="normal"
+                android:textSize="14sp"
+                android:textColor="#808080"
+                android:letterSpacing="-0.02"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="10dp">
+
+                <Button
+                    android:id="@+id/timeFree"
+                    android:layout_width="164dp"
+                    android:layout_height="32dp"
+                    android:letterSpacing="-0.02"
+                    android:text="협의 가능"
+                    android:background="@drawable/dialog_person"
+                    android:textColor="#c4c4c4"
+                    android:textSize="14sp"
+                    android:textStyle="normal" />
+
+                <Button
+                    android:id="@+id/timeSelect"
+                    android:layout_width="164dp"
+                    android:layout_height="32dp"
+                    android:text="직접 입력"
+                    android:textStyle="normal"
+                    android:textSize="14sp"
+                    android:background="@drawable/dialog_person"
+                    android:textColor="#c4c4c4"
+                    android:letterSpacing="-0.02" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="33dp">
+
+                <Spinner
+                    android:id="@+id/spinner_hours"
+                    android:layout_width="95dp"
+                    android:layout_height="40dp"
+                    android:spinnerMode="dropdown"/>
+                <Spinner
+                    android:id="@+id/spinner_minutes"
+                    android:layout_marginLeft="7dp"
+                    android:layout_width="95dp"
+                    android:layout_height="40dp"
+                    android:spinnerMode="dropdown"/>
+                <Button
+                    android:id="@+id/time_am"
+                    android:textColor="#c4c4c4"
+                    android:layout_width="62dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="7dp"
+                    android:text="AM"
+                    android:background="@drawable/dialog_person"/>
+                <Button
+                    android:id="@+id/time_pm"
+                    android:textColor="#c4c4c4"
+                    android:layout_width="62dp"
+                    android:layout_height="40dp"
+                    android:text="PM"
+                    android:background="@drawable/dialog_person"/>
 
 
 
 
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp">
+            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="배달비"
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="11dp"
+                android:textStyle="normal"
+                android:textSize="14sp"
+                android:textColor="#808080"
+                android:letterSpacing="-0.02"/>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/textFee"
+                    android:layout_width="307dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="33dp"
+                    android:background="@drawable/dialog_edittext"
+                    android:hint="   배달비를 입력해주세요"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="normal"
+                    android:textSize="14sp"
+                    android:textColor="#c4c4c4"
+                    android:layout_toRightOf="@id/textFee"
+                    android:layout_alignBottom="@id/textFee"
+                    android:letterSpacing="-0.02"
+                    android:text="원"/>
+            </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="만남 장소"
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="11dp"
+                android:textStyle="normal"
+                android:textSize="14sp"
+                android:textColor="#808080"
+                android:letterSpacing="-0.02"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="33dp">
+                <EditText
+                    android:id="@+id/placeList"
+                    android:layout_marginLeft="16dp"
+                    android:layout_width="263dp"
+                    android:layout_height="40dp"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:hint="   만남장소를 설정해주세요"
+                    android:background="@drawable/dialog_edittext"/>
+                <Button
+                    android:layout_width="55dp"
+                    android:layout_height="40dp"
+                    android:textStyle="normal"
+                    android:textSize="14sp"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="#ffffff"
+                    android:letterSpacing="-0.03"
+                    android:text="검색"/>
+            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="배민링크 (선택)"
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="11dp"
+                android:textStyle="normal"
+                android:textSize="14sp"
+                android:textColor="#808080"
+                android:letterSpacing="-0.02"/>
+            <EditText
+                android:id="@+id/link"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="33dp"
+                android:layout_marginTop="-6dp"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:hint="   배민링크를 입력해주세요"
+                android:background="@drawable/dialog_edittext"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="총대 멘트 (선택)"
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="11dp"
+                android:textStyle="normal"
+                android:textSize="14sp"
+                android:textColor="#808080"
+                android:letterSpacing="-0.02"/>
+            <EditText
+                android:id="@+id/mention"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="50dp"
+                android:layout_marginTop="-6dp"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:paddingTop="10dp"
+                android:gravity="top"
+                android:hint="   전달사항을 자유롭게 입력해주세요"
+                android:background="@drawable/dialog_edittext"/>
+
+            <Button
+                android:id="@+id/saveBtn"
+                android:layout_width="match_parent"
+                android:layout_margin="20dp"
+                android:layout_height="40dp"
+                android:background="#e0e0e0"
+                android:textStyle="normal"
+                android:textSize="14sp"
+                android:textColor="#ffffff"
+                android:letterSpacing="-0.02"
+                android:text="등록 완료"/>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
+</layout>

@@ -176,18 +176,21 @@
                         android:textSize="14sp" />
                 </LinearLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_main"
+                <ListView
+                    android:id="@+id/LvMain"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="448dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
                     android:divider="@null"
+                    android:dividerHeight="10dp"
                     android:orientation="vertical"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior"
                     app:reverseLayout="true"
                     app:stackFromEnd="true">
 
-                </androidx.recyclerview.widget.RecyclerView>
+                </ListView>
             </LinearLayout>
 
 
@@ -263,8 +266,8 @@
 
                 <ImageView
                     android:id="@+id/noteTab"
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:src="@drawable/bell_not" />

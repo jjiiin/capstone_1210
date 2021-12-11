@@ -10,11 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.1209_app">
         <activity
+            android:name=".DetailActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".board.BoardWirteActivity"
             android:exported="false" />
-        <activity
-            android:name=".auth.LoginActivity"
-            android:exported="false" />
+
         <activity
             android:name=".auth.JoinActivity"
             android:exported="false" />
