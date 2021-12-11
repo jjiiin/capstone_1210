@@ -11,6 +11,8 @@ class FBRef {
 
         val boardRef=database.getReference("contents_gyeong")
         val joinRef = database.getReference("users")
+        val boardRef=database.getReference("Contents_gyeong")
+        val usersRef = database.getReference("Users")
     }
 
 
