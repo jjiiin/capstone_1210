@@ -56,7 +56,7 @@ class JoinActivity : AppCompatActivity() {
                             startActivity(intent)
                             //회원 데이터베이스에 이메일, 닉에임 정보 저장
                             val userData = UserData(id,name)
-                            FBRef.joinRef.child(auth.currentUser!!.uid).setValue(userData)
+                            FBRef.usersRef.child(auth.currentUser!!.uid).setValue(userData)
                         } else {
                             //Toast.makeText(this,"실패",Toast.LENGTH_LONG).show()
                         }

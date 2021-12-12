@@ -7,7 +7,9 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.capstone_design.a1209_app.MainActivity
 import com.capstone_design.a1209_app.R
+import com.capstone_design.a1209_app.dataModels.UserData
 import com.capstone_design.a1209_app.databinding.ActivityIntroBinding
+import com.capstone_design.a1209_app.utils.FBRef
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase

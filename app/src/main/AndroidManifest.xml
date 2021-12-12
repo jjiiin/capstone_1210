@@ -10,13 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.1209_app">
         <activity
+            android:name=".ChatRoomActivity"
+            android:exported="false" />
+        <activity
             android:name=".DetailActivity"
             android:exported="false" />
-
         <activity
             android:name=".board.BoardWirteActivity"
             android:exported="false" />
-
         <activity
             android:name=".auth.JoinActivity"
             android:exported="false" />

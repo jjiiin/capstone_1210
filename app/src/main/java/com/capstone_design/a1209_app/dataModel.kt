@@ -13,5 +13,6 @@ data class dataModel (
     val place: String="",
     val link: String="",
     val mention: String="",
+    //글쓴이 정보 추가
     val writer: String=""
 )
