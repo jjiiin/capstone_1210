@@ -1,92 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragment.NoteFragment">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
+        android:background="@color/white"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context=".NoteFragment">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="5dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="4">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"/>
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="14dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabs"
+                    android:layout_width="200dp"
+                    android:layout_height="28dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tabIndicatorColor="@color/black"
+                    app:tabIndicatorFullWidth="false"
+                    app:tabIndicatorGravity="bottom"
+                    app:tabIndicatorHeight="2dp"
+                    app:tabSelectedTextColor="@color/black"
+                    app:tabTextAppearance="@style/tabTextSizeBold"
+                    app:tabTextColor="#c4c4c4"
+                    app:tabGravity="start"
+                    app:tabMode="scrollable"
+                    tools:ignore="SpeakableTextPresentCheck">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="#ff0000" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
+                </com.google.android.material.tabs.TabLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="110dp"
+                    android:src="@drawable/plus_note"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="25dp"
+                    android:src="@drawable/trash_note"/>
             </LinearLayout>
-
-            <LinearLayout
+            <androidx.viewpager2.widget.ViewPager2
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:orientation="horizontal"
-                android:weightSum="4">
-                <ImageView
-                    android:id="@+id/homeTab"
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:layout_weight="1"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/home_not" />
-                <ImageView
-                    android:id="@+id/chatTab"
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:layout_weight="1"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/chat_not" />
-                <ImageView
-                    android:id="@+id/noteTab"
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:layout_weight="1"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/bell_not" />
-                <ImageView
-                    android:id="@+id/myTab"
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:layout_weight="1"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/my_not" />
-
-
-            </LinearLayout>
-
-
-
-
+                android:layout_height="match_parent"
+                android:id="@+id/viewpager"/>
         </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</FrameLayout>
+    </FrameLayout>
 </layout>

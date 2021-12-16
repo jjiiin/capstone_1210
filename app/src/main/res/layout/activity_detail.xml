@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/detailView"
@@ -13,52 +14,75 @@
         android:id="@+id/detail_image"
         android:layout_width="68dp"
         android:layout_height="68dp"
-        android:layout_marginTop="50dp"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/chicken" />
+        android:src="@drawable/chicken"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/detail_category"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:src="@drawable/detail_imageback"
+        app:layout_constraintBottom_toBottomOf="@+id/detail_category"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <Button
+        android:id="@+id/detail_category"
         android:layout_width="wrap_content"
         android:layout_height="28dp"
-        android:layout_marginTop="14dp"
-        android:background="@drawable/round_button"
+        android:layout_marginBottom="10dp"
         android:layout_gravity="center_horizontal"
-        android:text="카페, 디저트"
-        android:textSize="14sp" />
+        android:background="@drawable/round_button"
+        android:text=""
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/detailTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <TextView
         android:id="@+id/detailTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:layout_gravity="center_horizontal"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        android:textColor="#101010"
-        android:letterSpacing="-0.03"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
         android:gravity="center_horizontal"
-        android:text="달리는 커피 시키실 분"/>
-
+        android:letterSpacing="-0.03"
+        android:text="달리는 커피 시키실 분"
+        android:textColor="#101010"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/line"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+    <LinearLayout
+        android:id="@+id/line"
+        android:layout_marginBottom="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#e0e0e0"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/rel_detail"/>
 
     <RelativeLayout
+        android:id="@+id/rel_detail"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="100dp"
+        app:layout_constraintBottom_toTopOf="@+id/frameLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
             android:id="@+id/explain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="24dp"
-            android:layout_marginTop="49dp"
             android:orientation="vertical">
             <!--중앙회색 선 넣어야함-->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="35dp"
-                android:letterSpacing="-0.02"
-                android:text="신뢰도"
-                android:textColor="#808080"
-                android:textSize="14sp"
-                android:textStyle="normal" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -119,17 +143,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="49dp"
             android:layout_toRightOf="@id/explain"
             android:orientation="vertical">
-
-            <RatingBar
-                style="@style/Widget.AppCompat.RatingBar.Small"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:numStars="5"
-                android:rating="3"
-                android:stepSize="1" />
 
             <TextView
                 android:id="@+id/detailPlace"
@@ -163,16 +178,17 @@
                 android:textColor="#393939"
                 android:textSize="16sp"
                 android:textStyle="bold" />
+
             <Button
                 android:id="@+id/linkBtn"
                 android:layout_width="50dp"
                 android:layout_height="20dp"
                 android:layout_marginTop="17dp"
+                android:background="#00ff0000"
                 android:letterSpacing="-0.03"
                 android:text="이동 >"
                 android:textColor="#393939"
                 android:textSize="16sp"
-                android:background="#00ff0000"
                 android:textStyle="bold" />
 
             <TextView
@@ -191,18 +207,32 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <Button
+    <FrameLayout
+        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="34dp"
-        android:textStyle="normal"
-        android:textSize="16sp"
-        android:textColor="#ffffff"
-        android:letterSpacing="-0.03"
-        android:text="채팅방 입장하기 (1/3)"
-        android:backgroundTint="#fd5401"/>
+        android:layout_height="170dp"
+        android:layout_gravity="bottom"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-</LinearLayout>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/detail_user" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="100dp"
+            android:layout_marginRight="16dp"
+            android:backgroundTint="#fd5401"
+            android:letterSpacing="-0.03"
+            android:text="채팅방 입장하기 (1/3)"
+            android:textColor="#ffffff"
+            android:textSize="16sp"
+            android:textStyle="normal" />
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

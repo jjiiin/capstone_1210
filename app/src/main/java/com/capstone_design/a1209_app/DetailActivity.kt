@@ -52,6 +52,31 @@ class DetailActivity : AppCompatActivity() {
                 binding.detailFee.text=data!!.fee
                 binding.detailTime.text=data!!.time
                 binding.detailMention.text=data!!.mention
+                when(data!!.category){
+                    "asian"-> binding.detailCategory.text = "아시안, 양식"
+                    "bun"->binding.detailCategory.text="분식"
+                    "bento"->binding.detailCategory.text="도시락"
+                    "chicken"->binding.detailCategory.text="치킨"
+                    "pizza"->binding.detailCategory.text="피자"
+                    "fastfood"->binding.detailCategory.text="패스트푸드"
+                    "japan"->binding.detailCategory.text="일식"
+                    "korean"->binding.detailCategory.text="한식"
+                    "cafe"->binding.detailCategory.text="카페, 디저트"
+                    "chi"->binding.detailCategory.text="중식"
+                }
+                when(data!!.category){
+                    "asian"->binding.detailImage.setImageResource(R.drawable.asian)
+                    "bun"->binding.detailImage.setImageResource(R.drawable.bun)
+                    "bento"->binding.detailImage.setImageResource(R.drawable.bento)
+                    "chicken"->binding.detailImage.setImageResource(R.drawable.chicken)
+                    "pizza"->binding.detailImage.setImageResource(R.drawable.pizza)
+                    "fastfood"->binding.detailImage.setImageResource(R.drawable.fastfood)
+                    "japan"->binding.detailImage.setImageResource(R.drawable.japan)
+                    "korean"->binding.detailImage.setImageResource(R.drawable.korean)
+                    "cafe"->binding.detailImage.setImageResource(R.drawable.cafe)
+                    "chi"->binding.detailImage.setImageResource(R.drawable.china)
+                }
+
 
             }
             override fun onCancelled(databaseError: DatabaseError) {

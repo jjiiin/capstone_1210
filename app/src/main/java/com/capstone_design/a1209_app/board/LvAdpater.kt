@@ -13,13 +13,9 @@ import org.w3c.dom.Text
 
 class LvAdpater(private val boardList:MutableList<dataModel>):BaseAdapter() {
 
-
-
     override fun getCount(): Int {
         return boardList.size
     }
-
-
 
     override fun getItem(position: Int): Any {
         return boardList[position]
@@ -28,7 +24,6 @@ class LvAdpater(private val boardList:MutableList<dataModel>):BaseAdapter() {
     override fun getItemId(position: Int): Long {
         return position.toLong()
     }
-
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         var converView=convertView
 
@@ -44,7 +39,7 @@ class LvAdpater(private val boardList:MutableList<dataModel>):BaseAdapter() {
 
 
         val cv_title=converView!!.findViewById<TextView>(R.id.item_title)
-        val cv_img_=converView!!.findViewById<ImageView>(R.id.item_image)
+        val cv_img=converView!!.findViewById<ImageView>(R.id.item_image)
         val cv_place=converView!!.findViewById<TextView>(R.id.item_place)
         val cv_fee=converView!!.findViewById<TextView>(R.id.item_fee)
         val cv_time=converView!!.findViewById<TextView>(R.id.item_time)
@@ -57,7 +52,20 @@ class LvAdpater(private val boardList:MutableList<dataModel>):BaseAdapter() {
         }
         Log.e("LvAdapter", t.toString())
         cv_title.text=content.title
-        //cv_img.setImageResource(content.image)
+
+        when(content.category){
+            "asian"->cv_img.setImageResource(R.drawable.asian)
+            "bun"->cv_img.setImageResource(R.drawable.bun)
+            "bento"->cv_img.setImageResource(R.drawable.bento)
+            "chicken"->cv_img.setImageResource(R.drawable.chicken)
+            "pizza"->cv_img.setImageResource(R.drawable.pizza)
+            "fastfood"->cv_img.setImageResource(R.drawable.fastfood)
+            "japan"->cv_img.setImageResource(R.drawable.japan)
+            "korean"->cv_img.setImageResource(R.drawable.korean)
+            "cafe"->cv_img.setImageResource(R.drawable.cafe)
+            "chi"->cv_img.setImageResource(R.drawable.china)
+        }
+
         cv_place.text=content.place
         cv_fee.text=content.fee
         cv_time.text=content.time
