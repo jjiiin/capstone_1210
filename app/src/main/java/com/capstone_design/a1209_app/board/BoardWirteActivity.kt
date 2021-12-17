@@ -1,8 +1,15 @@
 package com.capstone_design.a1209_app.board
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.dataModel
@@ -17,30 +24,121 @@ class BoardWirteActivity : AppCompatActivity() {
     private lateinit var binding : ActivityBoardWirteBinding
 
     private val items = mutableListOf<dataModel>()
-    public var title_detail = ""
-    public var place_detail = ""
-    public var fee_detail = ""
-    public var person_detail = ""
-    public var mention_detail = ""
-    public var time_detail = ""
+    private var hour=""
+    private var min=""
+    private var day=""
+    private var time=""
 
-    public var link_detail=""
-    public var timeText = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= DataBindingUtil.setContentView(this,R.layout.activity_board_wirte)
         // Write a message to the database
         val database = Firebase.database
-        val myRef = database.getReference("contents")
 
+        var category=""
+        //버튼 클릭시 category에 값 할당하기
+        binding.categoryAsian.setOnClickListener {
 
+            category="asian"
+        }
+        binding.categoryBun.setOnClickListener {
 
-        var time=""
+            category="bun"
+        }
+        binding.categoryChicken.setOnClickListener {
+
+            category="chicken"
+        }
+        binding.categoryPizza.setOnClickListener {
+
+            category="pizza"
+        }
+        binding.categoryFast.setOnClickListener {
+
+            category="fastfood"
+        }
+        binding.categoryJap.setOnClickListener {
+
+            category="japan"
+        }
+        binding.categoryKor.setOnClickListener {
+
+            category="korean"
+        }
+        binding.categoryDo.setOnClickListener {
+
+            category="bento"
+        }
+        binding.categoryCafe.setOnClickListener {
+
+            category="cafe"
+        }
+        binding.categoryChi.setOnClickListener {
+
+            category="chi"
+        }
+
         binding.timeFree.setOnClickListener {
             time = "협의 가능"
         }
         //스피너로 시간 구현하기
+        var hourData=resources.getStringArray(R.array.array_hours)
+        var minData=resources.getStringArray(R.array.array_minutes)
+
+
+            var adapter1=ArrayAdapter(this, android.R.layout.simple_spinner_item,hourData)
+            adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.spinnerHours.adapter=adapter1
+            binding.spinnerHours.setSelection(0)
+
+            var adapter2=ArrayAdapter(this, android.R.layout.simple_spinner_item,minData)
+            adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.spinnerMinutes.adapter=adapter2
+            binding.spinnerMinutes.setSelection(0)
+            binding.spinnerHours.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+
+                }
+
+                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                    hour=hourData[p2]
+                }
+
+            }
+
+
+            binding.spinnerMinutes.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+
+                }
+
+                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                    min= minData[p2]
+                    Log.d("detail",min)
+                }
+
+            }
+
+
+            binding.timeAm.setOnClickListener {
+                day="AM"
+            }
+            binding.timePm.setOnClickListener {
+                day="PM"
+            }
+            time="${day} ${hour} ${min}"
+
+
+
+
+
+
+
+
+
+
+
         var person = ""
         binding.person1List.setOnClickListener {
             person = "1명"
@@ -61,7 +159,7 @@ class BoardWirteActivity : AppCompatActivity() {
 
         binding.saveBtn.setOnClickListener {
             val title_dm=binding.titleList.text.toString()
-
+            val category_dm=category
             val person_dm=person
 
             val time_dm=time
@@ -70,13 +168,16 @@ class BoardWirteActivity : AppCompatActivity() {
             Log.d("BWA",fee_dm)
             val place_dm=binding.placeList.text.toString()
             val mention_dm=binding.mention.text.toString()
+            val link_dm=binding.link.text.toString()
 
             val model=dataModel(
                 title_dm,
+                category_dm,
                 person_dm,
                 time_dm,
                 fee_dm,
                 place_dm,
+                link_dm,
                 mention_dm
             )
             items.add(model)
@@ -90,4 +191,5 @@ class BoardWirteActivity : AppCompatActivity() {
 
         }
     }
+
 }

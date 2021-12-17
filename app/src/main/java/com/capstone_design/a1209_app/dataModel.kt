@@ -6,7 +6,7 @@ import android.os.Parcelable
 
 data class dataModel (
     val title: String="",
-    //val image
+    val category:String="",
     val person : String="",
     val time: String="",
     val fee: String="",

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".fragment.NoteChild1Fragment">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="20dp"
+        android:layout_gravity="right">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/note_sign1"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:text="참가자"
+            android:textSize="10sp"
+            android:textColor="#393939"
+            android:letterSpacing="-0.03"
+            android:lineSpacingExtra="5sp"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="9dp"
+            android:src="@drawable/note_sign2"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:text="총대"
+            android:textSize="10sp"
+            android:textColor="#393939"
+            android:letterSpacing="-0.03"
+            android:lineSpacingExtra="5sp"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="34dp"
+        android:id="@+id/main_title">
+
+        <ImageView
+            android:id="@+id/item_image"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:src="@drawable/note_1" />
+
+        <TextView
+            android:id="@+id/item_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/item_image"
+            android:layout_toRightOf="@id/item_image"
+            android:letterSpacing="-0.03"
+            android:text="주문할게요. 메뉴 확인해주세요"
+            android:textColor="#101010"
+            android:textSize="16sp"/>
+
+
+        <TextView
+            android:id="@+id/item_place"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/item_title"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:layout_toLeftOf="@id/item_place"
+            android:layout_toEndOf="@+id/item_image"
+            android:letterSpacing="-0.02"
+            android:text="40분 전"
+            android:textColor="#C4C4C4"
+            android:textSize="12sp"
+            android:textStyle="normal" />
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="100dp"
+        android:id="@+id/note_1">
+
+        <ImageView
+            android:id="@+id/note_image"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:src="@drawable/note_2" />
+
+        <TextView
+            android:id="@+id/note_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/note_image"
+            android:layout_toRightOf="@id/note_image"
+            android:letterSpacing="-0.03"
+            android:text="모든 참여자가 송금을 완료했어요"
+            android:textColor="#101010"
+            android:textSize="16sp"/>
+
+
+        <TextView
+            android:id="@+id/note_place"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/note_title"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:layout_toLeftOf="@id/note_place"
+            android:layout_toEndOf="@+id/note_image"
+            android:letterSpacing="-0.02"
+            android:text="하루 전"
+            android:textColor="#C4C4C4"
+            android:textSize="12sp"
+            android:textStyle="normal" />
+
+    </RelativeLayout>
+
+</FrameLayout>

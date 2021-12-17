@@ -28,15 +28,6 @@ class ChatFragment : Fragment() {
 
         binding= DataBindingUtil.inflate(inflater,R.layout.fragment_chat, container, false)
 
-        binding.homeTab.setOnClickListener {
-            it.findNavController().navigate(R.id.action_chatFragment_to_homeFragment)
-        }
-        binding.noteTab.setOnClickListener {
-            it.findNavController().navigate(R.id.action_chatFragment_to_noteFragment)
-        }
-        binding.myTab.setOnClickListener {
-            it.findNavController().navigate(R.id.action_chatFragment_to_myFragment)
-        }
         return binding.root
     }
 
