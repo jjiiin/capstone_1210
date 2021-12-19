@@ -55,6 +55,10 @@ class Chat_RVAdapter(val items: MutableList<ChatData>, val context: Context) :
             holder.bindItems(items[position])
         } else if(holder is RightViewHolder){
             holder.bindItems(items[position])
+        } else if(holder is LeftAccountViewHolder){
+            holder.bindItems(items[position])
+        }else if(holder is RightVAccountiewHolder){
+            holder.bindItems(items[position])
         }
 
     }
@@ -132,7 +136,6 @@ class Chat_RVAdapter(val items: MutableList<ChatData>, val context: Context) :
 
     inner class RightVAccountiewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindItems(item: ChatData) {
-
             //저장된 시간의 오전 오후 정보 추출
             val ampmCheck = SimpleDateFormat("aa")
             val ampm = ampmCheck.format(item.time)
@@ -150,7 +153,8 @@ class Chat_RVAdapter(val items: MutableList<ChatData>, val context: Context) :
 
     inner class LeftAccountViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindItems(item: ChatData) {
-
+            val rv_nickname = itemView.findViewById<TextView>(R.id.rv_nickname_textView)
+            rv_nickname.text = item.nickname
             //저장된 시간의 오전 오후 정보 추출
             val ampmCheck = SimpleDateFormat("aa")
             val ampm = ampmCheck.format(item.time)
