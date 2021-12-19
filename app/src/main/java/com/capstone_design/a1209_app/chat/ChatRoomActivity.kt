@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -78,7 +79,7 @@ class ChatRoomActivity : AppCompatActivity() {
 
 
         //채팅방 나가기
-        findViewById<ImageView>(R.id.btn_exit_room).setOnClickListener {
+        findViewById<ConstraintLayout>(R.id.exit_room_layout).setOnClickListener {
 
             //chatRooms에서 사용자 삭제
             chatRoomsRef.child(chatroomkey!!).child("users").child(Auth.current_uid)
