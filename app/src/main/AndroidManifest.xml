@@ -18,13 +18,23 @@
             android:value="AIzaSyB6nWMxeXA4h-S3Yx5VxlVXfqXE6EUkBgw" />
 
         <activity
+            android:name=".EvaluationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".chat.ReceiptBeforeAvtivity"
+            android:exported="false" />
+        <activity
+            android:name=".chat.ReceiptDoneActivity"
+            android:exported="false" />
+        <activity
+            android:name=".chat.ChatRoomActivity"
+            android:exported="false" />
+        <activity
             android:name=".DetailActivity"
             android:exported="false" />
-
         <activity
             android:name=".board.BoardWirteActivity"
             android:exported="false" />
-
         <activity
             android:name=".auth.JoinActivity"
             android:exported="false" />

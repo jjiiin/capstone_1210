@@ -7,7 +7,9 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.capstone_design.a1209_app.MainActivity
 import com.capstone_design.a1209_app.R
+import com.capstone_design.a1209_app.dataModels.UserData
 import com.capstone_design.a1209_app.databinding.ActivityJoinBinding
+import com.capstone_design.a1209_app.utils.FBRef
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -52,6 +54,9 @@ class JoinActivity : AppCompatActivity() {
                             val intent= Intent(this, MainActivity::class.java)
                             intent.flags=Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             startActivity(intent)
+                            //회원 데이터베이스에 이메일, 닉에임 정보 저장
+                            val userData = UserData(id,name)
+                            FBRef.usersRef.child(auth.currentUser!!.uid).setValue(userData)
                         } else {
                             //Toast.makeText(this,"실패",Toast.LENGTH_LONG).show()
                         }

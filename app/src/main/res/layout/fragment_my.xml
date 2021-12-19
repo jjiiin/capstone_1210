@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <FrameLayout
-        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         tools:context=".fragment.MyFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -294,7 +294,6 @@
 
                 </LinearLayout>
             </LinearLayout>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </FrameLayout>

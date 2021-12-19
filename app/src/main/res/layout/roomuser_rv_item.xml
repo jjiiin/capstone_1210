@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:gravity="center_vertical">
+
+    <ImageView
+        android:id="@+id/rv_profile_btn"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:src="@drawable/profile_cat" />
+
+    <TextView
+        android:id="@+id/rv_nickname_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="8dp"
+        android:text="닉네임"
+        android:textColor="#000000"
+        android:textSize="15sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:text="3.2"
+        android:textColor="#FD5401"
+        android:textSize="12sp" />
+
+</LinearLayout>
