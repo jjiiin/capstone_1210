@@ -172,6 +172,7 @@ class ChatRoomActivity : AppCompatActivity() {
                 override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                     // Log.d("데이터", "추가됨")
                     val saved_email = snapshot.getValue<ChatData>()!!.email
+                    val saved_nickname = snapshot.getValue<ChatData>()!!.nickname
                     val saved_uid = snapshot.getValue<ChatData>()!!.uid
                     //내 닉네임은 "나", 상대방 닉네임은 이메일
                     if (saved_uid == Auth.current_uid) {
@@ -186,7 +187,7 @@ class ChatRoomActivity : AppCompatActivity() {
                     } else {
                         chats.add(
                             ChatData(
-                                saved_email,
+                                saved_nickname,
                                 snapshot.getValue<ChatData>()!!.msg,
                                 saved_email, saved_uid, snapshot.getValue<ChatData>()!!.time
                             )
