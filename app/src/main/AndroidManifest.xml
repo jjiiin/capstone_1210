@@ -10,7 +10,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.1209_app">
         <activity
-            android:name=".ChatRoomActivity"
+            android:name=".EvaluationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".chat.ReceiptBeforeAvtivity"
+            android:exported="false" />
+        <activity
+            android:name=".chat.ReceiptDoneActivity"
+            android:exported="false" />
+        <activity
+            android:name=".chat.ChatRoomActivity"
             android:exported="false" />
         <activity
             android:name=".DetailActivity"

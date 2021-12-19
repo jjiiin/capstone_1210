@@ -1,13 +1,13 @@
 package com.capstone_design.a1209_app
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import com.capstone_design.a1209_app.chat.ChatRoomActivity
 import com.capstone_design.a1209_app.databinding.ActivityDetailBinding
+import com.capstone_design.a1209_app.utils.Auth
 import com.capstone_design.a1209_app.utils.FBRef
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -16,6 +16,9 @@ import com.google.firebase.database.ValueEventListener
 class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding:ActivityDetailBinding
+    lateinit var title: String
+    lateinit var hostUID: String
+    lateinit var chatroomkey: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,10 +30,19 @@ class DetailActivity : AppCompatActivity() {
 
         getBoardData(key.toString())
 
-
-
-        binding.linkBtn.setOnClickListener {
+        binding.enterBtn.setOnClickListener {
             //참여자가 채팅방으로 이동하는 버튼 클릭 이벤트 발생.
+            //채팅방 정보 저장
+            //val chatRoomData = ChatRoomData(title, hostUID)
+            //FBRef.chatRoomsRef.child(chatroomkey!!).setValue(chatRoomData)
+            FBRef.chatRoomsRef.child(chatroomkey!!).child("users").child(Auth.current_uid).setValue(true)
+            //각 사용자가 무슨 채팅방에 참여하고 있는지 저장
+            FBRef.userRoomsRef.child(Auth.current_uid).child(chatroomkey).setValue(true)
+            //글을 쓴 총대니까 채팅방으로 바로 이동
+            val intent = Intent(this, ChatRoomActivity::class.java).putExtra("채팅방키", chatroomkey)
+            startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+            //현재 액티비티 종료시키기
+            finish()
         }
 //        val dw_title=findViewById<TextView>(R.id.detail_title)
 //        val dw_place=findViewById<TextView>(R.id.detail_place)
@@ -52,7 +64,9 @@ class DetailActivity : AppCompatActivity() {
                 binding.detailFee.text=data!!.fee
                 binding.detailTime.text=data!!.time
                 binding.detailMention.text=data!!.mention
-
+                chatroomkey = data!!.chatroomkey
+                title = data!!.title
+                hostUID = data!!.writer
             }
             override fun onCancelled(databaseError: DatabaseError) {
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ChatRoomActivity">
+    tools:context=".chat.ChatRoomActivity">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -35,6 +35,7 @@
             android:text="채팅방 이름"
             android:textColor="#101010"
             android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/usernum"
             app:layout_constraintStart_toEndOf="@+id/backbtn"
@@ -88,6 +89,7 @@
             android:textSize="16sp" />
 
         <Button
+            android:id="@+id/receipt_btn"
             android:layout_width="51dp"
             android:layout_height="64.5dp"
             android:layout_gravity="end"
@@ -105,44 +107,98 @@
         app:layout_constraintBottom_toTopOf="@id/bottom"
         app:layout_constraintTop_toBottomOf="@+id/notice" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/bottom"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recycler_view">
 
-        <ImageView
-            android:id="@+id/chat_plus"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:src="@drawable/chat_plus"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/editText_chat_msg"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            app:layout_constraintBottom_toBottomOf="parent">
 
-        <EditText
-            android:id="@+id/editText_chat_msg"
-            android:layout_width="286dp"
-            android:layout_height="34dp"
-            android:background="@drawable/chat_edittext_bg"
-            android:hint="메시지를 입력해주세요"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btn_chat_send"
-            app:layout_constraintStart_toEndOf="@+id/chat_plus"
-            app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:id="@+id/plus_btn"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/chat_plus"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/editText_chat_msg"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/btn_chat_send"
-            android:layout_width="15.84dp"
-            android:layout_height="16dp"
-            android:layout_gravity="bottom"
-            android:background="@drawable/chat_send_btn"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/editText_chat_msg"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <EditText
+                android:id="@+id/editText_chat_msg"
+                android:layout_width="286dp"
+                android:layout_height="34dp"
+                android:background="@drawable/chat_edittext_bg"
+                android:hint="메시지를 입력해주세요"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btn_chat_send"
+                app:layout_constraintStart_toEndOf="@+id/plus_btn"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/btn_chat_send"
+                android:layout_width="15.84dp"
+                android:layout_height="16dp"
+                android:layout_gravity="bottom"
+                android:background="@drawable/chat_send_btn"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/editText_chat_msg"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/plus_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/account_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="96dp"
+                android:layout_marginRight="37dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/account_icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="내 계좌" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/gallery_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="96dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/gallery_icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="사진" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

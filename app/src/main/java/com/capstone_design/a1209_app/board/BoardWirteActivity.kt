@@ -5,18 +5,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.databinding.DataBindingUtil
-import com.capstone_design.a1209_app.ChatRoomActivity
+import com.capstone_design.a1209_app.chat.ChatRoomActivity
 import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.dataModel
 import com.capstone_design.a1209_app.dataModels.ChatRoomData
 import com.capstone_design.a1209_app.databinding.ActivityBoardWirteBinding
-import com.capstone_design.a1209_app.databinding.FragmentHomeBinding
 import com.capstone_design.a1209_app.utils.Auth
 import com.capstone_design.a1209_app.utils.FBRef
 import com.capstone_design.a1209_app.utils.FBRef.Companion.chatRoomsRef
 import com.capstone_design.a1209_app.utils.FBRef.Companion.userRoomsRef
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
@@ -78,19 +75,6 @@ class BoardWirteActivity : AppCompatActivity() {
             val mention_dm = binding.mention.text.toString()
             //Log.d("아이디",current_uid)
             val writer_uid = Auth.current_uid
-            val model = dataModel(
-                title_dm,
-                person_dm,
-                time_dm,
-                fee_dm,
-                place_dm,
-                "",
-                mention_dm,
-                //글쓴이 정보 추가
-                writer_uid
-            )
-            items.add(model)
-            FBRef.boardRef.push().setValue(model)
 
             //채팅방 생성
             var chatroomkey = chatRoomsRef.push().key
@@ -100,10 +84,25 @@ class BoardWirteActivity : AppCompatActivity() {
             chatRoomsRef.child(chatroomkey!!).child("users").child(writer_uid).setValue(true)
             //각 사용자가 무슨 채팅방에 참여하고 있는지 저장
             userRoomsRef.child(writer_uid).child(chatroomkey).setValue(true)
+            val model = dataModel(
+                title_dm,
+                person_dm,
+                time_dm,
+                fee_dm,
+                place_dm,
+                "",
+                mention_dm,
+                //글쓴이 정보 추가
+                writer_uid,
+                chatroomkey
+            )
+            items.add(model)
+            FBRef.boardRef.push().setValue(model)
             //글을 쓴 총대니까 채팅방으로 바로 이동
             val intent = Intent(this, ChatRoomActivity::class.java).putExtra("채팅방키", chatroomkey)
             startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
-
+            //현재 액티비티 종료시키기
+            finish()
         }
     }
 }
