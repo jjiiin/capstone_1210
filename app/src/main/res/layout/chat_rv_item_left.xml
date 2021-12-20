@@ -6,10 +6,10 @@
     android:orientation="horizontal">
 
     <ImageView
-        android:src="@drawable/other_profile"
         android:id="@+id/rv_profile_btn"
         android:layout_width="28dp"
-        android:layout_height="28dp"/>
+        android:layout_height="28dp"
+        android:src="@drawable/other_profile" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -36,6 +36,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:background="@drawable/chat_bubble_left"
+                android:maxLength="150"
+                android:maxLines="15"
                 android:paddingLeft="15dp"
                 android:paddingTop="8dp"
                 android:paddingRight="15dp"
