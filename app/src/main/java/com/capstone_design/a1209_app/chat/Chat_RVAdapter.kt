@@ -96,11 +96,18 @@ class Chat_RVAdapter(val items: MutableList<ChatData>, val context: Context) :
             val rv_msg = itemView.findViewById<TextView>(R.id.rv_msg_textView)
             rv_msg.text = item.msg
 
+            //저장된 시간의 오전 오후 정보 추출
+            val ampmCheck = SimpleDateFormat("aa")
+            val ampm = ampmCheck.format(item.time)
             //저장된 시간을 "hh:mm" 형식으로 표시
             val dateFormat = SimpleDateFormat("hh:mm")
             val time = dateFormat.format(item.time)
             val rv_msgtime = itemView.findViewById<TextView>(R.id.rv_msg_time)
-            rv_msgtime.text = "오후 " + time.toString()
+            if(ampm.toString() == "AM"){
+                rv_msgtime.text = "오전 " + time.toString()
+            } else{
+                rv_msgtime.text = "오후 " + time.toString()
+            }
 
             //val rv_profile_btn = itemView.findViewById<Button>(R.id.rv_profile_btn)
            /* rv_profile_btn.setOnClickListener {
