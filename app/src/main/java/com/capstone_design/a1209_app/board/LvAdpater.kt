@@ -8,7 +8,7 @@ import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.capstone_design.a1209_app.R
-import com.capstone_design.a1209_app.dataModel
+import com.capstone_design.a1209_app.dataModels.dataModel
 import org.w3c.dom.Text
 
 class LvAdpater(private val boardList:MutableList<dataModel>):BaseAdapter() {
@@ -44,7 +44,7 @@ class LvAdpater(private val boardList:MutableList<dataModel>):BaseAdapter() {
         val cv_time=converView!!.findViewById<TextView>(R.id.item_time)
         val cv_person=converView!!.findViewById<TextView>(R.id.item_person)
 
-        val content:dataModel=boardList[position]
+        val content: dataModel =boardList[position]
         var t=0
         if(content.title==null){
             t=1

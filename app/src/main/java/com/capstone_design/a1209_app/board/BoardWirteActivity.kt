@@ -1,6 +1,5 @@
 package com.capstone_design.a1209_app.board
 
-import android.graphics.Color
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,13 +7,11 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
-import androidx.core.content.ContextCompat
-import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
+import com.capstone_design.a1209_app.AddressSearchActivity
 import com.capstone_design.a1209_app.chat.ChatRoomActivity
 import com.capstone_design.a1209_app.R
-import com.capstone_design.a1209_app.dataModel
+import com.capstone_design.a1209_app.dataModels.dataModel
 import com.capstone_design.a1209_app.dataModels.ChatRoomData
 import com.capstone_design.a1209_app.databinding.ActivityBoardWirteBinding
 import com.capstone_design.a1209_app.utils.Auth
@@ -150,6 +147,10 @@ class BoardWirteActivity : AppCompatActivity() {
 
         binding.personNList.setOnClickListener {
             person = "제한 없음"
+        }
+        binding.searchBtn.setOnClickListener {
+            val intent = Intent(this, AddressSearchActivity::class.java)
+            startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
         }
 
 

@@ -2,6 +2,7 @@ package com.capstone_design.map_test
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +12,7 @@ import com.capstone_design.a1209_app.DetailActivity
 import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.board.BoardWirteActivity
 import com.capstone_design.a1209_app.board.LvAdpater
-import com.capstone_design.a1209_app.dataModel
+import com.capstone_design.a1209_app.dataModels.dataModel
 import com.capstone_design.a1209_app.databinding.FragmentBoardHomeBinding
 import com.capstone_design.a1209_app.utils.FBRef
 import com.google.firebase.auth.FirebaseAuth
@@ -83,6 +84,7 @@ class BoardHomeFragment : Fragment() {
             val intent = Intent(context, DetailActivity::class.java)
             //firebase에 있는 board에 대한 데이터의 id를 가져오기
             intent.putExtra("key",itemsKeyList[position])
+            Log.d("key",itemsKeyList[position])
             startActivity(intent)
         }
         binding.writeBtn.setOnClickListener {

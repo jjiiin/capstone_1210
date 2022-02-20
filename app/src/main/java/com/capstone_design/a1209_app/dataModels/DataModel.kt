@@ -1,4 +1,4 @@
-package com.capstone_design.a1209_app
+package com.capstone_design.a1209_app.dataModels
 
 import android.os.Parcel
 import android.os.Parcelable

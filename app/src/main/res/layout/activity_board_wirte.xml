@@ -411,6 +411,7 @@
                     android:hint="   만남장소를 설정해주세요"
                     android:background="@drawable/dialog_edittext"/>
                 <Button
+                    android:id="@+id/searchBtn"
                     android:layout_width="55dp"
                     android:layout_height="40dp"
                     android:textStyle="normal"
