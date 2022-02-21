@@ -10,45 +10,37 @@ import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.*
-import androidx.annotation.RequiresApi
-import androidx.core.app.ActivityCompat
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.FragmentActivity
-import com.capstone_design.a1209_app.databinding.ActivityMylocSearchBinding
 import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.api.Api
 import com.google.android.gms.common.api.GoogleApiClient
-import com.google.android.gms.common.api.PendingResult
-import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import net.daum.android.map.MapView
-import java.io.IOError
 import java.io.IOException
-import java.util.concurrent.TimeUnit
+import kotlin.properties.Delegates
+
 
 class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener,GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener {
     private lateinit var mView: com.google.android.gms.maps.MapView
     val permission=arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION)
     val PERM_FLAG=99
+    private var markerSet:Boolean?=null
     private var mMap: GoogleMap? =null
     internal lateinit var mLastLocation: Location
     internal var mCurrentLocationMarker:Marker?=null
     internal var mGoogleApiClient:GoogleApiClient?=null
     internal lateinit var mLocationRequest: LocationRequest
     var myloc=false
+    private var count=0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,22 +58,38 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
 //        }else{
 //            ActivityCompat.requestPermissions(this,permission,PERM_FLAG)
 //        }
-
-        val myLocBtn:ImageView=findViewById(R.id.myloc)
-        myLocBtn.setOnClickListener{
-            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-            setUpdateLocationListener()
-        }
+//
+//        val myLocBtn:ImageView=findViewById(R.id.myloc)
+//        myLocBtn.setOnClickListener{
+//            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+//            setUpdateLocationListener()
+//        }
     }
 
     override fun onMapReady(p0: GoogleMap) {
         mMap=p0
+
         //현재 내 위치 가져오는
-        if(myloc) {
-            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-            setUpdateLocationListener()
+//        val myLoc:ImageView=findViewById(R.id.myloc)
+//        myLoc.setOnClickListener {
+//            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+//            setUpdateLocationListener()
+//        }
+
+//        if(markerSet) {
+//
+//        }
+        //지도 클릭시 마커 가져오기
+        var latLng:LatLng
+        mMap!!.setOnMapClickListener{
+            markerSet=false
+            makeMarker(mMap!!,it)
         }
-        //영어 유튜브
+
+        Log.d("markerset",markerSet.toString())
+
+
+//        영어 유튜브
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
             if(ContextCompat.checkSelfPermission(
                     this, Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED
@@ -93,10 +101,46 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
             buildGoogleApiClient()
             mMap!!.isMyLocationEnabled=true
         }
+
 //        val sydney=LatLng(-34.0,151.0)
 //        mMap!!.addMarker(MarkerOptions().position(sydney).title("sydney"))
 //        mMap!!.moveCamera(CameraUpdateFactory.newLatLng(sydney))
     }
+    fun makeMarker(googleMap: GoogleMap, latLng: LatLng){
+        mMap=googleMap
+        mMap!!.clear()
+        val discripter=getMarkerDrawable(R.drawable.marker)
+        val markerOptions=MarkerOptions()
+        markerOptions.position(latLng)
+        markerOptions.title("touch")
+        markerOptions.icon(discripter)
+        mMap!!.addMarker(markerOptions)
+
+        val cameraOption = CameraPosition.Builder()
+            .target(latLng)//현재 위치로 바꿀 것
+            .zoom(17f)
+            .build()
+        val camera=CameraUpdateFactory.newCameraPosition(cameraOption)
+
+        mMap!!.moveCamera(camera)
+                //현재 위치(좌표계)를 주소로 받아오기
+        var mResultList: List<Address>? = null
+        val geoCoder=Geocoder(this)
+        try{
+            mResultList = geoCoder.getFromLocation(
+                latLng.latitude,latLng.longitude, 1
+            )
+        }catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(this, "좌표를 변환하지 못했습니다.", Toast.LENGTH_LONG).show()
+        }
+        val address=mResultList!![0]
+        val locText=address.getAddressLine(0).toString()
+        if (mResultList != null) {
+            bottomSheet(locText)
+        }
+    }
+
 
     protected fun buildGoogleApiClient(){
         mGoogleApiClient=GoogleApiClient.Builder(this)
@@ -118,11 +162,25 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
         markerOptions.position(latLng)
         markerOptions.title("current")
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+        var locText:String
+        var addressList:List<Address>?=null
+        val geoCoder=Geocoder(this)
+        try {
+            addressList=geoCoder.getFromLocation(
+                p0.latitude,p0.longitude, 1
+            )
+        }catch (e:IOException){
+            e.printStackTrace()
+        }
 
+        val address=addressList!![0]
+        Log.d("address",address.toString())
+        locText=address.getAddressLine(0).toString()
+        bottomSheet(locText)
         mMap!!.clear()
         mCurrentLocationMarker=mMap!!.addMarker(markerOptions)
 //        mMap!!.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-//        mMap!!.moveCamera(CameraUpdateFactory.zoomTo(25f))
+        mMap!!.moveCamera(CameraUpdateFactory.zoomTo(30f))
 //        val cameraOption = CameraPosition.Builder()
 //            .target(latLng)//검색
 //            .zoom(17f)
@@ -155,11 +213,7 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
     override fun onConnectionFailed(p0: ConnectionResult) {
 
     }
-    fun myLocation(view: View){
-            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-            setUpdateLocationListener()
 
-    }
 
     //검색한 위치
     fun searchLocation(view: View){
@@ -168,10 +222,10 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
         location=locationSearch.text.toString().trim()
 
 //        val setTextView:TextView=findViewById(R.id.setTv)
-        var locText:String
+
 //        val setBtn:Button=findViewById(R.id.setBtn)//상세정보 설정하는 액티비티로 넘어가기
 
-
+        var locText:String
         var addressList:List<Address>?=null
         if(location==null||location==""){
             Toast.makeText(this,"주소입력",Toast.LENGTH_LONG).show()
@@ -291,7 +345,7 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
         val setTextView:TextView=findViewById(R.id.setTv)
         val setBtn:Button=findViewById(R.id.setBtn)//상세정보 설정하는 액티비티로 넘어가기
         var locText:String = loc
-        locText=locText.replace("대한민국","")
+        locText=locText.replace("대한민국 ","")
         setTextView.text=locText
         setBtn.setOnClickListener {
             val intent= Intent(this, DetailAddressActivity::class.java).putExtra("주소",locText)

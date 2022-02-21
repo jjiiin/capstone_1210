@@ -81,7 +81,14 @@
             android:layout_marginLeft="300dp"
             android:src="@drawable/chat_plus"/>
 
-
     </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/addressRV"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:dividerHeight="3dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/address_item"/>
 </LinearLayout>
 </layout>
