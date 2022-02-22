@@ -21,6 +21,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.databinding.DataBindingUtil
 import com.capstone_design.a1209_app.board.BoardWirteActivity
+import com.capstone_design.a1209_app.dataModels.addressData
 import com.capstone_design.a1209_app.databinding.FragmentMapHomeBinding
 import com.capstone_design.a1209_app.fragment.HomeFragment
 import com.capstone_design.map_test.FragmentListener
@@ -30,16 +31,26 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.*
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import java.util.jar.Manifest
 
 
 class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
     private  lateinit var binding : FragmentMapHomeBinding
     private lateinit var mFragmentListener: FragmentListener
+    private lateinit var auth: FirebaseAuth
     private lateinit var mView: MapView
     private lateinit var mMap:GoogleMap
     lateinit var mainActivity: MainActivity
+    private lateinit var myLatLng:LatLng
 
     val permission=arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION)
     val PERM_FLAG=99
@@ -61,6 +72,31 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
 
         binding= DataBindingUtil.inflate(inflater,R.layout.fragment_map_home, container, false)
 
+        auth = Firebase.auth
+        val database = Firebase.database
+        val schRef:DatabaseReference =
+            database.getReference("users").child(auth.currentUser?.uid.toString()).child("address")
+        schRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (DataModel in snapshot.children) {
+                    val item = DataModel.getValue(addressData::class.java)
+                    if (item != null) {
+                        if(item.set=="1")
+                            binding.addressTv.text=item.address
+                        Log.d("mhf","호출")
+                        //좌표 가져와서 지도에 초점 맞추기
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+        binding.mapGo.setOnClickListener {
+            val intent = Intent(context, AddressSearchActivity::class.java).putExtra("mhf","1")
+            startActivity(intent)
+        }
         mView=binding.mapView
         binding.writeBtn.setOnClickListener {
             val intent = Intent(context, BoardWirteActivity::class.java)
@@ -70,6 +106,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
 
         if(isPermitted()){
             //onMapReady함수 호출
+            Log.d("mhf","startProcess")
             startProcess()
         }else{
             requestPermissions(permission,PERM_FLAG)
@@ -103,28 +140,44 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap=googleMap
-        fusedLocationClient=LocationServices.getFusedLocationProviderClient(mainActivity)
-        setUpdateLocationListener()
-//        val location = LatLng(37.568291,126.997780)//위도 경도
-//        //마커 생성하기기
-//       val discripter=getMarkerDrawable(R.drawable.marker)
-//
-//        //마커-지도에 표시하기
-//        val marker=MarkerOptions()
-//            .position(location)
-//            .title("치킨 먹을 사람")
-//            .icon(discripter)
-//        googleMap.addMarker(marker)
-//
-//
-//        //카메라 위치
-//        val cameraOption = CameraPosition.Builder()
-//            .target(location)//현재 위치로 바꿀 것
-//            .zoom(19f)
-//            .build()
-//        val camera=CameraUpdateFactory.newCameraPosition(cameraOption)
-//
-//        googleMap.moveCamera(camera)
+//        fusedLocationClient=LocationServices.getFusedLocationProviderClient(mainActivity)
+//        setUpdateLocationListener()
+
+        auth = Firebase.auth
+        val database = Firebase.database
+        val schRef :DatabaseReference= database.getReference("users").child(auth.currentUser?.uid.toString()).child("address")
+        schRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (DataModel in snapshot.children) {
+                    val item = DataModel.getValue(addressData::class.java)
+                    if (item != null) {
+                        if (item.set=="1") {
+                            val myLocation=LatLng(item.lat.toDouble(),item.lng.toDouble())
+//                            val discripter = getMarkerDrawable(R.drawable.marker)
+//                            val marker = MarkerOptions()
+//                                .position(myLocation)
+//                                .title(item.name)
+//                                .icon(discripter)
+//                            Log.d("item",item.toString())
+                            val cameraOption = CameraPosition.Builder()
+                                .target(myLocation)//현재 위치로 바꿀 것
+                                .zoom(17f)
+                                .build()
+                            val camera = CameraUpdateFactory.newCameraPosition(cameraOption)
+
+                            mMap.clear()
+//                            mMap.addMarker(marker)
+                            mMap.moveCamera(camera)
+                        }
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+
     }
 
     //내 위치를 가져오는 코드

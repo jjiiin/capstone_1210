@@ -18,6 +18,7 @@ import com.capstone_design.a1209_app.utils.Auth
 import com.capstone_design.a1209_app.utils.FBRef
 import com.capstone_design.a1209_app.utils.FBRef.Companion.chatRoomsRef
 import com.capstone_design.a1209_app.utils.FBRef.Companion.userRoomsRef
+import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
@@ -153,6 +154,7 @@ class BoardWirteActivity : AppCompatActivity() {
             startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
         }
 
+        binding.placeList.setText(intent.getStringExtra("address"))
 
         binding.saveBtn.setOnClickListener {
 
@@ -167,6 +169,8 @@ class BoardWirteActivity : AppCompatActivity() {
             val place_dm = binding.placeList.text.toString()
             val mention_dm = binding.mention.text.toString()
             val link_dm = binding.link.text.toString()
+            var latLng= LatLng(intent.getDoubleExtra("위도",0.0),intent.getDoubleExtra("경도",0.0))
+
             //Log.d("아이디",current_uid)
             val writer_uid = Auth.current_uid
             //채팅방 생성
@@ -187,6 +191,7 @@ class BoardWirteActivity : AppCompatActivity() {
                 place_dm,
                 link_dm,
                 mention_dm,
+                latLng,
                 //글쓴이 정보 추가
                 writer_uid,
                 chatroomkey

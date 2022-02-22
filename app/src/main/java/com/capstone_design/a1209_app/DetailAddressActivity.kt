@@ -3,11 +3,13 @@ package com.capstone_design.a1209_app
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import com.capstone_design.a1209_app.dataModels.addressData
 import com.capstone_design.a1209_app.utils.FBRef
+import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -27,17 +29,21 @@ class DetailAddressActivity : AppCompatActivity() {
 
         addressTv.text=intent.getStringExtra("주소").toString()
         val address=intent.getStringExtra("주소").toString()
-
+        val lat= intent.getDoubleExtra("위도",0.0)
+        val lang= intent.getDoubleExtra("경도",0.0)
         saveBtn.setOnClickListener {
             val detail=detailEv.text.toString()
             val name=nameEv.text.toString()
-            val model=addressData(
-                address,detail,name,false
-            )
+            val model= addressData(
+                    address,detail,name,lat.toString(),lang.toString(), "0"
+                )
             FBRef.usersRef.child(auth.currentUser!!.uid).child("address").child(name).setValue(model)
             val intent= Intent(this, AddressSearchActivity::class.java)
             intent.flags= Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
+            }
         }
     }
-}
+
+
+

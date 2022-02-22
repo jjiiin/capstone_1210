@@ -19,7 +19,7 @@ class RVAdapter (val items:MutableList<addressData>): RecyclerView.Adapter<RVAda
         val item=items[position]
         holder.name.text=item.name
         holder.detail.text=item.address+" "+item.detail
-        if(item.set){
+        if(item.set=="1"){
             holder.itemView.setBackgroundColor(Color.parseColor("#c4c4c4"))// 완료한 건 색상 변경하기
         }
 

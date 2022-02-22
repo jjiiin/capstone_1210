@@ -173,7 +173,8 @@
                 android:layout_marginTop="-6dp"
                 android:textColor="@color/black"
                 android:textSize="14sp"
-                android:hint="   음식점 이름(ex)엽떡)과 함께 제목을 입력해주세요"
+                android:paddingLeft="10dp"
+                android:hint="음식점 이름(ex)엽떡)과 함께 제목을 입력해주세요"
                 android:background="@drawable/dialog_edittext"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -196,7 +197,8 @@
                     android:layout_height="40dp"
                     android:textColor="#c4c4c4"
                     android:textSize="14sp"
-                    android:hint="   사진을 첨부해주세요"
+                    android:paddingLeft="10dp"
+                    android:hint="사진을 첨부해주세요"
                     android:background="@drawable/dialog_edittext"/>
 
                 <Button
@@ -372,7 +374,8 @@
                     android:layout_marginRight="8dp"
                     android:layout_marginBottom="33dp"
                     android:background="@drawable/dialog_edittext"
-                    android:hint="   배달비를 입력해주세요"
+                    android:hint="배달비를 입력해주세요"
+                    android:paddingLeft="10dp"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
                 <TextView
@@ -408,7 +411,8 @@
                     android:layout_height="40dp"
                     android:textColor="@color/black"
                     android:textSize="14sp"
-                    android:hint="   만남장소를 설정해주세요"
+                    android:paddingLeft="10dp"
+                    android:hint="만남장소를 설정해주세요"
                     android:background="@drawable/dialog_edittext"/>
                 <Button
                     android:id="@+id/searchBtn"
@@ -441,7 +445,8 @@
                 android:layout_marginTop="-6dp"
                 android:textColor="@color/black"
                 android:textSize="14sp"
-                android:hint="   배민링크를 입력해주세요"
+                android:paddingLeft="10dp"
+                android:hint="배민링크를 입력해주세요"
                 android:background="@drawable/dialog_edittext"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -465,7 +470,9 @@
                 android:textSize="14sp"
                 android:paddingTop="10dp"
                 android:gravity="top"
-                android:hint="   전달사항을 자유롭게 입력해주세요"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:hint="전달사항을 자유롭게 입력해주세요"
                 android:background="@drawable/dialog_edittext"/>
 
             <Button

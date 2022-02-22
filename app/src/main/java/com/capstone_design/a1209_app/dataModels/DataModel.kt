@@ -2,6 +2,7 @@ package com.capstone_design.a1209_app.dataModels
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.google.android.gms.maps.model.LatLng
 
 data class dataModel (
     val title: String="",
@@ -12,6 +13,7 @@ data class dataModel (
     val place: String="",
     val link: String="",
     val mention: String="",
+    val latLng:LatLng=LatLng(0.0,0.0),
     //글쓴이 정보 추가
     val writer: String = "",
     //채팅방 키 추가

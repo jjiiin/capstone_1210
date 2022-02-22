@@ -137,7 +137,7 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
         val address=mResultList!![0]
         val locText=address.getAddressLine(0).toString()
         if (mResultList != null) {
-            bottomSheet(locText)
+            bottomSheet(locText,latLng)
         }
     }
 
@@ -176,7 +176,7 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
         val address=addressList!![0]
         Log.d("address",address.toString())
         locText=address.getAddressLine(0).toString()
-        bottomSheet(locText)
+        bottomSheet(locText,latLng)
         mMap!!.clear()
         mCurrentLocationMarker=mMap!!.addMarker(markerOptions)
 //        mMap!!.moveCamera(CameraUpdateFactory.newLatLng(latLng))
@@ -241,7 +241,7 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
             Log.d("address",address.toString())
             val latLng=LatLng(address.latitude,address.longitude)
             locText=address.getAddressLine(0).toString()
-            bottomSheet(locText)
+            bottomSheet(locText,latLng)
 //            locText=locText.replace("대한민국","")
 
 //            setTextView.text=locText
@@ -313,7 +313,7 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
         val address=mResultList!![0]
         val locText=address.getAddressLine(0).toString()
         if (mResultList != null) {
-            bottomSheet(locText)
+            bottomSheet(locText,myLocation)
         }
 
         val discripter=getMarkerDrawable(R.drawable.marker)
@@ -341,7 +341,7 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
         val scaleBitmap= Bitmap.createScaledBitmap(bitmapDrawable.bitmap,150,235,false)
         return BitmapDescriptorFactory.fromBitmap(scaleBitmap)
     }
-    fun bottomSheet(loc:String){
+    fun bottomSheet(loc:String,latLng: LatLng){
         val setTextView:TextView=findViewById(R.id.setTv)
         val setBtn:Button=findViewById(R.id.setBtn)//상세정보 설정하는 액티비티로 넘어가기
         var locText:String = loc
@@ -349,6 +349,7 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
         setTextView.text=locText
         setBtn.setOnClickListener {
             val intent= Intent(this, DetailAddressActivity::class.java).putExtra("주소",locText)
+                .putExtra("위도",latLng.latitude).putExtra("경도",latLng.longitude)
             intent.flags= Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
         }
