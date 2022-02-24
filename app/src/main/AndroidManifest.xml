@@ -36,7 +36,9 @@
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="fc81b72e05032dce7689cf5b13b5a9cc" />
-
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
         <activity
             android:name=".EvaluationActivity"
             android:exported="false" />

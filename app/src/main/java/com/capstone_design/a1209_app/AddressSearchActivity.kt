@@ -1,10 +1,12 @@
 package com.capstone_design.a1209_app
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -32,6 +34,10 @@ class AddressSearchActivity : AppCompatActivity() {
         binding=DataBindingUtil.setContentView(this,R.layout.activity_address_search)
         val database = Firebase.database
         auth=Firebase.auth
+
+        binding.searchBtn.setOnClickListener {
+            openActivityForResult()
+        }
 
         binding.mapSearch.setOnClickListener {
             val intent = Intent(this, MylocSearchActivity::class.java)
@@ -100,5 +106,19 @@ class AddressSearchActivity : AppCompatActivity() {
         val intent= Intent(this, MainActivity::class.java)
         intent.flags= Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
+    }
+    fun openActivityForResult() {
+        val intent = Intent(this, WebSearchActivity::class.java)
+        startActivityForResult(intent, 123)
+    }
+
+    @SuppressLint("MissingSuperCall")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (resultCode == RESULT_OK && requestCode == 123) {
+            var lat = data?.getStringExtra("location")
+            var lang = data?.getStringExtra("latlang")
+            Toast.makeText(this,lat+lang,Toast.LENGTH_LONG).show()
+        }
+
     }
 }
