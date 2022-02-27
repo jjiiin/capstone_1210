@@ -9,7 +9,6 @@
     android:id="@+id/detailView"
     android:orientation="vertical"
     tools:context=".DetailActivity">
-
     <ImageView
         android:id="@+id/detail_image"
         android:layout_width="68dp"
@@ -31,14 +30,18 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
+    <TextView
         android:id="@+id/detail_category"
         android:layout_width="wrap_content"
         android:layout_height="28dp"
         android:layout_marginBottom="10dp"
+        android:paddingLeft="11dp"
+        android:paddingRight="11dp"
+        android:gravity="center"
+        android:text="치킨"
+        android:textColor="@color/black"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/round_button"
-        android:text=""
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/detailTitle"
         app:layout_constraintEnd_toEndOf="parent"
@@ -61,56 +64,105 @@
         app:layout_constraintStart_toStartOf="parent" />
     <LinearLayout
         android:id="@+id/line"
-        android:layout_marginBottom="20dp"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="#e0e0e0"
+        android:background="#393939"
         android:orientation="horizontal"
+        android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toTopOf="@+id/rel_detail"/>
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rel_detail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="100dp"
+        android:layout_width="match_parent"
+        android:layout_height="340dp"
         app:layout_constraintBottom_toTopOf="@+id/frameLayout"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
-            android:id="@+id/explain"
+            android:id="@+id/linearLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <!--중앙회색 선 넣어야함-->
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints">
 
             <TextView
+                android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="35dp"
+                android:layout_marginLeft="24dp"
                 android:letterSpacing="-0.02"
                 android:text="만남 장소"
                 android:textColor="#808080"
                 android:textSize="14sp"
-                android:textStyle="normal" />
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/detailPlace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:letterSpacing="-0.03"
+                android:text="광화문역 1번 출구  >"
+                android:textColor="#393939"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/textView3" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            tools:ignore="MissingConstraints">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="35dp"
+                android:layout_marginLeft="24dp"
                 android:letterSpacing="-0.02"
                 android:text="배달비"
                 android:textColor="#808080"
                 android:textSize="14sp"
                 android:textStyle="normal" />
 
+
+            <TextView
+                android:id="@+id/detailFee"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35.5dp"
+                android:letterSpacing="-0.03"
+                android:text="3000원"
+                android:textColor="#393939"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="35dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="22dp"
                 android:letterSpacing="-0.02"
                 android:text="주문예정"
                 android:textColor="#808080"
@@ -118,94 +170,91 @@
                 android:textStyle="normal" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="35dp"
-                android:letterSpacing="-0.02"
-                android:text="메뉴 링크"
-                android:textColor="#808080"
-                android:textSize="14sp"
-                android:textStyle="normal" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="35dp"
-                android:letterSpacing="-0.02"
-                android:text="총대 멘트"
-                android:textColor="#808080"
-                android:textSize="14sp"
-                android:textStyle="normal" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/explain"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/detailPlace"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:letterSpacing="-0.03"
-                android:text="광화문역 1번 출구"
-                android:textColor="#393939"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/detailFee"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:letterSpacing="-0.03"
-                android:text="3000원"
-                android:textColor="#393939"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
                 android:id="@+id/detailTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:letterSpacing="-0.03"
                 android:text="협의 가능"
                 android:textColor="#393939"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="18dp"
+                android:letterSpacing="-0.02"
+                android:text="메뉴 링크"
+                android:textColor="#808080"
+                android:textSize="14sp"
+                android:textStyle="normal" />
+
             <Button
                 android:id="@+id/linkBtn"
                 android:layout_width="50dp"
                 android:layout_height="20dp"
-                android:layout_marginTop="17dp"
                 android:background="#00ff0000"
                 android:letterSpacing="-0.03"
-                android:text="이동 >"
+                android:text="이동  >"
                 android:textColor="#393939"
                 android:textSize="16sp"
                 android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="18dp"
+                android:letterSpacing="-0.02"
+                android:text="총대 멘트"
+                android:textColor="#808080"
+                android:textSize="14sp"
+                android:textStyle="normal" />
 
             <TextView
                 android:id="@+id/detailMention"
                 android:layout_width="250dp"
                 android:layout_height="75dp"
-                android:layout_marginTop="20dp"
                 android:background="@drawable/detail_window_mention"
                 android:letterSpacing="-0.03"
                 android:lineSpacingExtra="8sp"
-                android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:padding="8dp"
                 android:text="안녕하세요 바로 주문하고 싶은 분들 환영합니다 :)"
                 android:textColor="#393939"
                 android:textSize="16sp"
                 android:textStyle="normal" />
+
         </LinearLayout>
-    </RelativeLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <FrameLayout
         android:id="@+id/frameLayout"

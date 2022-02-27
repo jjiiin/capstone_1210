@@ -42,6 +42,7 @@ class AddressSearchActivity : AppCompatActivity() {
         binding.mapSearch.setOnClickListener {
             val intent = Intent(this, MylocSearchActivity::class.java)
             startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+            finish()
         }
         val rv = findViewById<RecyclerView>(R.id.addressRV)
         val rvAdapter = RVAdapter(dataModelList)
@@ -71,10 +72,7 @@ class AddressSearchActivity : AppCompatActivity() {
             override fun onClick(v: View, position: Int) {
                 //클릭시 BoardWriteActivity로 돌아가서 주소 전달하기
                 val item=dataModelList[position]
-                val address=item.address+" "+item.detail
-                val latitude=item.lat.toDouble()
-                val longitude=item.lng.toDouble()
-                BWA(address,latitude,longitude)
+                finish()
                 val len : Int=dataModelList.size
                 for(i in 0 until len){
                     //모두 해제하기
@@ -84,29 +82,11 @@ class AddressSearchActivity : AppCompatActivity() {
                 //주소 설정하기
                 FirebaseDatabase.getInstance().reference.child("users").child(auth.currentUser!!.uid).child("address")
                     .child(item.name).child("set").setValue("1")
-                val setExtra=intent.getStringExtra("mhf")
-                if(setExtra=="1"){
-                    Log.d("setExtra","호출됨")
-                    mainReturn()
-                }else{
-                    BWA(item.address+" "+item.detail,latitude,longitude)
-                }
+
             }
         })
     }
-    fun BWA(address:String,lat:Double,lng:Double){
-        val intent= Intent(this, BoardWirteActivity::class.java)
-            .putExtra("address",address)
-            .putExtra("위도",lat)
-            .putExtra("경도",lng)
-        intent.flags= Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
-    }
-    private fun mainReturn(){
-        val intent= Intent(this, MainActivity::class.java)
-        intent.flags= Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
-    }
+
     fun openActivityForResult() {
         val intent = Intent(this, WebSearchActivity::class.java)
         startActivityForResult(intent, 123)

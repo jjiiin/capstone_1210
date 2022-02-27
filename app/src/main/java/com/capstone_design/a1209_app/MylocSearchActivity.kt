@@ -18,27 +18,36 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.api.GoogleApi
 import com.google.android.gms.common.api.GoogleApiClient
+import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.*
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.*
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.net.PlacesClient
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import java.io.IOException
+import java.util.*
 import kotlin.properties.Delegates
 
 
-class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener,GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener {
+class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener,GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener,
+    GoogleMap.OnMyLocationButtonClickListener,
+    GoogleMap.OnMyLocationClickListener{
     private lateinit var mView: com.google.android.gms.maps.MapView
     val permission=arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION)
     val PERM_FLAG=99
+    private lateinit var  autocompleteSupportFragment: AutocompleteSupportFragment
     private var markerSet:Boolean?=null
     private var mMap: GoogleMap? =null
     internal lateinit var mLastLocation: Location
     internal var mCurrentLocationMarker:Marker?=null
     internal var mGoogleApiClient:GoogleApiClient?=null
     internal lateinit var mLocationRequest: LocationRequest
+    var placesClient: PlacesClient? = null
     var myloc=false
     private var count=0
 
@@ -47,34 +56,77 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_myloc_search)
 
+        if (!Places.isInitialized()) {
+            Places.initialize(applicationContext, "AIzaSyCtnkZceEqVUR4_aTLTP2gPtAZcnhe6fjE", Locale.KOREA)
+        }
+        placesClient = Places.createClient(this)
+
+       autocompleteSupportFragment = (supportFragmentManager.findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment?)!!
+//        autocompleteSupportFragment!!.setPlaceFields(
+//            listOf(
+//                Place.Field.ID,
+//                Place.Field.ADDRESS,
+//                Place.Field.LAT_LNG
+//            )
+//        )
+//
+//
+//        autocompleteSupportFragment?.setOnPlaceSelectedListener(object : PlaceSelectionListener {
+//            override fun onPlaceSelected(p0: Place) {
+//                Toast.makeText(applicationContext, "" + p0!!.name + p0!!.latLng, Toast.LENGTH_LONG)
+//                    .show()
+//                val address = p0.address.toString()
+//                val name = p0.name.toString()
+//                val resultIntent = Intent()
+//                val latlong = "${p0.latLng?.latitude!!}::${p0.latLng?.longitude!!}"
+//                val latlng=LatLng(p0.latLng?.latitude!!,p0.latLng?.longitude!!)
+//
+//
+//
+//                Toast.makeText(this@MylocSearchActivity, latlong + address + name, Toast.LENGTH_LONG).show()
+//                //name빼고 뜸 그럼 다행이구먼!
+//
+//                mMap!!.clear()
+//                val discripter=getMarkerDrawable(R.drawable.marker)
+//                val marker=MarkerOptions()
+//                    .position(latlng)
+//                    .title("place search")
+//                    .icon(discripter)
+//                mMap?.addMarker(marker)
+//                val cameraOption = CameraPosition.Builder()
+//                    .target(latlng)//현재 위치로 바꿀 것
+//                    .zoom(17f)
+//                    .build()
+//                val camera=CameraUpdateFactory.newCameraPosition(cameraOption)
+//                mMap?.moveCamera(camera)
+//                bottomSheet(address,latlng)
+//
+//            }
+//
+//            override fun onError(p0: Status) {
+//                Log.d("error_api",p0.toString())
+//            }
+//        })
+
 
         val mapFragment=supportFragmentManager
             .findFragmentById(R.id.mapView)as SupportMapFragment
         mapFragment.getMapAsync(this)
-        Toast.makeText(this, "맵뷰",Toast.LENGTH_LONG).show()
-//        if(isPermitted()){
-//            //onMapReady함수 호출
-//            startProcess()
-//        }else{
-//            ActivityCompat.requestPermissions(this,permission,PERM_FLAG)
-//        }
-//
-//        val myLocBtn:ImageView=findViewById(R.id.myloc)
-//        myLocBtn.setOnClickListener{
-//            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-//            setUpdateLocationListener()
-//        }
+
     }
 
     override fun onMapReady(p0: GoogleMap) {
         mMap=p0
 
+        mMap!!.setOnMyLocationButtonClickListener(this)
+        mMap!!.setOnMyLocationClickListener(this)
+        mMap!!.uiSettings.isMyLocationButtonEnabled=false
         //현재 내 위치 가져오는
-//        val myLoc:ImageView=findViewById(R.id.myloc)
-//        myLoc.setOnClickListener {
-//            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-//            setUpdateLocationListener()
-//        }
+        val myLoc:ImageView=findViewById(R.id.myloc)
+        myLoc.setOnClickListener {
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+            setUpdateLocationListener()
+        }
 
 //        if(markerSet) {
 //
@@ -88,6 +140,52 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
 
         Log.d("markerset",markerSet.toString())
 
+        autocompleteSupportFragment!!.setPlaceFields(
+            listOf(
+                Place.Field.ID,
+                Place.Field.ADDRESS,
+                Place.Field.LAT_LNG
+            )
+        )
+
+
+        autocompleteSupportFragment?.setOnPlaceSelectedListener(object : PlaceSelectionListener {
+            override fun onPlaceSelected(p0: Place) {
+                Toast.makeText(applicationContext, "" + p0!!.name + p0!!.latLng, Toast.LENGTH_LONG)
+                    .show()
+                val address = p0.address.toString()
+                val name = p0.name.toString()
+                val resultIntent = Intent()
+                val latlong = "${p0.latLng?.latitude!!}::${p0.latLng?.longitude!!}"
+                val latlng=LatLng(p0.latLng?.latitude!!,p0.latLng?.longitude!!)
+
+
+
+                Toast.makeText(this@MylocSearchActivity, latlong + address + name, Toast.LENGTH_LONG).show()
+                //name빼고 뜸 그럼 다행이구먼!
+
+                mMap!!.clear()
+                val discripter=getMarkerDrawable(R.drawable.marker)
+                val marker=MarkerOptions()
+                    .position(latlng)
+                    .title("place search")
+                    .icon(discripter)
+                mMap?.addMarker(marker)
+                val cameraOption = CameraPosition.Builder()
+                    .target(latlng)//현재 위치로 바꿀 것
+                    .zoom(17f)
+                    .build()
+                val camera=CameraUpdateFactory.newCameraPosition(cameraOption)
+                mMap?.moveCamera(camera)
+                bottomSheet(address,latlng)
+
+            }
+
+            override fun onError(p0: Status) {
+                Log.d("error_api",p0.toString())
+            }
+        })
+
 
 //        영어 유튜브
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
@@ -96,10 +194,14 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
             ){
                 buildGoogleApiClient()
                 mMap!!.isMyLocationEnabled=true
+//                mMap!!.setOnMyLocationButtonClickListener(this)
+//                mMap!!.setOnMyLocationClickListener(this)
             }
         }else{
             buildGoogleApiClient()
             mMap!!.isMyLocationEnabled=true
+//            mMap!!.setOnMyLocationButtonClickListener(this)
+//            mMap!!.setOnMyLocationClickListener(this)
         }
 
 //        val sydney=LatLng(-34.0,151.0)
@@ -125,6 +227,7 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
         mMap!!.moveCamera(camera)
                 //현재 위치(좌표계)를 주소로 받아오기
         var mResultList: List<Address>? = null
+        Log.d("makeMarker",mResultList.toString())
         val geoCoder=Geocoder(this)
         try{
             mResultList = geoCoder.getFromLocation(
@@ -134,9 +237,9 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
             e.printStackTrace()
             Toast.makeText(this, "좌표를 변환하지 못했습니다.", Toast.LENGTH_LONG).show()
         }
-        val address=mResultList!![0]
-        val locText=address.getAddressLine(0).toString()
         if (mResultList != null) {
+            val address=mResultList!![0]
+            val locText=address.getAddressLine(0).toString()
             bottomSheet(locText,latLng)
         }
     }
@@ -180,13 +283,13 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
         mMap!!.clear()
         mCurrentLocationMarker=mMap!!.addMarker(markerOptions)
 //        mMap!!.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-        mMap!!.moveCamera(CameraUpdateFactory.zoomTo(30f))
-//        val cameraOption = CameraPosition.Builder()
-//            .target(latLng)//검색
-//            .zoom(17f)
-//            .build()
-//        val camera=CameraUpdateFactory.newCameraPosition(cameraOption)
-//        mMap?.moveCamera(camera)
+        //mMap!!.moveCamera(CameraUpdateFactory.zoomTo(30f))
+        val cameraOption = CameraPosition.Builder()
+            .target(latLng)//검색
+            .zoom(17f)
+            .build()
+        val camera=CameraUpdateFactory.newCameraPosition(cameraOption)
+        mMap?.moveCamera(camera)
         if(mGoogleApiClient!=null){
             LocationServices.getFusedLocationProviderClient(this)
         }
@@ -195,8 +298,8 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
 
     override fun onConnected(p0: Bundle?) {
         mLocationRequest= LocationRequest()
-        mLocationRequest.interval=1000
-        mLocationRequest.fastestInterval=1000
+        mLocationRequest.interval=30000
+        mLocationRequest.fastestInterval=30000
         mLocationRequest.priority=LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
         if(ContextCompat.checkSelfPermission(
                 this,
@@ -215,60 +318,60 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
     }
 
 
-    //검색한 위치
-    fun searchLocation(view: View){
-        val locationSearch: EditText=findViewById(R.id.searchTv)
-        var location:String
-        location=locationSearch.text.toString().trim()
-
-//        val setTextView:TextView=findViewById(R.id.setTv)
-
-//        val setBtn:Button=findViewById(R.id.setBtn)//상세정보 설정하는 액티비티로 넘어가기
-
-        var locText:String
-        var addressList:List<Address>?=null
-        if(location==null||location==""){
-            Toast.makeText(this,"주소입력",Toast.LENGTH_LONG).show()
-        }else{
-            val geoCoder=Geocoder(this)
-            try {
-               addressList=geoCoder.getFromLocationName(location,1)
-            }catch (e:IOException){
-                e.printStackTrace()
-            }
-
-            val address=addressList!![0]
-            Log.d("address",address.toString())
-            val latLng=LatLng(address.latitude,address.longitude)
-            locText=address.getAddressLine(0).toString()
-            bottomSheet(locText,latLng)
-//            locText=locText.replace("대한민국","")
-
-//            setTextView.text=locText
-//            setBtn.setOnClickListener {
-//                val intent= Intent(this, DetailAddressActivity::class.java).putExtra("주소",locText)
-//                intent.flags= Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-//                startActivity(intent)
+//    //검색한 위치
+//    fun searchLocation(view: View){
+////        val locationSearch: EditText=findViewById(R.id.searchTv)
+////        var location:String
+////        location=locationSearch.text.toString().trim()
+//
+////        val setTextView:TextView=findViewById(R.id.setTv)
+//
+////        val setBtn:Button=findViewById(R.id.setBtn)//상세정보 설정하는 액티비티로 넘어가기
+//
+//        var locText:String
+//        var addressList:List<Address>?=null
+//        if(location==null||location==""){
+//            Toast.makeText(this,"주소입력",Toast.LENGTH_LONG).show()
+//        }else{
+//            val geoCoder=Geocoder(this)
+//            try {
+//               addressList=geoCoder.getFromLocationName(location,1)
+//            }catch (e:IOException){
+//                e.printStackTrace()
 //            }
-            //Log.d("address_index",address_index.toString())//대한민국 서울특별시 노원구 화랑로 621
-            mMap!!.clear()
-
-            val discripter=getMarkerDrawable(R.drawable.marker)
-            val marker=MarkerOptions()
-                .position(latLng)
-                .title(location)
-                .icon(discripter)
-            mMap!!.addMarker(marker)
-            val cameraOption = CameraPosition.Builder()
-                .target(latLng)//현재 위치로 바꿀 것
-                .zoom(17f)
-                .build()
-            val camera=CameraUpdateFactory.newCameraPosition(cameraOption)
-
-            mMap!!.animateCamera(camera)
-        }
-
-    }
+//
+//            val address=addressList!![0]
+//            Log.d("address",address.toString())
+//            val latLng=LatLng(address.latitude,address.longitude)
+//            locText=address.getAddressLine(0).toString()
+//            bottomSheet(locText,latLng)
+////            locText=locText.replace("대한민국","")
+//
+////            setTextView.text=locText
+////            setBtn.setOnClickListener {
+////                val intent= Intent(this, DetailAddressActivity::class.java).putExtra("주소",locText)
+////                intent.flags= Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+////                startActivity(intent)
+////            }
+//            //Log.d("address_index",address_index.toString())//대한민국 서울특별시 노원구 화랑로 621
+//            mMap!!.clear()
+//
+//            val discripter=getMarkerDrawable(R.drawable.marker)
+//            val marker=MarkerOptions()
+//                .position(latLng)
+//                .title(location)
+//                .icon(discripter)
+//            mMap!!.addMarker(marker)
+//            val cameraOption = CameraPosition.Builder()
+//                .target(latLng)//현재 위치로 바꿀 것
+//                .zoom(17f)
+//                .build()
+//            val camera=CameraUpdateFactory.newCameraPosition(cameraOption)
+//
+//            mMap!!.animateCamera(camera)
+//        }
+//
+//    }
 
     //내 위치를 가져오는 코드
     lateinit var fusedLocationClient:FusedLocationProviderClient
@@ -278,7 +381,7 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
         val locationRequest=LocationRequest.create()
         locationRequest.run{
             priority=LocationRequest.PRIORITY_HIGH_ACCURACY
-            interval=1000
+            interval=300000
         }
 
         locationCallback=object  : LocationCallback (){
@@ -308,7 +411,7 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
             )
         }catch (e: Exception) {
             e.printStackTrace()
-            Toast.makeText(this, "좌표를 변환하지 못했습니다.", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "좌표를 변환하지 못했습니다. make", Toast.LENGTH_LONG).show()
         }
         val address=mResultList!![0]
         val locText=address.getAddressLine(0).toString()
@@ -352,7 +455,19 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
                 .putExtra("위도",latLng.latitude).putExtra("경도",latLng.longitude)
             intent.flags= Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
+            finish()
         }
+    }
+
+    override fun onMyLocationButtonClick(): Boolean {
+        Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT)
+            .show()
+        return false
+    }
+
+    override fun onMyLocationClick(p0: Location) {
+        Toast.makeText(this, "Current location:\n$p0", Toast.LENGTH_LONG)
+            .show()
     }
 
 

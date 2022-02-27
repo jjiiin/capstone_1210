@@ -16,6 +16,12 @@
         android:theme="@style/Theme.1209_app"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".KeywordSettingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DetailPlaceActivity"
+            android:exported="false" />
+        <activity
             android:name=".DetailAddressActivity"
             android:exported="false" />
         <activity
@@ -39,6 +45,7 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
         <activity
             android:name=".EvaluationActivity"
             android:exported="false" />

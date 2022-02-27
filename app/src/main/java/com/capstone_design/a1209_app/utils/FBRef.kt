@@ -13,6 +13,8 @@ class FBRef {
         val usersRef = database.getReference("users")
         val chatRoomsRef = database.getReference("chatRooms")
         val userRoomsRef = database.getReference("userRooms")
+        //jiin
+        val board=database.getReference("map_contents")
     }
 
 

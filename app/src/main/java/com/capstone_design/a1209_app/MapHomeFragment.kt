@@ -15,15 +15,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
+import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.databinding.DataBindingUtil
+import androidx.viewpager2.widget.ViewPager2
 import com.capstone_design.a1209_app.board.BoardWirteActivity
 import com.capstone_design.a1209_app.dataModels.addressData
+import com.capstone_design.a1209_app.dataModels.dataModel
 import com.capstone_design.a1209_app.databinding.FragmentMapHomeBinding
 import com.capstone_design.a1209_app.fragment.HomeFragment
+import com.capstone_design.a1209_app.utils.FBRef
 import com.capstone_design.map_test.FragmentListener
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -46,11 +51,19 @@ import java.util.jar.Manifest
 class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
     private  lateinit var binding : FragmentMapHomeBinding
     private lateinit var mFragmentListener: FragmentListener
+    val viewPagerList= mutableListOf<dataModel>()
     private lateinit var auth: FirebaseAuth
     private lateinit var mView: MapView
     private lateinit var mMap:GoogleMap
     lateinit var mainActivity: MainActivity
     private lateinit var myLatLng:LatLng
+    private lateinit var cardView:CardView
+
+    //viewpager
+    private var bannerPosition = Int.MAX_VALUE/2
+
+
+    private val intervalTime = 1500.toLong()
 
     val permission=arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION)
     val PERM_FLAG=99
@@ -60,10 +73,6 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
         mainActivity =context as MainActivity
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -103,6 +112,37 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             startActivity(intent)
         }
         mView.onCreate(savedInstanceState)
+
+
+        //viewpager
+//
+//        val viewPagerAdpater=activity.let {bannerAdapter(viewPagerList)}
+//        val boardRef :DatabaseReference= database.getReference("map_contents")
+//        boardRef.addValueEventListener(object : ValueEventListener {
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//                for (DataModel in snapshot.children) {
+//                    val item = DataModel.getValue(dataModel::class.java)
+//                    if (item != null) {
+//                        viewPagerList.add(item)
+//                    }
+//                    viewPagerAdpater?.notifyDataSetChanged()
+//
+//                    }
+//                }
+//            override fun onCancelled(error: DatabaseError) {
+//                TODO("Not yet implemented")
+//            }
+//        })
+//        viewPager=binding.viewPager
+//        viewPager.orientation= ViewPager2.ORIENTATION_HORIZONTAL
+//        viewPager.setCurrentItem(bannerPosition,false)
+        cardView=binding.cardView
+
+
+
+
+
+
 
         if(isPermitted()){
             //onMapReady함수 호출
@@ -153,19 +193,18 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
                     if (item != null) {
                         if (item.set=="1") {
                             val myLocation=LatLng(item.lat.toDouble(),item.lng.toDouble())
-//                            val discripter = getMarkerDrawable(R.drawable.marker)
-//                            val marker = MarkerOptions()
-//                                .position(myLocation)
-//                                .title(item.name)
-//                                .icon(discripter)
-//                            Log.d("item",item.toString())
+                            val discripter = getMarkerDrawable(R.drawable.marker)
+                            val marker = MarkerOptions()
+                                .position(myLocation)
+                                .title(item.name)
+                                .icon(discripter)
+                            //Log.d("item",item.toString())
                             val cameraOption = CameraPosition.Builder()
                                 .target(myLocation)//현재 위치로 바꿀 것
                                 .zoom(17f)
                                 .build()
                             val camera = CameraUpdateFactory.newCameraPosition(cameraOption)
 
-                            mMap.clear()
 //                            mMap.addMarker(marker)
                             mMap.moveCamera(camera)
                         }
@@ -177,6 +216,73 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
                 TODO("Not yet implemented")
             }
         })
+
+        val boardRef :DatabaseReference= database.getReference("map_contents")
+        boardRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (DataModel in snapshot.children) {
+                    val item = DataModel.getValue(dataModel::class.java)
+                    if (item != null) {
+                        val latLng=LatLng(item.lat.toDouble(),item.lng.toDouble())
+                        val discripter = getMarkerDrawable(R.drawable.marker)
+                        val markerOptions = MarkerOptions()
+                            .position(latLng)
+                            .icon(discripter)
+                        val marker: Marker? =mMap!!.addMarker(markerOptions)
+                        marker!!.tag=item.title+"/"+item.category+"/"+
+                                item.place+"/"+
+                                item.time+"/"+item.fee+"/"+item.person+"/"+item.lat+"/"+item.lng
+
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+
+        //마커 클릭 시 카드 뷰 보이게 하기
+        mMap!!.setOnMarkerClickListener (object :GoogleMap.OnMarkerClickListener{
+            override fun onMarkerClick(p0: Marker): Boolean {
+                val title: TextView =cardView.findViewById(R.id.item_title)
+                val place: TextView =cardView.findViewById(R.id.item_place)
+                val time: TextView =cardView.findViewById(R.id.item_time)
+                val fee: TextView =cardView.findViewById(R.id.item_fee)
+                val person: TextView =cardView.findViewById(R.id.item_person)
+                val img: ImageView =cardView.findViewById(R.id.item_image)
+                var arr=p0.tag.toString().split("/")
+                title.text=arr[0]
+                place.text=arr[2]
+                time.text=arr[3]
+                fee.text=arr[4]
+                person.text=arr[5]
+                when(arr[1]){
+                    "asian"->img.setImageResource(R.drawable.asian)
+                    "bun"->img.setImageResource(R.drawable.bun)
+                    "bento"->img.setImageResource(R.drawable.bento)
+                    "chicken"->img.setImageResource(R.drawable.chicken)
+                    "pizza"->img.setImageResource(R.drawable.pizza)
+                    "fastfood"->img.setImageResource(R.drawable.fastfood)
+                    "japan"->img.setImageResource(R.drawable.japan)
+                    "korean"->img.setImageResource(R.drawable.korean)
+                    "cafe"->img.setImageResource(R.drawable.cafe)
+                    "chi"->img.setImageResource(R.drawable.china)
+                }
+                cardView.visibility=View.VISIBLE
+                return false
+            }
+
+
+        })
+        mMap!!.setOnMapClickListener(object : GoogleMap.OnMapClickListener {
+            override fun onMapClick(latLng: LatLng) {
+                cardView.visibility = View.GONE
+            }
+        })
+
+
+
 
     }
 
@@ -277,7 +383,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
     fun getMarkerDrawable(drawableId:Int):BitmapDescriptor{
         //마커 아이콘 만들기
         var bitmapDrawable:BitmapDrawable
-        bitmapDrawable=resources.getDrawable(drawableId)as BitmapDrawable
+        bitmapDrawable=mainActivity.resources.getDrawable(drawableId)as BitmapDrawable
 
         //마커 크기 변환(크게)
         val scaleBitmap= Bitmap.createScaledBitmap(bitmapDrawable.bitmap,150,235,false)

@@ -13,7 +13,8 @@ data class dataModel (
     val place: String="",
     val link: String="",
     val mention: String="",
-    val latLng:LatLng=LatLng(0.0,0.0),
+    val lat:String="",
+    val lng:String="",
     //글쓴이 정보 추가
     val writer: String = "",
     //채팅방 키 추가

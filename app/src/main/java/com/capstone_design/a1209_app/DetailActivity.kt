@@ -13,6 +13,7 @@ import com.capstone_design.a1209_app.utils.FBRef
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import kotlin.properties.Delegates
 
 class DetailActivity : AppCompatActivity() {
 
@@ -20,6 +21,9 @@ class DetailActivity : AppCompatActivity() {
     lateinit var title: String
     lateinit var hostUID: String
     lateinit var chatroomkey: String
+    private var lat:String?=null
+    private var lng:String?=null
+    private var address:String?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +34,15 @@ class DetailActivity : AppCompatActivity() {
         Log.d("key",key.toString())
 
         getBoardData(key.toString())
+
+        binding.detailPlace.setOnClickListener {
+            //지도로 만남장소 위치 보여주기
+            val intent = Intent(this, DetailPlaceActivity::class.java)
+                .putExtra("lat", lat)
+                .putExtra("lng",lng)
+                .putExtra("place",address)
+            startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+        }
 
         binding.enterBtn.setOnClickListener {
             //참여자가 채팅방으로 이동하는 버튼 클릭 이벤트 발생.
@@ -68,6 +81,10 @@ class DetailActivity : AppCompatActivity() {
                 chatroomkey = data!!.chatroomkey
                 title = data!!.title
                 hostUID = data!!.writer
+                //좌표계
+                lat=data!!.lat
+                lng=data!!.lng
+                address=data!!.place
 
                 when(data!!.category){
                     "asian"-> binding.detailCategory.text = "아시안, 양식"

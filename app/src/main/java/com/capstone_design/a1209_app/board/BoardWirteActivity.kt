@@ -13,19 +13,29 @@ import com.capstone_design.a1209_app.chat.ChatRoomActivity
 import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.dataModels.dataModel
 import com.capstone_design.a1209_app.dataModels.ChatRoomData
+import com.capstone_design.a1209_app.dataModels.addressData
 import com.capstone_design.a1209_app.databinding.ActivityBoardWirteBinding
 import com.capstone_design.a1209_app.utils.Auth
 import com.capstone_design.a1209_app.utils.FBRef
 import com.capstone_design.a1209_app.utils.FBRef.Companion.chatRoomsRef
 import com.capstone_design.a1209_app.utils.FBRef.Companion.userRoomsRef
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
 class BoardWirteActivity : AppCompatActivity() {
     //글쓰기 화면에 스피너 넣어야함.
     private lateinit var binding: ActivityBoardWirteBinding
-
+    private lateinit var auth: FirebaseAuth
     private val items = mutableListOf<dataModel>()
     private var hour = ""
     private var min = ""
@@ -153,8 +163,25 @@ class BoardWirteActivity : AppCompatActivity() {
             val intent = Intent(this, AddressSearchActivity::class.java)
             startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
         }
+        //주소
+        auth = Firebase.auth
+        val schRef : DatabaseReference = database.getReference("users").child(auth.currentUser?.uid.toString()).child("address")
+        schRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (DataModel in snapshot.children) {
+                    val item = DataModel.getValue(addressData::class.java)
+                    if (item != null) {
+                        if (item.set=="1") {
+                            binding.placeList.setText(item.address+" "+item.detail)
+                        }
+                    }
+                }
+            }
 
-        binding.placeList.setText(intent.getStringExtra("address"))
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
 
         binding.saveBtn.setOnClickListener {
 
@@ -191,7 +218,8 @@ class BoardWirteActivity : AppCompatActivity() {
                 place_dm,
                 link_dm,
                 mention_dm,
-                latLng,
+                latLng.latitude.toString(),
+                latLng.longitude.toString(),
                 //글쓴이 정보 추가
                 writer_uid,
                 chatroomkey
@@ -200,6 +228,9 @@ class BoardWirteActivity : AppCompatActivity() {
 
             items.add(model)
             FBRef.boardRef.push().setValue(model)
+
+            //지인 테스트
+            FBRef.board.push().setValue(model)
             //글을 쓴 총대니까 채팅방으로 바로 이동
             val intent = Intent(this, ChatRoomActivity::class.java).putExtra("채팅방키", chatroomkey)
             startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))

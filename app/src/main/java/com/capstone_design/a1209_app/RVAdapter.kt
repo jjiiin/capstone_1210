@@ -20,7 +20,7 @@ class RVAdapter (val items:MutableList<addressData>): RecyclerView.Adapter<RVAda
         holder.name.text=item.name
         holder.detail.text=item.address+" "+item.detail
         if(item.set=="1"){
-            holder.itemView.setBackgroundColor(Color.parseColor("#c4c4c4"))// 완료한 건 색상 변경하기
+            holder.setCheck.visibility=View.VISIBLE//현재 설정된 주소 택하기
         }
 
         holder.itemView.setOnClickListener {
@@ -44,5 +44,6 @@ class RVAdapter (val items:MutableList<addressData>): RecyclerView.Adapter<RVAda
     inner class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
         val name: TextView =itemView.findViewById(R.id.name)
         val detail: TextView =itemView.findViewById(R.id.detail)
+        val setCheck:ImageView=itemView.findViewById(R.id.setCheck)
     }
 }
