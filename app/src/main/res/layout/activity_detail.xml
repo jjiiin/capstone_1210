@@ -108,6 +108,7 @@
                 android:layout_marginTop="7dp"
                 android:layout_marginLeft="20dp"
                 android:letterSpacing="-0.03"
+                android:lineSpacingExtra="5sp"
                 android:text="서울특별시 노원구 공릉동 27-22 인사관 1층 휴게실"
                 android:textColor="#393939"
                 android:textSize="16sp"
