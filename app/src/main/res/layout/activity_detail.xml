@@ -205,18 +205,16 @@
                 android:textSize="14sp"
                 android:textStyle="normal" />
 
-            <Button
-                android:id="@+id/linkBtn"
-                android:layout_width="50dp"
-                android:layout_height="20dp"
-                android:background="#00ff0000"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:letterSpacing="-0.03"
                 android:text="이동"
                 android:textColor="#393939"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"  />
             <ImageView
-                android:layout_marginTop="1dp"
+                android:id="@+id/linkBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/mhf_go"/>
