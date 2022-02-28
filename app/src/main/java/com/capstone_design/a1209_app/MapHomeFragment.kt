@@ -180,8 +180,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap=googleMap
-//        fusedLocationClient=LocationServices.getFusedLocationProviderClient(mainActivity)
-//        setUpdateLocationListener()
+
 
         auth = Firebase.auth
         val database = Firebase.database

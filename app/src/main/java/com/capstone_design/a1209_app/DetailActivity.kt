@@ -1,6 +1,7 @@
 package com.capstone_design.a1209_app
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -13,6 +14,13 @@ import com.capstone_design.a1209_app.utils.FBRef
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.dynamiclinks.ktx.androidParameters
+import com.google.firebase.dynamiclinks.ktx.dynamicLink
+import com.google.firebase.dynamiclinks.ktx.dynamicLinks
+import com.google.firebase.dynamiclinks.ktx.shortLinkAsync
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.dynamiclinks.ktx.component1
+import com.google.firebase.dynamiclinks.ktx.component2
 import kotlin.properties.Delegates
 
 class DetailActivity : AppCompatActivity() {
@@ -24,6 +32,7 @@ class DetailActivity : AppCompatActivity() {
     private var lat:String?=null
     private var lng:String?=null
     private var address:String?=null
+    private var linkurl:String?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +44,7 @@ class DetailActivity : AppCompatActivity() {
 
         getBoardData(key.toString())
 
+        //지도로 주소 찍기
         binding.detailPlace.setOnClickListener {
             //지도로 만남장소 위치 보여주기
             val intent = Intent(this, DetailPlaceActivity::class.java)
@@ -42,6 +52,12 @@ class DetailActivity : AppCompatActivity() {
                 .putExtra("lng",lng)
                 .putExtra("place",address)
             startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+        }
+
+        //동적 링크로 메뉴링크 첨부하기
+        binding.linkBtn.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(linkurl))
+            startActivity(intent)
         }
 
         binding.enterBtn.setOnClickListener {
@@ -74,7 +90,7 @@ class DetailActivity : AppCompatActivity() {
 
                 Log.d("detail",data.toString())
                 binding.detailTitle.text=data!!.title
-                binding.detailPlace.text=data!!.place
+                binding.detailPlace.text=data!!.place+ " >"
                 binding.detailFee.text=data!!.fee
                 binding.detailTime.text=data!!.time
                 binding.detailMention.text=data!!.mention
@@ -85,6 +101,7 @@ class DetailActivity : AppCompatActivity() {
                 lat=data!!.lat
                 lng=data!!.lng
                 address=data!!.place
+                linkurl=data!!.link
 
                 when(data!!.category){
                     "asian"-> binding.detailCategory.text = "아시안, 양식"

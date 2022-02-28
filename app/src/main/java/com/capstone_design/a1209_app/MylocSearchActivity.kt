@@ -37,9 +37,6 @@ import kotlin.properties.Delegates
 class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener,GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener,
     GoogleMap.OnMyLocationButtonClickListener,
     GoogleMap.OnMyLocationClickListener{
-    private lateinit var mView: com.google.android.gms.maps.MapView
-    val permission=arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION)
-    val PERM_FLAG=99
     private lateinit var  autocompleteSupportFragment: AutocompleteSupportFragment
     private var markerSet:Boolean?=null
     private var mMap: GoogleMap? =null
@@ -48,9 +45,6 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
     internal var mGoogleApiClient:GoogleApiClient?=null
     internal lateinit var mLocationRequest: LocationRequest
     var placesClient: PlacesClient? = null
-    var myloc=false
-    private var count=0
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,52 +55,9 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
         }
         placesClient = Places.createClient(this)
 
-       autocompleteSupportFragment = (supportFragmentManager.findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment?)!!
-//        autocompleteSupportFragment!!.setPlaceFields(
-//            listOf(
-//                Place.Field.ID,
-//                Place.Field.ADDRESS,
-//                Place.Field.LAT_LNG
-//            )
-//        )
-//
-//
-//        autocompleteSupportFragment?.setOnPlaceSelectedListener(object : PlaceSelectionListener {
-//            override fun onPlaceSelected(p0: Place) {
-//                Toast.makeText(applicationContext, "" + p0!!.name + p0!!.latLng, Toast.LENGTH_LONG)
-//                    .show()
-//                val address = p0.address.toString()
-//                val name = p0.name.toString()
-//                val resultIntent = Intent()
-//                val latlong = "${p0.latLng?.latitude!!}::${p0.latLng?.longitude!!}"
-//                val latlng=LatLng(p0.latLng?.latitude!!,p0.latLng?.longitude!!)
-//
-//
-//
-//                Toast.makeText(this@MylocSearchActivity, latlong + address + name, Toast.LENGTH_LONG).show()
-//                //name빼고 뜸 그럼 다행이구먼!
-//
-//                mMap!!.clear()
-//                val discripter=getMarkerDrawable(R.drawable.marker)
-//                val marker=MarkerOptions()
-//                    .position(latlng)
-//                    .title("place search")
-//                    .icon(discripter)
-//                mMap?.addMarker(marker)
-//                val cameraOption = CameraPosition.Builder()
-//                    .target(latlng)//현재 위치로 바꿀 것
-//                    .zoom(17f)
-//                    .build()
-//                val camera=CameraUpdateFactory.newCameraPosition(cameraOption)
-//                mMap?.moveCamera(camera)
-//                bottomSheet(address,latlng)
-//
-//            }
-//
-//            override fun onError(p0: Status) {
-//                Log.d("error_api",p0.toString())
-//            }
-//        })
+       autocompleteSupportFragment = (supportFragmentManager.findFragmentById(R.id.autocomplete_fragment)
+               as AutocompleteSupportFragment?)!!
+
 
 
         val mapFragment=supportFragmentManager
@@ -128,17 +79,11 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
             setUpdateLocationListener()
         }
 
-//        if(markerSet) {
-//
-//        }
         //지도 클릭시 마커 가져오기
-        var latLng:LatLng
         mMap!!.setOnMapClickListener{
             markerSet=false
             makeMarker(mMap!!,it)
         }
-
-        Log.d("markerset",markerSet.toString())
 
         autocompleteSupportFragment!!.setPlaceFields(
             listOf(
@@ -155,15 +100,10 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
                     .show()
                 val address = p0.address.toString()
                 val name = p0.name.toString()
-                val resultIntent = Intent()
                 val latlong = "${p0.latLng?.latitude!!}::${p0.latLng?.longitude!!}"
                 val latlng=LatLng(p0.latLng?.latitude!!,p0.latLng?.longitude!!)
 
-
-
-                Toast.makeText(this@MylocSearchActivity, latlong + address + name, Toast.LENGTH_LONG).show()
                 //name빼고 뜸 그럼 다행이구먼!
-
                 mMap!!.clear()
                 val discripter=getMarkerDrawable(R.drawable.marker)
                 val marker=MarkerOptions()
@@ -194,20 +134,15 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
             ){
                 buildGoogleApiClient()
                 mMap!!.isMyLocationEnabled=true
-//                mMap!!.setOnMyLocationButtonClickListener(this)
-//                mMap!!.setOnMyLocationClickListener(this)
             }
         }else{
             buildGoogleApiClient()
             mMap!!.isMyLocationEnabled=true
-//            mMap!!.setOnMyLocationButtonClickListener(this)
-//            mMap!!.setOnMyLocationClickListener(this)
         }
 
-//        val sydney=LatLng(-34.0,151.0)
-//        mMap!!.addMarker(MarkerOptions().position(sydney).title("sydney"))
-//        mMap!!.moveCamera(CameraUpdateFactory.newLatLng(sydney))
     }
+
+
     fun makeMarker(googleMap: GoogleMap, latLng: LatLng){
         mMap=googleMap
         mMap!!.clear()
@@ -318,61 +253,6 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
     }
 
 
-//    //검색한 위치
-//    fun searchLocation(view: View){
-////        val locationSearch: EditText=findViewById(R.id.searchTv)
-////        var location:String
-////        location=locationSearch.text.toString().trim()
-//
-////        val setTextView:TextView=findViewById(R.id.setTv)
-//
-////        val setBtn:Button=findViewById(R.id.setBtn)//상세정보 설정하는 액티비티로 넘어가기
-//
-//        var locText:String
-//        var addressList:List<Address>?=null
-//        if(location==null||location==""){
-//            Toast.makeText(this,"주소입력",Toast.LENGTH_LONG).show()
-//        }else{
-//            val geoCoder=Geocoder(this)
-//            try {
-//               addressList=geoCoder.getFromLocationName(location,1)
-//            }catch (e:IOException){
-//                e.printStackTrace()
-//            }
-//
-//            val address=addressList!![0]
-//            Log.d("address",address.toString())
-//            val latLng=LatLng(address.latitude,address.longitude)
-//            locText=address.getAddressLine(0).toString()
-//            bottomSheet(locText,latLng)
-////            locText=locText.replace("대한민국","")
-//
-////            setTextView.text=locText
-////            setBtn.setOnClickListener {
-////                val intent= Intent(this, DetailAddressActivity::class.java).putExtra("주소",locText)
-////                intent.flags= Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-////                startActivity(intent)
-////            }
-//            //Log.d("address_index",address_index.toString())//대한민국 서울특별시 노원구 화랑로 621
-//            mMap!!.clear()
-//
-//            val discripter=getMarkerDrawable(R.drawable.marker)
-//            val marker=MarkerOptions()
-//                .position(latLng)
-//                .title(location)
-//                .icon(discripter)
-//            mMap!!.addMarker(marker)
-//            val cameraOption = CameraPosition.Builder()
-//                .target(latLng)//현재 위치로 바꿀 것
-//                .zoom(17f)
-//                .build()
-//            val camera=CameraUpdateFactory.newCameraPosition(cameraOption)
-//
-//            mMap!!.animateCamera(camera)
-//        }
-//
-//    }
-
     //내 위치를 가져오는 코드
     lateinit var fusedLocationClient:FusedLocationProviderClient
     lateinit var locationCallback:LocationCallback
@@ -381,7 +261,7 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
         val locationRequest=LocationRequest.create()
         locationRequest.run{
             priority=LocationRequest.PRIORITY_HIGH_ACCURACY
-            interval=300000
+//            interval=30000
         }
 
         locationCallback=object  : LocationCallback (){
