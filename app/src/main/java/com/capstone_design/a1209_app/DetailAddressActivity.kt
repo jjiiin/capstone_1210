@@ -37,38 +37,48 @@ class DetailAddressActivity : AppCompatActivity() {
         val address=intent.getStringExtra("주소").toString()
         val lat= intent.getDoubleExtra("위도",0.0)
         val lang= intent.getDoubleExtra("경도",0.0)
+        val page=intent.getStringExtra("page").toString()
+
+        val database = Firebase.database
+        val schRef =database.getReference("users").child(auth.currentUser!!.uid).child("address")
+        schRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (DataModel in snapshot.children) {
+                    dataModelList.add(DataModel.getValue(addressData::class.java)!!)
+
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+        Log.d("dataModel",dataModelList.toString())
+
         saveBtn.setOnClickListener {
             val detail=detailEv.text.toString()
             val name=nameEv.text.toString()
             //나머지 다 set=0으로 만들기
-            val database = Firebase.database
-            val schRef =database.getReference("users").child(auth.currentUser!!.uid).child("address")
-            schRef.addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    dataModelList.clear()
-                    for (DataModel in snapshot.children) {
-                        dataModelList.add(DataModel.getValue(addressData::class.java)!!)
-
-                    }
-                }
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
-                }
-            })
             val len : Int=dataModelList.size
+            Log.d("len",len.toString())
             for(i in 0 until len){
                 //모두 해제하기
-                FBRef.usersRef.child(auth.currentUser!!.uid).child("address")
+                FirebaseDatabase.getInstance().reference.child("users")
+                    .child(auth.currentUser!!.uid).child("address")
                     .child(dataModelList[i].name).child("set").setValue("0")
             }
-
+            Log.d("detailAdress",dataModelList.toString())
             val model= addressData(
                     address,detail,name,lat.toString(),lang.toString(), "1"
                 )
             FBRef.usersRef.child(auth.currentUser!!.uid).child("address").child(name).setValue(model)
-            val intent= Intent(this, AddressSearchActivity::class.java)
-            intent.flags= Intent.FLAG_ACTIVITY_NEW_TASK
-            startActivity(intent)
+            if(page=="MapHomeFragment") {
+                val intent = Intent(this, MainActivity::class.java)
+                    .putExtra("page", page)
+                Log.d("DAA", page)
+                intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+                startActivity(intent)
+                finish()
+            }
             }
         }
     }

@@ -35,58 +35,71 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_marginTop="23dp"
-            android:id="@+id/searchBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="17dp"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:src="@drawable/search"/>
-            <TextView
-                android:layout_marginLeft="12.3dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="지번, 도로명, 건물명으로 검색"
-                android:textSize="16sp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#c4c4c4"
-            android:layout_marginLeft="17dp"
-            android:layout_marginRight="17dp"
-            android:layout_marginTop="11dp"/>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginTop="12dp"
-            android:layout_marginRight="16dp"
+        <Button
             android:id="@+id/mapSearch"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:src="@drawable/myloc"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:layout_marginLeft="5dp"
-                android:text="현재 위치로 설정"/>
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="지도에서 주소 찾기"
+            android:backgroundTint="@color/main"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="23dp"/>
 
-        </LinearLayout>
+
+<!--        <LinearLayout-->
+<!--            android:layout_marginTop="23dp"-->
+<!--            android:id="@+id/searchBtn"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginLeft="17dp"-->
+<!--            android:orientation="horizontal">-->
+<!--            <ImageView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="3dp"-->
+<!--                android:src="@drawable/search"/>-->
+<!--            <TextView-->
+<!--                android:layout_marginLeft="12.3dp"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="지번, 도로명, 건물명으로 검색"-->
+<!--                android:textSize="16sp"/>-->
+<!--        </LinearLayout>-->
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="1dp"-->
+<!--            android:background="#c4c4c4"-->
+<!--            android:layout_marginLeft="17dp"-->
+<!--            android:layout_marginRight="17dp"-->
+<!--            android:layout_marginTop="11dp"/>-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="right"-->
+<!--            android:layout_marginTop="12dp"-->
+<!--            android:layout_marginRight="16dp"-->
+<!--            android:id="@+id/mapSearch"-->
+<!--            android:orientation="horizontal">-->
+<!--            <ImageView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="4dp"-->
+<!--                android:src="@drawable/myloc"/>-->
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:textSize="16sp"-->
+<!--                android:layout_marginLeft="5dp"-->
+<!--                android:text="현재 위치로 설정"/>-->
+
+<!--        </LinearLayout>-->
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="34dp"
+            android:layout_marginTop="23dp"
             android:src="@drawable/paritition_2"/>
         <LinearLayout
             android:layout_width="match_parent"

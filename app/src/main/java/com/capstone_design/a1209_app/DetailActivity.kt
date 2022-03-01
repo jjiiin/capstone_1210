@@ -14,14 +14,7 @@ import com.capstone_design.a1209_app.utils.FBRef
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.dynamiclinks.ktx.androidParameters
-import com.google.firebase.dynamiclinks.ktx.dynamicLink
-import com.google.firebase.dynamiclinks.ktx.dynamicLinks
-import com.google.firebase.dynamiclinks.ktx.shortLinkAsync
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.dynamiclinks.ktx.component1
-import com.google.firebase.dynamiclinks.ktx.component2
-import kotlin.properties.Delegates
+
 
 class DetailActivity : AppCompatActivity() {
 

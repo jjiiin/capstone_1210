@@ -41,6 +41,8 @@ class BoardWirteActivity : AppCompatActivity() {
     private var min = ""
     private var day = ""
     private var time = ""
+    private var lat=""
+    private var lng=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -160,7 +162,7 @@ class BoardWirteActivity : AppCompatActivity() {
             person = "제한 없음"
         }
         binding.searchBtn.setOnClickListener {
-            val intent = Intent(this, AddressSearchActivity::class.java)
+            val intent = Intent(this, AddressSearchActivity::class.java).putExtra("page","BoardWirteActivity")
             startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
         }
         //주소
@@ -173,6 +175,8 @@ class BoardWirteActivity : AppCompatActivity() {
                     if (item != null) {
                         if (item.set=="1") {
                             binding.placeList.setText(item.address+" "+item.detail)
+                            lat=item.lat
+                            lng=item.lng
                         }
                     }
                 }
@@ -196,7 +200,7 @@ class BoardWirteActivity : AppCompatActivity() {
             val place_dm = binding.placeList.text.toString()
             val mention_dm = binding.mention.text.toString()
             val link_dm = binding.link.text.toString()
-            var latLng= LatLng(intent.getDoubleExtra("위도",0.0),intent.getDoubleExtra("경도",0.0))
+            var latLng= LatLng(lat.toDouble(),lng.toDouble())
 
             //Log.d("아이디",current_uid)
             val writer_uid = Auth.current_uid

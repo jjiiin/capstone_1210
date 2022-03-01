@@ -45,6 +45,7 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
     internal var mGoogleApiClient:GoogleApiClient?=null
     internal lateinit var mLocationRequest: LocationRequest
     var placesClient: PlacesClient? = null
+    private var page:String?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +59,7 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
        autocompleteSupportFragment = (supportFragmentManager.findFragmentById(R.id.autocomplete_fragment)
                as AutocompleteSupportFragment?)!!
 
+        page=intent.getStringExtra("page").toString()
 
 
         val mapFragment=supportFragmentManager
@@ -96,8 +98,8 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
 
         autocompleteSupportFragment?.setOnPlaceSelectedListener(object : PlaceSelectionListener {
             override fun onPlaceSelected(p0: Place) {
-                Toast.makeText(applicationContext, "" + p0!!.name + p0!!.latLng, Toast.LENGTH_LONG)
-                    .show()
+                //Toast.makeText(applicationContext, "" + p0!!.name + p0!!.latLng, Toast.LENGTH_LONG)
+                    //.show()
                 val address = p0.address.toString()
                 val name = p0.name.toString()
                 val latlong = "${p0.latLng?.latitude!!}::${p0.latLng?.longitude!!}"
@@ -331,8 +333,11 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
         locText=locText.replace("대한민국 ","")
         setTextView.text=locText
         setBtn.setOnClickListener {
-            val intent= Intent(this, DetailAddressActivity::class.java).putExtra("주소",locText)
-                .putExtra("위도",latLng.latitude).putExtra("경도",latLng.longitude)
+            val intent= Intent(this, DetailAddressActivity::class.java)
+                .putExtra("주소",locText)
+                .putExtra("위도",latLng.latitude)
+                .putExtra("경도",latLng.longitude)
+                .putExtra("page",page)
             intent.flags= Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
             finish()

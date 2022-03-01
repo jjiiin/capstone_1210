@@ -61,9 +61,8 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
 
     //viewpager
     private var bannerPosition = Int.MAX_VALUE/2
-
-
     private val intervalTime = 1500.toLong()
+
 
     val permission=arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION)
     val PERM_FLAG=99
@@ -104,6 +103,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
         })
         binding.mapGo.setOnClickListener {
             val intent = Intent(context, AddressSearchActivity::class.java).putExtra("mhf","1")
+                .putExtra("page","MapHomeFragment")
             startActivity(intent)
         }
         mView=binding.mapView
@@ -112,6 +112,11 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             startActivity(intent)
         }
         mView.onCreate(savedInstanceState)
+
+        //현재 내 위치 가져오는
+
+
+
 
 
         //viewpager
@@ -137,12 +142,6 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
 //        viewPager.orientation= ViewPager2.ORIENTATION_HORIZONTAL
 //        viewPager.setCurrentItem(bannerPosition,false)
         cardView=binding.cardView
-
-
-
-
-
-
 
         if(isPermitted()){
             //onMapReady함수 호출
@@ -181,6 +180,10 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap=googleMap
 
+        binding.myloc.setOnClickListener {
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(mainActivity)
+            setUpdateLocationListener()
+        }
 
         auth = Firebase.auth
         val database = Firebase.database
@@ -199,7 +202,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
                                 .icon(discripter)
                             //Log.d("item",item.toString())
                             val cameraOption = CameraPosition.Builder()
-                                .target(myLocation)//현재 위치로 바꿀 것
+                                .target(myLocation)
                                 .zoom(17f)
                                 .build()
                             val camera = CameraUpdateFactory.newCameraPosition(cameraOption)
@@ -294,7 +297,6 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
         val locationRequest=LocationRequest.create()
         locationRequest.run{
             priority=LocationRequest.PRIORITY_HIGH_ACCURACY
-            interval=1000
         }
 
         locationCallback=object  : LocationCallback (){
@@ -322,7 +324,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
 
         val cameraOption = CameraPosition.Builder()
             .target(myLocation)//현재 위치로 바꿀 것
-            .zoom(19f)
+            .zoom(17f)
             .build()
         val camera=CameraUpdateFactory.newCameraPosition(cameraOption)
 

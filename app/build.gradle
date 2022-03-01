@@ -49,6 +49,7 @@ android {
 }
 apply plugin: 'com.google.gms.google-services'
 
+
 dependencies {
     implementation platform('com.google.firebase:firebase-bom:29.0.4')
     implementation 'com.google.firebase:firebase-analytics-ktx'
@@ -61,11 +62,13 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
     implementation 'com.google.firebase:firebase-auth-ktx:21.0.1'
     implementation 'com.google.firebase:firebase-dynamic-links-ktx'
+    implementation 'com.google.firebase:firebase-messaging:11.8.0'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation fileTree(include: ['*.aar', '*.jar'], dir: 'libs')
     implementation files('libs/libDaumMapAndroid.jar')
+    implementation 'com.google.firebase:firebase-messaging-ktx:23.0.0'
     testImplementation 'junit:junit:4.+'
     implementation "androidx.navigation:navigation-fragment-ktx:2.3.5"
     implementation "androidx.navigation:navigation-ui-ktx:2.3.5"

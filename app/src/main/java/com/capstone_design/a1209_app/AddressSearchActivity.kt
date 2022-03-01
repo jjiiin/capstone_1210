@@ -26,6 +26,7 @@ class AddressSearchActivity : AppCompatActivity() {
     private lateinit var binding:ActivityAddressSearchBinding
     private lateinit var auth: FirebaseAuth
     val dataModelList = mutableListOf<addressData>()
+    private var page=""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,14 +36,16 @@ class AddressSearchActivity : AppCompatActivity() {
         val database = Firebase.database
         auth=Firebase.auth
 
-        binding.searchBtn.setOnClickListener {
-            openActivityForResult()
-        }
+//        binding.searchBtn.setOnClickListener {
+//            openActivityForResult()
+//        }
+        page=intent.getStringExtra("page").toString()
+        val pageReturn=intent.getStringExtra("page_return").toString()
 
         binding.mapSearch.setOnClickListener {
             val intent = Intent(this, MylocSearchActivity::class.java)
+                .putExtra("page",page)
             startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
-            finish()
         }
         val rv = findViewById<RecyclerView>(R.id.addressRV)
         val rvAdapter = RVAdapter(dataModelList)
@@ -76,28 +79,38 @@ class AddressSearchActivity : AppCompatActivity() {
                 val len : Int=dataModelList.size
                 for(i in 0 until len){
                     //모두 해제하기
-                    FirebaseDatabase.getInstance().reference.child("users").child(auth.currentUser!!.uid).child("address")
+                    FirebaseDatabase.getInstance().reference.child("users")
+                        .child(auth.currentUser!!.uid).child("address")
                         .child(dataModelList[i].name).child("set").setValue("0")
                 }
                 //주소 설정하기
                 FirebaseDatabase.getInstance().reference.child("users").child(auth.currentUser!!.uid).child("address")
                     .child(item.name).child("set").setValue("1")
 
+                Log.d("page",page)
+                if(page=="MapHomeFragment"){
+                    val intent = Intent(this@AddressSearchActivity, MainActivity::class.java)
+                    startActivity(intent)
+                }
+                if(page=="BoardWirteActivity"){
+                    val intent = Intent(this@AddressSearchActivity, BoardWirteActivity::class.java)
+                    intent.flags=Intent.FLAG_ACTIVITY_SINGLE_TOP
+                    startActivity(intent)
+
+                }
+                finish()
+
             }
         })
     }
 
-    fun openActivityForResult() {
-        val intent = Intent(this, WebSearchActivity::class.java)
-        startActivityForResult(intent, 123)
-    }
 
     @SuppressLint("MissingSuperCall")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == RESULT_OK && requestCode == 123) {
             var lat = data?.getStringExtra("location")
             var lang = data?.getStringExtra("latlang")
-            Toast.makeText(this,lat+lang,Toast.LENGTH_LONG).show()
+            //Toast.makeText(this,lat+lang,Toast.LENGTH_LONG).show()
         }
 
     }

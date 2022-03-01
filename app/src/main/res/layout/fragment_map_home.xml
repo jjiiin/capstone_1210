@@ -193,6 +193,7 @@
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/round_button"
                 android:text="피자"
+                android:layout_marginRight="16dp"
                 android:textColor="#c4c4c4"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -210,6 +211,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/mhfmyloc"
+        android:id="@+id/myloc"
         android:layout_marginTop="3dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/mapView" />
