@@ -1,5 +1,6 @@
 package com.capstone_design.a1209_app.board
 
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -7,11 +8,13 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.dataModels.dataModel
+import com.capstone_design.map_test.BoardHomeFragment
 import org.w3c.dom.Text
 
-class LvAdpater(private val boardList:MutableList<dataModel>):BaseAdapter() {
+class LvAdpater(private val boardList:MutableList<dataModel>,private val context: BoardHomeFragment):BaseAdapter() {
 
     override fun getCount(): Int {
         return boardList.size
@@ -52,17 +55,23 @@ class LvAdpater(private val boardList:MutableList<dataModel>):BaseAdapter() {
         Log.e("LvAdapter", t.toString())
         cv_title.text=content.title
 
-        when(content.category){
-            "asian"->cv_img.setImageResource(R.drawable.asian)
-            "bun"->cv_img.setImageResource(R.drawable.bun)
-            "bento"->cv_img.setImageResource(R.drawable.bento)
-            "chicken"->cv_img.setImageResource(R.drawable.chicken)
-            "pizza"->cv_img.setImageResource(R.drawable.pizza)
-            "fastfood"->cv_img.setImageResource(R.drawable.fastfood)
-            "japan"->cv_img.setImageResource(R.drawable.japan)
-            "korean"->cv_img.setImageResource(R.drawable.korean)
-            "cafe"->cv_img.setImageResource(R.drawable.cafe)
-            "chi"->cv_img.setImageResource(R.drawable.china)
+
+        if(content.image!=""){
+            var imageUri=content.image
+            Glide.with(context).load(imageUri).into(cv_img)
+        }else{
+            when(content.category){
+                "asian"->cv_img.setImageResource(R.drawable.asian)
+                "bun"->cv_img.setImageResource(R.drawable.bun)
+                "bento"->cv_img.setImageResource(R.drawable.bento)
+                "chicken"->cv_img.setImageResource(R.drawable.chicken)
+                "pizza"->cv_img.setImageResource(R.drawable.pizza)
+                "fastfood"->cv_img.setImageResource(R.drawable.fastfood)
+                "japan"->cv_img.setImageResource(R.drawable.japan)
+                "korean"->cv_img.setImageResource(R.drawable.korean)
+                "cafe"->cv_img.setImageResource(R.drawable.cafe)
+                "chi"->cv_img.setImageResource(R.drawable.china)
+            }
         }
 
         cv_place.text=content.place

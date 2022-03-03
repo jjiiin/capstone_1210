@@ -7,6 +7,7 @@ import com.google.android.gms.maps.model.LatLng
 data class dataModel (
     val title: String="",
     val category:String="",
+    val image:String="",
     val person : String="",
     val time: String="",
     val fee: String="",

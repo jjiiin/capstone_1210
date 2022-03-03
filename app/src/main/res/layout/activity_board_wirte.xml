@@ -202,9 +202,10 @@
                     android:background="@drawable/dialog_edittext"/>
 
                 <Button
+                    android:id="@+id/picBtn"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginLeft="10dp"
                     android:background="@drawable/round_button" />
             </LinearLayout>
             <TextView

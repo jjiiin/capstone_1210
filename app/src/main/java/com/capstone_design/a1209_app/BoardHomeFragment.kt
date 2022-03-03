@@ -46,7 +46,7 @@ class BoardHomeFragment : Fragment() {
 
         binding= DataBindingUtil.inflate(inflater,R.layout.fragment_board_home, container, false)
 
-        val adapter= LvAdpater(items)
+        val adapter= LvAdpater(items,this)
         binding.count.text=items.size.toString()
 
         val postListener = object : ValueEventListener {
@@ -70,8 +70,8 @@ class BoardHomeFragment : Fragment() {
 
             }
         }
-        FBRef.boardRef.addValueEventListener(postListener)
-
+//        FBRef.boardRef.addValueEventListener(postListener)
+        FBRef.board.addValueEventListener(postListener)
 
 
         //데이터를 파이어베이스에서 불러오기-맨 아래 함수 정의하고 호출하였음.

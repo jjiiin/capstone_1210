@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.databinding.DataBindingUtil
+import com.bumptech.glide.Glide
 import com.capstone_design.a1209_app.chat.ChatRoomActivity
 import com.capstone_design.a1209_app.dataModels.dataModel
 import com.capstone_design.a1209_app.databinding.ActivityDetailBinding
@@ -83,6 +84,9 @@ class DetailActivity : AppCompatActivity() {
 
                 Log.d("detail",data.toString())
                 binding.detailTitle.text=data!!.title
+                //이미지
+                binding.detailImage
+
                 binding.detailPlace.text=data!!.place+ " >"
                 binding.detailFee.text=data!!.fee
                 binding.detailTime.text=data!!.time
@@ -108,24 +112,30 @@ class DetailActivity : AppCompatActivity() {
                     "cafe"->binding.detailCategory.text="카페, 디저트"
                     "chi"->binding.detailCategory.text="중식"
                 }
-                when(data!!.category){
-                    "asian"->binding.detailImage.setImageResource(R.drawable.asian)
-                    "bun"->binding.detailImage.setImageResource(R.drawable.bun)
-                    "bento"->binding.detailImage.setImageResource(R.drawable.bento)
-                    "chicken"->binding.detailImage.setImageResource(R.drawable.chicken)
-                    "pizza"->binding.detailImage.setImageResource(R.drawable.pizza)
-                    "fastfood"->binding.detailImage.setImageResource(R.drawable.fastfood)
-                    "japan"->binding.detailImage.setImageResource(R.drawable.japan)
-                    "korean"->binding.detailImage.setImageResource(R.drawable.korean)
-                    "cafe"->binding.detailImage.setImageResource(R.drawable.cafe)
-                    "chi"->binding.detailImage.setImageResource(R.drawable.china)
+                if(data.image!=""){
+                    var imageUri=data.image
+                    Glide.with(this@DetailActivity).load(imageUri).into(binding.detailImage)
+                }else {
+                    when (data!!.category) {
+                        "asian" -> binding.detailImage.setImageResource(R.drawable.asian)
+                        "bun" -> binding.detailImage.setImageResource(R.drawable.bun)
+                        "bento" -> binding.detailImage.setImageResource(R.drawable.bento)
+                        "chicken" -> binding.detailImage.setImageResource(R.drawable.chicken)
+                        "pizza" -> binding.detailImage.setImageResource(R.drawable.pizza)
+                        "fastfood" -> binding.detailImage.setImageResource(R.drawable.fastfood)
+                        "japan" -> binding.detailImage.setImageResource(R.drawable.japan)
+                        "korean" -> binding.detailImage.setImageResource(R.drawable.korean)
+                        "cafe" -> binding.detailImage.setImageResource(R.drawable.cafe)
+                        "chi" -> binding.detailImage.setImageResource(R.drawable.china)
+                    }
                 }
             }
             override fun onCancelled(databaseError: DatabaseError) {
 
             }
         }
-        FBRef.boardRef.child(key).addValueEventListener(postListener)
+//        FBRef.boardRef.child(key).addValueEventListener(postListener)
+        FBRef.board.child(key).addValueEventListener(postListener)
 
     }
 }
