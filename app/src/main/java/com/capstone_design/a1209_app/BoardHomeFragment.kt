@@ -1,10 +1,14 @@
 package com.capstone_design.map_test
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -15,9 +19,13 @@ import com.capstone_design.a1209_app.board.LvAdpater
 import com.capstone_design.a1209_app.dataModels.dataModel
 import com.capstone_design.a1209_app.databinding.FragmentBoardHomeBinding
 import com.capstone_design.a1209_app.utils.FBRef
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -27,12 +35,15 @@ class BoardHomeFragment : Fragment() {
     private  lateinit var binding : FragmentBoardHomeBinding
 
     private var cnt=0
-    private val items= mutableListOf<dataModel>()
+    private var items= mutableListOf<dataModel>()
     private val itemsKeyList= mutableListOf<String>()
+    private lateinit var adapter:LvAdpater
 
     private lateinit var auth: FirebaseAuth
     val database = Firebase.database
     val myRef = database.getReference("BoardWirte")
+    private var buttoncolor="all"
+    var category="all"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,55 +55,250 @@ class BoardHomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        binding= DataBindingUtil.inflate(inflater,R.layout.fragment_board_home, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_board_home, container, false)
 
-        val adapter= LvAdpater(items,this)
-        binding.count.text=items.size.toString()
-
-        val postListener = object : ValueEventListener {
-
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                items.clear()
-                for(data in dataSnapshot.children){
-                    val item=data.getValue(dataModel::class.java)
-
-                    items.add(item!!)
+        adapter = LvAdpater(items, this)
+        binding.count.text = items.size.toString()
 
 
-                    itemsKeyList.add(data.key.toString())
-
-                }
-                itemsKeyList.reverse()
-                items.reverse()
-                adapter.notifyDataSetChanged()
-            }
-            override fun onCancelled(databaseError: DatabaseError) {
-
-            }
+        //버튼 클릭시 category에 값 할당하기
+        binding.categoryAsian.setOnClickListener {
+            category="asian"
+            buttonColor("asian")
         }
-//        FBRef.boardRef.addValueEventListener(postListener)
-        FBRef.board.addValueEventListener(postListener)
+        binding.categoryBun.setOnClickListener {
+            listView("bun")
+            Log.d("clickbun",items.toString())
+            buttonColor("bun")
+        }
+        binding.categoryChicken.setOnClickListener {
+            category = "chicken"
+            buttonColor("chicken")
+        }
+        binding.categoryPizza.setOnClickListener {
+            category = "pizza"
+            buttonColor("pizza")
+        }
+        binding.categoryFast.setOnClickListener {
+            category = "fastfood"
+            buttonColor("fast")
+        }
+        binding.categoryJap.setOnClickListener {
+            category = "japan"
+            buttonColor("japan")
+        }
+        binding.categoryKor.setOnClickListener {
+            category = "korean"
+            buttonColor("korean")
+        }
+        binding.categoryDo.setOnClickListener {
+            category = "bento"
+            buttonColor("bento")
+        }
+        binding.categoryCafe.setOnClickListener {
+            category = "cafe"
+            buttonColor("cafe")
+        }
+        binding.categoryChi.setOnClickListener {
+            category = "chi"
+            buttonColor("chi")
+        }
+
+//        val postListener = object : ValueEventListener {
+//            override fun onDataChange(dataSnapshot: DataSnapshot) {
+//                items.clear()
+//                for (data in dataSnapshot.children) {
+//                    val item = data.getValue(dataModel::class.java)
+//                    if (item != null) {
+//                        if(category==item.category) {
+//                            Log.d("category",category)
+//                            items.add(item!!)
+//                            itemsKeyList.add(data.key.toString())
+//                        }
+//                    }
+//                    itemsKeyList.reverse()
+//                    items.reverse()
+//                    adapter.notifyDataSetChanged()
+//                }
+//            }
+//                override fun onCancelled(databaseError: DatabaseError) {
+//
+//                }
+//            }
+//
+////        FBRef.boardRef.addValueEventListener(postListener)
+//        FBRef.board.addValueEventListener(postListener)
+//        val boardRef : DatabaseReference = database.getReference("map_contents")
+//        boardRef.addValueEventListener(object : ValueEventListener {
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//                items.clear()
+//                for (data in snapshot.children) {
+//                    val item = data.getValue(dataModel::class.java)
+//                    if (item != null) {
+//                        if(category==item.category) {
+//                            Log.d("category",category)
+//                            items.add(item!!)
+//                            itemsKeyList.add(data.key.toString())
+//                        }
+//                    }
+//                    itemsKeyList.reverse()
+//                    items.reverse()
+//                    adapter.notifyDataSetChanged()
+//                }
+//            }
+//
+//            override fun onCancelled(error: DatabaseError) {
+//                TODO("Not yet implemented")
+//            }
+//        })
 
 
-        //데이터를 파이어베이스에서 불러오기-맨 아래 함수 정의하고 호출하였음.
-        //getFBBoardData()
+            //데이터를 파이어베이스에서 불러오기-맨 아래 함수 정의하고 호출하였음.
+            //getFBBoardData()
 
 
         binding.LvMain.adapter=adapter
 
-        binding.LvMain.setOnItemClickListener { parent, view, position, id ->
-            val intent = Intent(context, DetailActivity::class.java)
-            //firebase에 있는 board에 대한 데이터의 id를 가져오기
-            intent.putExtra("key",itemsKeyList[position])
-            Log.d("key",itemsKeyList[position])
-            startActivity(intent)
-        }
-        binding.writeBtn.setOnClickListener {
-            val intent = Intent(context, BoardWirteActivity::class.java)
-            startActivity(intent)
+            binding.LvMain.setOnItemClickListener { parent, view, position, id ->
+                val intent = Intent(context, DetailActivity::class.java)
+                //firebase에 있는 board에 대한 데이터의 id를 가져오기
+                intent.putExtra("key", itemsKeyList[position])
+                Log.d("key", itemsKeyList[position])
+                startActivity(intent)
+            }
+
+            binding.writeBtn.setOnClickListener {
+                val intent = Intent(context, BoardWirteActivity::class.java)
+                startActivity(intent)
+            }
+
+            return binding.root
         }
 
-        return binding.root
+    private fun buttonColor(category:String){
+                binding.categoryAsian.setBackgroundResource(R.drawable.round_button)
+                binding.categoryAsian.setTextColor(Color.BLACK)
+                binding.categoryAsian.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
+
+
+                binding.categoryBun.setBackgroundResource(R.drawable.round_button)
+                binding.categoryBun.setTextColor(Color.BLACK)
+                binding.categoryBun.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
+
+
+                binding.categoryKor.setBackgroundResource(R.drawable.round_button)
+                binding.categoryKor.setTextColor(Color.BLACK)
+                binding.categoryKor.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
+
+
+                binding.categoryJap.setBackgroundResource(R.drawable.round_button)
+                binding.categoryJap.setTextColor(Color.BLACK)
+                binding.categoryJap.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
+
+
+
+                binding.categoryChi.setBackgroundResource(R.drawable.round_button)
+                binding.categoryChi.setTextColor(Color.BLACK)
+                binding.categoryChi.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
+
+
+                binding.categoryFast.setBackgroundResource(R.drawable.round_button)
+                binding.categoryFast.setTextColor(Color.BLACK)
+                binding.categoryFast.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
+
+
+                binding.categoryDo.setBackgroundResource(R.drawable.round_button)
+                binding.categoryDo.setTextColor(Color.BLACK)
+                binding.categoryDo.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
+
+
+
+                binding.categoryCafe.setBackgroundResource(R.drawable.round_button)
+                binding.categoryCafe.setTextColor(Color.BLACK)
+                binding.categoryCafe.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
+
+
+                binding.categoryChicken.setBackgroundResource(R.drawable.round_button)
+                binding.categoryChicken.setTextColor(Color.BLACK)
+                binding.categoryChicken.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
+
+
+                binding.categoryPizza.setBackgroundResource(R.drawable.round_button)
+                binding.categoryPizza.setTextColor(Color.BLACK)
+                binding.categoryPizza.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
+
+                binding.categoryAll.setBackgroundResource(R.drawable.round_button)
+                binding.categoryAll.setTextColor(Color.BLACK)
+                binding.categoryAll.setTypeface(binding.categoryAll.typeface, Typeface.NORMAL)
+
+
+        when(category){
+            "asian"->{binding.categoryAsian.setBackgroundResource(R.drawable.select_round)
+                binding.categoryAsian.setTextColor(Color.WHITE)
+                binding.categoryAsian.setTypeface(binding.categoryAsian.typeface, Typeface.BOLD)}
+            "bun"->{binding.categoryBun.setBackgroundResource(R.drawable.select_round)
+                binding.categoryBun.setTextColor(Color.WHITE)
+                binding.categoryBun.setTypeface(binding.categoryBun.typeface, Typeface.BOLD)}
+            "korean"->{binding.categoryKor.setBackgroundResource(R.drawable.select_round)
+                binding.categoryKor.setTextColor(Color.WHITE)
+                binding.categoryKor.setTypeface(binding.categoryKor.typeface, Typeface.BOLD)}
+            "japan"->{binding.categoryJap.setBackgroundResource(R.drawable.select_round)
+                binding.categoryJap.setTextColor(Color.WHITE)
+                binding.categoryJap.setTypeface(binding.categoryJap.typeface, Typeface.BOLD)}
+            "chi"->{binding.categoryChi.setBackgroundResource(R.drawable.select_round)
+                binding.categoryChi.setTextColor(Color.WHITE)
+                binding.categoryChi.setTypeface(binding.categoryChi.typeface, Typeface.BOLD)}
+            "fast"->{binding.categoryFast.setBackgroundResource(R.drawable.select_round)
+                binding.categoryFast.setTextColor(Color.WHITE)
+                binding.categoryFast.setTypeface(binding.categoryFast.typeface, Typeface.BOLD)}
+            "bento"->{binding.categoryDo.setBackgroundResource(R.drawable.select_round)
+                binding.categoryDo.setTextColor(Color.WHITE)
+                binding.categoryDo.setTypeface(binding.categoryDo.typeface, Typeface.BOLD)}
+            "cafe"->{binding.categoryCafe.setBackgroundResource(R.drawable.select_round)
+                binding.categoryCafe.setTextColor(Color.WHITE)
+                binding.categoryCafe.setTypeface(binding.categoryCafe.typeface, Typeface.BOLD)}
+            "chicken"->{binding.categoryChicken.setBackgroundResource(R.drawable.select_round)
+                binding.categoryChicken.setTextColor(Color.WHITE)
+                binding.categoryChicken.setTypeface(binding.categoryChicken.typeface, Typeface.BOLD)}
+            "pizza"->{binding.categoryPizza.setBackgroundResource(R.drawable.select_round)
+                binding.categoryPizza.setTextColor(Color.WHITE)
+                binding.categoryPizza.setTypeface(binding.categoryPizza.typeface, Typeface.BOLD)}
+            "all"->{binding.categoryAll.setBackgroundResource(R.drawable.select_round)
+                binding.categoryAll.setTextColor(Color.WHITE)
+                binding.categoryAll.setTypeface(binding.categoryAll.typeface, Typeface.BOLD)}
+
+        }
+
     }
 
+    private fun listView(category:String):MutableList<dataModel>{
+        //val items:MutableList<dataModel> = mutableListOf()
+        val boardRef : DatabaseReference = database.getReference("map_contents")
+        boardRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (data in snapshot.children) {
+                    val item = data.getValue(dataModel::class.java)
+                    if (item != null) {
+                        if(category==item.category) {
+                            Log.d("category",category)
+                            items.add(item!!)
+                            itemsKeyList.add(data.key.toString())
+                        }
+                    }
+                    itemsKeyList.reverse()
+                    items.reverse()
+                    adapter.notifyDataSetChanged()
+                }
+                Log.d("bun",items.toString())
+
+        }
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+        Log.d("items",items.toString())
+        return items
+
+
+    }
 }

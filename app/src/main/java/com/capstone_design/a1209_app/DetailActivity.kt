@@ -82,7 +82,7 @@ class DetailActivity : AppCompatActivity() {
 
                 val data=dataSnapshot.getValue(dataModel::class.java)
 
-                Log.d("detail",data.toString())
+                //Log.d("detail",data.toString())
                 binding.detailTitle.text=data!!.title
                 //이미지
                 binding.detailImage

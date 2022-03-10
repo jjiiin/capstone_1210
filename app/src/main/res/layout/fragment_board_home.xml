@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<FrameLayout
     android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".BoardHomeActivity">
 
     <LinearLayout
@@ -88,6 +88,14 @@
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/round_button"
                     android:text="일식"
+                    android:textSize="14sp" />
+                <Button
+                    android:id="@+id/category_chi"
+                    android:layout_width="50dp"
+                    android:layout_height="28dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/round_button"
+                    android:text="중식"
                     android:textSize="14sp" />
 
                 <Button
@@ -231,6 +239,23 @@
             android:layout_marginBottom="12dp"
             android:layout_marginRight="16dp">
 
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/writeBtn"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:src="@drawable/icon"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
             <ListView
                 android:id="@+id/LvMain"
                 android:layout_width="match_parent"
@@ -245,24 +270,9 @@
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 app:reverseLayout="true"
                 app:stackFromEnd="true">
-
             </ListView>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </LinearLayout>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/writeBtn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/icon"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
 </layout>
