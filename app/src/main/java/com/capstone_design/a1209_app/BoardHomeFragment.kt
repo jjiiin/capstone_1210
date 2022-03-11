@@ -31,7 +31,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
 
-class BoardHomeFragment : Fragment() {
+class BoardHomeFragment : Fragment(){
     private  lateinit var binding : FragmentBoardHomeBinding
 
     private var cnt=0
@@ -43,7 +43,7 @@ class BoardHomeFragment : Fragment() {
     val database = Firebase.database
     val myRef = database.getReference("BoardWirte")
     private var buttoncolor="all"
-    var category="all"
+    private var category="all"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,48 +59,65 @@ class BoardHomeFragment : Fragment() {
 
         adapter = LvAdpater(items, this)
         binding.count.text = items.size.toString()
-
-
+        if(cnt==0) {
+            listViewAll()
+            buttonColor("all")
+            cnt+=1
+        }
         //버튼 클릭시 category에 값 할당하기
+        binding.categoryAll.setOnClickListener {
+            category="all"
+            listViewAll()
+            buttonColor("all")
+        }
         binding.categoryAsian.setOnClickListener {
             category="asian"
+            listView("asian")
             buttonColor("asian")
         }
         binding.categoryBun.setOnClickListener {
             listView("bun")
-            Log.d("clickbun",items.toString())
+            Log.d("bun3",items.toString())
             buttonColor("bun")
         }
         binding.categoryChicken.setOnClickListener {
             category = "chicken"
+            listView("chicken")
             buttonColor("chicken")
         }
         binding.categoryPizza.setOnClickListener {
             category = "pizza"
+            listView("chicken")
             buttonColor("pizza")
         }
         binding.categoryFast.setOnClickListener {
             category = "fastfood"
+            listView("fastfood")
             buttonColor("fast")
         }
         binding.categoryJap.setOnClickListener {
             category = "japan"
+            listView("japan")
             buttonColor("japan")
         }
         binding.categoryKor.setOnClickListener {
             category = "korean"
+            listView("korean")
             buttonColor("korean")
         }
         binding.categoryDo.setOnClickListener {
             category = "bento"
+            listView("bento")
             buttonColor("bento")
         }
         binding.categoryCafe.setOnClickListener {
             category = "cafe"
+            listView("cafe")
             buttonColor("cafe")
         }
         binding.categoryChi.setOnClickListener {
             category = "chi"
+            listView("chi")
             buttonColor("chi")
         }
 
@@ -128,6 +145,7 @@ class BoardHomeFragment : Fragment() {
 //
 ////        FBRef.boardRef.addValueEventListener(postListener)
 //        FBRef.board.addValueEventListener(postListener)
+        //map-contents에서 불러오기
 //        val boardRef : DatabaseReference = database.getReference("map_contents")
 //        boardRef.addValueEventListener(object : ValueEventListener {
 //            override fun onDataChange(snapshot: DataSnapshot) {
@@ -150,13 +168,39 @@ class BoardHomeFragment : Fragment() {
 //            override fun onCancelled(error: DatabaseError) {
 //                TODO("Not yet implemented")
 //            }
+//        }
+//
+//      )
+        //03-11
+//        val boardRef : DatabaseReference = database.getReference("map_contents")
+//        boardRef.addValueEventListener(object : ValueEventListener {
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//                for (data in snapshot.children) {
+//                    val item = data.getValue(dataModel::class.java)
+//                    if (item != null) {
+//                            Log.d("category",category)
+//                        if(category==item.category||category=="all"){
+//                            items.add(item!!)
+//                            itemsKeyList.add(data.key.toString())
+//                        }
+//                    }
+//                    itemsKeyList.reverse()
+//                    items.reverse()
+//                    adapter.notifyDataSetChanged()
+//                }
+//                Log.d("bun1",items.toString())
+//
+//            }
+//            override fun onCancelled(error: DatabaseError) {
+//                TODO("Not yet implemented")
+//            }
 //        })
 
 
             //데이터를 파이어베이스에서 불러오기-맨 아래 함수 정의하고 호출하였음.
             //getFBBoardData()
 
-
+        Log.d("bun4",items.toString())
         binding.LvMain.adapter=adapter
 
             binding.LvMain.setOnItemClickListener { parent, view, position, id ->
@@ -271,16 +315,16 @@ class BoardHomeFragment : Fragment() {
 
     }
 
-    private fun listView(category:String):MutableList<dataModel>{
-        //val items:MutableList<dataModel> = mutableListOf()
+    private fun listView(category:String){
         val boardRef : DatabaseReference = database.getReference("map_contents")
         boardRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
+                items.clear()
                 for (data in snapshot.children) {
                     val item = data.getValue(dataModel::class.java)
                     if (item != null) {
-                        if(category==item.category) {
-                            Log.d("category",category)
+                        Log.d("category",category)
+                        if(category==item.category){
                             items.add(item!!)
                             itemsKeyList.add(data.key.toString())
                         }
@@ -289,16 +333,44 @@ class BoardHomeFragment : Fragment() {
                     items.reverse()
                     adapter.notifyDataSetChanged()
                 }
-                Log.d("bun",items.toString())
+                Log.d("bun1",items.toString())
 
-        }
+            }
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
         })
-        Log.d("items",items.toString())
-        return items
-
+        Log.d("bun2",items.toString())
 
     }
+    private fun listViewAll(){
+        val boardRef : DatabaseReference = database.getReference("map_contents")
+        boardRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                items.clear()
+                for (data in snapshot.children) {
+                    val item = data.getValue(dataModel::class.java)
+                    if (item != null) {
+                        Log.d("category",category)
+
+                            items.add(item!!)
+                            itemsKeyList.add(data.key.toString())
+
+                    }
+                    itemsKeyList.reverse()
+                    items.reverse()
+                    adapter.notifyDataSetChanged()
+                }
+                Log.d("bun1",items.toString())
+
+            }
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+        Log.d("bun2",items.toString())
+
+    }
+
+
 }
