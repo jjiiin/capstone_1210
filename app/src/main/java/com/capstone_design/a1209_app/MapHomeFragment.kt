@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.graphics.Bitmap
+import android.graphics.Color
+import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.location.Location
 import android.os.Bundle
@@ -45,6 +47,8 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
+import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 import java.util.jar.Manifest
 
 
@@ -58,6 +62,15 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
     lateinit var mainActivity: MainActivity
     private lateinit var myLatLng:LatLng
     private lateinit var cardView:CardView
+    private lateinit var viewPager2: ViewPager2
+    private lateinit var springDotsIndicator: SpringDotsIndicator
+
+    private var category="all"
+    private var cnt=0
+    private var items= mutableListOf<dataModel>()
+    private val itemsKeyList= mutableListOf<String>()
+
+    val database = Firebase.database
 
     //viewpager
     private var bannerPosition = Int.MAX_VALUE/2
@@ -101,6 +114,72 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
                 TODO("Not yet implemented")
             }
         })
+        if(cnt==0) {
+            listViewAll()
+            buttonColor("all")
+            cnt+=1
+        }
+        viewPager2=binding.viewPager
+        springDotsIndicator=binding.springDotsIndicator
+
+
+
+//        //버튼 클릭시 category에 값 할당하기
+//        binding.categoryAll.setOnClickListener {
+//            category="all"
+//            listViewAll()
+//            buttonColor("all")
+//        }
+//        binding.categoryAsian.setOnClickListener {
+//            category="asian"
+//            listView("asian")
+//            buttonColor("asian")
+//        }
+//        binding.categoryBun.setOnClickListener {
+//            listView("bun")
+//            buttonColor("bun")
+//        }
+//        binding.categoryChicken.setOnClickListener {
+//            category = "chicken"
+//            listView("chicken")
+//            buttonColor("chicken")
+//        }
+//        binding.categoryPizza.setOnClickListener {
+//            category = "pizza"
+//            listView("chicken")
+//            buttonColor("pizza")
+//        }
+//        binding.categoryFast.setOnClickListener {
+//            category = "fastfood"
+//            listView("fastfood")
+//            buttonColor("fast")
+//        }
+//        binding.categoryJap.setOnClickListener {
+//            category = "japan"
+//            listView("japan")
+//            buttonColor("japan")
+//        }
+//        binding.categoryKor.setOnClickListener {
+//            category = "korean"
+//            listView("korean")
+//            buttonColor("korean")
+//        }
+//        binding.categoryDo.setOnClickListener {
+//            category = "bento"
+//            listView("bento")
+//            buttonColor("bento")
+//        }
+//        binding.categoryCafe.setOnClickListener {
+//            category = "cafe"
+//            listView("cafe")
+//            buttonColor("cafe")
+//        }
+//        binding.categoryChi.setOnClickListener {
+//            category = "chi"
+//            listView("chi")
+//            buttonColor("chi")
+//        }
+
         binding.mapGo.setOnClickListener {
             val intent = Intent(context, AddressSearchActivity::class.java).putExtra("mhf","1")
                 .putExtra("page","MapHomeFragment")
@@ -141,7 +220,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
 //        viewPager=binding.viewPager
 //        viewPager.orientation= ViewPager2.ORIENTATION_HORIZONTAL
 //        viewPager.setCurrentItem(bannerPosition,false)
-        cardView=binding.cardView
+
 
         if(isPermitted()){
             //onMapReady함수 호출
@@ -219,59 +298,65 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             }
         })
 
-        val boardRef :DatabaseReference= database.getReference("map_contents")
-        boardRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                for (DataModel in snapshot.children) {
-                    val item = DataModel.getValue(dataModel::class.java)
-                    if (item != null) {
-                        val latLng=LatLng(item.lat.toDouble(),item.lng.toDouble())
-                        val discripter = getMarkerDrawable(R.drawable.marker)
-                        val markerOptions = MarkerOptions()
-                            .position(latLng)
-                            .icon(discripter)
-                        val marker: Marker? =mMap!!.addMarker(markerOptions)
-                        marker!!.tag=item.title+"/"+item.category+"/"+
-                                item.place+"/"+
-                                item.time+"/"+item.fee+"/"+item.person+"/"+item.lat+"/"+item.lng
 
-                    }
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-        })
+        //지도에 마커 찍기
+//        val boardRef :DatabaseReference= database.getReference("map_contents")
+//        boardRef.addValueEventListener(object : ValueEventListener {
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//                mMap.clear()
+//                for (DataModel in snapshot.children) {
+//                    val item = DataModel.getValue(dataModel::class.java)
+//                    if (item != null) {
+//                        val latLng=LatLng(item.lat.toDouble(),item.lng.toDouble())
+//                        val discripter = getMarkerDrawable(R.drawable.marker)
+//                        val markerOptions = MarkerOptions()
+//                            .position(latLng)
+//                            .icon(discripter)
+//                        val marker: Marker? =mMap!!.addMarker(markerOptions)
+//                        marker!!.tag=item.title+"/"+item.category+"/"+
+//                                item.place+"/"+
+//                                item.time+"/"+item.fee+"/"+item.person+"/"+item.lat+"/"+item.lng
+//
+//                    }
+//                }
+//            }
+//
+//            override fun onCancelled(error: DatabaseError) {
+//                TODO("Not yet implemented")
+//            }
+//        })
+        markerView()
 
         //마커 클릭 시 카드 뷰 보이게 하기
         mMap!!.setOnMarkerClickListener (object :GoogleMap.OnMarkerClickListener{
             override fun onMarkerClick(p0: Marker): Boolean {
-                val title: TextView =cardView.findViewById(R.id.item_title)
-                val place: TextView =cardView.findViewById(R.id.item_place)
-                val time: TextView =cardView.findViewById(R.id.item_time)
-                val fee: TextView =cardView.findViewById(R.id.item_fee)
-                val person: TextView =cardView.findViewById(R.id.item_person)
-                val img: ImageView =cardView.findViewById(R.id.item_image)
-                var arr=p0.tag.toString().split("/")
-                title.text=arr[0]
-                place.text=arr[2]
-                time.text=arr[3]
-                fee.text=arr[4]
-                person.text=arr[5]
-                when(arr[1]){
-                    "asian"->img.setImageResource(R.drawable.asian)
-                    "bun"->img.setImageResource(R.drawable.bun)
-                    "bento"->img.setImageResource(R.drawable.bento)
-                    "chicken"->img.setImageResource(R.drawable.chicken)
-                    "pizza"->img.setImageResource(R.drawable.pizza)
-                    "fastfood"->img.setImageResource(R.drawable.fastfood)
-                    "japan"->img.setImageResource(R.drawable.japan)
-                    "korean"->img.setImageResource(R.drawable.korean)
-                    "cafe"->img.setImageResource(R.drawable.cafe)
-                    "chi"->img.setImageResource(R.drawable.china)
-                }
-                cardView.visibility=View.VISIBLE
+//                val title: TextView =cardView.findViewById(R.id.item_title)
+//                val place: TextView =cardView.findViewById(R.id.item_place)
+//                val time: TextView =cardView.findViewById(R.id.item_time)
+//                val fee: TextView =cardView.findViewById(R.id.item_fee)
+//                val person: TextView =cardView.findViewById(R.id.item_person)
+//                val img: ImageView =cardView.findViewById(R.id.item_image)
+//                var arr=p0.tag.toString().split("/")
+//                title.text=arr[0]
+//                place.text=arr[2]
+//                time.text=arr[3]
+//                fee.text=arr[4]
+//                person.text=arr[5]
+//                when(arr[1]){
+//                    "asian"->img.setImageResource(R.drawable.asian)
+//                    "bun"->img.setImageResource(R.drawable.bun)
+//                    "bento"->img.setImageResource(R.drawable.bento)
+//                    "chicken"->img.setImageResource(R.drawable.chicken)
+//                    "pizza"->img.setImageResource(R.drawable.pizza)
+//                    "fastfood"->img.setImageResource(R.drawable.fastfood)
+//                    "japan"->img.setImageResource(R.drawable.japan)
+//                    "korean"->img.setImageResource(R.drawable.korean)
+//                    "cafe"->img.setImageResource(R.drawable.cafe)
+//                    "chi"->img.setImageResource(R.drawable.china)
+//                }
+                markerClick(p0.tag.toString())
+                viewPager2.visibility=View.VISIBLE
+                springDotsIndicator.visibility=View.VISIBLE
                 return false
             }
 
@@ -279,7 +364,8 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
         })
         mMap!!.setOnMapClickListener(object : GoogleMap.OnMapClickListener {
             override fun onMapClick(latLng: LatLng) {
-                cardView.visibility = View.GONE
+               viewPager2.visibility = View.GONE
+                   springDotsIndicator.visibility = View.GONE
             }
         })
 
@@ -390,6 +476,182 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
         val scaleBitmap= Bitmap.createScaledBitmap(bitmapDrawable.bitmap,150,235,false)
         return BitmapDescriptorFactory.fromBitmap(scaleBitmap)
     }
+    private fun buttonColor(category:String){
+        binding.categoryAsian.setBackgroundResource(R.drawable.round_button)
+        binding.categoryAsian.setTextColor(Color.BLACK)
+        binding.categoryAsian.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
 
+
+        binding.categoryBun.setBackgroundResource(R.drawable.round_button)
+        binding.categoryBun.setTextColor(Color.BLACK)
+        binding.categoryBun.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
+
+
+        binding.categoryKor.setBackgroundResource(R.drawable.round_button)
+        binding.categoryKor.setTextColor(Color.BLACK)
+        binding.categoryKor.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
+
+
+        binding.categoryJap.setBackgroundResource(R.drawable.round_button)
+        binding.categoryJap.setTextColor(Color.BLACK)
+        binding.categoryJap.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
+
+
+
+        binding.categoryChi.setBackgroundResource(R.drawable.round_button)
+        binding.categoryChi.setTextColor(Color.BLACK)
+        binding.categoryChi.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
+
+
+        binding.categoryFast.setBackgroundResource(R.drawable.round_button)
+        binding.categoryFast.setTextColor(Color.BLACK)
+        binding.categoryFast.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
+
+
+        binding.categoryDo.setBackgroundResource(R.drawable.round_button)
+        binding.categoryDo.setTextColor(Color.BLACK)
+        binding.categoryDo.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
+
+
+
+        binding.categoryCafe.setBackgroundResource(R.drawable.round_button)
+        binding.categoryCafe.setTextColor(Color.BLACK)
+        binding.categoryCafe.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
+
+
+        binding.categoryChicken.setBackgroundResource(R.drawable.round_button)
+        binding.categoryChicken.setTextColor(Color.BLACK)
+        binding.categoryChicken.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
+
+
+        binding.categoryPizza.setBackgroundResource(R.drawable.round_button)
+        binding.categoryPizza.setTextColor(Color.BLACK)
+        binding.categoryPizza.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
+
+        binding.categoryAll.setBackgroundResource(R.drawable.round_button)
+        binding.categoryAll.setTextColor(Color.BLACK)
+        binding.categoryAll.setTypeface(binding.categoryAll.typeface, Typeface.NORMAL)
+
+
+        when(category){
+            "asian"->{binding.categoryAsian.setBackgroundResource(R.drawable.select_round)
+                binding.categoryAsian.setTextColor(Color.WHITE)
+                binding.categoryAsian.setTypeface(binding.categoryAsian.typeface, Typeface.BOLD)}
+            "bun"->{binding.categoryBun.setBackgroundResource(R.drawable.select_round)
+                binding.categoryBun.setTextColor(Color.WHITE)
+                binding.categoryBun.setTypeface(binding.categoryBun.typeface, Typeface.BOLD)}
+            "korean"->{binding.categoryKor.setBackgroundResource(R.drawable.select_round)
+                binding.categoryKor.setTextColor(Color.WHITE)
+                binding.categoryKor.setTypeface(binding.categoryKor.typeface, Typeface.BOLD)}
+            "japan"->{binding.categoryJap.setBackgroundResource(R.drawable.select_round)
+                binding.categoryJap.setTextColor(Color.WHITE)
+                binding.categoryJap.setTypeface(binding.categoryJap.typeface, Typeface.BOLD)}
+            "chi"->{binding.categoryChi.setBackgroundResource(R.drawable.select_round)
+                binding.categoryChi.setTextColor(Color.WHITE)
+                binding.categoryChi.setTypeface(binding.categoryChi.typeface, Typeface.BOLD)}
+            "fast"->{binding.categoryFast.setBackgroundResource(R.drawable.select_round)
+                binding.categoryFast.setTextColor(Color.WHITE)
+                binding.categoryFast.setTypeface(binding.categoryFast.typeface, Typeface.BOLD)}
+            "bento"->{binding.categoryDo.setBackgroundResource(R.drawable.select_round)
+                binding.categoryDo.setTextColor(Color.WHITE)
+                binding.categoryDo.setTypeface(binding.categoryDo.typeface, Typeface.BOLD)}
+            "cafe"->{binding.categoryCafe.setBackgroundResource(R.drawable.select_round)
+                binding.categoryCafe.setTextColor(Color.WHITE)
+                binding.categoryCafe.setTypeface(binding.categoryCafe.typeface, Typeface.BOLD)}
+            "chicken"->{binding.categoryChicken.setBackgroundResource(R.drawable.select_round)
+                binding.categoryChicken.setTextColor(Color.WHITE)
+                binding.categoryChicken.setTypeface(binding.categoryChicken.typeface, Typeface.BOLD)}
+            "pizza"->{binding.categoryPizza.setBackgroundResource(R.drawable.select_round)
+                binding.categoryPizza.setTextColor(Color.WHITE)
+                binding.categoryPizza.setTypeface(binding.categoryPizza.typeface, Typeface.BOLD)}
+            "all"->{binding.categoryAll.setBackgroundResource(R.drawable.select_round)
+                binding.categoryAll.setTextColor(Color.WHITE)
+                binding.categoryAll.setTypeface(binding.categoryAll.typeface, Typeface.BOLD)}
+
+        }
+
+    }
+    //모든 data담아두는 List
+    private var dataList= mutableListOf<dataModel>()
+    private var tempList= mutableListOf<dataModel>()
+    private fun markerView(){
+        val boardRef : DatabaseReference = database.getReference("map_contents")
+        boardRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                dataList.clear()
+                tempList.clear()
+                for (data in snapshot.children) {
+                    val item = data.getValue(dataModel::class.java)
+                    if (item != null) {
+                        Log.d("category", category)
+                            val latLng = LatLng(item.lat.toDouble(), item.lng.toDouble())
+                            val discripter = getMarkerDrawable(R.drawable.marker)
+                            val markerOptions = MarkerOptions()
+                                .position(latLng)
+                                .icon(discripter)
+                            dataList.add(item)
+                            //주소가 같은 것이 있으면 제외하기-> continue
+                            var con=false
+                            for(i in tempList){
+                                if(i.placeAddress==item.placeAddress){
+                                    con=true
+                                    break
+                                }
+                            }
+                            if(con){
+                                continue
+                            }
+                            val marker: Marker? = mMap!!.addMarker(markerOptions)
+                            marker!!.tag = item.placeAddress //나중에 place=address+detail 분리하기
+                            tempList.add(item)//새로운 주소 목록에 포함.
+                        } } }
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+    }
+
+    private fun markerClick(tag:String){
+        //마커가 클릭 됐을 때 같은 주소끼리 배열로 만들어서 viewPager에 보이게 하기
+        //같은 placeAddress를 배열로 묶기
+        var cardList= mutableListOf<dataModel>()
+        for( i in dataList){
+            if(i.placeAddress==tag)
+                cardList.add(i)
+        }
+        viewPager2.adapter=bannerAdapter(cardList)
+        viewPager2.orientation=ViewPager2.ORIENTATION_HORIZONTAL
+        springDotsIndicator.setViewPager2(viewPager2)
+
+
+    }
+    private fun listViewAll(){
+        val boardRef : DatabaseReference = database.getReference("map_contents")
+        boardRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                items.clear()
+                for (data in snapshot.children) {
+                    val item = data.getValue(dataModel::class.java)
+                    if (item != null) {
+                        Log.d("category",category)
+
+                        items.add(item!!)
+                        itemsKeyList.add(data.key.toString())
+
+                    }
+                    itemsKeyList.reverse()
+                    items.reverse()
+                    //adapter.notifyDataSetChanged()
+                }
+                Log.d("bun1",items.toString())
+
+            }
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+        Log.d("bun2",items.toString())
+
+    }
 
 }

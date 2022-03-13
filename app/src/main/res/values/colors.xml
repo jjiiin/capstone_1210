@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="main">#fd5401</color>
     <color name="cateSelect">#382626</color>
+    <color name="gray">#c4c4c4</color>
 </resources>

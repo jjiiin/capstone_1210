@@ -41,9 +41,9 @@ class BoardWirteActivity : AppCompatActivity() {
     private var time = ""
     private var lat=""
     private var lng=""
-    private var hset=false
-    private var mset=false
-    private var dset=false
+
+    private var placeAddress=""
+    private var placeDetail=""
 
     //사진
     private val pickStorage = 1001
@@ -147,31 +147,18 @@ class BoardWirteActivity : AppCompatActivity() {
                                 day = "PM"
                                 time = "${day} ${hour}${min}"
                                 Log.d("testset",time)
-
                             }
                             Log.d("testset",time)
                         }
-
                     }
-
-
-
-
             }
-
         }
-
-
-
         binding.picBtn.setOnClickListener {
             pickImage()
         }
 
 
-
-
         Log.d("set_time",time)
-
 
         var person = ""
         binding.person1List.setOnClickListener {
@@ -203,6 +190,8 @@ class BoardWirteActivity : AppCompatActivity() {
                     if (item != null) {
                         if (item.set=="1") {
                             binding.placeList.setText(item.address+" "+item.detail)
+                            placeAddress=item.address
+                            placeDetail=item.detail
                             lat=item.lat
                             lng=item.lng
                         }
@@ -274,6 +263,8 @@ class BoardWirteActivity : AppCompatActivity() {
                 time_dm,
                 fee_dm,
                 place_dm,
+                placeAddress,
+                placeDetail,
                 link_dm,
                 mention_dm,
                 latLng.latitude.toString(),

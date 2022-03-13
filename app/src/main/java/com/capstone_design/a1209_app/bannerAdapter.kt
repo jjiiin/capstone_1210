@@ -21,7 +21,7 @@ class bannerAdapter(val items:MutableList<dataModel>): RecyclerView.Adapter<bann
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view= LayoutInflater.from(parent.context).inflate(R.layout.banner_item,parent,false)
+        val view= LayoutInflater.from(parent.context).inflate(R.layout.mhf_cardview,parent,false)
         return ViewHolder(view)
     }
 

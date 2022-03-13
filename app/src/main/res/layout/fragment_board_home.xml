@@ -230,6 +230,7 @@
             </LinearLayout>
 
         </LinearLayout>
+
         <ListView
             android:id="@+id/LvMain"
             android:layout_width="match_parent"
@@ -243,9 +244,7 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:reverseLayout="true"
-            app:stackFromEnd="true">
-        </ListView>
-
+            app:stackFromEnd="true"></ListView>
 
 
     </LinearLayout>
