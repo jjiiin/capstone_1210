@@ -124,6 +124,8 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
 
 
 
+
+
 //        //버튼 클릭시 category에 값 할당하기
 //        binding.categoryAll.setOnClickListener {
 //            category="all"
@@ -193,34 +195,6 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
         mView.onCreate(savedInstanceState)
 
         //현재 내 위치 가져오는
-
-
-
-
-
-        //viewpager
-//
-//        val viewPagerAdpater=activity.let {bannerAdapter(viewPagerList)}
-//        val boardRef :DatabaseReference= database.getReference("map_contents")
-//        boardRef.addValueEventListener(object : ValueEventListener {
-//            override fun onDataChange(snapshot: DataSnapshot) {
-//                for (DataModel in snapshot.children) {
-//                    val item = DataModel.getValue(dataModel::class.java)
-//                    if (item != null) {
-//                        viewPagerList.add(item)
-//                    }
-//                    viewPagerAdpater?.notifyDataSetChanged()
-//
-//                    }
-//                }
-//            override fun onCancelled(error: DatabaseError) {
-//                TODO("Not yet implemented")
-//            }
-//        })
-//        viewPager=binding.viewPager
-//        viewPager.orientation= ViewPager2.ORIENTATION_HORIZONTAL
-//        viewPager.setCurrentItem(bannerPosition,false)
-
 
         if(isPermitted()){
             //onMapReady함수 호출
@@ -298,65 +272,17 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             }
         })
 
-
-        //지도에 마커 찍기
-//        val boardRef :DatabaseReference= database.getReference("map_contents")
-//        boardRef.addValueEventListener(object : ValueEventListener {
-//            override fun onDataChange(snapshot: DataSnapshot) {
-//                mMap.clear()
-//                for (DataModel in snapshot.children) {
-//                    val item = DataModel.getValue(dataModel::class.java)
-//                    if (item != null) {
-//                        val latLng=LatLng(item.lat.toDouble(),item.lng.toDouble())
-//                        val discripter = getMarkerDrawable(R.drawable.marker)
-//                        val markerOptions = MarkerOptions()
-//                            .position(latLng)
-//                            .icon(discripter)
-//                        val marker: Marker? =mMap!!.addMarker(markerOptions)
-//                        marker!!.tag=item.title+"/"+item.category+"/"+
-//                                item.place+"/"+
-//                                item.time+"/"+item.fee+"/"+item.person+"/"+item.lat+"/"+item.lng
-//
-//                    }
-//                }
-//            }
-//
-//            override fun onCancelled(error: DatabaseError) {
-//                TODO("Not yet implemented")
-//            }
-//        })
         markerView()
 
         //마커 클릭 시 카드 뷰 보이게 하기
         mMap!!.setOnMarkerClickListener (object :GoogleMap.OnMarkerClickListener{
             override fun onMarkerClick(p0: Marker): Boolean {
-//                val title: TextView =cardView.findViewById(R.id.item_title)
-//                val place: TextView =cardView.findViewById(R.id.item_place)
-//                val time: TextView =cardView.findViewById(R.id.item_time)
-//                val fee: TextView =cardView.findViewById(R.id.item_fee)
-//                val person: TextView =cardView.findViewById(R.id.item_person)
-//                val img: ImageView =cardView.findViewById(R.id.item_image)
-//                var arr=p0.tag.toString().split("/")
-//                title.text=arr[0]
-//                place.text=arr[2]
-//                time.text=arr[3]
-//                fee.text=arr[4]
-//                person.text=arr[5]
-//                when(arr[1]){
-//                    "asian"->img.setImageResource(R.drawable.asian)
-//                    "bun"->img.setImageResource(R.drawable.bun)
-//                    "bento"->img.setImageResource(R.drawable.bento)
-//                    "chicken"->img.setImageResource(R.drawable.chicken)
-//                    "pizza"->img.setImageResource(R.drawable.pizza)
-//                    "fastfood"->img.setImageResource(R.drawable.fastfood)
-//                    "japan"->img.setImageResource(R.drawable.japan)
-//                    "korean"->img.setImageResource(R.drawable.korean)
-//                    "cafe"->img.setImageResource(R.drawable.cafe)
-//                    "chi"->img.setImageResource(R.drawable.china)
-//                }
                 markerClick(p0.tag.toString())
                 viewPager2.visibility=View.VISIBLE
                 springDotsIndicator.visibility=View.VISIBLE
+
+
+
                 return false
             }
 
@@ -366,6 +292,9 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             override fun onMapClick(latLng: LatLng) {
                viewPager2.visibility = View.GONE
                    springDotsIndicator.visibility = View.GONE
+
+                Log.d("latlng",latLng.toString())
+
             }
         })
 
@@ -590,6 +519,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
                                 .position(latLng)
                                 .icon(discripter)
                             dataList.add(item)
+                            itemsKeyList.add(data.key.toString())
                             //주소가 같은 것이 있으면 제외하기-> continue
                             var con=false
                             for(i in tempList){
@@ -614,15 +544,33 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
     private fun markerClick(tag:String){
         //마커가 클릭 됐을 때 같은 주소끼리 배열로 만들어서 viewPager에 보이게 하기
         //같은 placeAddress를 배열로 묶기
-        var cardList= mutableListOf<dataModel>()
-        for( i in dataList){
-            if(i.placeAddress==tag)
-                cardList.add(i)
+        val cardList= mutableListOf<dataModel>()
+        val itemKey= mutableListOf<String>()
+        for( i in 0 until dataList.size){
+            if(dataList[i].placeAddress==tag) {
+                cardList.add(dataList[i])
+                itemKey.add(itemsKeyList[i])
+            }
         }
-        viewPager2.adapter=bannerAdapter(cardList)
+//        viewPager2.adapter=bannerAdapter(cardList)
+        val vpAdapter=bannerAdapter(cardList)
+        viewPager2.adapter=vpAdapter
         viewPager2.orientation=ViewPager2.ORIENTATION_HORIZONTAL
         springDotsIndicator.setViewPager2(viewPager2)
 
+        //viewPager2 클릭 이벤트
+        vpAdapter.setItemClickListener(object:bannerAdapter.OnItemClickListener{
+            override fun onClick(v: View, position: Int) {
+                val intent = Intent(context, DetailActivity::class.java)
+                //firebase에 있는 board에 대한 데이터의 id를 가져오기
+                intent.putExtra("key", itemKey[position])
+                Log.d("keyitemkey", cardList.toString())
+                Log.d("keyitem", itemKey.toString())
+                Log.d("keyposition",position.toString())
+                startActivity(intent)
+            }
+
+        })
 
     }
     private fun listViewAll(){

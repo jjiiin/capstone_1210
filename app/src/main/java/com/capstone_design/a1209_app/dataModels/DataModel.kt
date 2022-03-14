@@ -10,6 +10,8 @@ data class dataModel (
     val image:String="",
     val person : String="",
     val time: String="",
+    //즉각주문
+    val quick:String="",
     val fee: String="",
     val place:String="",
     val placeAddress: String="",

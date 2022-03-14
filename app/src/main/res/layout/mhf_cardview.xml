@@ -20,7 +20,7 @@
             android:id="@+id/main_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp">
+            >
 
             <ImageView
                 android:id="@+id/item_image"
@@ -29,9 +29,20 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginEnd="16dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:layout_marginRight="16dp"
                 android:src="@drawable/chicken" />
+            <ImageView
+                android:id="@+id/quick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="-4dp"
+                android:src="@drawable/quick"
+                card_view:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/item_title"
@@ -42,6 +53,7 @@
                 android:layout_toRightOf="@id/item_image"
                 android:letterSpacing="-0.03"
                 android:text="Title 입니다"
+                android:layout_marginTop="10dp"
                 android:textColor="#101010"
                 android:textSize="16sp"
                 android:textStyle="bold" />

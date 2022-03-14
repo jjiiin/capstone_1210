@@ -87,7 +87,7 @@ class DetailActivity : AppCompatActivity() {
                 //이미지
                 binding.detailImage
 
-                binding.detailPlace.text=data!!.place+ " >"
+                binding.detailPlace.text=data!!.place
                 binding.detailFee.text=data!!.fee
                 binding.detailTime.text=data!!.time
                 binding.detailMention.text=data!!.mention
