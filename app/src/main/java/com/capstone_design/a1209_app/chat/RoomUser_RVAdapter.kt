@@ -2,15 +2,27 @@ package com.capstone_design.a1209_app.chat
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.capstone_design.a1209_app.EvaluationActivity
+import com.capstone_design.a1209_app.Evaluation_Display_Activity
 import com.capstone_design.a1209_app.R
+import com.capstone_design.a1209_app.dataModels.RatingData
+import com.capstone_design.a1209_app.dataModels.UserData
+import com.capstone_design.a1209_app.utils.FBRef
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import java.util.*
 
-class RoomUser_RVAdapter(val items: MutableList<String>, val context: Context) :
+class RoomUser_RVAdapter(
+    val items: MutableList<UserData>,
+    val context: Context,
+    val usersIdList: MutableList<String>
+) :
     RecyclerView.Adapter<RoomUser_RVAdapter.ViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -21,7 +33,7 @@ class RoomUser_RVAdapter(val items: MutableList<String>, val context: Context) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindItems(items[position])
+        holder.bindItems(items[position], usersIdList[position])
     }
 
     override fun getItemCount(): Int {
@@ -29,14 +41,35 @@ class RoomUser_RVAdapter(val items: MutableList<String>, val context: Context) :
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bindItems(item: String) {
-            val nickname = itemView.findViewById<TextView>(R.id.rv_nickname_textView)
-            nickname.setText(item)
+        fun bindItems(item: UserData, uid: String) {
+            itemView.findViewById<TextView>(R.id.rv_nickname_textView).setText(item.nickname)
+            getRating(uid)
 
             itemView.setOnClickListener {
-                val intent = Intent(context, EvaluationActivity::class.java)
+                val intent =
+                    Intent(context, Evaluation_Display_Activity::class.java).putExtra("uid", uid)
+                        .putExtra("nickname", item.nickname)
                 context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
             }
+        }
+
+        fun getRating(uid: String) {
+            FBRef.usersRef.child(uid).child("rating")
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (snapshot.value == null) {
+                            itemView.findViewById<TextView>(R.id.tv_rating).text = "3.5"
+                        } else {
+                            val rating = snapshot.value.toString()
+                            itemView.findViewById<TextView>(R.id.tv_rating).text = rating
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        TODO("Not yet implemented")
+                    }
+
+                })
         }
     }
 }

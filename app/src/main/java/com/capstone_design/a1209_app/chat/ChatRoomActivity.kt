@@ -23,13 +23,21 @@ import com.capstone_design.a1209_app.utils.FBRef.Companion.usersRef
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
 
 class ChatRoomActivity : AppCompatActivity() {
 
     //채팅에 닉네임 정보 저장하기 위한 변수
     lateinit var current_nickname: String
-    var isReceiptDone = false
+    private var isReceiptDone = false
+
+    //채팅방에 있는 유저들의 아이디 저장된 리스트
+    val roomusersIdList = mutableListOf<String>()
+    val roomusersList = mutableListOf<UserData>()
+
+    //user 레퍼런스에서 데이터 읽어올때 그 user의 키가 저장된 리스트(RoomUser_RVAdapter로 데이터 넘길때 user의 uid 값도 같이 넘겨주기위함)
+    val usersIdList = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +53,6 @@ class ChatRoomActivity : AppCompatActivity() {
 
         //리사이클러뷰에 들어갈 아이템 추가
         val chats = mutableListOf<ChatData>()
-        val roomusers = mutableListOf<String>()
 
         //리사이클러뷰 어댑터 연결
         val rv = findViewById<RecyclerView>(R.id.recycler_view)
@@ -55,7 +62,7 @@ class ChatRoomActivity : AppCompatActivity() {
 
         //채팅방 참여자 리사이클러뷰(드로어메뉴)
         val roomUser_rv = findViewById<RecyclerView>(R.id.rv_room_user_list)
-        val roomuserRvadapter = RoomUser_RVAdapter(roomusers, this)
+        val roomuserRvadapter = RoomUser_RVAdapter(roomusersList, this, usersIdList)
         roomUser_rv.adapter = roomuserRvadapter
         roomUser_rv.layoutManager = LinearLayoutManager(this)
 
@@ -66,7 +73,13 @@ class ChatRoomActivity : AppCompatActivity() {
         getMessages(chatroomkey!!, chats, rvAdapter)
 
         //채팅방 참여자 업데이트 감지
-        getUsers(chatroomkey!!, roomusers, roomuserRvadapter)
+        chatRoomsRef.child(chatroomkey!!).child("users")
+            .addValueEventListener(
+                getRoomUserEventListener(
+                    chatroomkey,
+                    roomuserRvadapter
+                )
+            )
 
         //사용자가 영수증 작성했는지 확인
         getUserReceipt(chatroomkey!!)
@@ -84,7 +97,8 @@ class ChatRoomActivity : AppCompatActivity() {
             //chatRooms에서 사용자 삭제
             chatRoomsRef.child(chatroomkey!!).child("users").child(Auth.current_uid)
                 .removeValue()
-            //UserRooms에서 채팅방 키 삭제하여 해당 유저의 화면에서 안보이게함
+
+            //UserRooms에서 채팅방 키 삭제(결과: 해당 유저의 화면에서 안보이게됨)
             userRoomsRef.child(Auth.current_uid).child(chatroomkey!!).removeValue()
 
             //startActivity(return_intent)
@@ -96,6 +110,7 @@ class ChatRoomActivity : AppCompatActivity() {
                 val intent =
                     Intent(this, ReceiptDoneActivity::class.java)
                 intent.putExtra("채팅방키", chatroomkey)
+                intent.putExtra("닉네임", current_nickname)
                 startActivity(intent)
             } else {
                 val intent =
@@ -108,10 +123,10 @@ class ChatRoomActivity : AppCompatActivity() {
         }
         //플러스 버튼 눌렀을 때
         findViewById<ImageView>(R.id.plus_btn).setOnClickListener {
-            if(isPlusBtnClick == 0){
+            if (isPlusBtnClick == 0) {
                 findViewById<LinearLayout>(R.id.plus_layout).visibility = View.VISIBLE
                 isPlusBtnClick = 1
-            } else{
+            } else {
                 findViewById<LinearLayout>(R.id.plus_layout).visibility = View.GONE
                 isPlusBtnClick = 0
             }
@@ -218,86 +233,6 @@ class ChatRoomActivity : AppCompatActivity() {
         )
     }
 
-    //채팅방 참여자 업데이트 감지
-    fun getUsers(
-        chatroomkey: String,
-        roomusers: MutableList<String>,
-        roomuserRvadapter: RecyclerView.Adapter<RoomUser_RVAdapter.ViewHolder>
-    ) {
-        chatRoomsRef.child(chatroomkey!!).child("users")
-            .addChildEventListener(object : ChildEventListener {
-                override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-                    //Log.d("추가됨", snapshot.key.toString())
-
-                    //참여자의 회원정보 가져오기
-                    val userQuery =
-                        usersRef.orderByKey().equalTo(snapshot.key.toString())
-                    userQuery.addChildEventListener(object : ChildEventListener {
-                        override fun onChildAdded(
-                            snapshot: DataSnapshot,
-                            previousChildName: String?
-                        ) {
-                            if (snapshot.key == Auth.current_uid) {
-                                current_nickname = snapshot.getValue<UserData>()!!.nickname
-                                //Log.d("ㅎㅎ", current_nickname)
-                            }
-                            val nickname = snapshot.getValue<UserData>()!!.nickname
-                            roomusers.add(nickname)
-                            Log.d("추가됨_닉네임", nickname)
-                            roomuserRvadapter.notifyDataSetChanged()
-                        }
-
-                        override fun onChildChanged(
-                            snapshot: DataSnapshot,
-                            previousChildName: String?
-                        ) {
-                            TODO("Not yet implemented")
-                        }
-
-                        override fun onChildRemoved(snapshot: DataSnapshot) {
-                            TODO("Not yet implemented")
-                        }
-
-                        override fun onChildMoved(
-                            snapshot: DataSnapshot,
-                            previousChildName: String?
-                        ) {
-                            TODO("Not yet implemented")
-                        }
-
-                        override fun onCancelled(error: DatabaseError) {
-                            TODO("Not yet implemented")
-                        }
-
-                    })
-                    //roomusers.add("사용자이름")
-                }
-
-                override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                    Log.d("업데이트됨", snapshot.toString())
-                }
-
-                override fun onChildRemoved(snapshot: DataSnapshot) {
-                    //채팅방에 유저 아무도 없으면 파이어베이스에서 채팅방 데이터 삭제
-                    chatRoomsRef.child(chatroomkey!!).child("users").get().addOnSuccessListener {
-                        if (it.value == null) {
-                            chatRoomsRef.child(chatroomkey!!).removeValue()
-                            Log.d("ㅎㅎ", it.value.toString())
-                        }
-                    }
-                    finish()
-                }
-
-                override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-                    Log.d("업데이트됨", snapshot.toString())
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    Log.d("업데이트됨", error.toString())
-                }
-
-            })
-    }
 
     //채팅방 제목 가져오기
     fun getRoomTitle(chatroomkey: String) {
@@ -311,7 +246,7 @@ class ChatRoomActivity : AppCompatActivity() {
     }
 
     fun getUserReceipt(chatroomkey: String) {
-        FBRef.chatRoomsRef.child(chatroomkey!!).child("receipts")
+        chatRoomsRef.child(chatroomkey!!).child("receipts")
             .addChildEventListener(object : ChildEventListener {
                 override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                     if (snapshot.key.toString() == Auth.current_uid) {
@@ -320,7 +255,9 @@ class ChatRoomActivity : AppCompatActivity() {
                 }
 
                 override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                    TODO("Not yet implemented")
+                    if (snapshot.key.toString() == Auth.current_uid) {
+                        isReceiptDone = true
+                    }
                 }
 
                 override fun onChildRemoved(snapshot: DataSnapshot) {
@@ -336,5 +273,62 @@ class ChatRoomActivity : AppCompatActivity() {
                 }
 
             })
+    }
+
+    //1. 채팅방에 누가 있는지 불러온다.(list에 저장)
+    //2. user 레퍼런스 for문 돌면서 만약 채팅방 참여자 list에 해당 user 있으면 닉네임 등등 저장한다.
+
+    fun getRoomUserEventListener(
+        chatroomkey: String,
+        roomuserRvadapter: RecyclerView.Adapter<RoomUser_RVAdapter.ViewHolder>
+    ): ValueEventListener {
+        val eventListener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                roomusersIdList.clear()
+                if (snapshot.value == null) {
+                    chatRoomsRef.child(chatroomkey!!).removeValue()
+                    finish()
+                } else {
+                    for (data in snapshot.children) {
+                        roomusersIdList.add(data.key.toString())
+                    }
+                    usersRef.addValueEventListener(getUserInfoListener(roomuserRvadapter))
+                }
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        }
+        return eventListener
+    }
+
+
+
+    fun getUserInfoListener(roomuserRvadapter: RecyclerView.Adapter<RoomUser_RVAdapter.ViewHolder>): ValueEventListener {
+        val eventListener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                roomusersList.clear()
+                for (data in snapshot.children) {
+                    if (roomusersIdList.contains(data.key)) {
+                        val user = data.getValue(UserData::class.java)
+                        roomusersList.add(user!!)
+                        usersIdList.add(data.key!!)
+                        if (Auth.current_uid == data.key) {
+                            current_nickname = user.nickname
+                        }
+                    }
+
+                }
+                roomuserRvadapter.notifyDataSetChanged()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        }
+        return eventListener
     }
 }
