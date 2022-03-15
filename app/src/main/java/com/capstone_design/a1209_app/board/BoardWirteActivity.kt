@@ -210,6 +210,7 @@ class BoardWirteActivity : AppCompatActivity() {
             val category_dm = category
             val person_dm = person
             var image_dm="0"
+            var quick_dm="0"
 
             val time_dm = time
             //스피너로 입력하기
@@ -261,6 +262,7 @@ class BoardWirteActivity : AppCompatActivity() {
                 image_dm,
                 person_dm,
                 time_dm,
+                quick_dm,
                 fee_dm,
                 place_dm,
                 placeAddress,
@@ -276,9 +278,9 @@ class BoardWirteActivity : AppCompatActivity() {
 
 
             items.add(model)
-//            FBRef.boardRef.push().setValue(model)
+            FBRef.boardRef.push().setValue(model)
 
-            //지인 테스트
+            //지인(map-contents)
             FBRef.board.child("${writer_uid}+${title_dm}").setValue(model)
             //글을 쓴 총대니까 채팅방으로 바로 이동
             val intent = Intent(this, ChatRoomActivity::class.java).putExtra("채팅방키", chatroomkey)

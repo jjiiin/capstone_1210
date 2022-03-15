@@ -56,10 +56,8 @@ class LvAdpater(private val boardList:MutableList<dataModel>,private val context
         cv_title.text=content.title
 
 
-        if(content.image!=""){
-            var imageUri=content.image
-            Glide.with(context).load(imageUri).into(cv_img)
-        }else{
+
+        if(content.image=="0"){
             when(content.category){
                 "asian"->cv_img.setImageResource(R.drawable.asian)
                 "bun"->cv_img.setImageResource(R.drawable.bun)
@@ -72,6 +70,9 @@ class LvAdpater(private val boardList:MutableList<dataModel>,private val context
                 "cafe"->cv_img.setImageResource(R.drawable.cafe)
                 "chi"->cv_img.setImageResource(R.drawable.china)
             }
+        }else{
+            var imageUri=content.image
+            Glide.with(context).load(imageUri).into(cv_img)
         }
 
         cv_place.text=content.place

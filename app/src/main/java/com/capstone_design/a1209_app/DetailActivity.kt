@@ -112,10 +112,8 @@ class DetailActivity : AppCompatActivity() {
                     "cafe"->binding.detailCategory.text="카페, 디저트"
                     "chi"->binding.detailCategory.text="중식"
                 }
-                if(data.image!=""){
-                    var imageUri=data.image
-                    Glide.with(this@DetailActivity).load(imageUri).into(binding.detailImage)
-                }else {
+
+                if(data.image=="0") {
                     when (data!!.category) {
                         "asian" -> binding.detailImage.setImageResource(R.drawable.asian)
                         "bun" -> binding.detailImage.setImageResource(R.drawable.bun)
@@ -129,13 +127,17 @@ class DetailActivity : AppCompatActivity() {
                         "chi" -> binding.detailImage.setImageResource(R.drawable.china)
                     }
                 }
+                else{
+                    var imageUri=data.image
+                    Glide.with(this@DetailActivity).load(imageUri).into(binding.detailImage)
+                }
             }
             override fun onCancelled(databaseError: DatabaseError) {
 
             }
         }
-//        FBRef.boardRef.child(key).addValueEventListener(postListener)
-        FBRef.board.child(key).addValueEventListener(postListener)
+        //FBRef.boardRef.child(key).addValueEventListener(postListener)//db:contents-gyeong
+        FBRef.board.child(key).addValueEventListener(postListener)//db:map-contents
 
     }
 }
