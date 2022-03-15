@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:background="@color/white"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
+        android:background="@color/white"
         android:orientation="vertical"
-        tools:context=".chat.ReceiptBeforeAvtivity">
+        tools:context=".chat.ChangeDeliveryFeeActivity">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="32dp"
                 android:gravity="center"
-                android:text="주문서"
+                android:text="배달비 변경"
                 android:textColor="#101010"
                 android:textSize="18sp" />
         </LinearLayout>
@@ -46,8 +46,16 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="22dp"
                 android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/nickname_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="현재 1/N 배달비는"
+                    android:textColor="#101010"
+                    android:textSize="18sp" />
+
 
                 <LinearLayout
                     android:id="@+id/title"
@@ -56,40 +64,32 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/nickname_tv"
+                        android:id="@+id/tv_individual_delivery_fee"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="멍멍아 달려라"
-                        android:textColor="#393939"
-                        android:textSize="18sp" />
+                        android:text="0"
+                        android:textColor="#fd5401"
+                        android:textSize="20sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="4dp"
-                        android:text="님의"
-                        android:textColor="#808080"
-                        android:textSize="14sp" />
+                        android:text=" 원 입니다"
+                        android:textColor="#101010"
+                        android:textSize="18sp" />
                 </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="메뉴 주문서"
-                    android:textColor="#393939"
-                    android:textSize="20sp" />
             </LinearLayout>
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
                 <ImageView
                     android:id="@+id/profile_img"
                     android:layout_width="79dp"
-                    android:layout_height="79dp"
-                    android:src="@drawable/receipt_profile_cat"
+                    android:layout_height="62.87dp"
+                    android:src="@drawable/change_delivery_fee_icon"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -100,38 +100,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="21dp"
+            android:layout_marginTop="37dp"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="메뉴"
-                android:textColor="#808080"
-                android:textSize="14sp" />
-
-            <EditText
-                android:id="@+id/menu_edit"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/receipt_text_border"
-                android:hint="주문할 메뉴를 입력하세요"
-                android:paddingLeft="12dp"
-                android:textColorHint="#c4c4c4"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="가격"
+                android:text="배달비 변경"
                 android:textColor="#808080"
                 android:textSize="14sp" />
 
@@ -141,73 +116,35 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/price_edit"
-                    android:layout_width="match_parent"
+                    android:id="@+id/et_delivery_fee"
+                    android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginRight="21dp"
                     android:background="@drawable/receipt_text_border"
-                    android:hint="메뉴 가격을 입력하세요"
+                    android:hint="배달비를 직접 입력해보세요"
                     android:paddingLeft="12dp"
                     android:textColorHint="#c4c4c4"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/textView2"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/won"
+                    android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
                     android:text="원"
-                    android:textColor="#c4c4c4"
+                    android:textColor="#C4C4C4"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/et_delivery_fee" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="21dp"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="옵션"
-                    android:textColor="#808080"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
-                    android:text="(선택)"
-                    android:textColor="#c4c4c4"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-
-            <EditText
-                android:id="@+id/option_edit"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/receipt_text_border"
-                android:gravity="start"
-                android:hint="원하시는 옵션을 압력하세요"
-                android:paddingLeft="12dp"
-                android:paddingTop="11dp"
-                android:textColorHint="#c4c4c4"
-                android:textSize="14sp" />
-        </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -221,7 +158,7 @@
                 app:layout_constraintBottom_toBottomOf="parent">
 
                 <Button
-                    android:id="@+id/cancel_btn"
+                    android:id="@+id/btn_cancel"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_marginRight="12dp"
@@ -231,22 +168,22 @@
                     android:textColor="#ffffff"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/done_btn"
+                    app:layout_constraintEnd_toStartOf="@+id/btn_done"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
-                    android:id="@+id/done_btn"
+                    android:id="@+id/btn_done"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:background="@drawable/receipt_button"
-                    android:backgroundTint="#fd5401"
-                    android:text="주문서 작성 완료"
+                    android:backgroundTint="#E0E0E0"
+                    android:text="변경 완료"
                     android:textColor="#ffffff"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/cancel_btn"
+                    app:layout_constraintStart_toEndOf="@+id/btn_cancel"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,6 +3,33 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/drawable-v24/custom_checkbox_delete.xml" value="0.18981481481481483" />
+        <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/drawable/chat_bubble_account_right.xml" value="0.19444444444444445" />
+        <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/drawable/chat_bubble_left.xml" value="0.19444444444444445" />
+        <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/drawable/chat_room_notice_background.xml" value="0.19444444444444445" />
+        <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/drawable/custom_checkbox.xml" value="0.24791666666666667" />
+        <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/drawable/custom_rating.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/drawable/custom_rating_false.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/drawable/custom_rating_small.xml" value="0.29322916666666665" />
+        <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/drawable/custom_rating_true.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/drawable/evaluate_star_bg.xml" value="0.19444444444444445" />
+        <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/drawable/my_nav_sector.xml" value="0.19444444444444445" />
+        <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/drawable/rating_empty.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/drawable/rating_fill.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/drawable/ratingstars.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/drawable/receipt_round_button.xml" value="0.19444444444444445" />
+        <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/drawable/receipt_text_border.xml" value="0.21614583333333334" />
+        <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/drawable/round_button.xml" value="0.19444444444444445" />
+        <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/drawable/small_rating_empty.xml" value="0.4036458333333333" />
+        <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/drawable/small_rating_fill.xml" value="0.4036458333333333" />
+        <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/drawable/starstyles.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/layout/activity_change_delivery_fee.xml" value="0.22" />
+        <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/layout/activity_display_evaluation.xml" value="0.4466666666666667" />
+        <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/layout/activity_evaluation.xml" value="0.4466666666666667" />
+        <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/layout/activity_main.xml" value="0.10989583333333333" />
+        <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/layout/activity_receipt_before.xml" value="0.16296296296296298" />
+        <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/layout/activity_receipt_done.xml" value="0.22" />
+        <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/layout/chat_list_rv_item.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/layout/chat_rv_item_left.xml" value="0.2520833333333333" />
         <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/layout/chat_rv_item_right.xml" value="0.2520833333333333" />
         <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/layout/custom_marker.xml" value="0.2520833333333333" />
@@ -10,7 +37,9 @@
         <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/layout/fragment_chat.xml" value="0.2520833333333333" />
         <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/layout/fragment_map_home.xml" value="0.2520833333333333" />
         <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/layout/fragment_my.xml" value="0.2520833333333333" />
-        <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/layout/receipt_done_rv_item.xml" value="0.2520833333333333" />
+        <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/layout/rating_rv_item.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/layout/receipt_done_rv_item.xml" value="0.22" />
+        <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/layout/roomuser_rv_item.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/menu/main_nav.xml" value="0.2520833333333333" />
         <entry key="..\:/Users/wjdwl/AndroidStudioProjects/1209_app/app/src/main/res/drawable/chat_nav_sector.xml" value="0.1" />
         <entry key="..\:/Users/wjdwl/AndroidStudioProjects/1209_app/app/src/main/res/drawable/custom_marker.xml" value="0.18552631578947368" />

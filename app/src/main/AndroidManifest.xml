@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.capstone_design.a1209_app">
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,13 +14,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.1209_app">
-        <uses-library android:name="org.apache.http.legacy"/>
+        <activity
+            android:name=".chat.ChangeDeliveryFeeActivity"
+            android:exported="false" />
+
+        <uses-library android:name="org.apache.http.legacy" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyB6nWMxeXA4h-S3Yx5VxlVXfqXE6EUkBgw" />
 
         <activity
-            android:name=".EvaluationActivity"
+            android:name=".Evaluation_Activity"
+            android:exported="false" />
+
+        <activity
+            android:name=".Evaluation_Display_Activity"
             android:exported="false" />
         <activity
             android:name=".chat.ReceiptBeforeAvtivity"
@@ -54,7 +65,5 @@
             android:name=".MainActivity"
             android:exported="true" />
     </application>
-
-
 
 </manifest>
