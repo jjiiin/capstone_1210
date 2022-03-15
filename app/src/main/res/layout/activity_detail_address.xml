@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".DetailAddressActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:textColor="#101010"
+        android:letterSpacing="-0.03"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="19dp"
+        android:layout_marginTop="14dp"
+        android:text="상세 정보 입력"/>
+
+    <TextView
+        android:id="@+id/addressTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="주소"
+        android:textStyle="bold"
+        android:textSize="22sp"
+        android:textColor="#101010"
+        android:letterSpacing="-0.03"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="19dp"
+        android:layout_marginTop="27dp"/>
+    <EditText
+        android:id="@+id/detailEv"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="-6dp"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:paddingLeft="7dp"
+        android:hint=" 상세 주소 입력"
+        android:background="@drawable/dialog_edittext"/>
+    <EditText
+        android:id="@+id/nameEv"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="33dp"
+        android:paddingLeft="7dp"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:hint="주소 별명 입력"
+        android:background="@drawable/dialog_edittext"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <Button
+            android:id="@+id/saveBtn"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="20dp"
+            android:background="@color/main"
+            android:letterSpacing="-0.02"
+            android:text="등록 완료"
+            android:textColor="#ffffff"
+            android:textSize="14sp"
+            android:textStyle="normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:layout_editor_absoluteX="20dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

@@ -1,5 +1,6 @@
 package com.capstone_design.a1209_app.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.viewpager2.widget.ViewPager2
+import com.capstone_design.a1209_app.AddressSearchActivity
+import com.capstone_design.a1209_app.KeywordSettingActivity
 import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.ViewPagerAdapter
 import com.capstone_design.a1209_app.databinding.FragmentNoteBinding
@@ -47,6 +50,11 @@ class NoteFragment : Fragment() {
             override fun onTabUnselected(tab: TabLayout.Tab?) { }
             override fun onTabReselected(tab: TabLayout.Tab?) { }
         })
+        binding.kwplus.setOnClickListener {
+            //키워드 설정 페이지로 넘어가기
+            val intent = Intent(context, KeywordSettingActivity::class.java)
+            startActivity(intent)
+        }
 
         return binding.root
     }

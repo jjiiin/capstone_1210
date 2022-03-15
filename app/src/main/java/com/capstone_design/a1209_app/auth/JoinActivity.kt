@@ -16,7 +16,6 @@ import com.google.firebase.ktx.Firebase
 
 class JoinActivity : AppCompatActivity() {
     private lateinit var binding : ActivityJoinBinding
-
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +28,6 @@ class JoinActivity : AppCompatActivity() {
 
             var isGotoJoin = true
             val id=binding.idArea.text.toString()
-
             val pwd=binding.pwdArea.text.toString()
             val name=binding.nickArea.text.toString()
             if(id.isEmpty()){

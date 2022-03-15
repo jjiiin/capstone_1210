@@ -173,7 +173,8 @@
                 android:layout_marginTop="-6dp"
                 android:textColor="@color/black"
                 android:textSize="14sp"
-                android:hint="   음식점 이름(ex)엽떡)과 함께 제목을 입력해주세요"
+                android:paddingLeft="10dp"
+                android:hint="음식점 이름(ex)엽떡)과 함께 제목을 입력해주세요"
                 android:background="@drawable/dialog_edittext"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -196,13 +197,15 @@
                     android:layout_height="40dp"
                     android:textColor="#c4c4c4"
                     android:textSize="14sp"
-                    android:hint="   사진을 첨부해주세요"
+                    android:paddingLeft="10dp"
+                    android:hint="사진을 첨부해주세요"
                     android:background="@drawable/dialog_edittext"/>
 
                 <Button
+                    android:id="@+id/picBtn"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginLeft="10dp"
                     android:background="@drawable/round_button" />
             </LinearLayout>
             <TextView
@@ -268,23 +271,46 @@
                     android:letterSpacing="-0.03"
                     android:text="제한 없음"/>
             </LinearLayout>
-
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="7dp"
+                android:orientation="horizontal">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="주문 예정 시간"
                 android:layout_marginLeft="16dp"
-                android:layout_marginBottom="11dp"
                 android:textStyle="normal"
                 android:textSize="14sp"
                 android:textColor="#808080"
                 android:letterSpacing="-0.02"/>
+
+                <CheckBox
+                    android:layout_marginLeft="160dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:id="@+id/quick"
+                    android:textColor="#c4c4c4"
+                    android:letterSpacing="-0.02"
+                    android:lineSpacingExtra="6sp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="즉각 주문"
+                    android:textSize="12sp"
+                    android:textColor="#c4c4c4"
+                    android:letterSpacing="-0.02"
+                    android:lineSpacingExtra="1sp"
+                    android:layout_gravity="center"/>
+
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginBottom="10dp">
-
                 <Button
                     android:id="@+id/timeFree"
                     android:layout_width="164dp"
@@ -372,7 +398,8 @@
                     android:layout_marginRight="8dp"
                     android:layout_marginBottom="33dp"
                     android:background="@drawable/dialog_edittext"
-                    android:hint="   배달비를 입력해주세요"
+                    android:hint="배달비를 입력해주세요"
+                    android:paddingLeft="10dp"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
                 <TextView
@@ -405,12 +432,17 @@
                     android:id="@+id/placeList"
                     android:layout_marginLeft="16dp"
                     android:layout_width="263dp"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:textColor="@color/black"
                     android:textSize="14sp"
-                    android:hint="   만남장소를 설정해주세요"
+                    android:paddingLeft="12dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:paddingRight="12dp"
+                    android:hint="만남장소를 설정해주세요"
                     android:background="@drawable/dialog_edittext"/>
                 <Button
+                    android:id="@+id/searchBtn"
                     android:layout_width="55dp"
                     android:layout_height="40dp"
                     android:textStyle="normal"
@@ -440,7 +472,8 @@
                 android:layout_marginTop="-6dp"
                 android:textColor="@color/black"
                 android:textSize="14sp"
-                android:hint="   배민링크를 입력해주세요"
+                android:paddingLeft="10dp"
+                android:hint="배민링크를 입력해주세요"
                 android:background="@drawable/dialog_edittext"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -464,7 +497,9 @@
                 android:textSize="14sp"
                 android:paddingTop="10dp"
                 android:gravity="top"
-                android:hint="   전달사항을 자유롭게 입력해주세요"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:hint="전달사항을 자유롭게 입력해주세요"
                 android:background="@drawable/dialog_edittext"/>
 
             <Button

@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
 
     <application
         android:allowBackup="true"
@@ -13,9 +15,26 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.1209_app">
+        android:theme="@style/Theme.1209_app"
+        android:usesCleartextTraffic="true">
+
         <activity
-            android:name=".chat.ChangeDeliveryFeeActivity"
+            android:name=".KeywordSettingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DetailPlaceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DetailAddressActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MylocSearchActivity"
+            android:exported="true" />
+        <activity
+            android:name=".WebSearchActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddressSearchActivity"
             android:exported="false" />
 
         <uses-library android:name="org.apache.http.legacy" />
@@ -23,13 +42,15 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyB6nWMxeXA4h-S3Yx5VxlVXfqXE6EUkBgw" />
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="fc81b72e05032dce7689cf5b13b5a9cc" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".Evaluation_Activity"
-            android:exported="false" />
-
-        <activity
-            android:name=".Evaluation_Display_Activity"
+            android:name=".EvaluationActivity"
             android:exported="false" />
         <activity
             android:name=".chat.ReceiptBeforeAvtivity"
@@ -45,7 +66,7 @@
             android:exported="false" />
         <activity
             android:name=".board.BoardWirteActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".auth.JoinActivity"
             android:exported="false" />
@@ -64,6 +85,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true" />
+
     </application>
 
 </manifest>
