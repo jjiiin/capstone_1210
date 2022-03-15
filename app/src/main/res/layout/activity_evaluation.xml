@@ -1,224 +1,254 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:background="@color/white"
-    android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    android:orientation="vertical"
-    tools:context=".EvaluationActivity">
+<layout>
 
-    <LinearLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingTop="14dp"
-        android:paddingBottom="15dp">
-
-        <ImageView
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginRight="32dp"
-            android:src="@drawable/back" />
-
-        <TextView
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="신뢰도 평가"
-            android:textColor="#101010"
-            android:textSize="18sp" />
-    </LinearLayout>
-
-    <ImageView
-        android:layout_width="90dp"
-        android:layout_height="90dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="14dp"
-        android:src="@drawable/profile_cat" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="12dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Gummy"
-            android:textColor="#101010"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="님"
-            android:textColor="#101010"
-            android:textSize="14sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="3dp"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="132.76dp"
-            android:layout_height="21.43dp"
-            android:src="@drawable/star_rating" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="4.0"
-            android:textColor="#393939"
-            android:textSize="21sp" />
-    </LinearLayout>
-
-    <ImageView
-        android:layout_width="108dp"
-        android:layout_height="38dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="21dp"
-        android:src="@drawable/evaluate_btn" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="내가 받은 후기   2"
-        android:textColor="#393939"
-        android:textSize="14sp" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="22dp"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="23dp"
-            android:layout_height="23dp"
-            android:src="@drawable/review_profile1" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="9dp"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:textStyle="bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="먹돌이"
-                    android:textColor="#393939"
-                    android:textSize="14sp" />
-
-                <ImageView
-                    android:layout_width="64.97dp"
-                    android:layout_height="10.49dp"
-                    android:src="@drawable/star_rating" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:text="2일 전"
-                    android:textColor="#C4C4C4"
-                    android:textSize="10sp" />
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:text="배송 올 때 딱 알려주셔서 음식 따뜻할 때 잘 받았어요.
-감사합니다 :)"
-                android:textColor="#101010"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="22dp"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="23dp"
-            android:layout_height="23dp"
-            android:src="@drawable/review_profile2" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="9dp"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:textStyle="bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="먹순이"
-                    android:textColor="#393939"
-                    android:textSize="14sp" />
-
-                <ImageView
-                    android:layout_width="64.97dp"
-                    android:layout_height="10.49dp"
-                    android:src="@drawable/star_rating" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:text="2일 전"
-                    android:textColor="#C4C4C4"
-                    android:textSize="10sp" />
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:text="배송 올 때 딱 알려주셔서 음식 따뜻할 때 잘 받았어요.
-감사합니다 :)"
-                android:textColor="#101010"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="end"
-        android:layout_marginBottom="16dp"
-        android:gravity="bottom"
-        android:text="신고"
-        android:textColor="#C4C4C4"
-        android:textSize="14sp" />
-</LinearLayout>
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        tools:context=".Evaluation_Activity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="14dp"
+            android:paddingBottom="15dp">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginRight="32dp"
+                android:src="@drawable/back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="신뢰도 평가"
+                android:textColor="#101010"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="14dp"
+            android:src="@drawable/profile_cat" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="구미구미"
+                android:textColor="#101010"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" 님은 어땠나요?"
+                android:textColor="#101010"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="221dp"
+            android:layout_height="51dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/evaluate_star_bg"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="11dp"
+            android:paddingTop="4dp"
+            android:paddingRight="12dp"
+            android:paddingBottom="7dp">
+
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_marginRight="14.2dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:rating="3.5"
+                android:stepSize="0.5"
+                style="@style/CustomRatingBarStyle"
+                />
+
+            <TextView
+                android:id="@+id/tv_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3.5"
+                android:textColor="#393939"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+
+
+        <EditText
+            android:id="@+id/et_contents"
+            android:layout_width="match_parent"
+            android:layout_height="85dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="24dp"
+            android:background="@drawable/receipt_text_border"
+            android:gravity="start"
+            android:hint="내용을 적어주세요"
+            android:paddingLeft="11dp"
+            android:paddingTop="9dp"
+            android:textColorHint="#C4C4C4"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="6dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="13dp"
+                android:background="@drawable/round_button"
+                android:paddingLeft="18dp"
+                android:paddingTop="4dp"
+                android:paddingRight="18dp"
+                android:paddingBottom="4dp"
+                android:text="친절해요"
+                android:textColor="#101010" />
+
+            <TextView
+                android:id="@+id/tv2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="13dp"
+                android:background="@drawable/round_button"
+                android:paddingLeft="18dp"
+                android:paddingTop="4dp"
+                android:paddingRight="18dp"
+                android:paddingBottom="4dp"
+                android:text="입금이 빨라요"
+                android:textColor="#101010" />
+
+            <TextView
+                android:id="@+id/tv3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_button"
+                android:paddingLeft="18dp"
+                android:paddingTop="4dp"
+                android:paddingRight="18dp"
+                android:paddingBottom="4dp"
+                android:text="별로예요"
+                android:textColor="#101010" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="13dp"
+                android:background="@drawable/round_button"
+                android:paddingLeft="18dp"
+                android:paddingTop="4dp"
+                android:paddingRight="18dp"
+                android:paddingBottom="4dp"
+                android:text="입금이 늦어요"
+                android:textColor="#101010" />
+
+            <TextView
+                android:id="@+id/tv5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="13dp"
+                android:background="@drawable/round_button"
+                android:paddingLeft="18dp"
+                android:paddingTop="4dp"
+                android:paddingRight="18dp"
+                android:paddingBottom="4dp"
+                android:text="확인이 빨라요"
+                android:textColor="#101010" />
+
+            <TextView
+                android:id="@+id/tv6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_button"
+                android:paddingLeft="18dp"
+                android:paddingTop="4dp"
+                android:paddingRight="18dp"
+                android:paddingBottom="4dp"
+                android:text="좋아요"
+                android:textColor="#101010" />
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="20dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <Button
+                    android:id="@+id/btn_cancel"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_marginRight="12dp"
+                    android:background="@drawable/receipt_button"
+                    android:backgroundTint="#c4c4c4"
+                    android:text="취소"
+                    android:textColor="#ffffff"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btn_done"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/btn_done"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/receipt_button"
+                    android:backgroundTint="#E0E0E0"
+                    android:text="완료"
+                    android:textColor="#ffffff"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/btn_cancel"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</layout>

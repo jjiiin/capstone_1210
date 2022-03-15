@@ -16,11 +16,15 @@ import com.capstone_design.a1209_app.chat.ChatRoomActivity
 import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.dataModel
 import com.capstone_design.a1209_app.dataModels.ChatRoomData
+import com.capstone_design.a1209_app.dataModels.ReceiptData
 import com.capstone_design.a1209_app.databinding.ActivityBoardWirteBinding
 import com.capstone_design.a1209_app.utils.Auth
 import com.capstone_design.a1209_app.utils.FBRef
+import com.capstone_design.a1209_app.utils.FBRef.Companion.boardRef
 import com.capstone_design.a1209_app.utils.FBRef.Companion.chatRoomsRef
 import com.capstone_design.a1209_app.utils.FBRef.Companion.userRoomsRef
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
@@ -168,12 +172,15 @@ class BoardWirteActivity : AppCompatActivity() {
             val link_dm = binding.link.text.toString()
             //Log.d("아이디",current_uid)
             val writer_uid = Auth.current_uid
+
             //채팅방 생성
             var chatroomkey = chatRoomsRef.push().key
             val chatRoomData = ChatRoomData(title_dm, writer_uid)
+
             //채팅방 정보 저장
             chatRoomsRef.child(chatroomkey!!).setValue(chatRoomData)
             chatRoomsRef.child(chatroomkey!!).child("users").child(writer_uid).setValue(true)
+
             //각 사용자가 무슨 채팅방에 참여하고 있는지 저장
             userRoomsRef.child(writer_uid).child(chatroomkey).setValue(true)
 
@@ -193,7 +200,11 @@ class BoardWirteActivity : AppCompatActivity() {
 
 
             items.add(model)
-            FBRef.boardRef.push().setValue(model)
+            val boardKey = boardRef.push().key
+            //채팅방 정보에 게시글 키 저장
+            chatRoomsRef.child(chatroomkey!!).child("boardKey").setValue(boardKey)
+            boardRef.child(boardKey!!).setValue(model)
+
             //글을 쓴 총대니까 채팅방으로 바로 이동
             val intent = Intent(this, ChatRoomActivity::class.java).putExtra("채팅방키", chatroomkey)
             startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))

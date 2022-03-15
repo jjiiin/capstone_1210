@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/white"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -51,25 +51,35 @@
                 app:layout_constraintStart_toEndOf="@+id/profile_img"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:layout_marginRight="3dp"
-                android:src="@drawable/edit_pencil"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/edit"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/edit"
+            <LinearLayout
+                android:id="@+id/layout_change_order"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="내 주문 변경"
-                android:textColor="#808080"
-                android:textSize="12sp"
+                android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="3dp"
+                    android:src="@drawable/edit_pencil"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_change_order" />
+
+                <TextView
+                    android:id="@+id/tv_change_order"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="내 주문 변경"
+                    android:textColor="#808080"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </LinearLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
@@ -172,7 +182,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginRight="4dp"
-                    android:background="@drawable/custom_checkbox"
+                    android:background="@drawable/custom_checkbox_receipt"
                     android:button="@null" />
 
                 <TextView
@@ -190,10 +200,11 @@
                 android:orientation="horizontal">
 
                 <CheckBox
+                    android:id="@+id/checkbox_pay"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginRight="4dp"
-                    android:background="@drawable/custom_checkbox"
+                    android:background="@drawable/custom_checkbox_receipt"
                     android:button="@null" />
 
                 <TextView
