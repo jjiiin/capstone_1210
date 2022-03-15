@@ -285,15 +285,16 @@ class ChatRoomActivity : AppCompatActivity() {
         val eventListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 roomusersIdList.clear()
-                if (snapshot.value == null) {
+                //채팅방에 사용자 아무도 없으면 해당 채팅방 삭제하는 코드
+              /*  if (snapshot.value == null) {
                     chatRoomsRef.child(chatroomkey!!).removeValue()
                     finish()
-                } else {
+                } else {*/
                     for (data in snapshot.children) {
                         roomusersIdList.add(data.key.toString())
                     }
                     usersRef.addValueEventListener(getUserInfoListener(roomuserRvadapter))
-                }
+                /*}*/
 
             }
 

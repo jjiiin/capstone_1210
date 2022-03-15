@@ -27,6 +27,10 @@ class ChatList_RVAdapter(
     private lateinit var auth: FirebaseAuth
     private var ck = 0
 
+    companion object {
+        val checked_chatRoomKey_List = mutableListOf<String>()
+    }
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -49,12 +53,23 @@ class ChatList_RVAdapter(
             title.setText(item.title)
             val checkBtn = itemView.findViewById<CheckBox>(R.id.checkBtn)
 
-
             //휴지통 버튼 눌렸으면 체크버튼 보이게
             if (ck == 0) {
                 checkBtn.visibility = View.GONE
+                checked_chatRoomKey_List.clear()
             } else {
                 checkBtn.visibility = View.VISIBLE
+                checkBtn.setOnCheckedChangeListener { buttonView, isChecked ->
+                    if (isChecked) {
+                        //체크된 채팅방키를 list에 저장
+                        checked_chatRoomKey_List.add(chatroomkey)
+                    } else {
+                        //체크해제되면 해당 채팅방키를 체크 list에서 삭제
+                        checked_chatRoomKey_List.remove(chatroomkey)
+                    }
+
+                    Log.d("체크됨", checked_chatRoomKey_List.toString())
+                }
             }
             itemView.setOnClickListener {
                 val intent =
@@ -68,14 +83,5 @@ class ChatList_RVAdapter(
 
     fun updateCheckBox(n: Int) {
         ck = n
-    }
-
-    fun exit(chatroomkey: String) {
-        //chatRooms에서 사용자 삭제
-        FBRef.chatRoomsRef.child(chatroomkey!!).child("users").child(Auth.current_uid)
-            .removeValue()
-
-        //UserRooms에서 채팅방 키 삭제(결과: 해당 유저의 화면에서 안보이게됨)
-        FBRef.userRoomsRef.child(Auth.current_uid).child(chatroomkey!!).removeValue()
     }
 }

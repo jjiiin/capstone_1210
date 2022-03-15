@@ -84,6 +84,12 @@ class ChatFragment : Fragment() {
                 isExitBtnClick = 0
                 rvAdapter.updateCheckBox(0)
                 rvAdapter.notifyDataSetChanged()
+                if (ChatList_RVAdapter.checked_chatRoomKey_List.isNotEmpty()) {
+                    for (key in ChatList_RVAdapter.checked_chatRoomKey_List) {
+                        exit(key)
+                    }
+
+                }
             }
         }
         return binding.root
@@ -93,6 +99,8 @@ class ChatFragment : Fragment() {
     fun getUserRoomListener(): ValueEventListener {
         val listener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
+                userRoomsKeyList.clear()
+                chatRoom_count = 0
                 for (data in snapshot.children) {
                     userRoomsKeyList.add(data.key.toString())
                     chatRoom_count++
@@ -112,6 +120,7 @@ class ChatFragment : Fragment() {
     fun getChatRoomListener(): ValueEventListener {
         val listener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
+                items.clear()
                 for (data in snapshot.children) {
                     if (userRoomsKeyList.contains(data.key)) {
                         val roomData = data.getValue(ChatRoomData::class.java)
@@ -127,5 +136,15 @@ class ChatFragment : Fragment() {
 
         }
         return listener
+    }
+
+
+    fun exit(chatroomkey: String) {
+        //UserRooms에서 채팅방 키 삭제(결과: 해당 유저의 화면에서 안보이게됨)
+        userRoomsRef.child(Auth.current_uid).child(chatroomkey!!).removeValue()
+
+        //chatRooms에서 사용자 삭제
+        chatRoomsRef.child(chatroomkey!!).child("users").child(Auth.current_uid)
+            .removeValue()
     }
 }
