@@ -56,12 +56,12 @@ class Evaluation_Display_Activity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        /*getRatingData()*/
+        getRatingData()
 
         //별점 불러오기
-        CoroutineScope(Dispatchers.IO).launch {
+       /* CoroutineScope(Dispatchers.IO).launch {
             getRatingData()
-        }
+        }*/
 
     }
 
@@ -109,6 +109,7 @@ class Evaluation_Display_Activity : AppCompatActivity() {
                         FBRef.usersRef.child(uid!!).child("rating").setValue(rating_avg.toString())
                         binding.tvRating.text = rating_avg.toString()
                         binding.ratingBar.rating = rating_avg
+                        binding.tvRatingNum.text = rating_num.toString()
                         rvAdapter.notifyDataSetChanged()
                     }
 

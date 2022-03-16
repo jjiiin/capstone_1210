@@ -167,7 +167,7 @@ class ReceiptDoneActivity : AppCompatActivity() {
     //파이어베이스의 비동기 방식 -> 동기 방식
     suspend fun getDeliveryFee(chatroomkey: String) =
         suspendCoroutine<Int> { continuation ->
-            FBRef.boardRef.child(boardKey!!).child("fee")
+            FBRef.board.child(boardKey).child("fee")
                 .addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         fee_string = snapshot.getValue<String>().toString()

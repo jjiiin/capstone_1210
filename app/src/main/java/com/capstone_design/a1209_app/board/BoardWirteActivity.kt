@@ -278,7 +278,9 @@ class BoardWirteActivity : AppCompatActivity() {
 
 
             items.add(model)
-            FBRef.boardRef.push().setValue(model)
+
+            //채팅방 정보에 게시글 키 저장
+            chatRoomsRef.child(chatroomkey!!).child("boardKey").setValue("${writer_uid}+${title_dm}")
 
             //지인(map-contents)
             FBRef.board.child("${writer_uid}+${title_dm}").setValue(model)

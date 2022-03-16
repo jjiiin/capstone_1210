@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -17,7 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.1209_app"
         android:usesCleartextTraffic="true">
-
+        <activity
+            android:name=".Mypage_Evaluation_Activity"
+            android:exported="false" />
         <activity
             android:name=".KeywordSettingActivity"
             android:exported="false" />
@@ -37,11 +39,18 @@
             android:name=".AddressSearchActivity"
             android:exported="false" />
 
-        <uses-library android:name="org.apache.http.legacy" />
-
-        <meta-data
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" /> <!-- 지인님 api key -->
+        <!--
+ <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyB6nWMxeXA4h-S3Yx5VxlVXfqXE6EUkBgw" />
+        -->
+        <!-- 혜경 maps api key -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBNj2_9KC8MCv1Ik3hEYyvQqVZewSWiW88" />
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="fc81b72e05032dce7689cf5b13b5a9cc" />
@@ -50,7 +59,13 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".EvaluationActivity"
+            android:name=".chat.ChangeDeliveryFeeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Evaluation_Activity"
+            android:exported="false" />
+        <activity
+            android:name=".Evaluation_Display_Activity"
             android:exported="false" />
         <activity
             android:name=".chat.ReceiptBeforeAvtivity"
@@ -85,7 +100,6 @@
         <activity
             android:name=".MainActivity"
             android:exported="true" />
-
     </application>
 
 </manifest>

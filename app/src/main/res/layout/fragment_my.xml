@@ -65,6 +65,7 @@
                                 android:orientation="horizontal">
 
                                 <TextView
+                                    android:id="@+id/tv_nickname"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Gummy"
@@ -135,13 +136,19 @@
                                 android:textColor="#393939"
                                 android:textSize="16sp" />
 
-                            <ImageView
-                                android:layout_width="79dp"
-                                android:layout_height="13dp"
+                            <RatingBar
+                                android:id="@+id/ratingBar"
+                                style="@style/CustomRatingBarStyle_mypage"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
-                                android:src="@drawable/star_rating" />
+                                android:isIndicator="true"
+                                android:numStars="5"
+                                android:rating="3.5"
+                                android:stepSize="0.5" />
 
                             <TextView
+                                android:id="@+id/tv_rating"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="8dp"
@@ -155,6 +162,7 @@
                             android:layout_height="wrap_content">
 
                             <ImageView
+                                android:id="@+id/btn_display_evaluation"
                                 android:layout_width="77dp"
                                 android:layout_height="22dp"
                                 android:src="@drawable/check_feedback"
@@ -273,6 +281,7 @@
                     android:paddingRight="16dp">
 
                     <TextView
+                        android:id="@+id/tv_logout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="로그아웃"

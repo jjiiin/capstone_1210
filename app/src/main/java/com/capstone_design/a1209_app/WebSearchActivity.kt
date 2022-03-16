@@ -25,7 +25,11 @@ class WebSearchActivity : AppCompatActivity() {
         setContentView(R.layout.activity_web_search)
 
         if (!Places.isInitialized()) {
-            Places.initialize(applicationContext, "AIzaSyCtnkZceEqVUR4_aTLTP2gPtAZcnhe6fjE", Locale.KOREA)
+            //혜경 places api 코드
+            Places.initialize(applicationContext, "AIzaSyB0OunEJ4_hunrp-55YY92DIn3ZZi8oNAY", Locale.KOREA)
+
+            //지인님 api 코드
+            //Places.initialize(applicationContext, "AIzaSyCtnkZceEqVUR4_aTLTP2gPtAZcnhe6fjE", Locale.KOREA)
         }
         placesClient = Places.createClient(this)
 
