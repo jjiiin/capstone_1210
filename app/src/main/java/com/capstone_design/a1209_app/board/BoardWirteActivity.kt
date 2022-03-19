@@ -2,6 +2,7 @@ package com.capstone_design.a1209_app.board
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ImageView
+import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.capstone_design.a1209_app.AddressSearchActivity
@@ -18,6 +20,9 @@ import com.capstone_design.a1209_app.dataModels.dataModel
 import com.capstone_design.a1209_app.dataModels.ChatRoomData
 import com.capstone_design.a1209_app.dataModels.addressData
 import com.capstone_design.a1209_app.databinding.ActivityBoardWirteBinding
+import com.capstone_design.a1209_app.fcm.NotiModel
+import com.capstone_design.a1209_app.fcm.PushNotification
+import com.capstone_design.a1209_app.fcm.RetrofitInstance
 import com.capstone_design.a1209_app.utils.Auth
 import com.capstone_design.a1209_app.utils.FBRef
 import com.capstone_design.a1209_app.utils.FBRef.Companion.chatRoomsRef
@@ -29,6 +34,11 @@ import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class BoardWirteActivity : AppCompatActivity() {
     //글쓰기 화면에 스피너 넣어야함.
@@ -51,6 +61,7 @@ class BoardWirteActivity : AppCompatActivity() {
     var questPicture: Uri? = null
     private var imageUri: Uri? = null
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_board_wirte)
@@ -59,45 +70,50 @@ class BoardWirteActivity : AppCompatActivity() {
 
         var category = ""
 
+        //새글알림용 category
+        var categoryNoti=""
+
         //버튼 클릭시 category에 값 할당하기
         binding.categoryAsian.setOnClickListener {
 
             category = "asian"
+            categoryNoti="아시안, 양식"
         }
         binding.categoryBun.setOnClickListener {
 
             category = "bun"
+            categoryNoti="분식"
         }
         binding.categoryChicken.setOnClickListener {
-
+            categoryNoti="치킨"
             category = "chicken"
         }
         binding.categoryPizza.setOnClickListener {
-
+            categoryNoti="피자"
             category = "pizza"
         }
         binding.categoryFast.setOnClickListener {
-
+            categoryNoti="패스트푸드"
             category = "fastfood"
         }
         binding.categoryJap.setOnClickListener {
-
+            categoryNoti="일식"
             category = "japan"
         }
         binding.categoryKor.setOnClickListener {
-
+            categoryNoti="한식"
             category = "korean"
         }
         binding.categoryDo.setOnClickListener {
-
+            categoryNoti="도시락"
             category = "bento"
         }
         binding.categoryCafe.setOnClickListener {
-
+            categoryNoti="카페, 디저트"
             category = "cafe"
         }
         binding.categoryChi.setOnClickListener {
-
+            categoryNoti="중식"
             category = "chi"
         }
         binding.timeFree.setOnClickListener {
@@ -275,9 +291,20 @@ class BoardWirteActivity : AppCompatActivity() {
                 writer_uid,
                 chatroomkey
             )
-
-
             items.add(model)
+
+            //push알림
+            //앱에서 직접 다른 사람에게 푸시메세지 보내기
+            //새글알림
+            val current = LocalDateTime.now()
+            val formatter = DateTimeFormatter.ISO_DATE
+            val formatted = current.format(formatter)
+            val notiModel= NotiModel("Saveat - 새글알림","${categoryNoti} 카테고리에 새 글이 올라왔습니다.",formatted.toString())
+
+            //val pushModel=PushNotification(notiModel,"${token}")
+
+            //testPush(pushModel)
+
 
             //채팅방 정보에 게시글 키 저장
             chatRoomsRef.child(chatroomkey!!).child("boardKey").setValue("${writer_uid}+${title_dm}")
@@ -291,6 +318,12 @@ class BoardWirteActivity : AppCompatActivity() {
             finish()
         }
     }
+
+    //키워드 알림, 새글 알림 보내기
+    private fun testPush(notification: PushNotification)= CoroutineScope(Dispatchers.IO).launch {
+        RetrofitInstance.api.postNotification(notification)
+    }
+
     // 이미지 불러오기
     private fun pickImage() {
         var intent = Intent(Intent.ACTION_GET_CONTENT) // 갤러리 앱 호출

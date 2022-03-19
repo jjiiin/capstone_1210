@@ -12,6 +12,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import com.android.volley.VolleyLog
 import com.capstone_design.a1209_app.DetailActivity
 import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.board.BoardWirteActivity
@@ -22,13 +23,16 @@ import com.capstone_design.a1209_app.utils.FBRef
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 
 
 class BoardHomeFragment : Fragment(){
@@ -43,8 +47,7 @@ class BoardHomeFragment : Fragment(){
     val database = Firebase.database
     val myRef = database.getReference("BoardWirte")
     private var buttoncolor="all"
-    private var category="all"
-
+//    private lateinit var category:String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -56,11 +59,13 @@ class BoardHomeFragment : Fragment(){
     ): View? {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_board_home, container, false)
-
+        auth = Firebase.auth
         adapter = LvAdpater(items, this)
         binding.count.text = items.size.toString()
+        var category=""
         if(cnt==0) {
             listViewAll()
+            category="all"
             buttonColor("all")
             cnt+=1
         }
@@ -77,7 +82,7 @@ class BoardHomeFragment : Fragment(){
         }
         binding.categoryBun.setOnClickListener {
             listView("bun")
-            Log.d("bun3",items.toString())
+            category="bun"
             buttonColor("bun")
         }
         binding.categoryChicken.setOnClickListener {
@@ -121,6 +126,33 @@ class BoardHomeFragment : Fragment(){
             buttonColor("chi")
         }
 
+        //새글알림 스위치
+        binding.noti.setOnCheckedChangeListener { buttonView, isChecked ->
+            //token값 users에 저장하기
+            var token=""
+            FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.w(VolleyLog.TAG, "Fetching FCM registration token failed", task.exception)
+                    return@OnCompleteListener
+                }
+                Log.d("switch_cate",category)
+                // Get new FCM registration token
+                token = task.result.toString()
+                //FBRef.usersRef.child(auth.currentUser!!.uid).child("token").setValue(token)
+                if(isChecked){
+                    FBRef.notificationRef.child(category).child(auth.currentUser!!.uid).setValue(token)
+                    FBRef.usersRef.child(auth.currentUser!!.uid).child("category").child(category).setValue("1")
+                }
+                else{
+                    FBRef.notificationRef.child(category).child(auth.currentUser!!.uid).removeValue()
+                    FBRef.usersRef.child(auth.currentUser!!.uid).child("category").child(category).setValue("0")
+                }
+
+                // Log and toast
+                Log.e("token",token)
+            })
+        }
+
         Log.d("bun4",items.toString())
         binding.LvMain.adapter=adapter
 
@@ -148,49 +180,49 @@ class BoardHomeFragment : Fragment(){
 
                 binding.categoryBun.setBackgroundResource(R.drawable.round_button)
                 binding.categoryBun.setTextColor(Color.BLACK)
-                binding.categoryBun.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
+                binding.categoryBun.setTypeface(binding.categoryBun.typeface, Typeface.NORMAL)
 
 
                 binding.categoryKor.setBackgroundResource(R.drawable.round_button)
                 binding.categoryKor.setTextColor(Color.BLACK)
-                binding.categoryKor.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
+                binding.categoryKor.setTypeface(binding.categoryKor.typeface, Typeface.NORMAL)
 
 
                 binding.categoryJap.setBackgroundResource(R.drawable.round_button)
                 binding.categoryJap.setTextColor(Color.BLACK)
-                binding.categoryJap.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
+                binding.categoryJap.setTypeface(binding.categoryJap.typeface, Typeface.NORMAL)
 
 
 
                 binding.categoryChi.setBackgroundResource(R.drawable.round_button)
                 binding.categoryChi.setTextColor(Color.BLACK)
-                binding.categoryChi.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
+                binding.categoryChi.setTypeface(binding.categoryChi.typeface, Typeface.NORMAL)
 
 
                 binding.categoryFast.setBackgroundResource(R.drawable.round_button)
                 binding.categoryFast.setTextColor(Color.BLACK)
-                binding.categoryFast.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
+                binding.categoryFast.setTypeface(binding.categoryFast.typeface, Typeface.NORMAL)
 
 
                 binding.categoryDo.setBackgroundResource(R.drawable.round_button)
                 binding.categoryDo.setTextColor(Color.BLACK)
-                binding.categoryDo.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
+                binding.categoryDo.setTypeface(binding.categoryDo.typeface, Typeface.NORMAL)
 
 
 
                 binding.categoryCafe.setBackgroundResource(R.drawable.round_button)
                 binding.categoryCafe.setTextColor(Color.BLACK)
-                binding.categoryCafe.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
+                binding.categoryCafe.setTypeface(binding.categoryCafe.typeface, Typeface.NORMAL)
 
 
                 binding.categoryChicken.setBackgroundResource(R.drawable.round_button)
                 binding.categoryChicken.setTextColor(Color.BLACK)
-                binding.categoryChicken.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
+                binding.categoryChicken.setTypeface(binding.categoryChicken.typeface, Typeface.NORMAL)
 
 
                 binding.categoryPizza.setBackgroundResource(R.drawable.round_button)
                 binding.categoryPizza.setTextColor(Color.BLACK)
-                binding.categoryPizza.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
+                binding.categoryPizza.setTypeface(binding.categoryPizza.typeface, Typeface.NORMAL)
 
                 binding.categoryAll.setBackgroundResource(R.drawable.round_button)
                 binding.categoryAll.setTextColor(Color.BLACK)
@@ -272,7 +304,7 @@ class BoardHomeFragment : Fragment(){
                 for (data in snapshot.children) {
                     val item = data.getValue(dataModel::class.java)
                     if (item != null) {
-                        Log.d("category",category)
+                        //Log.d("category",category)
 
                             items.add(item!!)
                             itemsKeyList.add(data.key.toString())

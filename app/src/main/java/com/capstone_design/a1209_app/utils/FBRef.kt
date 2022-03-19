@@ -16,6 +16,7 @@ class FBRef {
         //jiin
         val board=database.getReference("map_contents")
         val image=database.getReference("img_contents")
+        val notificationRef= database.getReference("notification")
     }
 
 

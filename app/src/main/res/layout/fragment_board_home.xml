@@ -191,12 +191,13 @@
                 android:orientation="horizontal">
 
                 <Switch
+                    android:id="@+id/noti"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginLeft="100dp"
-                    android:switchPadding="20dp"
-                    android:switchMinWidth="23dp"/>
+                    android:switchMinWidth="23dp"
+                    android:switchPadding="20dp" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
