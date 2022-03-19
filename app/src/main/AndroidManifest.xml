@@ -50,13 +50,20 @@
         <!-- 혜경 maps api key -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBNj2_9KC8MCv1Ik3hEYyvQqVZewSWiW88" />
+            android:value="AIzaSyB6nWMxeXA4h-S3Yx5VxlVXfqXE6EUkBgw" />
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="fc81b72e05032dce7689cf5b13b5a9cc" />
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+        <service android:name=".fcm.FirebaseService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
 
         <activity
             android:name=".chat.ChangeDeliveryFeeActivity"

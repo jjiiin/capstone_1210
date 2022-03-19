@@ -21,6 +21,12 @@ class NoteChild1Fragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+
+        //1. 카테고리 별 새글 알림->카테고리 새글알림을 설정해놓은 사람에게만
+        //token값을 유저정보에 저장함
+
+
+
         return inflater.inflate(R.layout.fragment_note_child1, container, false)
     }
 
