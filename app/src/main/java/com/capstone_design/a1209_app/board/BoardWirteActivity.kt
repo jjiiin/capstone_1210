@@ -45,6 +45,7 @@ class BoardWirteActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBoardWirteBinding
     private lateinit var auth: FirebaseAuth
     private val items = mutableListOf<dataModel>()
+    private val tokenList=mutableListOf<String>()
     private var hour = ""
     private var min = ""
     private var day = ""
@@ -299,11 +300,38 @@ class BoardWirteActivity : AppCompatActivity() {
             val current = LocalDateTime.now()
             val formatter = DateTimeFormatter.ISO_DATE
             val formatted = current.format(formatter)
-            val notiModel= NotiModel("Saveat - 새글알림","${categoryNoti} 카테고리에 새 글이 올라왔습니다.",formatted.toString())
 
-            //val pushModel=PushNotification(notiModel,"${token}")
+            //카테고리에 해당하는 token 배열 가져오기
+            //var tokenList= mutableListOf<String>()
+            val schRef : DatabaseReference = database.getReference("notification").child(category)
+            schRef.addValueEventListener(object : ValueEventListener {
+                val notiModel= NotiModel("Saveat - 새글알림","\"${categoryNoti}\" 카테고리에 새 글이 올라왔습니다.",formatted.toString())
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (DataModel in snapshot.children) {
+                        val item = DataModel.getValue(String::class.java)
+                        if (item != null) {
+                            var token=item.toString()
+                            val pushModel=PushNotification(notiModel,"${token}")
+                            testPush(pushModel)
+                            //Log.d("tokenList",item.toString())
+                        }
+                    }
+//                    Log.d("tockenList_1",tokenList.toString())
+                }
 
-            //testPush(pushModel)
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+            })
+            //Log.d("tocken_List",tokenList.toString())
+//            val notiModel= NotiModel("Saveat - 새글알림","${categoryNoti} 카테고리에 새 글이 올라왔습니다.",formatted.toString())
+//            for( token in tokenList ) {
+//                Log.d("token_mess",token)
+//                Log.d("token_mess1",notiModel.toString())
+//                val pushModel=PushNotification(notiModel,"${token}")
+//                testPush(pushModel)
+ //           }
 
 
             //채팅방 정보에 게시글 키 저장
@@ -321,6 +349,8 @@ class BoardWirteActivity : AppCompatActivity() {
 
     //키워드 알림, 새글 알림 보내기
     private fun testPush(notification: PushNotification)= CoroutineScope(Dispatchers.IO).launch {
+
+        Log.d("pushNoti",notification.toString())
         RetrofitInstance.api.postNotification(notification)
     }
 

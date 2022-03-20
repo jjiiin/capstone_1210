@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,11 +8,12 @@
     android:layout_marginTop="26dp"
     tools:context=".fragment.NoteChild2Fragment">
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/addressRV"
-        android:layout_marginTop="10dp"
+        android:id="@+id/rvKWNoti"
+        android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
         android:dividerHeight="3dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/keywordnote_item"/>
 </FrameLayout>
+</layout>

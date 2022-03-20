@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/card_view"
+    android:id="@+id/listview_noti"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
-    android:layout_marginBottom="26dp"
-    card_view:cardCornerRadius="5dp">
+    android:layout_marginBottom="10dp"
+    card_view:cardBackgroundColor="#ffffff"
+    card_view:cardCornerRadius="5dp"
+    card_view:contentPadding="4dp">
+
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/main_title">
+
         <ImageView
             android:id="@+id/item_image"
             android:layout_width="46dp"
@@ -19,39 +24,41 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
-            android:src="@drawable/keywordimg" />
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/chicken" />
 
         <TextView
-            android:layout_marginTop="3dp"
-            android:id="@+id/content"
+            android:id="@+id/notiContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp"
             android:layout_toEndOf="@+id/item_image"
             android:layout_toRightOf="@id/item_image"
             android:letterSpacing="-0.03"
             android:text="Title 입니다"
             android:textColor="#101010"
             android:textSize="16sp"
-            android:textStyle="normal" />
-
+            android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/date"
+            android:id="@+id/notiDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/content"
-            android:layout_marginStart="2dp"
+            android:layout_below="@id/notiContent"
+            android:layout_marginStart="3dp"
             android:layout_marginTop="3dp"
             android:layout_marginBottom="3dp"
             android:layout_toRightOf="@id/item_image"
             android:letterSpacing="-0.02"
-            android:text="1분 전"
-            android:textColor="#C4C4C4"
+            android:text="만남 장소"
+            android:textColor="#393939"
             android:textSize="12sp"
             android:textStyle="normal" />
 
     </RelativeLayout>
+
 </FrameLayout>

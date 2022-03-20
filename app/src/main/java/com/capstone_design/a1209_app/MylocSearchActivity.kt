@@ -53,11 +53,11 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
 
         if (!Places.isInitialized()) {
 
-            //혜경 places api 코드
-            Places.initialize(applicationContext, "AIzaSyB0OunEJ4_hunrp-55YY92DIn3ZZi8oNAY", Locale.KOREA)
+//            //혜경 places api 코드
+//            Places.initialize(applicationContext, "AIzaSyB0OunEJ4_hunrp-55YY92DIn3ZZi8oNAY", Locale.KOREA)
 
             //지인님 api 코드
-            //Places.initialize(applicationContext, "AIzaSyCtnkZceEqVUR4_aTLTP2gPtAZcnhe6fjE", Locale.KOREA)
+            Places.initialize(applicationContext, "AIzaSyCtnkZceEqVUR4_aTLTP2gPtAZcnhe6fjE", Locale.KOREA)
         }
         placesClient = Places.createClient(this)
 

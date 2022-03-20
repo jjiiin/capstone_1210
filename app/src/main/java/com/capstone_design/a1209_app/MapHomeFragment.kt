@@ -9,6 +9,7 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.location.Location
+import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
@@ -19,16 +20,23 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.databinding.DataBindingUtil
 import androidx.viewpager2.widget.ViewPager2
+import com.android.volley.VolleyLog
 import com.capstone_design.a1209_app.board.BoardWirteActivity
 import com.capstone_design.a1209_app.dataModels.addressData
 import com.capstone_design.a1209_app.dataModels.dataModel
+import com.capstone_design.a1209_app.dataModels.kwNotiData
+import com.capstone_design.a1209_app.dataModels.notiData
 import com.capstone_design.a1209_app.databinding.FragmentMapHomeBinding
+import com.capstone_design.a1209_app.fcm.NotiModel
+import com.capstone_design.a1209_app.fcm.PushNotification
+import com.capstone_design.a1209_app.fcm.RetrofitInstance
 import com.capstone_design.a1209_app.fragment.HomeFragment
 import com.capstone_design.a1209_app.utils.FBRef
 import com.capstone_design.map_test.FragmentListener
@@ -38,6 +46,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.*
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
@@ -47,8 +56,14 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.jar.Manifest
 
 
@@ -70,6 +85,9 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
     private var items= mutableListOf<dataModel>()
     private val itemsKeyList= mutableListOf<String>()
 
+    private var keywordList= mutableListOf<String>()
+    private var contentList= mutableListOf<dataModel>()
+
     val database = Firebase.database
 
     //viewpager
@@ -85,6 +103,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
         mainActivity =context as MainActivity
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -121,6 +140,45 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
         }
         viewPager2=binding.viewPager
         springDotsIndicator=binding.springDotsIndicator
+
+        //키워드 알림
+        // 1. 키워드 리스트 가져오기
+        // 2. map-contents에서 item.title 만 놓고 비교하기
+        val kwRef =database.getReference("users").child(auth.currentUser!!.uid).child("keyword")
+        kwRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+               for(DataModel in snapshot.children){
+                   val item=DataModel.getValue(String::class.java)
+                   if(item!=null){
+                       keywordList.add(item)
+                   }
+               }
+            }
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+
+
+        FBRef.board.addValueEventListener(object :ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for(DataModel in snapshot.children){
+                    val item=DataModel.getValue(dataModel::class.java)
+                    if(item!=null){
+                        for(i in keywordList){
+                            if(item.title.contains(i)){
+                                notification(i,item.title)
+                            }
+                        }
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
 
 
 
@@ -600,6 +658,41 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
         })
         Log.d("bun2",items.toString())
 
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun notification(keyword:String,title:String){
+        Log.d("kwnoti",keyword)
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ISO_DATE
+        val formatted = current.format(formatter)
+        val notiModel= NotiModel("Saveat - 키워드알림","\"${keyword}\" 배달 쉐어가 오픈됐습니다.",formatted.toString())
+        val kwnoti=kwNotiData("\"${keyword}\" 배달 쉐어가 오픈됐습니다.",formatted.toString(),title)
+
+        FBRef.usersRef.child(auth.currentUser?.uid.toString()).child("kwNoti").push().setValue(kwnoti)
+        val token=true
+        if(token) {
+            FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.w(VolleyLog.TAG, "Fetching FCM registration token failed", task.exception)
+                    return@OnCompleteListener
+                }
+
+                // Get new FCM registration token
+                val token = task.result
+                Log.d("kwnoti", token)
+                val pushModel = PushNotification(notiModel, "${token}")
+                testPush(pushModel)
+
+                // Log and toast
+                Log.e("token", token.toString())
+            })
+        }
+    }
+    private fun testPush(notification: PushNotification)= CoroutineScope(Dispatchers.IO).launch {
+        Log.d("kwnoti_test",notification.toString())
+        Log.d("pushNoti",notification.toString())
+        RetrofitInstance.api.postNotification(notification)
     }
 
 }
