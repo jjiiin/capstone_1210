@@ -327,7 +327,6 @@ class BoardHomeFragment : Fragment(){
                 for (data in snapshot.children) {
                     val item = data.getValue(dataModel::class.java)
                     if (item != null) {
-                        //Log.d("category",category)
                             if(quick=="1") {
                                 if(item.quick=="1") {
                                     items.add(item!!)
@@ -341,8 +340,10 @@ class BoardHomeFragment : Fragment(){
 
                     adapter.notifyDataSetChanged()
                 }
-                itemsKeyList.reverse()
-                items.reverse()
+                //itemsKeyList.reverse()
+                Log.d("items_before",items.toString())
+                //items.reverse()
+                Log.d("items_after",items.toString())
                 Log.d("bun1",items.toString())
 
             }
@@ -350,7 +351,6 @@ class BoardHomeFragment : Fragment(){
                 TODO("Not yet implemented")
             }
         })
-        Log.d("bun2",items.toString())
 
     }
 
