@@ -46,6 +46,7 @@ class LvAdpater(private val boardList:MutableList<dataModel>,private val context
         val cv_fee=converView!!.findViewById<TextView>(R.id.item_fee)
         val cv_time=converView!!.findViewById<TextView>(R.id.item_time)
         val cv_person=converView!!.findViewById<TextView>(R.id.item_person)
+        val cv_quick=converView!!.findViewById<ImageView>(R.id.quick)
 
         val content: dataModel =boardList[position]
         var t=0
@@ -73,6 +74,12 @@ class LvAdpater(private val boardList:MutableList<dataModel>,private val context
         }else{
             var imageUri=content.image
             Glide.with(context).load(imageUri).into(cv_img)
+        }
+
+        if(content.quick=="1"){
+            cv_quick.visibility=View.VISIBLE
+        }else{
+            cv_quick.visibility=View.INVISIBLE
         }
 
         cv_place.text=content.place

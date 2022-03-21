@@ -220,6 +220,14 @@ class BoardWirteActivity : AppCompatActivity() {
                 TODO("Not yet implemented")
             }
         })
+        var quick=""
+        binding.quick.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked){
+                quick="1"
+            }else{
+                quick="0"
+            }
+        }
 
         binding.saveBtn.setOnClickListener {
 
@@ -227,7 +235,7 @@ class BoardWirteActivity : AppCompatActivity() {
             val category_dm = category
             val person_dm = person
             var image_dm="0"
-            var quick_dm="0"
+            var quick_dm=quick
 
             val time_dm = time
             //스피너로 입력하기
@@ -324,15 +332,6 @@ class BoardWirteActivity : AppCompatActivity() {
                     TODO("Not yet implemented")
                 }
             })
-            //Log.d("tocken_List",tokenList.toString())
-//            val notiModel= NotiModel("Saveat - 새글알림","${categoryNoti} 카테고리에 새 글이 올라왔습니다.",formatted.toString())
-//            for( token in tokenList ) {
-//                Log.d("token_mess",token)
-//                Log.d("token_mess1",notiModel.toString())
-//                val pushModel=PushNotification(notiModel,"${token}")
-//                testPush(pushModel)
- //           }
-
 
             //채팅방 정보에 게시글 키 저장
             chatRoomsRef.child(chatroomkey!!).child("boardKey").setValue("${writer_uid}+${title_dm}")
@@ -347,9 +346,8 @@ class BoardWirteActivity : AppCompatActivity() {
         }
     }
 
-    //키워드 알림, 새글 알림 보내기
+    //새글 알림 보내기
     private fun testPush(notification: PushNotification)= CoroutineScope(Dispatchers.IO).launch {
-
         Log.d("pushNoti",notification.toString())
         RetrofitInstance.api.postNotification(notification)
     }
@@ -358,7 +356,6 @@ class BoardWirteActivity : AppCompatActivity() {
     private fun pickImage() {
         var intent = Intent(Intent.ACTION_GET_CONTENT) // 갤러리 앱 호출
         intent.type = "image/*"
-
 
         startActivityForResult(intent, pickStorage)
     }
@@ -372,14 +369,10 @@ class BoardWirteActivity : AppCompatActivity() {
                     imageUri = pickedImage
                 }
             }
-
             binding.picList.setText(imageUri.toString())
             //Glide.with(this).load(imageUri).into(complete_picture)  // 화면에 출력
-
             setImage = true // 이미지 업로드 했음을 알림
-
         }
-
     }
 
 }

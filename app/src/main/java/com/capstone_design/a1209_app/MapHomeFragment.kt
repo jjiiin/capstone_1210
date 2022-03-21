@@ -133,11 +133,6 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
                 TODO("Not yet implemented")
             }
         })
-        if(cnt==0) {
-            listViewAll()
-            buttonColor("all")
-            cnt+=1
-        }
         viewPager2=binding.viewPager
         springDotsIndicator=binding.springDotsIndicator
 
@@ -159,7 +154,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             }
         })
 
-
+        //키워드 알림 - 키워드 리스트와 글 목록 비교하기
         FBRef.board.addValueEventListener(object :ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 for(DataModel in snapshot.children){
@@ -180,64 +175,72 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
 
         })
 
-
-
-
-
-//        //버튼 클릭시 category에 값 할당하기
+//        if(cnt==0) {
+//            markerView("all")
+//            buttonColor("all")
+//            cnt+=1
+//        }
 //        binding.categoryAll.setOnClickListener {
-//            category="all"
-//            listViewAll()
+//            mMap!!.clear()
+//            markerView("all")
 //            buttonColor("all")
 //        }
 //        binding.categoryAsian.setOnClickListener {
-//            category="asian"
-//            listView("asian")
+//            mMap!!.clear()
+//            markerView("asian")
 //            buttonColor("asian")
 //        }
 //        binding.categoryBun.setOnClickListener {
-//            listView("bun")
+//            mMap!!.clear()
+//            viewPager2.visibility=View.INVISIBLE
+//            springDotsIndicator.visibility=View.INVISIBLE
+//            markerView("bun")
 //            buttonColor("bun")
 //        }
 //        binding.categoryChicken.setOnClickListener {
-//            category = "chicken"
-//            listView("chicken")
+//            mMap!!.clear()
+//            markerView("chicken")
 //            buttonColor("chicken")
 //        }
 //        binding.categoryPizza.setOnClickListener {
-//            category = "pizza"
-//            listView("chicken")
+//            mMap!!.clear()
+//            markerView("chicken")
 //            buttonColor("pizza")
 //        }
 //        binding.categoryFast.setOnClickListener {
-//            category = "fastfood"
-//            listView("fastfood")
+//            mMap!!.clear()
+//            markerView("fastfood")
 //            buttonColor("fast")
 //        }
 //        binding.categoryJap.setOnClickListener {
-//            category = "japan"
-//            listView("japan")
+//            mMap!!.clear()
+//            markerView("japan")
 //            buttonColor("japan")
 //        }
 //        binding.categoryKor.setOnClickListener {
-//            category = "korean"
-//            listView("korean")
+//            mMap!!.clear()
+//            markerView("korean")
 //            buttonColor("korean")
 //        }
 //        binding.categoryDo.setOnClickListener {
-//            category = "bento"
-//            listView("bento")
+//            mMap!!.clear()
+//            markerView("bento")
 //            buttonColor("bento")
+//
 //        }
 //        binding.categoryCafe.setOnClickListener {
-//            category = "cafe"
-//            listView("cafe")
+//            mMap!!.clear()
+//            markerView("cafe")
 //            buttonColor("cafe")
+//
 //        }
 //        binding.categoryChi.setOnClickListener {
-//            category = "chi"
-//            listView("chi")
+//            mMap!!.clear()
+//            viewPager2.visibility=View.INVISIBLE
+//            springDotsIndicator.visibility=View.INVISIBLE
+//            markerView("chi")
 //            buttonColor("chi")
+//
 //        }
 
         binding.mapGo.setOnClickListener {
@@ -290,8 +293,95 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap=googleMap
+        if(cnt==0) {
+            markerView("all")
+            buttonColor("all")
+            cnt+=1
+        }
+        binding.categoryAll.setOnClickListener {
+            mMap!!.clear()
+            viewPager2.visibility=View.GONE
+            springDotsIndicator.visibility=View.GONE
+            markerView("all")
+            buttonColor("all")
+        }
+        binding.categoryAsian.setOnClickListener {
+            mMap!!.clear()
+            viewPager2.visibility=View.GONE
+            springDotsIndicator.visibility=View.GONE
+            markerView("asian")
+            buttonColor("asian")
+        }
+        binding.categoryBun.setOnClickListener {
+            mMap!!.clear()
+            viewPager2.visibility=View.INVISIBLE
+            springDotsIndicator.visibility=View.INVISIBLE
+            markerView("bun")
+            buttonColor("bun")
+        }
+        binding.categoryChicken.setOnClickListener {
+            mMap!!.clear()
+            viewPager2.visibility=View.GONE
+            springDotsIndicator.visibility=View.GONE
+            markerView("chicken")
+            buttonColor("chicken")
+        }
+        binding.categoryPizza.setOnClickListener {
+            mMap!!.clear()
+            viewPager2.visibility=View.GONE
+            springDotsIndicator.visibility=View.GONE
+            markerView("chicken")
+            buttonColor("pizza")
+        }
+        binding.categoryFast.setOnClickListener {
+            mMap!!.clear()
+            viewPager2.visibility=View.GONE
+            springDotsIndicator.visibility=View.GONE
+            markerView("fastfood")
+            buttonColor("fast")
+        }
+        binding.categoryJap.setOnClickListener {
+            mMap!!.clear()
+            viewPager2.visibility=View.GONE
+            springDotsIndicator.visibility=View.GONE
+            markerView("japan")
+            buttonColor("japan")
+        }
+        binding.categoryKor.setOnClickListener {
+            mMap!!.clear()
+            viewPager2.visibility=View.GONE
+            springDotsIndicator.visibility=View.GONE
+            markerView("korean")
+            buttonColor("korean")
+        }
+        binding.categoryDo.setOnClickListener {
+            mMap!!.clear()
+            viewPager2.visibility=View.GONE
+            springDotsIndicator.visibility=View.GONE
+            markerView("bento")
+            buttonColor("bento")
+
+        }
+        binding.categoryCafe.setOnClickListener {
+            mMap!!.clear()
+            viewPager2.visibility=View.GONE
+            springDotsIndicator.visibility=View.GONE
+            markerView("cafe")
+            buttonColor("cafe")
+
+        }
+        binding.categoryChi.setOnClickListener {
+            mMap!!.clear()
+            viewPager2.visibility=View.GONE
+            springDotsIndicator.visibility=View.GONE
+            markerView("chi")
+            buttonColor("chi")
+
+        }
 
         binding.myloc.setOnClickListener {
+            viewPager2.visibility=View.GONE
+            springDotsIndicator.visibility=View.GONE
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(mainActivity)
             setUpdateLocationListener()
         }
@@ -330,16 +420,12 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             }
         })
 
-        markerView()
-
         //마커 클릭 시 카드 뷰 보이게 하기
         mMap!!.setOnMarkerClickListener (object :GoogleMap.OnMarkerClickListener{
             override fun onMarkerClick(p0: Marker): Boolean {
                 markerClick(p0.tag.toString())
                 viewPager2.visibility=View.VISIBLE
                 springDotsIndicator.visibility=View.VISIBLE
-
-
 
                 return false
             }
@@ -558,19 +644,21 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
         }
 
     }
+
     //모든 data담아두는 List
     private var dataList= mutableListOf<dataModel>()
     private var tempList= mutableListOf<dataModel>()
-    private fun markerView(){
+    private fun markerView(category:String){
         val boardRef : DatabaseReference = database.getReference("map_contents")
         boardRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 dataList.clear()
                 tempList.clear()
+                itemsKeyList.clear()
                 for (data in snapshot.children) {
                     val item = data.getValue(dataModel::class.java)
                     if (item != null) {
-                        Log.d("category", category)
+                        if(category=="all") {
                             val latLng = LatLng(item.lat.toDouble(), item.lng.toDouble())
                             val discripter = getMarkerDrawable(R.drawable.marker)
                             val markerOptions = MarkerOptions()
@@ -579,20 +667,46 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
                             dataList.add(item)
                             itemsKeyList.add(data.key.toString())
                             //주소가 같은 것이 있으면 제외하기-> continue
-                            var con=false
-                            for(i in tempList){
-                                if(i.placeAddress==item.placeAddress){
-                                    con=true
+                            var con = false
+                            for (i in tempList) {
+                                if (i.placeAddress == item.placeAddress) {
+                                    con = true
                                     break
                                 }
                             }
-                            if(con){
+                            if (con) {
                                 continue
                             }
                             val marker: Marker? = mMap!!.addMarker(markerOptions)
                             marker!!.tag = item.placeAddress //나중에 place=address+detail 분리하기
                             tempList.add(item)//새로운 주소 목록에 포함.
-                        } } }
+                        }
+                        if(category==item.category){
+                            val latLng = LatLng(item.lat.toDouble(), item.lng.toDouble())
+                            val discripter = getMarkerDrawable(R.drawable.marker)
+                            val markerOptions = MarkerOptions()
+                                .position(latLng)
+                                .icon(discripter)
+                            dataList.add(item)
+                            itemsKeyList.add(data.key.toString())
+                            //주소가 같은 것이 있으면 제외하기-> continue
+                            var con = false
+                            for (i in tempList) {
+                                if (i.placeAddress == item.placeAddress) {
+                                    con = true
+                                    break
+                                }
+                            }
+                            if (con) {
+                                continue
+                            }
+                            val marker: Marker? = mMap!!.addMarker(markerOptions)
+                            marker!!.tag = item.placeAddress //나중에 place=address+detail 분리하기
+                            tempList.add(item)//새로운 주소 목록에 포함.
+                        }
+                    }
+                }
+            }
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
@@ -629,34 +743,6 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             }
 
         })
-
-    }
-    private fun listViewAll(){
-        val boardRef : DatabaseReference = database.getReference("map_contents")
-        boardRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                items.clear()
-                for (data in snapshot.children) {
-                    val item = data.getValue(dataModel::class.java)
-                    if (item != null) {
-                        Log.d("category",category)
-
-                        items.add(item!!)
-                        itemsKeyList.add(data.key.toString())
-
-                    }
-                    itemsKeyList.reverse()
-                    items.reverse()
-                    //adapter.notifyDataSetChanged()
-                }
-                Log.d("bun1",items.toString())
-
-            }
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-        })
-        Log.d("bun2",items.toString())
 
     }
 

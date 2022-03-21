@@ -1,6 +1,7 @@
 package com.capstone_design.a1209_app
 
 import android.content.Context
+import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,7 @@ class bannerAdapter(val items:MutableList<dataModel>): RecyclerView.Adapter<bann
         val fee: TextView =itemView.findViewById(R.id.item_fee)
         val person: TextView =itemView.findViewById(R.id.item_person)
         val img: ImageView =itemView.findViewById(R.id.item_image)
+        val quick:ImageView=itemView.findViewById(R.id.quick)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -44,6 +46,12 @@ class bannerAdapter(val items:MutableList<dataModel>): RecyclerView.Adapter<bann
             "korean"->holder.img.setImageResource(R.drawable.korean)
             "cafe"->holder.img.setImageResource(R.drawable.cafe)
             "chi"->holder.img.setImageResource(R.drawable.china)
+        }
+
+        if(item.quick=="1"){
+            holder.quick.visibility=View.VISIBLE
+        }else{
+            holder.quick.visibility=View.INVISIBLE
         }
 
         holder.itemView.setOnClickListener {

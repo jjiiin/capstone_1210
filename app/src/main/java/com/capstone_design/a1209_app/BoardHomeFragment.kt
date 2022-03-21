@@ -64,7 +64,7 @@ class BoardHomeFragment : Fragment(){
         binding.count.text = items.size.toString()
         var category=""
         if(cnt==0) {
-            listViewAll()
+            listViewAll("0")
             category="all"
             buttonColor("all")
             cnt+=1
@@ -72,57 +72,57 @@ class BoardHomeFragment : Fragment(){
         //버튼 클릭시 category에 값 할당하기
         binding.categoryAll.setOnClickListener {
             category="all"
-            listViewAll()
+            listViewAll("0")
             buttonColor("all")
         }
         binding.categoryAsian.setOnClickListener {
             category="asian"
-            listView("asian")
+            listView("asian","0")
             buttonColor("asian")
         }
         binding.categoryBun.setOnClickListener {
-            listView("bun")
+            listView("bun","0")
             category="bun"
             buttonColor("bun")
         }
         binding.categoryChicken.setOnClickListener {
             category = "chicken"
-            listView("chicken")
+            listView("chicken","0")
             buttonColor("chicken")
         }
         binding.categoryPizza.setOnClickListener {
             category = "pizza"
-            listView("chicken")
+            listView("chicken","0")
             buttonColor("pizza")
         }
         binding.categoryFast.setOnClickListener {
             category = "fastfood"
-            listView("fastfood")
+            listView("fastfood","0")
             buttonColor("fast")
         }
         binding.categoryJap.setOnClickListener {
             category = "japan"
-            listView("japan")
+            listView("japan","0")
             buttonColor("japan")
         }
         binding.categoryKor.setOnClickListener {
             category = "korean"
-            listView("korean")
+            listView("korean","0")
             buttonColor("korean")
         }
         binding.categoryDo.setOnClickListener {
             category = "bento"
-            listView("bento")
+            listView("bento","0")
             buttonColor("bento")
         }
         binding.categoryCafe.setOnClickListener {
             category = "cafe"
-            listView("cafe")
+            listView("cafe","0")
             buttonColor("cafe")
         }
         binding.categoryChi.setOnClickListener {
             category = "chi"
-            listView("chi")
+            listView("chi","0")
             buttonColor("chi")
         }
 
@@ -153,7 +153,23 @@ class BoardHomeFragment : Fragment(){
             })
         }
 
-        Log.d("bun4",items.toString())
+        //즉각 주문 체크 박스
+        binding.quick.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked){
+                if(category=="all"){
+                    listViewAll("1")
+                }else {
+                    listView(category,"1")
+                }
+            }else{
+                if(category=="all"){
+                    listViewAll("0")
+                }else {
+                    listView(category,"0")
+                }
+            }
+        }
+
         binding.LvMain.adapter=adapter
 
             binding.LvMain.setOnItemClickListener { parent, view, position, id ->
@@ -268,7 +284,7 @@ class BoardHomeFragment : Fragment(){
 
     }
 
-    private fun listView(category:String){
+    private fun listView(category:String,quick:String){
         val boardRef : DatabaseReference = database.getReference("map_contents")
         boardRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -276,16 +292,23 @@ class BoardHomeFragment : Fragment(){
                 for (data in snapshot.children) {
                     val item = data.getValue(dataModel::class.java)
                     if (item != null) {
-                        Log.d("category",category)
-                        if(category==item.category){
-                            items.add(item!!)
-                            itemsKeyList.add(data.key.toString())
+                        if(quick=="1") {
+                            if (category == item.category) {
+                                if(item.quick=="1")
+                                items.add(item!!)
+                                itemsKeyList.add(data.key.toString())
+                            }
+                        }else{
+                            if (category == item.category) {
+                                items.add(item!!)
+                                itemsKeyList.add(data.key.toString())
+                            }
                         }
                     }
-                    itemsKeyList.reverse()
-                    items.reverse()
                     adapter.notifyDataSetChanged()
                 }
+                itemsKeyList.reverse()
+                items.reverse()
                 Log.d("bun1",items.toString())
 
             }
@@ -296,7 +319,7 @@ class BoardHomeFragment : Fragment(){
         Log.d("bun2",items.toString())
 
     }
-    private fun listViewAll(){
+    private fun listViewAll(quick:String){
         val boardRef : DatabaseReference = database.getReference("map_contents")
         boardRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -305,15 +328,21 @@ class BoardHomeFragment : Fragment(){
                     val item = data.getValue(dataModel::class.java)
                     if (item != null) {
                         //Log.d("category",category)
-
-                            items.add(item!!)
-                            itemsKeyList.add(data.key.toString())
-
+                            if(quick=="1") {
+                                if(item.quick=="1") {
+                                    items.add(item!!)
+                                    itemsKeyList.add(data.key.toString())
+                                }
+                            }else{
+                                items.add(item!!)
+                                itemsKeyList.add(data.key.toString())
+                            }
                     }
-                    itemsKeyList.reverse()
-                    items.reverse()
+
                     adapter.notifyDataSetChanged()
                 }
+                itemsKeyList.reverse()
+                items.reverse()
                 Log.d("bun1",items.toString())
 
             }
