@@ -277,7 +277,7 @@ class BoardWirteActivity : AppCompatActivity() {
 
             //채팅방 생성
             var chatroomkey = chatRoomsRef.push().key
-            val chatRoomData = ChatRoomData(code, writer_uid)
+            val chatRoomData = ChatRoomData(title_dm, writer_uid)
             //채팅방 정보 저장
             chatRoomsRef.child(chatroomkey!!).setValue(chatRoomData)
             chatRoomsRef.child(chatroomkey!!).child("users").child(writer_uid).setValue(true)

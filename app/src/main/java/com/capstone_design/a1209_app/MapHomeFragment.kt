@@ -684,19 +684,18 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
                             dataList.add(item)
                             itemsKeyList.add(data.key.toString())
                             //주소가 같은 것이 있으면 제외하기-> continue
-                            val marker: Marker? = mMap!!.addMarker(markerOptions)
+                            var con = false
                             for (i in tempList) {
                                 if (i.placeAddress == item.placeAddress) {
-                                    continue
-                                }else{
-                                    tempList.add(item)//새로운 주소 목록에 포함.
-                                    marker!!.tag = item.placeAddress //나중에 place=address+detail 분리하기
+                                    con = true
                                 }
                             }
-
-
-//                            marker!!.tag = item.placeAddress //나중에 place=address+detail 분리하기
-//                            tempList.add(item)//새로운 주소 목록에 포함.
+                            if (con) {
+                                continue
+                            }
+                            val marker: Marker? = mMap!!.addMarker(markerOptions)
+                            marker!!.tag = item.placeAddress //나중에 place=address+detail 분리하기
+                            tempList.add(item)//새로운 주소 목록에 포함.
                         }
                     }
                 }
@@ -718,6 +717,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
                 itemKey.add(itemsKeyList[i])
             }
         }
+        Log.d("keyitemkey", cardList.toString())
 //        viewPager2.adapter=bannerAdapter(cardList)
         val vpAdapter=bannerAdapter(cardList,this)
         viewPager2.adapter=vpAdapter
