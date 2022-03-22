@@ -437,14 +437,8 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
                viewPager2.visibility = View.GONE
                    springDotsIndicator.visibility = View.GONE
 
-                Log.d("latlng",latLng.toString())
-
             }
         })
-
-
-
-
     }
 
     //내 위치를 가져오는 코드
@@ -488,7 +482,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
         val camera=CameraUpdateFactory.newCameraPosition(cameraOption)
 
         mMap.clear()
-        mMap.addMarker(marker)
+        //mMap.addMarker(marker)
         mMap.moveCamera(camera)
     }
 
@@ -690,19 +684,19 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
                             dataList.add(item)
                             itemsKeyList.add(data.key.toString())
                             //주소가 같은 것이 있으면 제외하기-> continue
-                            var con = false
+                            val marker: Marker? = mMap!!.addMarker(markerOptions)
                             for (i in tempList) {
                                 if (i.placeAddress == item.placeAddress) {
-                                    con = true
-                                    break
+                                    continue
+                                }else{
+                                    tempList.add(item)//새로운 주소 목록에 포함.
+                                    marker!!.tag = item.placeAddress //나중에 place=address+detail 분리하기
                                 }
                             }
-                            if (con) {
-                                continue
-                            }
-                            val marker: Marker? = mMap!!.addMarker(markerOptions)
-                            marker!!.tag = item.placeAddress //나중에 place=address+detail 분리하기
-                            tempList.add(item)//새로운 주소 목록에 포함.
+
+
+//                            marker!!.tag = item.placeAddress //나중에 place=address+detail 분리하기
+//                            tempList.add(item)//새로운 주소 목록에 포함.
                         }
                     }
                 }
@@ -725,7 +719,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             }
         }
 //        viewPager2.adapter=bannerAdapter(cardList)
-        val vpAdapter=bannerAdapter(cardList)
+        val vpAdapter=bannerAdapter(cardList,this)
         viewPager2.adapter=vpAdapter
         viewPager2.orientation=ViewPager2.ORIENTATION_HORIZONTAL
         springDotsIndicator.setViewPager2(viewPager2)

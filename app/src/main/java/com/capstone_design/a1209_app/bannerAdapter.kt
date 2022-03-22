@@ -8,10 +8,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.capstone_design.a1209_app.dataModels.addressData
 import com.capstone_design.a1209_app.dataModels.dataModel
+import com.capstone_design.map_test.BoardHomeFragment
 
-class bannerAdapter(val items:MutableList<dataModel>): RecyclerView.Adapter<bannerAdapter.ViewHolder>()  {
+class bannerAdapter(val items:MutableList<dataModel>,private val context: MapHomeFragment): RecyclerView.Adapter<bannerAdapter.ViewHolder>()  {
     inner class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
         val title: TextView =itemView.findViewById(R.id.item_title)
         val place: TextView =itemView.findViewById(R.id.item_place)
@@ -35,17 +37,22 @@ class bannerAdapter(val items:MutableList<dataModel>): RecyclerView.Adapter<bann
         holder.fee.text=item.fee
         holder.person.text=item.person
         //image
-        when(item.category){
-            "asian"->holder.img.setImageResource(R.drawable.asian)
-            "bun"->holder.img.setImageResource(R.drawable.bun)
-            "bento"->holder.img.setImageResource(R.drawable.bento)
-            "chicken"->holder.img.setImageResource(R.drawable.chicken)
-            "pizza"->holder.img.setImageResource(R.drawable.pizza)
-            "fastfood"->holder.img.setImageResource(R.drawable.fastfood)
-            "japan"->holder.img.setImageResource(R.drawable.japan)
-            "korean"->holder.img.setImageResource(R.drawable.korean)
-            "cafe"->holder.img.setImageResource(R.drawable.cafe)
-            "chi"->holder.img.setImageResource(R.drawable.china)
+        if(item.image=="0") {
+            when (item.category) {
+                "asian" -> holder.img.setImageResource(R.drawable.asian)
+                "bun" -> holder.img.setImageResource(R.drawable.bun)
+                "bento" -> holder.img.setImageResource(R.drawable.bento)
+                "chicken" -> holder.img.setImageResource(R.drawable.chicken)
+                "pizza" -> holder.img.setImageResource(R.drawable.pizza)
+                "fastfood" -> holder.img.setImageResource(R.drawable.fastfood)
+                "japan" -> holder.img.setImageResource(R.drawable.japan)
+                "korean" -> holder.img.setImageResource(R.drawable.korean)
+                "cafe" -> holder.img.setImageResource(R.drawable.cafe)
+                "chi" -> holder.img.setImageResource(R.drawable.china)
+            }
+        }else{
+            var imageUri=item.image
+            Glide.with(context).load(imageUri).into(holder.img)
         }
 
         if(item.quick=="1"){

@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import com.capstone_design.a1209_app.board.BoardWirteActivity
 import com.capstone_design.a1209_app.dataModels.addressData
 import com.capstone_design.a1209_app.utils.FBRef
 import com.google.android.gms.maps.model.LatLng
@@ -77,6 +78,14 @@ class DetailAddressActivity : AppCompatActivity() {
                 Log.d("DAA", page)
                 intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
                 startActivity(intent)
+                finish()
+            }
+            else{
+//                val intent = Intent(this, BoardWirteActivity::class.java)
+//                    .putExtra("page", page)
+////                Log.d("DAA", page)
+//                intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+//                startActivity(intent)
                 finish()
             }
             }

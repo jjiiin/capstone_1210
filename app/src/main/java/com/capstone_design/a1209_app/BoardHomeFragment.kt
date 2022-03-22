@@ -72,56 +72,67 @@ class BoardHomeFragment : Fragment(){
         //버튼 클릭시 category에 값 할당하기
         binding.categoryAll.setOnClickListener {
             category="all"
+            binding.quick.isChecked=false
             listViewAll("0")
             buttonColor("all")
         }
         binding.categoryAsian.setOnClickListener {
             category="asian"
+            binding.quick.isChecked=false
             listView("asian","0")
             buttonColor("asian")
         }
         binding.categoryBun.setOnClickListener {
             listView("bun","0")
             category="bun"
+            binding.quick.isChecked=false
             buttonColor("bun")
         }
         binding.categoryChicken.setOnClickListener {
             category = "chicken"
+            binding.quick.isChecked=false
             listView("chicken","0")
             buttonColor("chicken")
         }
         binding.categoryPizza.setOnClickListener {
             category = "pizza"
+            binding.quick.isChecked=false
             listView("chicken","0")
             buttonColor("pizza")
         }
         binding.categoryFast.setOnClickListener {
             category = "fastfood"
+            binding.quick.isChecked=false
             listView("fastfood","0")
             buttonColor("fast")
         }
         binding.categoryJap.setOnClickListener {
             category = "japan"
+            binding.quick.isChecked=false
             listView("japan","0")
             buttonColor("japan")
         }
         binding.categoryKor.setOnClickListener {
             category = "korean"
+            binding.quick.isChecked=false
             listView("korean","0")
             buttonColor("korean")
         }
         binding.categoryDo.setOnClickListener {
             category = "bento"
+            binding.quick.isChecked=false
             listView("bento","0")
             buttonColor("bento")
         }
         binding.categoryCafe.setOnClickListener {
             category = "cafe"
+            binding.quick.isChecked=false
             listView("cafe","0")
             buttonColor("cafe")
         }
         binding.categoryChi.setOnClickListener {
             category = "chi"
+            binding.quick.isChecked=false
             listView("chi","0")
             buttonColor("chi")
         }
@@ -307,8 +318,8 @@ class BoardHomeFragment : Fragment(){
                     }
                     adapter.notifyDataSetChanged()
                 }
-                itemsKeyList.reverse()
-                items.reverse()
+//                itemsKeyList.reverse()
+//                items.reverse()
                 Log.d("bun1",items.toString())
 
             }

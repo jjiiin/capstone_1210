@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.TextUtils.replace
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
@@ -193,9 +194,10 @@ class BoardWirteActivity : AppCompatActivity() {
         binding.personNList.setOnClickListener {
             person = "제한 없음"
         }
+        //주소검색
         binding.searchBtn.setOnClickListener {
             val intent = Intent(this, AddressSearchActivity::class.java).putExtra("page","BoardWirteActivity")
-            startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+            startActivity(intent)
         }
         //주소
         auth = Firebase.auth
@@ -248,33 +250,34 @@ class BoardWirteActivity : AppCompatActivity() {
 
             //Log.d("아이디",current_uid)
             val writer_uid = Auth.current_uid
-
+            val code=title_dm.replace(" ","")
             //이미지 업로드
             if (setImage == true) {
                 Log.d("setImage","img")
+
                 FirebaseStorage.getInstance().reference.child("map_contents") // firebase storage에 이미지 저장
-                    .child("${writer_uid}+${title_dm}")
+                    .child("${writer_uid}+${code}") //다른 걸로 할 수 없을 까...
                     .child("image")
                     .putFile(imageUri!!)
                     .addOnSuccessListener {
                         FirebaseStorage.getInstance().reference.child("map_contents") // firebase storage에 이미지 저장
-                            .child("${writer_uid}+${title_dm}").child("image").downloadUrl.addOnSuccessListener {
+                            .child("${writer_uid}+${code}").child("image").downloadUrl.addOnSuccessListener {
                                 questPicture = it
                                 Log.d("tag_syccc", "$questPicture")
-                                FBRef.board.child("${writer_uid}+${title_dm}").child("image")
+                                FBRef.board.child("${writer_uid}+${code}").child("image")
                                     .setValue(questPicture.toString())
                                 image_dm=questPicture.toString()
                             }
                     }
                     .addOnFailureListener {
-                        Log.d("tag_syccc", it.toString())
+
                     }
             }
 
 
             //채팅방 생성
             var chatroomkey = chatRoomsRef.push().key
-            val chatRoomData = ChatRoomData(title_dm, writer_uid)
+            val chatRoomData = ChatRoomData(code, writer_uid)
             //채팅방 정보 저장
             chatRoomsRef.child(chatroomkey!!).setValue(chatRoomData)
             chatRoomsRef.child(chatroomkey!!).child("users").child(writer_uid).setValue(true)
@@ -337,7 +340,7 @@ class BoardWirteActivity : AppCompatActivity() {
             chatRoomsRef.child(chatroomkey!!).child("boardKey").setValue("${writer_uid}+${title_dm}")
 
             //지인(map-contents)
-            FBRef.board.child("${writer_uid}+${title_dm}").setValue(model)
+            FBRef.board.child("${writer_uid}+${code}").setValue(model)
             //글을 쓴 총대니까 채팅방으로 바로 이동
             val intent = Intent(this, ChatRoomActivity::class.java).putExtra("채팅방키", chatroomkey)
             startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))

@@ -45,7 +45,7 @@ class AddressSearchActivity : AppCompatActivity() {
         binding.mapSearch.setOnClickListener {
             val intent = Intent(this, MylocSearchActivity::class.java)
                 .putExtra("page",page)
-            startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+            startActivity(intent)
         }
         val rv = findViewById<RecyclerView>(R.id.addressRV)
         val rvAdapter = RVAdapter(dataModelList)

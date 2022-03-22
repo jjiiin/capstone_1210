@@ -343,7 +343,6 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
                 .putExtra("위도",latLng.latitude)
                 .putExtra("경도",latLng.longitude)
                 .putExtra("page",page)
-            intent.flags= Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
             finish()
         }

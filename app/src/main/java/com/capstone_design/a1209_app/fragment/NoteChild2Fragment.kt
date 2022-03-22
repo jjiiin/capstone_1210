@@ -75,7 +75,7 @@ class NoteChild2Fragment : Fragment() {
                 }
 
                 rvAdapter.notifyDataSetChanged()
-                dataModelList.reverse()
+                //dataModelList.reverse()
                 Log.d("data",dataModelList.toString())
             }
             override fun onCancelled(error: DatabaseError) {
