@@ -1,293 +1,379 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:background="@color/white"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/detailView"
-    android:orientation="vertical"
-    tools:context=".DetailActivity">
-    <ImageView
-        android:id="@+id/detail_image"
-        android:layout_width="68dp"
-        android:layout_height="68dp"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/chicken"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/detail_category"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:src="@drawable/detail_imageback"
-        app:layout_constraintBottom_toBottomOf="@+id/detail_category"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/detail_category"
-        android:layout_width="wrap_content"
-        android:layout_height="28dp"
-        android:layout_marginBottom="10dp"
-        android:paddingLeft="11dp"
-        android:paddingRight="11dp"
-        android:gravity="center"
-        android:text="치킨"
-        android:textColor="@color/black"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/round_button"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/detailTitle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/detailTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="20dp"
-        android:gravity="center_horizontal"
-        android:letterSpacing="-0.03"
-        android:text="달리는 커피 시키실 분"
-        android:textColor="#101010"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/line"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-    <LinearLayout
-        android:id="@+id/line"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="#989898"
-        android:orientation="horizontal"
-        android:layout_marginBottom="13dp"
-        app:layout_constraintBottom_toTopOf="@+id/rel_detail"/>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/rel_detail"
+        android:id="@+id/detailView"
         android:layout_width="match_parent"
-        android:layout_height="340dp"
-        app:layout_constraintBottom_toTopOf="@+id/frameLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints">
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
-                android:letterSpacing="-0.02"
-                android:text="만남 장소"
-                android:textColor="#808080"
-                android:textSize="14sp"
-                android:textStyle="normal"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <TextView
-                android:id="@+id/detailPlace"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="7dp"
-                android:layout_marginLeft="20dp"
-                android:letterSpacing="-0.03"
-                android:lineSpacingExtra="5sp"
-                android:text="서울특별시 노원구 공릉동 27-22 인사관 1층 휴게실"
-                android:textColor="#393939"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/textView3" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearLayout3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-            tools:ignore="MissingConstraints">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
-                android:letterSpacing="-0.02"
-                android:text="배달비"
-                android:textColor="#808080"
-                android:textSize="14sp"
-                android:textStyle="normal" />
-
-
-            <TextView
-                android:id="@+id/detailFee"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="35.5dp"
-                android:letterSpacing="-0.03"
-                android:text="3000원"
-                android:textColor="#393939"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearLayout4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="22dp"
-                android:letterSpacing="-0.02"
-                android:text="주문예정"
-                android:textColor="#808080"
-                android:textSize="14sp"
-                android:textStyle="normal" />
-
-            <TextView
-                android:id="@+id/detailTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:letterSpacing="-0.03"
-                android:text="협의 가능"
-                android:textColor="#393939"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearLayout5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="18dp"
-                android:letterSpacing="-0.02"
-                android:text="메뉴 링크"
-                android:textColor="#808080"
-                android:textSize="14sp"
-                android:textStyle="normal" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:letterSpacing="-0.03"
-                android:text="이동"
-                android:textColor="#393939"
-                android:textSize="16sp"
-                android:textStyle="bold"  />
-            <ImageView
-                android:id="@+id/linkBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/mhf_go"/>
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="top"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="18dp"
-                android:letterSpacing="-0.02"
-                android:text="총대 멘트"
-                android:textColor="#808080"
-                android:textSize="14sp"
-                android:textStyle="normal" />
-
-            <TextView
-                android:id="@+id/detailMention"
-                android:layout_width="250dp"
-                android:layout_height="75dp"
-                android:background="@drawable/detail_window_mention"
-                android:letterSpacing="-0.03"
-                android:lineSpacingExtra="8sp"
-                android:layout_marginTop="10dp"
-                android:padding="8dp"
-                android:text="안녕하세요 바로 주문하고 싶은 분들 환영합니다 :)"
-                android:textColor="#393939"
-                android:textSize="16sp"
-                android:textStyle="normal" />
-
-        </LinearLayout>
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <FrameLayout
-        android:id="@+id/frameLayout"
-        android:layout_width="match_parent"
-        android:layout_height="170dp"
-        android:layout_gravity="bottom"
+        android:layout_height="match_parent"
         android:background="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:orientation="vertical"
+        tools:context=".DetailActivity">
 
         <ImageView
-            android:layout_width="match_parent"
+            android:id="@+id/detail_image"
+            android:layout_width="68dp"
+            android:layout_height="68dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/chicken"
+            app:layout_constraintBottom_toTopOf="@+id/detail_category"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/detail_user" />
+            android:layout_marginBottom="12dp"
+            android:src="@drawable/detail_imageback"
+            app:layout_constraintBottom_toBottomOf="@+id/detail_category"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent" />
 
-        <Button
-            android:id="@+id/enterBtn"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="100dp"
-            android:layout_marginRight="16dp"
-            android:backgroundTint="#fd5401"
+        <TextView
+            android:id="@+id/detail_category"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/round_button"
+            android:gravity="center"
+            android:paddingLeft="11dp"
+            android:paddingRight="11dp"
+            android:text="치킨"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/detailTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/detailTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:gravity="center_horizontal"
             android:letterSpacing="-0.03"
-            android:text="채팅방 입장하기 (1/3)"
-            android:textColor="#ffffff"
-            android:textSize="16sp"
-            android:textStyle="normal" />
-    </FrameLayout>
+            android:text="달리는 커피 시키실 분"
+            android:textColor="#101010"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/line"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginBottom="13dp"
+            android:background="#989898"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/rel_detail" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rel_detail"
+            android:layout_width="match_parent"
+            android:layout_height="340dp"
+            app:layout_constraintBottom_toTopOf="@+id/frameLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="MissingConstraints">
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="24dp"
+                    android:letterSpacing="-0.02"
+                    android:text="만남 장소"
+                    android:textColor="#808080"
+                    android:textSize="14sp"
+                    android:textStyle="normal"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/detailPlace"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="7dp"
+                    android:letterSpacing="-0.03"
+                    android:lineSpacingExtra="5sp"
+                    android:text="서울특별시 노원구 공릉동 27-22 인사관 1층 휴게실"
+                    android:textColor="#393939"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@+id/textView3" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+                tools:ignore="MissingConstraints">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="24dp"
+                    android:letterSpacing="-0.02"
+                    android:text="배달비"
+                    android:textColor="#808080"
+                    android:textSize="14sp"
+                    android:textStyle="normal" />
+
+
+                <TextView
+                    android:id="@+id/detailFee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="35.5dp"
+                    android:letterSpacing="-0.03"
+                    android:text="3000원"
+                    android:textColor="#393939"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="22dp"
+                    android:letterSpacing="-0.02"
+                    android:text="주문예정"
+                    android:textColor="#808080"
+                    android:textSize="14sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/detailTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:letterSpacing="-0.03"
+                    android:text="협의 가능"
+                    android:textColor="#393939"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="18dp"
+                    android:letterSpacing="-0.02"
+                    android:text="메뉴 링크"
+                    android:textColor="#808080"
+                    android:textSize="14sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:letterSpacing="-0.03"
+                    android:text="이동"
+                    android:textColor="#393939"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/linkBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/mhf_go" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="18dp"
+                    android:gravity="top"
+                    android:letterSpacing="-0.02"
+                    android:text="총대 멘트"
+                    android:textColor="#808080"
+                    android:textSize="14sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/detailMention"
+                    android:layout_width="250dp"
+                    android:layout_height="75dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/detail_window_mention"
+                    android:letterSpacing="-0.03"
+                    android:lineSpacingExtra="8sp"
+                    android:padding="8dp"
+                    android:text="안녕하세요 바로 주문하고 싶은 분들 환영합니다 :)"
+                    android:textColor="#393939"
+                    android:textSize="16sp"
+                    android:textStyle="normal" />
+
+            </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <FrameLayout
+            android:id="@+id/frameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:layout_gravity="bottom"
+            android:background="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginTop="23dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginBottom="25dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/profile_cat" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="9dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="3dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/tv_nickname"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="닉네임"
+                                android:textColor="#393939"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="end">
+
+                                <ImageView
+                                    android:id="@+id/btn_check_feedback"
+                                    android:layout_width="77dp"
+                                    android:layout_height="22dp"
+                                    android:src="@drawable/check_feedback" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <RatingBar
+                                android:id="@+id/ratingBar"
+                                style="@style/CustomRatingBarStyle_BoardDetail"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:isIndicator="true"
+                                android:numStars="5"
+                                android:rating="3.5"
+                                android:stepSize="0.5" />
+
+                            <TextView
+                                android:id="@+id/tv_rating"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="6dp"
+                                android:text="4.0"
+                                android:textColor="#393939"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/enterBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:backgroundTint="#fd5401"
+                    android:letterSpacing="-0.03"
+                    android:text="채팅방 입장하기 (1/3)"
+                    android:textColor="#ffffff"
+                    android:textSize="16sp"
+                    android:textStyle="normal" />
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

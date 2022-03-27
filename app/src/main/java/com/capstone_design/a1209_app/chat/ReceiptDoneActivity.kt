@@ -12,6 +12,7 @@ import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.dataModels.ReceiptData
 import com.capstone_design.a1209_app.databinding.ActivityReceiptBeforeBinding
 import com.capstone_design.a1209_app.databinding.ActivityReceiptDoneBinding
+import com.capstone_design.a1209_app.utils.Auth
 import com.capstone_design.a1209_app.utils.FBRef
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
@@ -32,12 +33,12 @@ class ReceiptDoneActivity : AppCompatActivity() {
             binding.tvIndividualDeliveryFee.text = indiv_delivery_fee.toString()
         }
         lateinit var rvAdapter: Receipt_RVAdapter
+        var delivery_fee: Int = 0
     }
 
     //리사이클러뷰에 들어갈 아이템 추가
     val items = mutableListOf<ReceiptData>()
     var fee_string: String = ""
-    var delivery_fee: Int = 0
     var boardKey: String = ""
     var userNum: Int = 0
     var price_sum: Int = 0
@@ -56,6 +57,11 @@ class ReceiptDoneActivity : AppCompatActivity() {
         val rv = findViewById<RecyclerView>(R.id.receipt_rv_view)
         rv.adapter = rvAdapter
         rv.layoutManager = LinearLayoutManager(this)
+
+        //뒤로가기 버튼
+        binding.backbtn.setOnClickListener {
+            finish()
+        }
 
         //파이어베이스의 비동기 방식 -> 동기 방식
         CoroutineScope(Dispatchers.IO).launch {
@@ -79,49 +85,6 @@ class ReceiptDoneActivity : AppCompatActivity() {
         }
     }
 
-    /*fun getUserReceipt(chatroomkey: String) {
-        FBRef.chatRoomsRef.child(chatroomkey!!).child("receipts")
-            .addChildEventListener(object : ChildEventListener {
-                override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-                    Log.d("데이터-Added", snapshot.toString())
-                    items.clear()
-                    if (snapshot.getValue()!!.javaClass.toString() == "class java.util.HashMap") {
-                        val data = snapshot.getValue(ReceiptData::class.java)
-                        price_sum += data!!.price
-                        items.add(data!!)
-                        //items에 변화가 생기면 반영
-                        rvAdapter.notifyDataSetChanged()
-                    }
-                    binding.tvPriceSum.text = price_sum.toString()
-                }
-
-                override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                    Log.d("데이터-Changed", snapshot.toString())
-                    items.clear()
-                    if (snapshot.getValue()!!.javaClass.toString() == "class java.util.HashMap") {
-                        val data = snapshot.getValue(ReceiptData::class.java)
-                        price_sum += data!!.price
-                        items.add(data!!)
-                        //items에 변화가 생기면 반영
-                        rvAdapter.notifyDataSetChanged()
-                    }
-                    binding.tvPriceSum.text = price_sum.toString()
-                }
-
-                override fun onChildRemoved(snapshot: DataSnapshot) {
-                    Log.d("데이터-Removed", snapshot.toString())
-                }
-
-                override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-                    Log.d("데이터-Moved", snapshot.toString())
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                }
-
-            })
-    }*/
-
     fun getUserReceipt(chatroomkey: String) {
         FBRef.chatRoomsRef.child(chatroomkey!!).child("receipts")
             .addValueEventListener(object : ValueEventListener {
@@ -132,7 +95,11 @@ class ReceiptDoneActivity : AppCompatActivity() {
                         if (data.getValue()!!.javaClass.toString() == "class java.util.HashMap") {
                             val data = data.getValue(ReceiptData::class.java)
                             price_sum += data!!.price
-                            items.add(data!!)
+                            if(data.uid.equals(Auth.current_uid)){
+                                items.add(0, data)
+                            }else{
+                                items.add(data!!)
+                            }
                             //items에 변화가 생기면 반영
                             rvAdapter.notifyDataSetChanged()
                         }
@@ -171,6 +138,7 @@ class ReceiptDoneActivity : AppCompatActivity() {
                 .addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         fee_string = snapshot.getValue<String>().toString()
+                        //문자열에서 숫자만 추출하기
                         delivery_fee = fee_string.replace("[^\\d]".toRegex(), "").toInt()
                         price_sum += delivery_fee
                         binding.tvDeliveryFee.text = delivery_fee.toString()
