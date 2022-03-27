@@ -1,11 +1,14 @@
 package com.capstone_design.a1209_app.fragment
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -76,20 +79,45 @@ class ChatFragment : Fragment() {
                 binding.exitBtn.setImageResource(R.drawable.trash_open)
                 binding.exitText.visibility = View.VISIBLE
                 isExitBtnClick = 1
-                rvAdapter.updateCheckBox(1)
+                rvAdapter.updateCheckBox(true)
                 rvAdapter.notifyDataSetChanged()
             } else {
                 binding.exitBtn.setImageResource(R.drawable.trash_round)
                 binding.exitText.visibility = View.INVISIBLE
                 isExitBtnClick = 0
-                rvAdapter.updateCheckBox(0)
+                rvAdapter.updateCheckBox(false)
                 rvAdapter.notifyDataSetChanged()
-                if (ChatList_RVAdapter.checked_chatRoomKey_List.isNotEmpty()) {
+            }
+        }
+
+        //휴지통 아이콘 눌렀을 때 보이는 "나가기" 글자를 눌렀을때 이벤트
+        binding.exitText.setOnClickListener {
+            if (ChatList_RVAdapter.checked_chatRoomKey_List.isNotEmpty()) {
+                //삭제 경고 팝업띄우기
+                val mDialogView =
+                    LayoutInflater.from(context).inflate(R.layout.exit_dialog, null)
+                val mBuilder = AlertDialog.Builder(context).setView(mDialogView)
+                val mAlertDialog = mBuilder.show()
+                val okButton = mDialogView.findViewById<Button>(R.id.btn_yes)
+
+                okButton.setOnClickListener {
                     for (key in ChatList_RVAdapter.checked_chatRoomKey_List) {
                         exit(key)
                     }
-
                 }
+                val noButton = mDialogView.findViewById<Button>(R.id.btn_no)
+
+                noButton.setOnClickListener {
+                    //팝업창 없앰
+                    mAlertDialog.dismiss()
+                    //휴지통 버튼 안눌린 상태로 바꾸기
+                    binding.exitBtn.setImageResource(R.drawable.trash_round)
+                    binding.exitText.visibility = View.INVISIBLE
+                    isExitBtnClick = 0
+                    rvAdapter.updateCheckBox(false)
+                    rvAdapter.notifyDataSetChanged()
+                }
+
             }
         }
         return binding.root

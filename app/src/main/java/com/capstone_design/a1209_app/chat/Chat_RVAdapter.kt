@@ -21,28 +21,45 @@ class Chat_RVAdapter(val items: MutableList<ChatData>, val context: Context) :
     val LEFT_TALK = 1
     val RIGHT_ACCOUNT_TALK = 2
     val LEFT_ACCOUNT_TALK = 3
+    val ENTER = 4
+    val NOTICE = 5
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         //뷰홀더를 생성(레이아웃 생성)하는 코드 작성
-        return when(viewType){
-            RIGHT_TALK ->{
-                val view = LayoutInflater.from(context).inflate(R.layout.chat_rv_item_right, parent, false)
+        return when (viewType) {
+            RIGHT_TALK -> {
+                val view =
+                    LayoutInflater.from(context).inflate(R.layout.chat_rv_item_right, parent, false)
                 RightViewHolder(view)
             }
-            LEFT_TALK ->{
-                val view = LayoutInflater.from(context).inflate(R.layout.chat_rv_item_left, parent, false)
+            LEFT_TALK -> {
+                val view =
+                    LayoutInflater.from(context).inflate(R.layout.chat_rv_item_left, parent, false)
                 LeftViewHolder(view)
             }
-            RIGHT_ACCOUNT_TALK->{
-                val view = LayoutInflater.from(context).inflate(R.layout.chat_rv_item_account_right, parent, false)
+            RIGHT_ACCOUNT_TALK -> {
+                val view = LayoutInflater.from(context)
+                    .inflate(R.layout.chat_rv_item_account_right, parent, false)
                 RightVAccountiewHolder(view)
             }
-            LEFT_ACCOUNT_TALK->{
-                val view = LayoutInflater.from(context).inflate(R.layout.chat_rv_item_account_left, parent, false)
+            LEFT_ACCOUNT_TALK -> {
+                val view = LayoutInflater.from(context)
+                    .inflate(R.layout.chat_rv_item_account_left, parent, false)
                 LeftAccountViewHolder(view)
             }
-            else ->{
-                val view = LayoutInflater.from(context).inflate(R.layout.chat_rv_item_left, parent, false)
+            ENTER -> {
+                val view = LayoutInflater.from(context)
+                    .inflate(R.layout.chat_rv_item_enter_message, parent, false)
+                EnterViewHolder(view)
+            }
+            NOTICE -> {
+                val view = LayoutInflater.from(context)
+                    .inflate(R.layout.chat_rv_item_notice, parent, false)
+                NoticeViewHolder(view)
+            }
+            else -> {
+                val view =
+                    LayoutInflater.from(context).inflate(R.layout.chat_rv_item_left, parent, false)
                 LeftViewHolder(view)
             }
         }
@@ -51,13 +68,17 @@ class Chat_RVAdapter(val items: MutableList<ChatData>, val context: Context) :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         //뷰홀더가 재활용될때 실행되는 메소드 작성
-        if(holder is LeftViewHolder){
+        if (holder is LeftViewHolder) {
             holder.bindItems(items[position])
-        } else if(holder is RightViewHolder){
+        } else if (holder is RightViewHolder) {
             holder.bindItems(items[position])
-        } else if(holder is LeftAccountViewHolder){
+        } else if (holder is LeftAccountViewHolder) {
             holder.bindItems(items[position])
-        }else if(holder is RightVAccountiewHolder){
+        } else if (holder is RightVAccountiewHolder) {
+            holder.bindItems(items[position])
+        } else if (holder is EnterViewHolder) {
+            holder.bindItems(items[position])
+        } else if (holder is NoticeViewHolder) {
             holder.bindItems(items[position])
         }
 
@@ -69,19 +90,27 @@ class Chat_RVAdapter(val items: MutableList<ChatData>, val context: Context) :
 
     override fun getItemViewType(position: Int): Int {
         auth = Firebase.auth
-        val current_uid = auth.currentUser!!.uid.toString()
+        val current_uid = auth.currentUser!!.uid
         val chatData = items.get(position)
-        if(chatData.uid.equals(current_uid)){
-            if(chatData.msg == "account"){
+        if (chatData.uid.equals(current_uid)) {
+            if (chatData.msg == "enter") {
+                return ENTER
+            } else if (chatData.uid == "notice") {
+                return NOTICE
+            } else if (chatData.msg == "account") {
                 return RIGHT_ACCOUNT_TALK
-            } else{
+            } else {
                 //내 채팅인 경우 0
                 return RIGHT_TALK
             }
-        }else{
-            if(chatData.msg == "account"){
+        } else {
+            if (chatData.msg == "enter") {
+                return ENTER
+            } else if (chatData.uid == "notice") {
+                return NOTICE
+            } else if (chatData.msg == "account") {
                 return LEFT_ACCOUNT_TALK
-            } else{
+            } else {
                 //다른 사람 채팅인 경우 1
                 return LEFT_TALK
             }
@@ -103,19 +132,19 @@ class Chat_RVAdapter(val items: MutableList<ChatData>, val context: Context) :
             val dateFormat = SimpleDateFormat("hh:mm")
             val time = dateFormat.format(item.time)
             val rv_msgtime = itemView.findViewById<TextView>(R.id.rv_msg_time)
-            if(ampm.toString() == "AM"){
+            if (ampm.toString() == "AM") {
                 rv_msgtime.text = "오전 " + time.toString()
-            } else{
+            } else {
                 rv_msgtime.text = "오후 " + time.toString()
             }
 
             //val rv_profile_btn = itemView.findViewById<Button>(R.id.rv_profile_btn)
-           /* rv_profile_btn.setOnClickListener {
-                Intent(context, ProfileActivity::class.java).apply {
-                    putExtra("이메일", item.email)
-                    putExtra("닉네임", item.nickname)
-                }.run { context.startActivity(this) }
-            }*/
+            /* rv_profile_btn.setOnClickListener {
+                 Intent(context, ProfileActivity::class.java).apply {
+                     putExtra("이메일", item.email)
+                     putExtra("닉네임", item.nickname)
+                 }.run { context.startActivity(this) }
+             }*/
 
         }
     }
@@ -133,9 +162,9 @@ class Chat_RVAdapter(val items: MutableList<ChatData>, val context: Context) :
             val dateFormat = SimpleDateFormat("hh:mm")
             val time = dateFormat.format(item.time)
             val rv_msgtime = itemView.findViewById<TextView>(R.id.rv_msg_time)
-            if(ampm.toString() == "AM"){
+            if (ampm.toString() == "AM") {
                 rv_msgtime.text = "오전 " + time.toString()
-            } else{
+            } else {
                 rv_msgtime.text = "오후 " + time.toString()
             }
         }
@@ -150,9 +179,9 @@ class Chat_RVAdapter(val items: MutableList<ChatData>, val context: Context) :
             val dateFormat = SimpleDateFormat("hh:mm")
             val time = dateFormat.format(item.time)
             val rv_msgtime = itemView.findViewById<TextView>(R.id.rv_msg_time)
-            if(ampm.toString() == "AM"){
+            if (ampm.toString() == "AM") {
                 rv_msgtime.text = "오전 " + time.toString()
-            } else{
+            } else {
                 rv_msgtime.text = "오후 " + time.toString()
             }
         }
@@ -169,11 +198,27 @@ class Chat_RVAdapter(val items: MutableList<ChatData>, val context: Context) :
             val dateFormat = SimpleDateFormat("hh:mm")
             val time = dateFormat.format(item.time)
             val rv_msgtime = itemView.findViewById<TextView>(R.id.rv_msg_time)
-            if(ampm.toString() == "AM"){
+            if (ampm.toString() == "AM") {
                 rv_msgtime.text = "오전 " + time.toString()
-            } else{
+            } else {
                 rv_msgtime.text = "오후 " + time.toString()
             }
+        }
+    }
+
+    inner class EnterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bindItems(item: ChatData) {
+            val rv_nickname = itemView.findViewById<TextView>(R.id.tv_nickname)
+            rv_nickname.text = item.nickname
+
+        }
+    }
+
+    inner class NoticeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bindItems(item: ChatData) {
+            val tv_notice = itemView.findViewById<TextView>(R.id.tv_notice)
+            tv_notice.text = item.msg
+
         }
     }
 }

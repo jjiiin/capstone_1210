@@ -7,13 +7,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.dataModels.ReceiptData
+import com.capstone_design.a1209_app.utils.Auth
 import com.capstone_design.a1209_app.utils.FBRef
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -70,16 +68,14 @@ class Receipt_RVAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        auth = Firebase.auth
-        val current_uid = auth.currentUser!!.uid.toString()
-        val chatData = items.get(position)
-        /*if(chatData.uid.equals(current_uid)){
+        val recieptData = items.get(position)
+        if (recieptData.uid.equals(Auth.current_uid)) {
             //내 채팅인 경우 0
             return MINE
-        }else{
+        } else {
             //다른 사람 채팅인 경우 1
             return NOT_MINE
-        }*/
+        }
         return NOT_MINE
     }
 
@@ -98,6 +94,54 @@ class Receipt_RVAdapter(
             val option = itemView.findViewById<TextView>(R.id.option_tv)
             option.text = item.option
 
+            itemView.findViewById<FrameLayout>(R.id.bubble).visibility = View.GONE
+            itemView.findViewById<LinearLayout>(R.id.detail).visibility = View.GONE
+            itemView.findViewById<LinearLayout>(R.id.layout_change_order).visibility = View.GONE
+
+            //입금완료 체크박스
+            val checkBox_pay = itemView.findViewById<CheckBox>(R.id.checkbox_pay)
+            checkBox_pay.setOnCheckedChangeListener { buttonView, isChecked ->
+                if (isChecked) {
+                    FBRef.chatRoomsRef.child(chatroomKey).child("receipts").child(item.uid)
+                        .child("check_paid").setValue(true)
+                } else {
+                    FBRef.chatRoomsRef.child(chatroomKey).child("receipts").child(item.uid)
+                        .child("check_paid").setValue(false)
+                }
+            }
+
+            getIsPaid(chatroomKey, item, itemView)
+        }
+    }
+
+    inner class MINE_ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bindItems(item: ReceiptData) {
+
+            val nickname = itemView.findViewById<TextView>(R.id.nickname_tv)
+            nickname.text = item.nickname
+
+            val menu = itemView.findViewById<TextView>(R.id.menu_tv)
+            menu.text = item.menu
+
+            val price = itemView.findViewById<TextView>(R.id.price_tv)
+            price.text = (item.price + ReceiptDoneActivity.indiv_delivery_fee).toString()
+
+            val option = itemView.findViewById<TextView>(R.id.option_tv)
+            option.text = item.option
+
+            //새로 반영된 xml
+            val foodPrice = itemView.findViewById<TextView>(R.id.tv_foodPrice)
+            foodPrice.text = item.price.toString()
+
+            val deliveryPrice = itemView.findViewById<TextView>(R.id.tv_deliveryPrice)
+            deliveryPrice.text = ReceiptDoneActivity.indiv_delivery_fee.toString()
+
+            //말풍선 안에 들어갈 텍스트
+            val savePrice = itemView.findViewById<TextView>(R.id.tv_savePrice)
+            savePrice.text =
+                (ReceiptDoneActivity.delivery_fee - ReceiptDoneActivity.indiv_delivery_fee).toString()
+
+            //입금완료 체크박스
             val checkBox_pay = itemView.findViewById<CheckBox>(R.id.checkbox_pay)
             checkBox_pay.setOnCheckedChangeListener { buttonView, isChecked ->
                 if (isChecked) {
@@ -118,38 +162,6 @@ class Receipt_RVAdapter(
                 // context.finish()
             }
             getIsPaid(chatroomKey, item, itemView)
-        }
-    }
-
-    inner class MINE_ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bindItems(item: ReceiptData) {
-
-            val menu = itemView.findViewById<TextView>(R.id.menu_tv)
-            menu.text = item.menu
-
-            val price = itemView.findViewById<TextView>(R.id.price_tv)
-            price.text = (item.price + ReceiptDoneActivity.indiv_delivery_fee).toString()
-
-            val option = itemView.findViewById<TextView>(R.id.option_tv)
-            option.text = item.option
-
-            val checkBox_pay = itemView.findViewById<CheckBox>(R.id.checkbox_pay)
-            checkBox_pay.setOnCheckedChangeListener { buttonView, isChecked ->
-                if (isChecked) {
-                    FBRef.chatRoomsRef.child(chatroomKey).child("receipts").child(item.uid)
-                        .child("check_paid").setValue(true)
-                } else {
-                    FBRef.chatRoomsRef.child(chatroomKey).child("receipts").child(item.uid)
-                        .child("check_paid").setValue(false)
-                }
-            }
-
-            val change_order_btn = itemView.findViewById<LinearLayout>(R.id.layout_change_order)
-            change_order_btn.setOnClickListener {
-                val intent = Intent(context, ReceiptBeforeAvtivity::class.java)
-                context.startActivity(intent)
-                context.finish()
-            }
         }
     }
 }
