@@ -58,19 +58,19 @@ class MainActivity : AppCompatActivity() {
             selectedItemId = R.id.home
         }
     }
-    fun getAppKeyHash() {
-        try {
-            val info = packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES)
-            for(i in info.signatures) {
-                val md: MessageDigest = MessageDigest.getInstance("SHA")
-                md.update(i.toByteArray())
-
-                val something = String(Base64.encode(md.digest(),0)!!)
-                Log.e("Debug key", something)
-            }
-        } catch(e: Exception) {
-            Log.e("Not found", e.toString())
-        }
-    }
+//    fun getAppKeyHash() {
+//        try {
+//            val info = packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES)
+//            for(i in info.signatures) {
+//                val md: MessageDigest = MessageDigest.getInstance("SHA")
+//                md.update(i.toByteArray())
+//
+//                val something = String(Base64.encode(md.digest(),0)!!)
+//                Log.e("Debug key", something)
+//            }
+//        } catch(e: Exception) {
+//            Log.e("Not found", e.toString())
+//        }
+//    }
 
     }

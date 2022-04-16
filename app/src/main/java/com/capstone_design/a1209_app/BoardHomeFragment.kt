@@ -17,6 +17,7 @@ import com.capstone_design.a1209_app.DetailActivity
 import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.board.BoardWirteActivity
 import com.capstone_design.a1209_app.board.LvAdpater
+import com.capstone_design.a1209_app.dataModels.addressData
 import com.capstone_design.a1209_app.dataModels.dataModel
 import com.capstone_design.a1209_app.databinding.FragmentBoardHomeBinding
 import com.capstone_design.a1209_app.utils.FBRef
@@ -296,6 +297,27 @@ class BoardHomeFragment : Fragment(){
     }
 
     private fun listView(category:String,quick:String){
+        //내가 설정한 위치 받아오기
+        var lat=""
+        var lng=""
+        val schRef:DatabaseReference =
+            database.getReference("users").child(auth.currentUser?.uid.toString()).child("address")
+        schRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (DataModel in snapshot.children) {
+                    val item = DataModel.getValue(addressData::class.java)
+                    if (item != null) {
+                        if(item.set=="1")
+                            lat=item.lat
+                            lng=item.lng
+                    }
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+        var cnt=0
         val boardRef : DatabaseReference = database.getReference("map_contents")
         boardRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -306,20 +328,32 @@ class BoardHomeFragment : Fragment(){
                         if(quick=="1") {
                             if (category == item.category) {
                                 if(item.quick=="1")
+                                    if(item.lat.toDouble()<= lat.toDouble()+0.0025
+                                        &&item.lat.toDouble()>=lat.toDouble()-0.0025
+                                        &&item.lng.toDouble()<= lng.toDouble()+0.0025
+                                        &&item.lng.toDouble()>=lng.toDouble()-0.0025){
                                 items.add(item!!)
-                                itemsKeyList.add(data.key.toString())
+                                cnt+=1
+                                itemsKeyList.add(data.key.toString())}
                             }
                         }else{
                             if (category == item.category) {
+                                if(item.lat.toDouble()<= lat.toDouble()+0.0025
+                                    &&item.lat.toDouble()>=lat.toDouble()-0.0025
+                                    &&item.lng.toDouble()<= lng.toDouble()+0.0025
+                                    &&item.lng.toDouble()>=lng.toDouble()-0.0025){
                                 items.add(item!!)
-                                itemsKeyList.add(data.key.toString())
+                                cnt+=1
+                                itemsKeyList.add(data.key.toString())}
                             }
                         }
                     }
+
                     adapter.notifyDataSetChanged()
                 }
 //                itemsKeyList.reverse()
 //                items.reverse()
+                binding.count.text=cnt.toString()
                 Log.d("bun1",items.toString())
 
             }
@@ -331,6 +365,27 @@ class BoardHomeFragment : Fragment(){
 
     }
     private fun listViewAll(quick:String){
+        //내가 설정한 위치 받아오기
+        var lat=""
+        var lng=""
+        val schRef:DatabaseReference =
+            database.getReference("users").child(auth.currentUser?.uid.toString()).child("address")
+        schRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (DataModel in snapshot.children) {
+                    val item = DataModel.getValue(addressData::class.java)
+                    if (item != null) {
+                        if(item.set=="1")
+                            lat=item.lat
+                        lng=item.lng
+                    }
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+        var cnt=0
         val boardRef : DatabaseReference = database.getReference("map_contents")
         boardRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -340,15 +395,27 @@ class BoardHomeFragment : Fragment(){
                     if (item != null) {
                             if(quick=="1") {
                                 if(item.quick=="1") {
+                                    if(item.lat.toDouble()<= lat.toDouble()+0.0025
+                                        &&item.lat.toDouble()>=lat.toDouble()-0.0025
+                                        &&item.lng.toDouble()<= lng.toDouble()+0.0025
+                                        &&item.lng.toDouble()>=lng.toDouble()-0.0025){
                                     items.add(item!!)
-                                    itemsKeyList.add(data.key.toString())
+                                    cnt+=1
+                                    Log.d("lat, lng",lat+lng)
+                                    itemsKeyList.add(data.key.toString())}
                                 }
                             }else{
+                                if(item.lat.toDouble()<= lat.toDouble()+0.0025
+                                    &&item.lat.toDouble()>=lat.toDouble()-0.0025
+                                    &&item.lng.toDouble()<= lng.toDouble()+0.0025
+                                    &&item.lng.toDouble()>=lng.toDouble()-0.0025){
                                 items.add(item!!)
-                                itemsKeyList.add(data.key.toString())
+                                cnt+=1
+                                Log.d("lat, lng",lat+lng)
+                                itemsKeyList.add(data.key.toString())}
                             }
                     }
-
+                    binding.count.text=cnt.toString()
                     adapter.notifyDataSetChanged()
                 }
                 //itemsKeyList.reverse()
