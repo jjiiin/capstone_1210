@@ -1,6 +1,5 @@
-package com.capstone_design.map_test
+package com.capstone_design.a1209_app.fragment
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
@@ -8,7 +7,6 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -16,15 +14,13 @@ import com.android.volley.VolleyLog
 import com.capstone_design.a1209_app.DetailActivity
 import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.board.BoardWirteActivity
-import com.capstone_design.a1209_app.board.LvAdpater
+import Adapter.LvAdpater
 import com.capstone_design.a1209_app.dataModels.addressData
 import com.capstone_design.a1209_app.dataModels.dataModel
 import com.capstone_design.a1209_app.databinding.FragmentBoardHomeBinding
 import com.capstone_design.a1209_app.utils.FBRef
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.common.base.CharMatcher.invisible
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
@@ -42,7 +38,7 @@ class BoardHomeFragment : Fragment(){
     private var cnt=0
     private var items= mutableListOf<dataModel>()
     private val itemsKeyList= mutableListOf<String>()
-    private lateinit var adapter:LvAdpater
+    private lateinit var adapter: LvAdpater
 
     private lateinit var auth: FirebaseAuth
     val database = Firebase.database
@@ -67,72 +63,106 @@ class BoardHomeFragment : Fragment(){
         if(cnt==0) {
             listViewAll("0")
             category="all"
+            binding.noti.visibility=View.INVISIBLE
+            binding.notiText.visibility=View.INVISIBLE
             buttonColor("all")
             cnt+=1
         }
         //버튼 클릭시 category에 값 할당하기
         binding.categoryAll.setOnClickListener {
             category="all"
+            binding.noti.visibility=View.INVISIBLE
+            binding.notiText.visibility=View.INVISIBLE
             binding.quick.isChecked=false
             listViewAll("0")
             buttonColor("all")
         }
         binding.categoryAsian.setOnClickListener {
             category="asian"
+            binding.noti.isChecked=false
             binding.quick.isChecked=false
+            binding.noti.visibility=View.VISIBLE
+            binding.notiText.visibility=View.VISIBLE
             listView("asian","0")
             buttonColor("asian")
         }
         binding.categoryBun.setOnClickListener {
+            binding.noti.isChecked=false
             listView("bun","0")
             category="bun"
+            binding.noti.visibility=View.VISIBLE
+            binding.notiText.visibility=View.VISIBLE
             binding.quick.isChecked=false
             buttonColor("bun")
         }
         binding.categoryChicken.setOnClickListener {
+            binding.noti.isChecked=false
             category = "chicken"
+            binding.noti.visibility=View.VISIBLE
+            binding.notiText.visibility=View.VISIBLE
             binding.quick.isChecked=false
             listView("chicken","0")
             buttonColor("chicken")
         }
         binding.categoryPizza.setOnClickListener {
+            binding.noti.isChecked=false
             category = "pizza"
+            binding.noti.visibility=View.VISIBLE
+            binding.notiText.visibility=View.VISIBLE
             binding.quick.isChecked=false
             listView("chicken","0")
             buttonColor("pizza")
         }
         binding.categoryFast.setOnClickListener {
+            binding.noti.isChecked=false
             category = "fastfood"
+            binding.noti.visibility=View.VISIBLE
+            binding.notiText.visibility=View.VISIBLE
             binding.quick.isChecked=false
             listView("fastfood","0")
             buttonColor("fast")
         }
         binding.categoryJap.setOnClickListener {
+            binding.noti.isChecked=false
             category = "japan"
+            binding.noti.visibility=View.VISIBLE
+            binding.notiText.visibility=View.VISIBLE
             binding.quick.isChecked=false
             listView("japan","0")
             buttonColor("japan")
         }
         binding.categoryKor.setOnClickListener {
+            binding.noti.isChecked=false
             category = "korean"
+            binding.noti.visibility=View.VISIBLE
+            binding.notiText.visibility=View.VISIBLE
             binding.quick.isChecked=false
             listView("korean","0")
             buttonColor("korean")
         }
         binding.categoryDo.setOnClickListener {
+            binding.noti.isChecked=false
             category = "bento"
+            binding.noti.visibility=View.VISIBLE
+            binding.notiText.visibility=View.VISIBLE
             binding.quick.isChecked=false
             listView("bento","0")
             buttonColor("bento")
         }
         binding.categoryCafe.setOnClickListener {
+            binding.noti.isChecked=false
             category = "cafe"
+            binding.noti.visibility=View.VISIBLE
+            binding.notiText.visibility=View.VISIBLE
             binding.quick.isChecked=false
             listView("cafe","0")
             buttonColor("cafe")
         }
         binding.categoryChi.setOnClickListener {
+            binding.noti.isChecked=false
             category = "chi"
+            binding.noti.visibility=View.VISIBLE
+            binding.notiText.visibility=View.VISIBLE
             binding.quick.isChecked=false
             listView("chi","0")
             buttonColor("chi")
@@ -328,20 +358,20 @@ class BoardHomeFragment : Fragment(){
                         if(quick=="1") {
                             if (category == item.category) {
                                 if(item.quick=="1")
-                                    if(item.lat.toDouble()<= lat.toDouble()+0.0025
-                                        &&item.lat.toDouble()>=lat.toDouble()-0.0025
-                                        &&item.lng.toDouble()<= lng.toDouble()+0.0025
-                                        &&item.lng.toDouble()>=lng.toDouble()-0.0025){
+                                    if(item.lat.toDouble()<= lat.toDouble()+0.003
+                                        &&item.lat.toDouble()>=lat.toDouble()-0.003
+                                        &&item.lng.toDouble()<= lng.toDouble()+0.003
+                                        &&item.lng.toDouble()>=lng.toDouble()-0.003){
                                 items.add(item!!)
                                 cnt+=1
                                 itemsKeyList.add(data.key.toString())}
                             }
                         }else{
                             if (category == item.category) {
-                                if(item.lat.toDouble()<= lat.toDouble()+0.0025
-                                    &&item.lat.toDouble()>=lat.toDouble()-0.0025
-                                    &&item.lng.toDouble()<= lng.toDouble()+0.0025
-                                    &&item.lng.toDouble()>=lng.toDouble()-0.0025){
+                                if(item.lat.toDouble()<= lat.toDouble()+0.003
+                                    &&item.lat.toDouble()>=lat.toDouble()-0.003
+                                    &&item.lng.toDouble()<= lng.toDouble()+0.003
+                                    &&item.lng.toDouble()>=lng.toDouble()-0.003){
                                 items.add(item!!)
                                 cnt+=1
                                 itemsKeyList.add(data.key.toString())}
@@ -361,7 +391,30 @@ class BoardHomeFragment : Fragment(){
                 TODO("Not yet implemented")
             }
         })
-        Log.d("bun2",items.toString())
+
+        //새글알림 설정 확인 후 스위치 바꾸기
+        val cateRef:DatabaseReference = database.getReference("users")
+            .child(auth.currentUser!!.uid).child("category")
+        cateRef.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for(data in snapshot.children){
+                    if(data!=null){
+                       if(data.key==category){
+                           if(data.value=="1"){
+                               Log.d("data_",data.key.toString()+category)
+                                binding.noti.isChecked=true
+                               break
+                           }
+                       }
+
+                    }
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+
+
 
     }
     private fun listViewAll(quick:String){
@@ -395,20 +448,20 @@ class BoardHomeFragment : Fragment(){
                     if (item != null) {
                             if(quick=="1") {
                                 if(item.quick=="1") {
-                                    if(item.lat.toDouble()<= lat.toDouble()+0.0025
-                                        &&item.lat.toDouble()>=lat.toDouble()-0.0025
-                                        &&item.lng.toDouble()<= lng.toDouble()+0.0025
-                                        &&item.lng.toDouble()>=lng.toDouble()-0.0025){
+                                    if(item.lat.toDouble()<= lat.toDouble()+0.003
+                                        &&item.lat.toDouble()>=lat.toDouble()-0.003
+                                        &&item.lng.toDouble()<= lng.toDouble()+0.003
+                                        &&item.lng.toDouble()>=lng.toDouble()-0.003){
                                     items.add(item!!)
                                     cnt+=1
                                     Log.d("lat, lng",lat+lng)
                                     itemsKeyList.add(data.key.toString())}
                                 }
                             }else{
-                                if(item.lat.toDouble()<= lat.toDouble()+0.0025
-                                    &&item.lat.toDouble()>=lat.toDouble()-0.0025
-                                    &&item.lng.toDouble()<= lng.toDouble()+0.0025
-                                    &&item.lng.toDouble()>=lng.toDouble()-0.0025){
+                                if(item.lat.toDouble()<= lat.toDouble()+0.003
+                                    &&item.lat.toDouble()>=lat.toDouble()-0.003
+                                    &&item.lng.toDouble()<= lng.toDouble()+0.003
+                                    &&item.lng.toDouble()>=lng.toDouble()-0.003){
                                 items.add(item!!)
                                 cnt+=1
                                 Log.d("lat, lng",lat+lng)

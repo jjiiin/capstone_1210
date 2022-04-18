@@ -1,4 +1,4 @@
-package com.capstone_design.a1209_app
+package Adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.dataModels.RatingData
 
 class Rating_RVAdapter(val context: Context, val items: MutableList<RatingData>) :

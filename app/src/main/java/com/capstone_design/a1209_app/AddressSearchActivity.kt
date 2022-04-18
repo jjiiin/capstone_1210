@@ -1,12 +1,12 @@
 package com.capstone_design.a1209_app
 
+import Adapter.RVAdapter
 import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -71,7 +71,7 @@ class AddressSearchActivity : AppCompatActivity() {
             }
         })
 
-        rvAdapter.setItemClickListener(object:RVAdapter.OnItemClickListener{
+        rvAdapter.setItemClickListener(object: RVAdapter.OnItemClickListener{
             override fun onClick(v: View, position: Int) {
                 //클릭시 BoardWriteActivity로 돌아가서 주소 전달하기
                 val item=dataModelList[position]

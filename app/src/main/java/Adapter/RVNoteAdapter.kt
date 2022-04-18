@@ -1,4 +1,4 @@
-package com.capstone_design.a1209_app
+package Adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.dataModels.notiData
-import com.capstone_design.a1209_app.fcm.NotiModel
 
 class RVNoteAdapter(val items:MutableList<notiData>):RecyclerView.Adapter<RVNoteAdapter.ViewHolder> (){
 

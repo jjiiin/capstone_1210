@@ -1,6 +1,5 @@
-package com.capstone_design.a1209_app.board
+package Adapter
 
-import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -8,13 +7,12 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.dataModels.dataModel
-import com.capstone_design.map_test.BoardHomeFragment
-import org.w3c.dom.Text
 
-class LvAdpater(private val boardList:MutableList<dataModel>,private val context: BoardHomeFragment):BaseAdapter() {
+class LvAdpater(private val boardList:MutableList<dataModel>,private val context: Fragment):BaseAdapter() {
 
     override fun getCount(): Int {
         return boardList.size

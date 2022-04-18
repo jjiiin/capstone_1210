@@ -164,9 +164,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:letterSpacing="-0.02"
                 android:lineSpacingExtra="6sp"
-                android:layout_gravity="center"
                 android:text="목록 결과"
                 android:textColor="#808080"
                 android:textSize="14sp" />
@@ -194,13 +194,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="100dp"
+                    android:layout_marginLeft="90dp"
                     android:switchMinWidth="23dp"
                     android:switchPadding="20dp" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="새 글 알림"
+                    android:id="@+id/noti_text"
                     android:textSize="12sp"
                     android:textColor="#c4c4c4"
                     android:letterSpacing="-0.02"
@@ -220,7 +221,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="즉각 주문"
+                    android:text="바로 주문만"
                     android:textSize="12sp"
                     android:textColor="#c4c4c4"
                     android:letterSpacing="-0.02"

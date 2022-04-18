@@ -8,15 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.capstone_design.a1209_app.R
-import com.capstone_design.a1209_app.RVAdapter
-import com.capstone_design.a1209_app.RVNoteAdapter
-import com.capstone_design.a1209_app.dataModels.addressData
-import com.capstone_design.a1209_app.dataModels.kwNotiData
+import Adapter.RVNoteAdapter
 import com.capstone_design.a1209_app.dataModels.notiData
 import com.capstone_design.a1209_app.databinding.FragmentNoteChild1Binding
-import com.capstone_design.a1209_app.fcm.NotiModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot

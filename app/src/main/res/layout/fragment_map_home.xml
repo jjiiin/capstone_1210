@@ -7,8 +7,9 @@
     android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:stateListAnimator="@null"
     android:id="@+id/mhfLayout"
-    tools:context=".MapHomeFragment">
+    tools:context=".fragment.MapHomeFragment">
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"

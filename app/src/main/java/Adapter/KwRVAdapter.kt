@@ -1,12 +1,11 @@
-package com.capstone_design.a1209_app
+package Adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.capstone_design.a1209_app.dataModels.addressData
+import com.capstone_design.a1209_app.R
 
 class KwRVAdapter(val items:MutableList<String>): RecyclerView.Adapter<KwRVAdapter.ViewHolder>() {
     inner class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {

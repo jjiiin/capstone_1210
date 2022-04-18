@@ -1,4 +1,4 @@
-package com.capstone_design.a1209_app
+package Adapter
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
