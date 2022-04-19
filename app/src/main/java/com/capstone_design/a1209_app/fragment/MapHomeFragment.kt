@@ -696,7 +696,8 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
         //마커가 클릭 됐을 때 같은 주소끼리 배열로 만들어서 viewPager에 보이게 하기
         //같은 placeAddress를 배열로 묶기
         val cardList= ArrayList<dataModel>()
-        val itemKey= mutableListOf<String>()
+        //val itemKey= mutableListOf<String>()
+        val itemKey= ArrayList<String>()
         for( i in 0 until dataList.size){
             if(dataList[i].placeAddress==tag) {
                 cardList.add(dataList[i])
@@ -731,6 +732,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
                 var fragment2 = MiniListFragment()
                 var bundle = Bundle()
                 bundle.putParcelableArrayList("list",cardList)
+                bundle.putStringArrayList("keyList",itemKey)
                 fragment2.arguments = bundle //fragment의 arguments에 데이터를 담은 bundle을 넘겨줌
                 parentFragmentManager
                     .beginTransaction()

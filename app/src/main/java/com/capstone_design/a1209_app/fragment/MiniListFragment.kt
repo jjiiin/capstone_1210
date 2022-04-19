@@ -8,7 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.capstone_design.a1209_app.R
 import Adapter.LvAdpater
+import android.content.Intent
 import androidx.databinding.DataBindingUtil
+import com.capstone_design.a1209_app.DetailActivity
 import com.capstone_design.a1209_app.dataModels.dataModel
 import com.capstone_design.a1209_app.databinding.FragmentMiniListBinding
 import com.capstone_design.map_test.FragmentListener
@@ -29,6 +31,7 @@ class MiniListFragment : Fragment(), FragmentListener {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_mini_list, container, false)
         var result : ArrayList<dataModel> = arguments?.getParcelableArrayList<dataModel>("list") as ArrayList<dataModel>
+        var keyList: ArrayList<String> = arguments?.getStringArrayList("keyList") as ArrayList<String>
         var items= mutableListOf<dataModel>()
         var cnt=0
         var first=1
@@ -76,6 +79,14 @@ class MiniListFragment : Fragment(), FragmentListener {
 
         adapter = LvAdpater(items, this)
         binding.LvMain.adapter=adapter
+
+        binding.LvMain.setOnItemClickListener { parent, view, position, id ->
+            val intent = Intent(context, DetailActivity::class.java)
+            //firebase에 있는 board에 대한 데이터의 id를 가져오기
+            intent.putExtra("key", keyList[position])
+            Log.d("key_list", keyList[position])
+            startActivity(intent)
+        }
 
 
         return binding.root

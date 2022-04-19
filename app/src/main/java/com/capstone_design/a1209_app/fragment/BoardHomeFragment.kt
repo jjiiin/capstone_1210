@@ -68,6 +68,26 @@ class BoardHomeFragment : Fragment(){
             buttonColor("all")
             cnt+=1
         }
+        //새글알림
+        //새글알림 설정 확인 후 스위치 바꾸기
+        var cateList=ArrayList<String>()
+        val cateRef:DatabaseReference = database.getReference("users")
+            .child(auth.currentUser!!.uid).child("category")
+        cateRef.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for(data in snapshot.children){
+                    if(data!=null){
+                            if(data.value=="1"){
+                                Log.d("data_",data.key.toString()+category)
+                                cateList.add(data.key.toString())
+                                //binding.noti.isChecked=true
+                            }
+                    }
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
         //버튼 클릭시 category에 값 할당하기
         binding.categoryAll.setOnClickListener {
             category="all"
@@ -81,8 +101,11 @@ class BoardHomeFragment : Fragment(){
             category="asian"
             binding.noti.isChecked=false
             binding.quick.isChecked=false
-            binding.noti.visibility=View.VISIBLE
-            binding.notiText.visibility=View.VISIBLE
+            binding.noti.visibility = View.VISIBLE
+            binding.notiText.visibility = View.VISIBLE
+            if(cateList.contains("asians")) {
+                binding.noti.isChecked=true
+            }
             listView("asian","0")
             buttonColor("asian")
         }
@@ -90,16 +113,22 @@ class BoardHomeFragment : Fragment(){
             binding.noti.isChecked=false
             listView("bun","0")
             category="bun"
-            binding.noti.visibility=View.VISIBLE
-            binding.notiText.visibility=View.VISIBLE
+            binding.noti.visibility = View.VISIBLE
+            binding.notiText.visibility = View.VISIBLE
+            if(cateList.contains("bun")) {
+                binding.noti.isChecked=true
+            }
             binding.quick.isChecked=false
             buttonColor("bun")
         }
         binding.categoryChicken.setOnClickListener {
             binding.noti.isChecked=false
             category = "chicken"
-            binding.noti.visibility=View.VISIBLE
-            binding.notiText.visibility=View.VISIBLE
+            binding.noti.visibility = View.VISIBLE
+            binding.notiText.visibility = View.VISIBLE
+            if(cateList.contains("chicken")) {
+                binding.noti.isChecked=true
+            }
             binding.quick.isChecked=false
             listView("chicken","0")
             buttonColor("chicken")
@@ -109,6 +138,9 @@ class BoardHomeFragment : Fragment(){
             category = "pizza"
             binding.noti.visibility=View.VISIBLE
             binding.notiText.visibility=View.VISIBLE
+            if(cateList.contains("pizza")) {
+                binding.noti.isChecked=true
+            }
             binding.quick.isChecked=false
             listView("chicken","0")
             buttonColor("pizza")
@@ -118,6 +150,9 @@ class BoardHomeFragment : Fragment(){
             category = "fastfood"
             binding.noti.visibility=View.VISIBLE
             binding.notiText.visibility=View.VISIBLE
+            if(cateList.contains("fastfood")) {
+                binding.noti.isChecked=true
+            }
             binding.quick.isChecked=false
             listView("fastfood","0")
             buttonColor("fast")
@@ -127,6 +162,9 @@ class BoardHomeFragment : Fragment(){
             category = "japan"
             binding.noti.visibility=View.VISIBLE
             binding.notiText.visibility=View.VISIBLE
+            if(cateList.contains("japan")) {
+                binding.noti.isChecked=true
+            }
             binding.quick.isChecked=false
             listView("japan","0")
             buttonColor("japan")
@@ -136,6 +174,9 @@ class BoardHomeFragment : Fragment(){
             category = "korean"
             binding.noti.visibility=View.VISIBLE
             binding.notiText.visibility=View.VISIBLE
+            if(cateList.contains("korean")) {
+                binding.noti.isChecked=true
+            }
             binding.quick.isChecked=false
             listView("korean","0")
             buttonColor("korean")
@@ -145,6 +186,9 @@ class BoardHomeFragment : Fragment(){
             category = "bento"
             binding.noti.visibility=View.VISIBLE
             binding.notiText.visibility=View.VISIBLE
+            if(cateList.contains("bento")) {
+                binding.noti.isChecked=true
+            }
             binding.quick.isChecked=false
             listView("bento","0")
             buttonColor("bento")
@@ -154,6 +198,9 @@ class BoardHomeFragment : Fragment(){
             category = "cafe"
             binding.noti.visibility=View.VISIBLE
             binding.notiText.visibility=View.VISIBLE
+            if(cateList.contains("cafe")) {
+                binding.noti.isChecked=true
+            }
             binding.quick.isChecked=false
             listView("cafe","0")
             buttonColor("cafe")
@@ -163,6 +210,9 @@ class BoardHomeFragment : Fragment(){
             category = "chi"
             binding.noti.visibility=View.VISIBLE
             binding.notiText.visibility=View.VISIBLE
+            if(cateList.contains("chi")) {
+                binding.noti.isChecked=true
+            }
             binding.quick.isChecked=false
             listView("chi","0")
             buttonColor("chi")
@@ -337,9 +387,10 @@ class BoardHomeFragment : Fragment(){
                 for (DataModel in snapshot.children) {
                     val item = DataModel.getValue(addressData::class.java)
                     if (item != null) {
-                        if(item.set=="1")
-                            lat=item.lat
-                            lng=item.lng
+                        if(item.set=="1") {
+                            lat = item.lat
+                            lng = item.lng
+                        }
                     }
                 }
             }
@@ -392,28 +443,27 @@ class BoardHomeFragment : Fragment(){
             }
         })
 
-        //새글알림 설정 확인 후 스위치 바꾸기
-        val cateRef:DatabaseReference = database.getReference("users")
-            .child(auth.currentUser!!.uid).child("category")
-        cateRef.addValueEventListener(object : ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-                for(data in snapshot.children){
-                    if(data!=null){
-                       if(data.key==category){
-                           if(data.value=="1"){
-                               Log.d("data_",data.key.toString()+category)
-                                binding.noti.isChecked=true
-                               break
-                           }
-                       }
-
-                    }
-                }
-            }
-            override fun onCancelled(error: DatabaseError) {
-            }
-        })
-
+//        //새글알림 설정 확인 후 스위치 바꾸기
+//        val cateRef:DatabaseReference = database.getReference("users")
+//            .child(auth.currentUser!!.uid).child("category")
+//        cateRef.addValueEventListener(object : ValueEventListener{
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//                for(data in snapshot.children){
+//                    if(data!=null){
+//                       if(data.key==category){
+//                           if(data.value=="1"){
+//                               Log.d("data_",data.key.toString()+category)
+//                                binding.noti.isChecked=true
+//                               break
+//                           }
+//                       }
+//
+//                    }
+//                }
+//            }
+//            override fun onCancelled(error: DatabaseError) {
+//            }
+//        })
 
 
     }
@@ -428,9 +478,12 @@ class BoardHomeFragment : Fragment(){
                 for (DataModel in snapshot.children) {
                     val item = DataModel.getValue(addressData::class.java)
                     if (item != null) {
-                        if(item.set=="1")
+                        if(item.set=="1"){
                             lat=item.lat
-                        lng=item.lng
+                            lng=item.lng
+                            Log.d("lng",lng)
+                            break
+                        }
                     }
                 }
             }
@@ -438,6 +491,7 @@ class BoardHomeFragment : Fragment(){
                 TODO("Not yet implemented")
             }
         })
+
         var cnt=0
         val boardRef : DatabaseReference = database.getReference("map_contents")
         boardRef.addValueEventListener(object : ValueEventListener {
@@ -446,6 +500,7 @@ class BoardHomeFragment : Fragment(){
                 for (data in snapshot.children) {
                     val item = data.getValue(dataModel::class.java)
                     if (item != null) {
+                        //Log.d("item_right",item.toString())
                             if(quick=="1") {
                                 if(item.quick=="1") {
                                     if(item.lat.toDouble()<= lat.toDouble()+0.003
@@ -458,14 +513,17 @@ class BoardHomeFragment : Fragment(){
                                     itemsKeyList.add(data.key.toString())}
                                 }
                             }else{
+                                Log.d("item_right","호출")
+                                Log.d("item_right",lat+" "+lng)
                                 if(item.lat.toDouble()<= lat.toDouble()+0.003
                                     &&item.lat.toDouble()>=lat.toDouble()-0.003
                                     &&item.lng.toDouble()<= lng.toDouble()+0.003
                                     &&item.lng.toDouble()>=lng.toDouble()-0.003){
-                                items.add(item!!)
-                                cnt+=1
-                                Log.d("lat, lng",lat+lng)
-                                itemsKeyList.add(data.key.toString())}
+                                        items.add(item!!)
+                                        Log.d("item_right",item.toString())
+                                        cnt+=1
+                                        Log.d("lat, lng",lat+" "+lng)
+                                        itemsKeyList.add(data.key.toString())}
                             }
                     }
                     binding.count.text=cnt.toString()
