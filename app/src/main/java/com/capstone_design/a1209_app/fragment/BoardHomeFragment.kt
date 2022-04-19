@@ -409,20 +409,20 @@ class BoardHomeFragment : Fragment(){
                         if(quick=="1") {
                             if (category == item.category) {
                                 if(item.quick=="1")
-                                    if(item.lat.toDouble()<= lat.toDouble()+0.003
-                                        &&item.lat.toDouble()>=lat.toDouble()-0.003
-                                        &&item.lng.toDouble()<= lng.toDouble()+0.003
-                                        &&item.lng.toDouble()>=lng.toDouble()-0.003){
+                                    if(item.lat.toDouble()<= lat.toDouble()+0.005
+                                        &&item.lat.toDouble()>=lat.toDouble()-0.005
+                                        &&item.lng.toDouble()<= lng.toDouble()+0.005
+                                        &&item.lng.toDouble()>=lng.toDouble()-0.005){
                                 items.add(item!!)
                                 cnt+=1
                                 itemsKeyList.add(data.key.toString())}
                             }
                         }else{
                             if (category == item.category) {
-                                if(item.lat.toDouble()<= lat.toDouble()+0.003
-                                    &&item.lat.toDouble()>=lat.toDouble()-0.003
-                                    &&item.lng.toDouble()<= lng.toDouble()+0.003
-                                    &&item.lng.toDouble()>=lng.toDouble()-0.003){
+                                if(item.lat.toDouble()<= lat.toDouble()+0.005
+                                    &&item.lat.toDouble()>=lat.toDouble()-0.005
+                                    &&item.lng.toDouble()<= lng.toDouble()+0.005
+                                    &&item.lng.toDouble()>=lng.toDouble()-0.005){
                                 items.add(item!!)
                                 cnt+=1
                                 itemsKeyList.add(data.key.toString())}
@@ -503,10 +503,10 @@ class BoardHomeFragment : Fragment(){
                         //Log.d("item_right",item.toString())
                             if(quick=="1") {
                                 if(item.quick=="1") {
-                                    if(item.lat.toDouble()<= lat.toDouble()+0.003
-                                        &&item.lat.toDouble()>=lat.toDouble()-0.003
-                                        &&item.lng.toDouble()<= lng.toDouble()+0.003
-                                        &&item.lng.toDouble()>=lng.toDouble()-0.003){
+                                    if(item.lat.toDouble()<= lat.toDouble()+0.005
+                                        &&item.lat.toDouble()>=lat.toDouble()-0.005
+                                        &&item.lng.toDouble()<= lng.toDouble()+0.005
+                                        &&item.lng.toDouble()>=lng.toDouble()-0.005){
                                     items.add(item!!)
                                     cnt+=1
                                     Log.d("lat, lng",lat+lng)
@@ -515,10 +515,10 @@ class BoardHomeFragment : Fragment(){
                             }else{
                                 Log.d("item_right","호출")
                                 Log.d("item_right",lat+" "+lng)
-                                if(item.lat.toDouble()<= lat.toDouble()+0.003
-                                    &&item.lat.toDouble()>=lat.toDouble()-0.003
-                                    &&item.lng.toDouble()<= lng.toDouble()+0.003
-                                    &&item.lng.toDouble()>=lng.toDouble()-0.003){
+                                if(item.lat.toDouble()<= lat.toDouble()+0.005
+                                    &&item.lat.toDouble()>=lat.toDouble()-0.005
+                                    &&item.lng.toDouble()<= lng.toDouble()+0.005
+                                    &&item.lng.toDouble()>=lng.toDouble()-0.005){
                                         items.add(item!!)
                                         Log.d("item_right",item.toString())
                                         cnt+=1
