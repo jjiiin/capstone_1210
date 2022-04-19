@@ -57,7 +57,7 @@ class IntroActivity : AppCompatActivity() {
                             Log.e("token",token.toString())
                         })
                     } else {
-                        //Toast.makeText(this,"로그인 실패",Toast.LENGTH_LONG).show()
+                        Toast.makeText(this,"로그인 실패",Toast.LENGTH_LONG).show()
                     }
                 }
         }

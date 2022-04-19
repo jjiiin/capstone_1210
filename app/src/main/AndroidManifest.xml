@@ -13,11 +13,17 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.1209_app"
-        android:usesCleartextTraffic="true"
-        android:requestLegacyExternalStorage="true">
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".Mypage_Account_Activity"
+            android:exported="false" />
+        <activity
+            android:name=".Board_Detail_Evaluation_Activity"
+            android:exported="false" />
         <activity
             android:name=".Mypage_Evaluation_Activity"
             android:exported="false" />
@@ -42,17 +48,16 @@
 
         <uses-library
             android:name="org.apache.http.legacy"
-            android:required="false" />
-        <!-- 지인님 api key -->
-
+            android:required="false" /> <!-- 지인님 api key -->
+        <!--
  <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyB6nWMxeXA4h-S3Yx5VxlVXfqXE6EUkBgw" />
-
+        -->
         <!-- 혜경 maps api key -->
-<!--        <meta-data-->
-<!--            android:name="com.google.android.geo.API_KEY"-->
-<!--            android:value="AIzaSyB6nWMxeXA4h-S3Yx5VxlVXfqXE6EUkBgw88" />-->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDjimMhkVC4kNZN77Hcy46iL8G0OVoZUAk" />
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="fc81b72e05032dce7689cf5b13b5a9cc" />
@@ -60,10 +65,12 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-
-        <service android:name=".fcm.FirebaseService" android:exported="false">
+        <service
+            android:name=".fcm.FirebaseService"
+            android:exported="false">
+            ㅅ
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 

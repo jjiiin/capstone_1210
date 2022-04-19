@@ -1,19 +1,21 @@
 package com.capstone_design.a1209_app.chat
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.capstone_design.a1209_app.R
+import com.capstone_design.a1209_app.dataModels.AccountChatData
 import com.capstone_design.a1209_app.dataModels.ChatData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import java.text.SimpleDateFormat
 
-class Chat_RVAdapter(val items: MutableList<ChatData>, val context: Context) :
+class Chat_RVAdapter(val items: MutableList<Any>, val context: Context) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private lateinit var auth: FirebaseAuth
@@ -40,7 +42,7 @@ class Chat_RVAdapter(val items: MutableList<ChatData>, val context: Context) :
             RIGHT_ACCOUNT_TALK -> {
                 val view = LayoutInflater.from(context)
                     .inflate(R.layout.chat_rv_item_account_right, parent, false)
-                RightVAccountiewHolder(view)
+                RightAccountiewHolder(view)
             }
             LEFT_ACCOUNT_TALK -> {
                 val view = LayoutInflater.from(context)
@@ -74,7 +76,7 @@ class Chat_RVAdapter(val items: MutableList<ChatData>, val context: Context) :
             holder.bindItems(items[position])
         } else if (holder is LeftAccountViewHolder) {
             holder.bindItems(items[position])
-        } else if (holder is RightVAccountiewHolder) {
+        } else if (holder is RightAccountiewHolder) {
             holder.bindItems(items[position])
         } else if (holder is EnterViewHolder) {
             holder.bindItems(items[position])
@@ -91,34 +93,41 @@ class Chat_RVAdapter(val items: MutableList<ChatData>, val context: Context) :
     override fun getItemViewType(position: Int): Int {
         auth = Firebase.auth
         val current_uid = auth.currentUser!!.uid
-        val chatData = items.get(position)
-        if (chatData.uid.equals(current_uid)) {
-            if (chatData.msg == "enter") {
-                return ENTER
-            } else if (chatData.uid == "notice") {
-                return NOTICE
-            } else if (chatData.msg == "account") {
+        //items 배열에는 ChatData와 AccountChatData가 들어있기 때문에 타입 체크 해줌
+        if (items.get(position).javaClass.name.toString() == "com.capstone_design.a1209_app.dataModels.AccountChatData") {
+            val data = items.get(position) as AccountChatData
+            if (data.uid.equals(current_uid)) {
                 return RIGHT_ACCOUNT_TALK
             } else {
-                //내 채팅인 경우 0
-                return RIGHT_TALK
-            }
-        } else {
-            if (chatData.msg == "enter") {
-                return ENTER
-            } else if (chatData.uid == "notice") {
-                return NOTICE
-            } else if (chatData.msg == "account") {
                 return LEFT_ACCOUNT_TALK
-            } else {
-                //다른 사람 채팅인 경우 1
-                return LEFT_TALK
             }
-        }
+        } else if (items.get(position).javaClass.name.toString() == "com.capstone_design.a1209_app.dataModels.ChatData") {
+            val data = items.get(position) as ChatData
+            if (data.uid.equals(current_uid)) {
+                if (data.msg == "enter") {
+                    return ENTER
+                } else if (data.uid == "notice") {
+                    return NOTICE
+                } else {
+                    //내 채팅인 경우 0
+                    return RIGHT_TALK
+                }
+            } else {
+                if (data.msg == "enter") {
+                    return ENTER
+                } else if (data.uid == "notice") {
+                    return NOTICE
+                } else {
+                    //다른 사람 채팅인 경우 1
+                    return LEFT_TALK
+                }
+            }
+        } else return RIGHT_TALK
     }
 
     inner class LeftViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bindItems(item: ChatData) {
+        fun bindItems(item: Any) {
+            val item = item as ChatData
             val rv_nickname = itemView.findViewById<TextView>(R.id.rv_nickname_textView)
             rv_nickname.text = item.nickname
 
@@ -150,10 +159,11 @@ class Chat_RVAdapter(val items: MutableList<ChatData>, val context: Context) :
     }
 
     inner class RightViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bindItems(item: ChatData) {
+        fun bindItems(item: Any) {
+
+            val item = item as ChatData
             val rv_msg = itemView.findViewById<TextView>(R.id.rv_msg_textView)
             rv_msg.text = item.msg
-
 
             //저장된 시간의 오전 오후 정보 추출
             val ampmCheck = SimpleDateFormat("aa")
@@ -170,8 +180,9 @@ class Chat_RVAdapter(val items: MutableList<ChatData>, val context: Context) :
         }
     }
 
-    inner class RightVAccountiewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bindItems(item: ChatData) {
+    inner class RightAccountiewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bindItems(item: Any) {
+            val item = item as AccountChatData
             //저장된 시간의 오전 오후 정보 추출
             val ampmCheck = SimpleDateFormat("aa")
             val ampm = ampmCheck.format(item.time)
@@ -179,6 +190,11 @@ class Chat_RVAdapter(val items: MutableList<ChatData>, val context: Context) :
             val dateFormat = SimpleDateFormat("hh:mm")
             val time = dateFormat.format(item.time)
             val rv_msgtime = itemView.findViewById<TextView>(R.id.rv_msg_time)
+
+            itemView.findViewById<TextView>(R.id.tv_bank_name).text = item.bankName
+            itemView.findViewById<TextView>(R.id.tv_receiver_name).text = item.receiverName
+            itemView.findViewById<TextView>(R.id.tv_account_num).text = item.accountNum
+
             if (ampm.toString() == "AM") {
                 rv_msgtime.text = "오전 " + time.toString()
             } else {
@@ -188,7 +204,8 @@ class Chat_RVAdapter(val items: MutableList<ChatData>, val context: Context) :
     }
 
     inner class LeftAccountViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bindItems(item: ChatData) {
+        fun bindItems(item: Any) {
+            val item = item as AccountChatData
             val rv_nickname = itemView.findViewById<TextView>(R.id.rv_nickname_textView)
             rv_nickname.text = item.nickname
             //저장된 시간의 오전 오후 정보 추출
@@ -198,6 +215,11 @@ class Chat_RVAdapter(val items: MutableList<ChatData>, val context: Context) :
             val dateFormat = SimpleDateFormat("hh:mm")
             val time = dateFormat.format(item.time)
             val rv_msgtime = itemView.findViewById<TextView>(R.id.rv_msg_time)
+
+            itemView.findViewById<TextView>(R.id.tv_bank_name).text = item.bankName
+            itemView.findViewById<TextView>(R.id.tv_receiver_name).text = item.receiverName
+            itemView.findViewById<TextView>(R.id.tv_account_num).text = item.accountNum
+
             if (ampm.toString() == "AM") {
                 rv_msgtime.text = "오전 " + time.toString()
             } else {
@@ -207,7 +229,8 @@ class Chat_RVAdapter(val items: MutableList<ChatData>, val context: Context) :
     }
 
     inner class EnterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bindItems(item: ChatData) {
+        fun bindItems(item: Any) {
+            val item = item as ChatData
             val rv_nickname = itemView.findViewById<TextView>(R.id.tv_nickname)
             rv_nickname.text = item.nickname
 
@@ -215,10 +238,10 @@ class Chat_RVAdapter(val items: MutableList<ChatData>, val context: Context) :
     }
 
     inner class NoticeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bindItems(item: ChatData) {
+        fun bindItems(item: Any) {
+            val item = item as ChatData
             val tv_notice = itemView.findViewById<TextView>(R.id.tv_notice)
             tv_notice.text = item.msg
-
         }
     }
 }

@@ -1,16 +1,14 @@
 package com.capstone_design.a1209_app.fragment
 
-import android.app.AlertDialog
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.capstone_design.a1209_app.chat.ChatList_RVAdapter
@@ -18,10 +16,8 @@ import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.dataModels.ChatRoomData
 import com.capstone_design.a1209_app.databinding.FragmentChatBinding
 import com.capstone_design.a1209_app.utils.Auth
-import com.capstone_design.a1209_app.utils.FBRef
 import com.capstone_design.a1209_app.utils.FBRef.Companion.chatRoomsRef
 import com.capstone_design.a1209_app.utils.FBRef.Companion.userRoomsRef
-import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -51,7 +47,6 @@ class ChatFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_chat, container, false)
 
         rv = binding.chatListRv
-
 
         //채팅방 들어온 인원대로 프로필 사진 보여주기 구현해야됨(최대 4명)
 
@@ -94,22 +89,30 @@ class ChatFragment : Fragment() {
         binding.exitText.setOnClickListener {
             if (ChatList_RVAdapter.checked_chatRoomKey_List.isNotEmpty()) {
                 //삭제 경고 팝업띄우기
-                val mDialogView =
-                    LayoutInflater.from(context).inflate(R.layout.exit_dialog, null)
-                val mBuilder = AlertDialog.Builder(context).setView(mDialogView)
-                val mAlertDialog = mBuilder.show()
-                val okButton = mDialogView.findViewById<Button>(R.id.btn_yes)
+                val dialog = Dialog(requireContext())
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+                dialog.setContentView(R.layout.custom_dialog)
+                dialog.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+                dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                dialog.setCanceledOnTouchOutside(true)
+                dialog.setCancelable(true)
+                dialog.findViewById<TextView>(R.id.tv_content).text = "삭제된 채팅방은 내용을 복구할 수 없어요.\n선택한 채팅방에서 나가시겠어요?"
+                dialog.show()
+
+                val okButton = dialog.findViewById<Button>(R.id.btn_yes)
 
                 okButton.setOnClickListener {
                     for (key in ChatList_RVAdapter.checked_chatRoomKey_List) {
                         exit(key)
                     }
+                    //팝업창 없앰
+                    dialog.dismiss()
                 }
-                val noButton = mDialogView.findViewById<Button>(R.id.btn_no)
+                val noButton = dialog.findViewById<Button>(R.id.btn_no)
 
                 noButton.setOnClickListener {
                     //팝업창 없앰
-                    mAlertDialog.dismiss()
+                    dialog.dismiss()
                     //휴지통 버튼 안눌린 상태로 바꾸기
                     binding.exitBtn.setImageResource(R.drawable.trash_round)
                     binding.exitText.visibility = View.INVISIBLE
@@ -120,6 +123,7 @@ class ChatFragment : Fragment() {
 
             }
         }
+
         return binding.root
     }
 

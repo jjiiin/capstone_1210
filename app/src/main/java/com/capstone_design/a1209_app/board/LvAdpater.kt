@@ -54,21 +54,21 @@ class LvAdpater(
 //        val cv_person: TextView=converView!!.findViewById(R.id.item_person)
         // 왜 커밋이 안되지
 
-        val cv_title=converView!!.findViewById<TextView>(R.id.item_title)
-        val cv_img=converView!!.findViewById<ImageView>(R.id.item_image)
-        val cv_place=converView!!.findViewById<TextView>(R.id.item_place)
-        val cv_fee=converView!!.findViewById<TextView>(R.id.item_fee)
-        val cv_time=converView!!.findViewById<TextView>(R.id.item_time)
+        val cv_title = converView!!.findViewById<TextView>(R.id.item_title)
+        val cv_img = converView!!.findViewById<ImageView>(R.id.item_image)
+        val cv_place = converView!!.findViewById<TextView>(R.id.item_place)
+        val cv_fee = converView!!.findViewById<TextView>(R.id.item_fee)
+        val cv_time = converView!!.findViewById<TextView>(R.id.item_time)
         //val cv_person=converView!!.findViewById<TextView>(R.id.item_person)
-        val cv_quick=converView!!.findViewById<ImageView>(R.id.quick)
+        val cv_quick = converView!!.findViewById<ImageView>(R.id.quick)
         val tv_current_userNum = converView.findViewById<TextView>(R.id.tv_current_userNum)
         val tv_maximum_userNum = converView.findViewById<TextView>(R.id.tv_maximum_userNum)
         val card_view_layout = converView.findViewById<LinearLayout>(R.id.card_view_layout)
 
-        val content: dataModel =boardList[position]
-        var t=0
-        if(content.title==null){
-            t=1
+        val content: dataModel = boardList[position]
+        var t = 0
+        if (content.title == null) {
+            t = 1
         }
         Log.e("LvAdapter", t.toString())
         cv_title.text = content.title
@@ -93,19 +93,19 @@ class LvAdpater(
             Glide.with(context).load(imageUri).into(cv_img)
         }
 
-        if(content.quick=="1"){
-            cv_quick.visibility=View.VISIBLE
-        }else{
-            cv_quick.visibility=View.INVISIBLE
+        if (content.quick == "1") {
+            cv_quick.visibility = View.VISIBLE
+        } else {
+            cv_quick.visibility = View.INVISIBLE
         }
 
-        cv_place.text=content.place
-        cv_fee.text=content.fee
-        cv_time.text=content.time
+        cv_place.text = content.place
+        cv_fee.text = content.fee
+        cv_time.text = content.time
         //cv_person.text=content.person
 
         //모집정원
-        tv_maximum_userNum.text = content.person
+        tv_maximum_userNum.text = content.person.replace("[^\\d]".toRegex(), "").toInt().toString()
         //현재 모인 사용자수
         //tv_current_userNum.text
         getUserNum(content.chatroomkey, tv_current_userNum)

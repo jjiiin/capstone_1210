@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import com.capstone_design.a1209_app.Evaluation_Display_Activity
+import com.capstone_design.a1209_app.Mypage_Account_Activity
 import com.capstone_design.a1209_app.Mypage_Evaluation_Activity
 import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.databinding.FragmentHomeBinding
@@ -45,6 +46,10 @@ class MyFragment : Fragment() {
             Auth.auth.signOut()
         }
 
+        binding.layoutAccountSetting.setOnClickListener{
+            val intent = Intent(context, Mypage_Account_Activity::class.java)
+            startActivity(intent)
+        }
 
         return binding.root
     }

@@ -6,12 +6,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.capstone_design.a1209_app.chat.ChatRoomActivity
 import com.capstone_design.a1209_app.dataModels.ChatData
 import com.capstone_design.a1209_app.dataModels.dataModel
 import com.capstone_design.a1209_app.databinding.ActivityDetailBinding
+import com.capstone_design.a1209_app.fcm.NotiModel
+import com.capstone_design.a1209_app.fcm.PushNotification
+import com.capstone_design.a1209_app.fcm.RetrofitInstance
 import com.capstone_design.a1209_app.utils.Auth
 import com.capstone_design.a1209_app.utils.FBRef
 import com.google.firebase.database.DataSnapshot
@@ -37,6 +41,9 @@ class DetailActivity : AppCompatActivity() {
     private var linkurl: String? = null
     lateinit var current_nickname: String
     lateinit var data: dataModel
+    var user_num: Int = 0
+    var host_token: String = ""
+    var host_nickname: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,9 +55,10 @@ class DetailActivity : AppCompatActivity() {
 
         //파이어베이스의 비동기 방식 -> 동기 방식
         CoroutineScope(Dispatchers.IO).launch {
-            getBoardData(key.toString())
+            getBoardData(key.toString()) //getBoardData()를 동기 방식으로 호출했습니다!!!!(혜경)
             getHostRatingData()
             getHostNickname()
+            getHostToken()
             getCurrentNickname()
             getUserNum()
         }
@@ -73,6 +81,7 @@ class DetailActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        //채팅방 입장 버튼 누를 시
         binding.enterBtn.setOnClickListener {
             //참여자가 채팅방으로 이동하는 버튼 클릭 이벤트 발생.
             //채팅방 정보 저장
@@ -94,21 +103,49 @@ class DetailActivity : AppCompatActivity() {
                     Auth.current_email!!,
                     Auth.current_uid
                 )
-            //주문서 작성해달라는 공지 메시지
+            //주문서 작성해달라는 공지 메시지 보내기
             val notice_chatData =
                 ChatData(
                     "notice",
                     "[공지] 미리 주문서에 메뉴 올려주세요:)",
-                    Auth.current_email!!,
+                    "notice",
                     "notice"
                 )
             FBRef.chatRoomsRef.child(chatroomkey!!).child("messages").push()
                 .setValue(enter_chatData)
             FBRef.chatRoomsRef.child(chatroomkey!!).child("messages").push()
                 .setValue(notice_chatData)
+
+            //방장에게 입장알림 보내기
+            val notiData_enter = NotiModel(
+                "Saveat - 알림",
+                "채팅방에 '${current_nickname}'님이 입장했어요.",
+                "임시",
+                hostUID,
+                data.title
+            )
+            val pushModel_enter = PushNotification(notiData_enter, "${host_token}")
+            testPush(pushModel_enter)
+
+            //방장에게 정원 알림 보내기
+            if ((user_num + 1) == data.person.replace("[^\\d]".toRegex(), "").toInt()) {
+                val notiData_full =
+                    NotiModel("Saveat - 알림", "채팅방 인원이 다 찼어요.", "임시", hostUID, data.title)
+                val pushModel_full = PushNotification(notiData_full, "${host_token}")
+                testPush(pushModel_full)
+            }
+
             //현재 액티비티 종료시키기
             finish()
         }
+
+        //방장 신뢰도 확인 버튼
+        binding.btnCheckFeedback.setOnClickListener {
+            val intent =
+                Intent(this, Board_Detail_Evaluation_Activity::class.java).putExtra("uid", hostUID).putExtra("nickname", host_nickname)
+            startActivity(intent)
+        }
+
 //        val dw_title=findViewById<TextView>(R.id.detail_title)
 //        val dw_place=findViewById<TextView>(R.id.detail_place)
 //        val dw_fee=findViewById<TextView>(R.id.detail_fee)
@@ -117,7 +154,7 @@ class DetailActivity : AppCompatActivity() {
 //        val linkBtn=findViewById<Button>(R.id.linkBtn)//참여자가 채팅방으로 이동하는 버튼
     }
 
-    //파이어베이스의 비동기 방식 -> 동기 방식
+    //파이어베이스의 비동기 방식 -> 동기 방식으로 바꿨습니다!!!!!(혜경)(함수 호출도
     suspend private fun getBoardData(key: String) = suspendCoroutine<String> { continuation ->
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -210,10 +247,10 @@ class DetailActivity : AppCompatActivity() {
         FBRef.usersRef.child(hostUID).child("nickname")
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    val nickname = snapshot.getValue().toString()
+                    host_nickname = snapshot.getValue().toString()
                     //별점 세팅
-                    binding.tvNickname.text = nickname
-                    continuation.resume(nickname)
+                    binding.tvNickname.text = host_nickname
+                    continuation.resume(host_nickname)
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -241,12 +278,36 @@ class DetailActivity : AppCompatActivity() {
     fun getUserNum() {
         FBRef.chatRoomsRef.child(chatroomkey).child("users")
             .addValueEventListener(object : ValueEventListener {
-                var num = 0
                 override fun onDataChange(snapshot: DataSnapshot) {
+                    user_num = 0
                     for (data in snapshot.children) {
-                        num++
+                        user_num++
                     }
-                    binding.enterBtn.text = "채팅방 입장하기 (${num}/${data.person})"
+                    binding.enterBtn.text = "채팅방 입장하기 (${user_num}/${
+                        data.person.replace("[^\\d]".toRegex(), "").toInt()
+                    })"
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
+    }
+
+    //새글 알림 보내기
+    private fun testPush(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
+        Log.d("pushNoti", notification.toString())
+        RetrofitInstance.api.postNotification(notification)
+    }
+
+    //새글 알림 보내기
+    suspend fun getHostToken() = suspendCoroutine<String> { it ->
+        FBRef.usersRef.child(hostUID).child("token")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    host_token = snapshot.value.toString()
+                    it.resume(host_token)
                 }
 
                 override fun onCancelled(error: DatabaseError) {

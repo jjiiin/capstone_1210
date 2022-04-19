@@ -77,7 +77,7 @@
                 android:id="@+id/tv_msg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="ㅇ"
+                android:text=""
                 android:textColor="#808080"
                 android:textSize="14sp" />
         </LinearLayout>

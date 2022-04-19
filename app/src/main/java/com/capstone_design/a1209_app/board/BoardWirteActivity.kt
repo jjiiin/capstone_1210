@@ -46,16 +46,16 @@ class BoardWirteActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBoardWirteBinding
     private lateinit var auth: FirebaseAuth
     private val items = mutableListOf<dataModel>()
-    private val tokenList=mutableListOf<String>()
+    private val tokenList = mutableListOf<String>()
     private var hour = ""
     private var min = ""
     private var day = ""
     private var time = ""
-    private var lat=""
-    private var lng=""
+    private var lat = ""
+    private var lng = ""
 
-    private var placeAddress=""
-    private var placeDetail=""
+    private var placeAddress = ""
+    private var placeDetail = ""
 
     //사진
     private val pickStorage = 1001
@@ -73,49 +73,49 @@ class BoardWirteActivity : AppCompatActivity() {
         var category = ""
 
         //새글알림용 category
-        var categoryNoti=""
+        var categoryNoti = ""
 
         //버튼 클릭시 category에 값 할당하기
         binding.categoryAsian.setOnClickListener {
 
             category = "asian"
-            categoryNoti="아시안, 양식"
+            categoryNoti = "아시안, 양식"
         }
         binding.categoryBun.setOnClickListener {
 
             category = "bun"
-            categoryNoti="분식"
+            categoryNoti = "분식"
         }
         binding.categoryChicken.setOnClickListener {
-            categoryNoti="치킨"
+            categoryNoti = "치킨"
             category = "chicken"
         }
         binding.categoryPizza.setOnClickListener {
-            categoryNoti="피자"
+            categoryNoti = "피자"
             category = "pizza"
         }
         binding.categoryFast.setOnClickListener {
-            categoryNoti="패스트푸드"
+            categoryNoti = "패스트푸드"
             category = "fastfood"
         }
         binding.categoryJap.setOnClickListener {
-            categoryNoti="일식"
+            categoryNoti = "일식"
             category = "japan"
         }
         binding.categoryKor.setOnClickListener {
-            categoryNoti="한식"
+            categoryNoti = "한식"
             category = "korean"
         }
         binding.categoryDo.setOnClickListener {
-            categoryNoti="도시락"
+            categoryNoti = "도시락"
             category = "bento"
         }
         binding.categoryCafe.setOnClickListener {
-            categoryNoti="카페, 디저트"
+            categoryNoti = "카페, 디저트"
             category = "cafe"
         }
         binding.categoryChi.setOnClickListener {
-            categoryNoti="중식"
+            categoryNoti = "중식"
             category = "chi"
         }
         binding.timeFree.setOnClickListener {
@@ -151,22 +151,27 @@ class BoardWirteActivity : AppCompatActivity() {
 
                         }
 
-                        override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                        override fun onItemSelected(
+                            p0: AdapterView<*>?,
+                            p1: View?,
+                            p2: Int,
+                            p3: Long
+                        ) {
                             min = minData[p2]
 
                             Log.d("detail", min)
                             binding.timeAm.setOnClickListener {
                                 day = "AM"
                                 time = "${day} ${hour}${min}"
-                                Log.d("testset",time)
+                                Log.d("testset", time)
 
                             }
                             binding.timePm.setOnClickListener {
                                 day = "PM"
                                 time = "${day} ${hour}${min}"
-                                Log.d("testset",time)
+                                Log.d("testset", time)
                             }
-                            Log.d("testset",time)
+                            Log.d("testset", time)
                         }
                     }
             }
@@ -176,7 +181,7 @@ class BoardWirteActivity : AppCompatActivity() {
         }
 
 
-        Log.d("set_time",time)
+        Log.d("set_time", time)
 
         var person = ""
         binding.person1List.setOnClickListener {
@@ -196,23 +201,27 @@ class BoardWirteActivity : AppCompatActivity() {
         }
         //주소검색
         binding.searchBtn.setOnClickListener {
-            val intent = Intent(this, AddressSearchActivity::class.java).putExtra("page","BoardWirteActivity")
+            val intent = Intent(this, AddressSearchActivity::class.java).putExtra(
+                "page",
+                "BoardWirteActivity"
+            )
             startActivity(intent)
         }
         //주소
         auth = Firebase.auth
-        val schRef : DatabaseReference = database.getReference("users").child(auth.currentUser?.uid.toString()).child("address")
+        val schRef: DatabaseReference =
+            database.getReference("users").child(auth.currentUser?.uid.toString()).child("address")
         schRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 for (DataModel in snapshot.children) {
                     val item = DataModel.getValue(addressData::class.java)
                     if (item != null) {
-                        if (item.set=="1") {
-                            binding.placeList.setText(item.address+" "+item.detail)
-                            placeAddress=item.address
-                            placeDetail=item.detail
-                            lat=item.lat
-                            lng=item.lng
+                        if (item.set == "1") {
+                            binding.placeList.setText(item.address + " " + item.detail)
+                            placeAddress = item.address
+                            placeDetail = item.detail
+                            lat = item.lat
+                            lng = item.lng
                         }
                     }
                 }
@@ -222,12 +231,12 @@ class BoardWirteActivity : AppCompatActivity() {
                 TODO("Not yet implemented")
             }
         })
-        var quick=""
+        var quick = ""
         binding.quick.setOnCheckedChangeListener { buttonView, isChecked ->
-            if(isChecked){
-                quick="1"
-            }else{
-                quick="0"
+            if (isChecked) {
+                quick = "1"
+            } else {
+                quick = "0"
             }
         }
 
@@ -236,8 +245,8 @@ class BoardWirteActivity : AppCompatActivity() {
             val title_dm = binding.titleList.text.toString()
             val category_dm = category
             val person_dm = person
-            var image_dm="0"
-            var quick_dm=quick
+            var image_dm = "0"
+            var quick_dm = quick
 
             val time_dm = time
             //스피너로 입력하기
@@ -246,14 +255,14 @@ class BoardWirteActivity : AppCompatActivity() {
             val place_dm = binding.placeList.text.toString()
             val mention_dm = binding.mention.text.toString()
             val link_dm = binding.link.text.toString()
-            var latLng= LatLng(lat.toDouble(),lng.toDouble())
+            var latLng = LatLng(lat.toDouble(), lng.toDouble())
 
             //Log.d("아이디",current_uid)
             val writer_uid = Auth.current_uid
-            val code=title_dm.replace(" ","")
+            val code = title_dm.replace(" ", "")
             //이미지 업로드
             if (setImage == true) {
-                Log.d("setImage","img")
+                Log.d("setImage", "img")
 
                 FirebaseStorage.getInstance().reference.child("map_contents") // firebase storage에 이미지 저장
                     .child("${writer_uid}+${code}") //다른 걸로 할 수 없을 까...
@@ -261,12 +270,13 @@ class BoardWirteActivity : AppCompatActivity() {
                     .putFile(imageUri!!)
                     .addOnSuccessListener {
                         FirebaseStorage.getInstance().reference.child("map_contents") // firebase storage에 이미지 저장
-                            .child("${writer_uid}+${code}").child("image").downloadUrl.addOnSuccessListener {
+                            .child("${writer_uid}+${code}")
+                            .child("image").downloadUrl.addOnSuccessListener {
                                 questPicture = it
                                 Log.d("tag_syccc", "$questPicture")
                                 FBRef.board.child("${writer_uid}+${code}").child("image")
                                     .setValue(questPicture.toString())
-                                image_dm=questPicture.toString()
+                                image_dm = questPicture.toString()
                             }
                     }
                     .addOnFailureListener {
@@ -314,15 +324,20 @@ class BoardWirteActivity : AppCompatActivity() {
 
             //카테고리에 해당하는 token 배열 가져오기
             //var tokenList= mutableListOf<String>()
-            val schRef : DatabaseReference = database.getReference("notification").child(category)
+            val schRef: DatabaseReference = database.getReference("notification").child(category)
             schRef.addValueEventListener(object : ValueEventListener {
-                val notiModel= NotiModel("Saveat - 새글알림","\"${categoryNoti}\" 카테고리에 새 글이 올라왔습니다.",formatted.toString())
+                val notiModel = NotiModel(
+                    "Saveat - 새글알림",
+                    "\"${categoryNoti}\" 카테고리에 새 글이 올라왔습니다.",
+                    formatted.toString()
+                )
+
                 override fun onDataChange(snapshot: DataSnapshot) {
                     for (DataModel in snapshot.children) {
                         val item = DataModel.getValue(String::class.java)
                         if (item != null) {
-                            var token=item.toString()
-                            val pushModel=PushNotification(notiModel,"${token}")
+                            var token = item.toString()
+                            val pushModel = PushNotification(notiModel, "${token}")
                             testPush(pushModel)
                             //Log.d("tokenList",item.toString())
                         }
@@ -337,7 +352,8 @@ class BoardWirteActivity : AppCompatActivity() {
             })
 
             //채팅방 정보에 게시글 키 저장
-            chatRoomsRef.child(chatroomkey!!).child("boardKey").setValue("${writer_uid}+${title_dm}")
+            chatRoomsRef.child(chatroomkey!!).child("boardKey")
+                .setValue("${writer_uid}+${title_dm.replace(" ", "")}")
 
             //지인(map-contents)
             FBRef.board.child("${writer_uid}+${code}").setValue(model)
@@ -350,8 +366,8 @@ class BoardWirteActivity : AppCompatActivity() {
     }
 
     //새글 알림 보내기
-    private fun testPush(notification: PushNotification)= CoroutineScope(Dispatchers.IO).launch {
-        Log.d("pushNoti",notification.toString())
+    private fun testPush(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
+        Log.d("pushNoti", notification.toString())
         RetrofitInstance.api.postNotification(notification)
     }
 
@@ -362,9 +378,10 @@ class BoardWirteActivity : AppCompatActivity() {
 
         startActivityForResult(intent, pickStorage)
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.d("call","call")
+        Log.d("call", "call")
         if (resultCode == RESULT_OK) {
             if (requestCode == pickStorage) {
                 val pickedImage: Uri? = data?.data

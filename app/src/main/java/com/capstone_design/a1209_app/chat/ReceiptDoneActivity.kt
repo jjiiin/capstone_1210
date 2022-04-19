@@ -12,6 +12,9 @@ import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.dataModels.ReceiptData
 import com.capstone_design.a1209_app.databinding.ActivityReceiptBeforeBinding
 import com.capstone_design.a1209_app.databinding.ActivityReceiptDoneBinding
+import com.capstone_design.a1209_app.fcm.NotiModel
+import com.capstone_design.a1209_app.fcm.PushNotification
+import com.capstone_design.a1209_app.fcm.RetrofitInstance
 import com.capstone_design.a1209_app.utils.Auth
 import com.capstone_design.a1209_app.utils.FBRef
 import com.google.firebase.database.*
@@ -42,6 +45,10 @@ class ReceiptDoneActivity : AppCompatActivity() {
     var boardKey: String = ""
     var userNum: Int = 0
     var price_sum: Int = 0
+    var isAllPaid = false
+    var host_token = ""
+    var hostUid = ""
+    var roomTitle = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,9 +58,11 @@ class ReceiptDoneActivity : AppCompatActivity() {
 
         val intent = getIntent()
         val chatroomkey = intent.getStringExtra("채팅방키").toString()
+        hostUid = intent.getStringExtra("hostUid").toString()
+        roomTitle = intent.getStringExtra("roomTitle").toString()
 
         //리사이클러뷰 어댑터 연결
-        rvAdapter = Receipt_RVAdapter(items, this, chatroomkey)
+        rvAdapter = Receipt_RVAdapter(items, this, chatroomkey, hostUid, roomTitle)
         val rv = findViewById<RecyclerView>(R.id.receipt_rv_view)
         rv.adapter = rvAdapter
         rv.layoutManager = LinearLayoutManager(this)
@@ -65,6 +74,7 @@ class ReceiptDoneActivity : AppCompatActivity() {
 
         //파이어베이스의 비동기 방식 -> 동기 방식
         CoroutineScope(Dispatchers.IO).launch {
+            getHostToken(hostUid)
             getBoardKey(chatroomkey)
             getDeliveryFee(chatroomkey)
             if (isFeeChange == false) {
@@ -83,11 +93,15 @@ class ReceiptDoneActivity : AppCompatActivity() {
             )
             startActivity(intent)
         }
+
+        //모두 송금했는지 확인
+        //checkAllPaid(chatroomkey, hostUid, roomTitle)
     }
 
     fun getUserReceipt(chatroomkey: String) {
         FBRef.chatRoomsRef.child(chatroomkey!!).child("receipts")
             .addValueEventListener(object : ValueEventListener {
+                var receiptNum = 0
                 override fun onDataChange(snapshot: DataSnapshot) {
                     items.clear()
                     price_sum = delivery_fee
@@ -95,18 +109,32 @@ class ReceiptDoneActivity : AppCompatActivity() {
                         if (data.getValue()!!.javaClass.toString() == "class java.util.HashMap") {
                             val data = data.getValue(ReceiptData::class.java)
                             price_sum += data!!.price
-                            if(data.uid.equals(Auth.current_uid)){
+                            if (data.uid.equals(Auth.current_uid)) {
+                                //내껄 맨위에 오게
                                 items.add(0, data)
-                            }else{
+                            } else {
                                 items.add(data!!)
                             }
                             //items에 변화가 생기면 반영
                             rvAdapter.notifyDataSetChanged()
+                            receiptNum++
                         }
 
                     }
-
                     binding.tvPriceSum.text = price_sum.toString()
+
+                    //만약 사용자가 주문서 다 작성했으면 방장에게 알람
+                 /*   if(userNum == receiptNum){
+                        val notiData_receipt = NotiModel(
+                            "Saveat - 알림",
+                            "모든 참여자가 주문서를 작성했어요",
+                            "임시",
+                            hostUid,
+                            roomTitle
+                        )
+                        val pushModel_receipt = PushNotification(notiData_receipt, "${Receipt_RVAdapter.host_token}")
+                        testPush(pushModel_receipt)
+                    }*/
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -187,4 +215,26 @@ class ReceiptDoneActivity : AppCompatActivity() {
 
             })
     }
+
+    //방장 알람 token 가져오기
+    suspend fun getHostToken(hostUid: String) = suspendCoroutine<String> { it ->
+        FBRef.usersRef.child(hostUid).child("token")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    Receipt_RVAdapter.host_token = snapshot.getValue().toString()
+                    it.resume(Receipt_RVAdapter.host_token)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
+    }
+
+   /* private fun testPush(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
+        Log.d("pushNoti", notification.toString())
+        RetrofitInstance.api.postNotification(notification)
+    }*/
+
 }

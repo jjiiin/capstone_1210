@@ -308,7 +308,7 @@
                                 android:id="@+id/tv_nickname"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="닉네임"
+                                android:text=""
                                 android:textColor="#393939"
                                 android:textSize="14sp"
                                 android:textStyle="bold" />
@@ -322,7 +322,7 @@
                                     android:id="@+id/btn_check_feedback"
                                     android:layout_width="77dp"
                                     android:layout_height="22dp"
-                                    android:src="@drawable/check_feedback" />
+                                    android:src="@drawable/check_feedback_detail" />
                             </LinearLayout>
 
                         </LinearLayout>
@@ -348,7 +348,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="6dp"
-                                android:text="4.0"
+                                android:text=""
                                 android:textColor="#393939"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />

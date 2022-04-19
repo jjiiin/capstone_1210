@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/receipt_button"
+    android:background="@drawable/dialog_background"
     android:backgroundTint="#FFFFFF"
     android:orientation="vertical">
 
@@ -12,14 +12,14 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tv_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="18dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="18dp"
             android:lineSpacingExtra="5dp"
-            android:text="삭제된 채팅방은 내용을 복구할 수 없어요.
-선택한 채팅방에서 나가시겠어요?"
+            android:text=""
             android:textColor="#393939"
             android:textSize="16sp"
             android:textStyle="normal" />
