@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        tools:context=".Push_Evaluation_Activity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="14dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="14dp"
+            android:paddingBottom="15dp">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginRight="32dp"
+                android:src="@drawable/back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="신뢰도 평가"
+                android:textColor="#101010"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:text="채팅방"
+                android:textColor="#808080"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_chatroom_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="채팅방이름"
+                android:textColor="#393939"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:text="참여자"
+                android:textColor="#808080"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_userNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="2dp"
+                android:text="0"
+                android:textColor="#393939"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="명"
+                android:textColor="#393939"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="18dp"
+            android:background="#E0E0E0" />
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginTop="30dp">
+
+            <LinearLayout
+                android:id="@+id/layout_scrollView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="#101010"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" 님은 어땠나요?"
+                android:textColor="#101010"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="221dp"
+            android:layout_height="51dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/evaluate_star_bg"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="11dp"
+            android:paddingTop="4dp"
+            android:paddingRight="12dp"
+            android:paddingBottom="7dp">
+
+            <RatingBar
+                android:id="@+id/ratingBar"
+                style="@style/CustomRatingBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="14.2dp"
+                android:numStars="5"
+                android:rating="3.5"
+                android:stepSize="0.5" />
+
+            <TextView
+                android:id="@+id/tv_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3.5"
+                android:textColor="#393939"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+
+        <EditText
+            android:id="@+id/et_contents"
+            android:layout_width="match_parent"
+            android:layout_height="85dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/receipt_text_border"
+            android:gravity="start"
+            android:hint="내용을 적어주세요"
+            android:paddingLeft="11dp"
+            android:paddingTop="9dp"
+            android:textColorHint="#C4C4C4"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="6dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="13dp"
+                android:background="@drawable/round_button"
+                android:paddingLeft="18dp"
+                android:paddingTop="4dp"
+                android:paddingRight="18dp"
+                android:paddingBottom="4dp"
+                android:text="친절해요"
+                android:textColor="#101010" />
+
+            <TextView
+                android:id="@+id/tv2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="13dp"
+                android:background="@drawable/round_button"
+                android:paddingLeft="18dp"
+                android:paddingTop="4dp"
+                android:paddingRight="18dp"
+                android:paddingBottom="4dp"
+                android:text="입금이 빨라요"
+                android:textColor="#101010" />
+
+            <TextView
+                android:id="@+id/tv3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_button"
+                android:paddingLeft="18dp"
+                android:paddingTop="4dp"
+                android:paddingRight="18dp"
+                android:paddingBottom="4dp"
+                android:text="별로예요"
+                android:textColor="#101010" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="13dp"
+                android:background="@drawable/round_button"
+                android:paddingLeft="18dp"
+                android:paddingTop="4dp"
+                android:paddingRight="18dp"
+                android:paddingBottom="4dp"
+                android:text="입금이 늦어요"
+                android:textColor="#101010" />
+
+            <TextView
+                android:id="@+id/tv5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="13dp"
+                android:background="@drawable/round_button"
+                android:paddingLeft="18dp"
+                android:paddingTop="4dp"
+                android:paddingRight="18dp"
+                android:paddingBottom="4dp"
+                android:text="확인이 빨라요"
+                android:textColor="#101010" />
+
+            <TextView
+                android:id="@+id/tv6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_button"
+                android:paddingLeft="18dp"
+                android:paddingTop="4dp"
+                android:paddingRight="18dp"
+                android:paddingBottom="4dp"
+                android:text="좋아요"
+                android:textColor="#101010" />
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:paddingBottom="20dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <Button
+                    android:id="@+id/btn_cancel"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_marginRight="12dp"
+                    android:background="@drawable/receipt_button"
+                    android:backgroundTint="#c4c4c4"
+                    android:text="취소"
+                    android:textColor="#ffffff"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btn_done"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/btn_done"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/receipt_button"
+                    android:backgroundTint="#E0E0E0"
+                    android:text="완료"
+                    android:textColor="#ffffff"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/btn_cancel"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</layout>

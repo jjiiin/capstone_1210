@@ -5,5 +5,6 @@ data class NotiModel(
     val content: String = "",
     val date: String = "",
     val receiver_uid: String = "",
-    val chatroom_title: String = ""
+    val chatroom_title: String = "",
+    val chatroom_key: String = ""
 )

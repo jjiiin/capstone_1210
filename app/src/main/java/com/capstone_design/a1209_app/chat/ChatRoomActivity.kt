@@ -9,6 +9,8 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
@@ -19,12 +21,17 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.capstone_design.a1209_app.Mypage_Account_Activity
+import com.capstone_design.a1209_app.Push_Evaluation_Activity
 import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.dataModels.AccountChatData
 import com.capstone_design.a1209_app.dataModels.AccountData
 import com.capstone_design.a1209_app.dataModels.ChatData
 import com.capstone_design.a1209_app.dataModels.UserData
+import com.capstone_design.a1209_app.fcm.NotiModel
+import com.capstone_design.a1209_app.fcm.PushNotification
+import com.capstone_design.a1209_app.fcm.RetrofitInstance
 import com.capstone_design.a1209_app.utils.Auth
+import com.capstone_design.a1209_app.utils.FBRef
 import com.capstone_design.a1209_app.utils.FBRef.Companion.board
 import com.capstone_design.a1209_app.utils.FBRef.Companion.chatRoomsRef
 import com.capstone_design.a1209_app.utils.FBRef.Companion.userRoomsRef
@@ -235,6 +242,13 @@ class ChatRoomActivity : AppCompatActivity() {
                     )
                     chatRoomsRef.child(chatroomkey!!).child("messages").push().setValue(chatData1)
                     chatRoomsRef.child(chatroomkey!!).child("messages").push().setValue(chatData2)
+
+                    //실행 delay 시키기
+                    val handler = Handler()
+                    handler.postDelayed(Runnable {
+                        push_evaluation(chatroomkey)
+                    }, 3000)
+
                 }
 
             }
@@ -512,5 +526,36 @@ class ChatRoomActivity : AppCompatActivity() {
                 }
 
             })
+    }
+
+    fun push_evaluation(chatroomkey:String){
+        usersRef.get().addOnSuccessListener {
+            for(data in it.children){
+                if(roomusersIdList.contains(data.key)){
+                    for(_data in data.children){
+                        if(_data.key.toString() == "token"){
+                            val token:String = _data.getValue().toString()
+                            //방장에게 송금알림 보내기
+                            val notiData_paid = NotiModel(
+                                "Saveat - 알림",
+                                "채팅방원들의 신뢰도를 평가해주세요!",
+                                "임시",
+                                Auth.current_uid,
+                                roomTitle,
+                                chatroomkey
+                            )
+                            val pushModel_pay = PushNotification(notiData_paid, token)
+                            testPush(pushModel_pay)
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+
+    private fun testPush(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
+        Log.d("pushNoti", notification.toString())
+        RetrofitInstance.api.postNotification(notification)
     }
 }

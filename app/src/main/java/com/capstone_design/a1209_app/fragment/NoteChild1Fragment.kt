@@ -49,7 +49,7 @@ class NoteChild1Fragment : Fragment() {
         auth= Firebase.auth
 
         val rv = binding.rvNote
-        val rvAdapter = RVNoteAdapter(dataModelList)
+        val rvAdapter = RVNoteAdapter(dataModelList, requireContext())
         rv.adapter = rvAdapter
         val layout = LinearLayoutManager(requireActivity().getApplicationContext())
         rv.layoutManager = layout

@@ -1,15 +1,18 @@
 package com.capstone_design.a1209_app
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.capstone_design.a1209_app.dataModels.notiData
 import com.capstone_design.a1209_app.fcm.NotiModel
 
-class RVNoteAdapter(val items: MutableList<notiData>) :
+class RVNoteAdapter(val items: MutableList<notiData>, val context:Context) :
     RecyclerView.Adapter<RVNoteAdapter.ViewHolder>() {
 
 
@@ -39,10 +42,15 @@ class RVNoteAdapter(val items: MutableList<notiData>) :
             "enter" -> holder.img.setImageResource(R.drawable.notification_enter)
             "pay"->holder.img.setImageResource(R.drawable.notification_paid)
             "receipt"->holder.img.setImageResource(R.drawable.notification_receipt)
+            "evaluation"->{
+                holder.img.setImageResource(R.drawable.notification_evaluation)
+
+            }
         }
         if (item.chatroom_title != "") {
             holder.chatroom_title.text = item.chatroom_title
         }
+        holder.bind(item)
     }
 
     override fun getItemCount(): Int {
@@ -54,5 +62,15 @@ class RVNoteAdapter(val items: MutableList<notiData>) :
         val date: TextView = itemView.findViewById(R.id.notiDate)
         val img: ImageView = itemView.findViewById(R.id.item_image)
         val chatroom_title = itemView.findViewById<TextView>(R.id.noti_chatroom_title)
+
+        fun bind(item:notiData){
+            if(item.category=="evaluation"){
+                itemView.setOnClickListener {
+                    val intent = Intent(context, Push_Evaluation_Activity::class.java)
+                    intent.putExtra("chatroomkey", item.chatroom_key)
+                    context.startActivity(intent)
+                }
+            }
+        }
     }
 }

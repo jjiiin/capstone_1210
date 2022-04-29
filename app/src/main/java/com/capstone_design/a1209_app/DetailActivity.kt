@@ -142,7 +142,8 @@ class DetailActivity : AppCompatActivity() {
         //방장 신뢰도 확인 버튼
         binding.btnCheckFeedback.setOnClickListener {
             val intent =
-                Intent(this, Board_Detail_Evaluation_Activity::class.java).putExtra("uid", hostUID).putExtra("nickname", host_nickname)
+                Intent(this, Board_Detail_Evaluation_Activity::class.java).putExtra("uid", hostUID)
+                    .putExtra("nickname", host_nickname)
             startActivity(intent)
         }
 
@@ -223,76 +224,44 @@ class DetailActivity : AppCompatActivity() {
 
     //방장 별점 가져오기
     //파이어베이스의 비동기 방식 -> 동기 방식
-    suspend fun getHostRatingData() = suspendCoroutine<String> { continuation ->
-        FBRef.usersRef.child(hostUID).child("rating")
-            .addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val rating = snapshot.getValue().toString()
-                    //별점 세팅
-                    binding.tvRating.text = rating
-                    binding.ratingBar.rating = rating.toFloat()
-                    continuation.resume(rating)
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
-                }
-
-            })
+    fun getHostRatingData() {
+        FBRef.usersRef.child(hostUID).child("rating").get().addOnSuccessListener {
+            if (it.getValue() == null) {
+                binding.tvRating.text = "3.5"
+                binding.ratingBar.rating = 3.5F
+            } else {
+                val rating = it.getValue().toString()
+                //별점 세팅
+                binding.tvRating.text = rating
+                binding.ratingBar.rating = rating.toFloat()
+            }
+        }
     }
 
     //방장 닉네임 가져오기
     //파이어베이스의 비동기 방식 -> 동기 방식
-    suspend fun getHostNickname() = suspendCoroutine<String> { continuation ->
-        FBRef.usersRef.child(hostUID).child("nickname")
-            .addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    host_nickname = snapshot.getValue().toString()
-                    //별점 세팅
-                    binding.tvNickname.text = host_nickname
-                    continuation.resume(host_nickname)
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
-                }
-
-            })
+    fun getHostNickname() {
+        FBRef.usersRef.child(hostUID).child("nickname").get().addOnSuccessListener {
+            host_nickname = it.getValue().toString()
+            binding.tvNickname.text = host_nickname
+        }
     }
 
-    suspend fun getCurrentNickname() = suspendCoroutine<String> { continuation ->
-        FBRef.usersRef.child(Auth.current_uid).child("nickname")
-            .addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    current_nickname = snapshot.getValue().toString()
-                    continuation.resume(current_nickname)
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
-                }
-
-            })
+    fun getCurrentNickname(){
+        FBRef.usersRef.child(Auth.current_uid).child("nickname").get().addOnSuccessListener {
+            current_nickname = it.getValue().toString()
+        }
     }
 
     fun getUserNum() {
-        FBRef.chatRoomsRef.child(chatroomkey).child("users")
-            .addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    user_num = 0
-                    for (data in snapshot.children) {
-                        user_num++
-                    }
-                    binding.enterBtn.text = "채팅방 입장하기 (${user_num}/${
-                        data.person.replace("[^\\d]".toRegex(), "").toInt()
-                    })"
-                }
+        user_num = 0
+        FBRef.chatRoomsRef.child(chatroomkey).child("users").get().addOnSuccessListener {
+            user_num++
+            binding.enterBtn.text = "채팅방 입장하기 (${user_num}/${
+            data.person.replace("[^\\d]".toRegex(), "").toInt()
+            })"
+        }
 
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
-                }
-
-            })
     }
 
     //새글 알림 보내기
@@ -302,18 +271,9 @@ class DetailActivity : AppCompatActivity() {
     }
 
     //새글 알림 보내기
-    suspend fun getHostToken() = suspendCoroutine<String> { it ->
-        FBRef.usersRef.child(hostUID).child("token")
-            .addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    host_token = snapshot.value.toString()
-                    it.resume(host_token)
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
-                }
-
-            })
+    fun getHostToken(){
+        FBRef.usersRef.child(hostUID).child("token").get().addOnSuccessListener {
+            host_token = it.value.toString()
+        }
     }
 }

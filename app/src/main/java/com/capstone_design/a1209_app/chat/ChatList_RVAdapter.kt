@@ -11,6 +11,7 @@ import android.widget.CheckBox
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.capstone_design.a1209_app.Push_Evaluation_Activity
 import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.dataModels.ChatData
 import com.capstone_design.a1209_app.dataModels.ChatRoomData
@@ -72,6 +73,7 @@ class ChatList_RVAdapter(
                     val intent =
                         Intent(context, ChatRoomActivity::class.java).putExtra("채팅방키", chatroomkey)
                     context.startActivity(intent.addFlags(FLAG_ACTIVITY_NEW_TASK))
+
                 }
             } else {
                 //휴지통 버튼 눌렀을때는 클릭해도 채팅방으로 넘어가는것을 막음

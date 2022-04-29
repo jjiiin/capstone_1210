@@ -19,6 +19,9 @@
         android:theme="@style/Theme.1209_app"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".Push_Evaluation_Activity"
+            android:exported="false" />
+        <activity
             android:name=".Mypage_Account_Activity"
             android:exported="false" />
         <activity
