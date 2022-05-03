@@ -3,7 +3,6 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-<<<<<<< HEAD
         <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/drawable-v24/custom_checkbox_delete.xml" value="0.18981481481481483" />
         <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/drawable/chat_bubble_account_right.xml" value="0.19444444444444445" />
         <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/drawable/chat_bubble_left.xml" value="0.19444444444444445" />
@@ -43,10 +42,9 @@
         <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/layout/receipt_done_rv_item.xml" value="0.22" />
         <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/layout/roomuser_rv_item.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/menu/main_nav.xml" value="0.2520833333333333" />
-=======
+
         <entry key="..\:/Users/wjdwl/AndroidStudioProjects/1209_app/app/src/main/res/drawable/address_item.xml" value="0.1" />
         <entry key="..\:/Users/wjdwl/AndroidStudioProjects/1209_app/app/src/main/res/drawable/bottomsheet.xml" value="0.207" />
->>>>>>> a1c17e786bc0ad064788d754a09bb5b878e21fe8
         <entry key="..\:/Users/wjdwl/AndroidStudioProjects/1209_app/app/src/main/res/drawable/chat_nav_sector.xml" value="0.1" />
         <entry key="..\:/Users/wjdwl/AndroidStudioProjects/1209_app/app/src/main/res/drawable/custom_marker.xml" value="0.18552631578947368" />
         <entry key="..\:/Users/wjdwl/AndroidStudioProjects/1209_app/app/src/main/res/drawable/detail_window_mention.xml" value="0.3015625" />
