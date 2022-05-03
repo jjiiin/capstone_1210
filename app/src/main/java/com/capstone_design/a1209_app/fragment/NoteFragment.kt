@@ -13,7 +13,11 @@ import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.viewpager2.widget.ViewPager2
 import com.capstone_design.a1209_app.*
+import com.capstone_design.a1209_app.Adapter.RVNoteAdapter
 import com.capstone_design.a1209_app.chat.ChatList_RVAdapter
+import com.capstone_design.a1209_app.KeywordSettingActivity
+import com.capstone_design.a1209_app.R
+import com.capstone_design.a1209_app.Adapter.ViewPagerAdapter
 import com.capstone_design.a1209_app.databinding.FragmentNoteBinding
 import com.capstone_design.a1209_app.utils.Auth
 import com.capstone_design.a1209_app.utils.FBRef

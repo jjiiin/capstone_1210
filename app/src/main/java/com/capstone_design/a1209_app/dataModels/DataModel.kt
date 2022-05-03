@@ -3,7 +3,10 @@ package com.capstone_design.a1209_app.dataModels
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.android.gms.maps.model.LatLng
+import kotlinx.android.parcel.Parcelize
+import java.io.Serializable
 
+@Parcelize
 data class dataModel (
     val title: String="",
     val category:String="",
@@ -24,4 +27,4 @@ data class dataModel (
     val writer: String = "",
     //채팅방 키 추가
     val chatroomkey: String = ""
-)
+):Parcelable

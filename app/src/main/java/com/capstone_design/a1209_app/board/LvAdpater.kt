@@ -15,8 +15,8 @@ import androidx.cardview.widget.CardView
 import com.bumptech.glide.Glide
 import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.dataModels.dataModel
+import com.capstone_design.a1209_app.fragment.BoardHomeFragment
 import com.capstone_design.a1209_app.utils.FBRef
-import com.capstone_design.map_test.BoardHomeFragment
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener

@@ -1,4 +1,4 @@
-package com.capstone_design.a1209_app
+package com.capstone_design.a1209_app.Adapter
 
 import android.content.Context
 import android.content.Intent
@@ -11,10 +11,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.capstone_design.a1209_app.Push_Evaluation_Activity
 import com.capstone_design.a1209_app.chat.ChatList_RVAdapter
 import com.capstone_design.a1209_app.chat.ChatRoomActivity
+import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.dataModels.notiData
-import com.capstone_design.a1209_app.fcm.NotiModel
 
 class RVNoteAdapter(val items: MutableList<notiData>, val context: Context, val keys:MutableList<String>) :
     RecyclerView.Adapter<RVNoteAdapter.ViewHolder>() {
@@ -34,6 +35,7 @@ class RVNoteAdapter(val items: MutableList<notiData>, val context: Context, val 
         holder.date.text = item.date
         val key = keys[position]
         //image
+        holder.img.setImageResource(R.drawable.noti_new)
         when (item.category) {
             "asian" -> holder.img.setImageResource(R.drawable.asian)
             "bun" -> holder.img.setImageResource(R.drawable.bun)

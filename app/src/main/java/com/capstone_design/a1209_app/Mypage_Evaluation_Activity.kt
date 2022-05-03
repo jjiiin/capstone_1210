@@ -1,28 +1,18 @@
 package com.capstone_design.a1209_app
 
-import android.content.Intent
+import com.capstone_design.a1209_app.Adapter.Rating_RVAdapter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.capstone_design.a1209_app.chat.Chat_RVAdapter
 import com.capstone_design.a1209_app.dataModels.RatingData
-import com.capstone_design.a1209_app.databinding.ActivityDisplayEvaluationBinding
 import com.capstone_design.a1209_app.databinding.ActivityMypageEvaluationBinding
 import com.capstone_design.a1209_app.utils.Auth
 import com.capstone_design.a1209_app.utils.FBRef
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.util.*
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 
 class Mypage_Evaluation_Activity : AppCompatActivity() {
 

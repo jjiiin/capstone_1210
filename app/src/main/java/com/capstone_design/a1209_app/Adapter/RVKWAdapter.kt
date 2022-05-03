@@ -1,4 +1,4 @@
-package com.capstone_design.a1209_app
+package com.capstone_design.a1209_app.Adapter
 
 import android.content.Intent
 import android.util.Log
@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.dataModels.kwNotiData
-import com.capstone_design.a1209_app.dataModels.notiData
 
 class RVKWAdapter(val items:MutableList<kwNotiData>, val keys:MutableList<String>): RecyclerView.Adapter<RVKWAdapter.ViewHolder> () {
     private var isCheckBtn_Show = false

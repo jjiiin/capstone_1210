@@ -9,15 +9,9 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone_design.a1209_app.R
-import com.capstone_design.a1209_app.RVKWAdapter
-import com.capstone_design.a1209_app.RVNoteAdapter
+import com.capstone_design.a1209_app.Adapter.RVKWAdapter
 import com.capstone_design.a1209_app.dataModels.kwNotiData
-import com.capstone_design.a1209_app.dataModels.notiData
-import com.capstone_design.a1209_app.databinding.FragmentNoteChild1Binding
 import com.capstone_design.a1209_app.databinding.FragmentNoteChild2Binding
-import com.capstone_design.a1209_app.fcm.NotiModel
-import com.capstone_design.a1209_app.fcm.PushNotification
-import com.capstone_design.a1209_app.fcm.RetrofitInstance
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
@@ -25,11 +19,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.squareup.okhttp.Dispatcher
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.launch
 
 
 class NoteChild2Fragment : Fragment() {

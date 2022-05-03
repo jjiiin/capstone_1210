@@ -1,4 +1,4 @@
-package com.capstone_design.a1209_app
+package com.capstone_design.a1209_app.Adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,6 +9,7 @@ import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.dataModels.RatingData
 import com.capstone_design.a1209_app.utils.Auth
 import com.google.firebase.storage.FirebaseStorage

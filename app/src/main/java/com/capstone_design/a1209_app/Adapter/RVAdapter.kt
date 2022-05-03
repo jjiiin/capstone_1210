@@ -1,12 +1,12 @@
-package com.capstone_design.a1209_app
+package com.capstone_design.a1209_app.Adapter
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.dataModels.addressData
 
 class RVAdapter (val items:MutableList<addressData>): RecyclerView.Adapter<RVAdapter.ViewHolder>() {
