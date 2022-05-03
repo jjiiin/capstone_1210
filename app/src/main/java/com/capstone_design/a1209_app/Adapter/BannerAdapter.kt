@@ -1,7 +1,6 @@
-package com.capstone_design.a1209_app
+package com.capstone_design.a1209_app.Adapter
 
 import android.content.Context
-import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,11 +8,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.capstone_design.a1209_app.dataModels.addressData
+import com.capstone_design.a1209_app.fragment.MapHomeFragment
+import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.dataModels.dataModel
-import com.capstone_design.map_test.BoardHomeFragment
+import com.capstone_design.map_test.FragmentListener
 
-class bannerAdapter(val items:MutableList<dataModel>,private val context: MapHomeFragment): RecyclerView.Adapter<bannerAdapter.ViewHolder>()  {
+class bannerAdapter(val items:MutableList<dataModel>, private val fragment: MapHomeFragment, val context: Context): RecyclerView.Adapter<bannerAdapter.ViewHolder>()  {
+    private lateinit var mFragmentListener: FragmentListener
     inner class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
         val title: TextView =itemView.findViewById(R.id.item_title)
         val place: TextView =itemView.findViewById(R.id.item_place)
@@ -22,6 +23,8 @@ class bannerAdapter(val items:MutableList<dataModel>,private val context: MapHom
         val person: TextView =itemView.findViewById(R.id.item_person)
         val img: ImageView =itemView.findViewById(R.id.item_image)
         val quick:ImageView=itemView.findViewById(R.id.quick)
+
+        val listbtn:ImageView=itemView.findViewById(R.id.listBtn)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -60,6 +63,13 @@ class bannerAdapter(val items:MutableList<dataModel>,private val context: MapHom
         }else{
             holder.quick.visibility=View.INVISIBLE
         }
+        holder.listbtn.setOnClickListener {
+            //소그룹 목록으로 이동하기
+            //val mActivity=activity as MainActivity
+            //Toast.makeText(context,items.toString(),Toast.LENGTH_LONG).show()
+            btnClickListener.onClick(it, position)
+
+       }
 
         holder.itemView.setOnClickListener {
             itemClickListener.onClick(it, position)
@@ -76,7 +86,21 @@ class bannerAdapter(val items:MutableList<dataModel>,private val context: MapHom
     // (4) setItemClickListener로 설정한 함수 실행
     private lateinit var itemClickListener : OnItemClickListener
 
+
+    //버튼 클릭 리스너를 만들어보자
+    interface OnBtnClickListener{
+        fun onClick(v:View,position: Int)
+    }
+    // (3) 외부에서 클릭 시 이벤트 설정
+    fun setBtnClickListener(onBtnClickListener: OnBtnClickListener)  {
+        this.btnClickListener = onBtnClickListener
+    }
+    // (4) setItemClickListener로 설정한 함수 실행
+    private lateinit var btnClickListener : OnBtnClickListener
+
+
     override fun getItemCount(): Int {
         return items.size
     }
+
 }

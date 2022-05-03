@@ -24,20 +24,6 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-//        //token값 users에 저장하기
-//        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-//            if (!task.isSuccessful) {
-//                Log.w(VolleyLog.TAG, "Fetching FCM registration token failed", task.exception)
-//                return@OnCompleteListener
-//            }
-//
-//            // Get new FCM registration token
-//            val token = task.result
-//            FBRef.usersRef.child(auth.currentUser!!.uid).child("token").setValue(token)
-//
-//            // Log and toast
-//            Log.e("token",token.toString())
-//        })
 
         auth= Firebase.auth
         //user-id가 존재한다면 바로 main으로 넘어가고 아니면 intro의 로그인 화면으로 간다.
@@ -54,6 +40,7 @@ class SplashActivity : AppCompatActivity() {
             },2000)
 
         }
+        FBRef.usersRef.child(auth.currentUser!!.uid).child("splash").setValue("1")
 
 
     }

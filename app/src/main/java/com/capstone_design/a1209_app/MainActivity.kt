@@ -8,11 +8,14 @@ import android.os.Bundle
 import android.util.Base64
 import android.util.Base64.encode
 import android.util.Log
+import androidx.fragment.app.Fragment
+import com.capstone_design.a1209_app.dataModels.dataModel
 import com.capstone_design.a1209_app.databinding.ActivityMainBinding
 import com.capstone_design.a1209_app.fragment.ChatFragment
 import com.capstone_design.a1209_app.fragment.HomeFragment
 import com.capstone_design.a1209_app.fragment.MyFragment
 import com.capstone_design.a1209_app.fragment.NoteFragment
+import java.io.Serializable
 
 import java.security.MessageDigest
 import java.util.*
@@ -30,6 +33,8 @@ class MainActivity : AppCompatActivity() {
 
         var bn_main=binding.bnNav
         bn_main.itemIconTintList = null
+
+
 
 
         bn_main.run{
@@ -58,19 +63,18 @@ class MainActivity : AppCompatActivity() {
             selectedItemId = R.id.home
         }
     }
-    fun getAppKeyHash() {
-        try {
-            val info = packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES)
-            for(i in info.signatures) {
-                val md: MessageDigest = MessageDigest.getInstance("SHA")
-                md.update(i.toByteArray())
+    //fragment 간 데이터 전달
+    fun setDataAtFragment(fragment:Fragment, items:MutableList<dataModel> ){
+        val bundle=Bundle()
+        bundle.putSerializable("list",items as Serializable)
 
-                val something = String(Base64.encode(md.digest(),0)!!)
-                Log.e("Debug key", something)
-            }
-        } catch(e: Exception) {
-            Log.e("Not found", e.toString())
-        }
+        fragment.arguments=bundle
+        setFragment(fragment)
     }
 
+    fun setFragment(fragment: Fragment){
+        val transaction=supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.frameLayout, fragment)
+        transaction.commit()
     }
+}

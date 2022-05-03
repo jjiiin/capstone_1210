@@ -1,5 +1,6 @@
-package com.capstone_design.a1209_app
+package com.capstone_design.a1209_app.fragment
 
+import com.capstone_design.a1209_app.Adapter.bannerAdapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -17,27 +18,23 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.databinding.DataBindingUtil
 import androidx.viewpager2.widget.ViewPager2
 import com.android.volley.VolleyLog
+import com.capstone_design.a1209_app.*
+import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.board.BoardWirteActivity
 import com.capstone_design.a1209_app.dataModels.addressData
 import com.capstone_design.a1209_app.dataModels.dataModel
 import com.capstone_design.a1209_app.dataModels.kwNotiData
-import com.capstone_design.a1209_app.dataModels.notiData
 import com.capstone_design.a1209_app.databinding.FragmentMapHomeBinding
 import com.capstone_design.a1209_app.fcm.NotiModel
 import com.capstone_design.a1209_app.fcm.PushNotification
 import com.capstone_design.a1209_app.fcm.RetrofitInstance
-import com.capstone_design.a1209_app.fragment.HomeFragment
 import com.capstone_design.a1209_app.utils.FBRef
 import com.capstone_design.map_test.FragmentListener
 import com.google.android.gms.location.*
@@ -49,7 +46,6 @@ import com.google.android.gms.maps.model.*
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -58,13 +54,11 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
-import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.jar.Manifest
 
 
 class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
@@ -79,6 +73,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
     private lateinit var cardView:CardView
     private lateinit var viewPager2: ViewPager2
     private lateinit var springDotsIndicator: SpringDotsIndicator
+    private lateinit var myLocation:Location
 
     private var category="all"
     private var cnt=0
@@ -110,7 +105,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
     ): View? {
         // Inflate the layout for this fragment
 
-        binding= DataBindingUtil.inflate(inflater,R.layout.fragment_map_home, container, false)
+        binding= DataBindingUtil.inflate(inflater, R.layout.fragment_map_home, container, false)
 
         auth = Firebase.auth
         val database = Firebase.database
@@ -135,6 +130,8 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
         })
         viewPager2=binding.viewPager
         springDotsIndicator=binding.springDotsIndicator
+
+
 
         //키워드 알림
         // 1. 키워드 리스트 가져오기
@@ -175,74 +172,6 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
 
         })
 
-//        if(cnt==0) {
-//            markerView("all")
-//            buttonColor("all")
-//            cnt+=1
-//        }
-//        binding.categoryAll.setOnClickListener {
-//            mMap!!.clear()
-//            markerView("all")
-//            buttonColor("all")
-//        }
-//        binding.categoryAsian.setOnClickListener {
-//            mMap!!.clear()
-//            markerView("asian")
-//            buttonColor("asian")
-//        }
-//        binding.categoryBun.setOnClickListener {
-//            mMap!!.clear()
-//            viewPager2.visibility=View.INVISIBLE
-//            springDotsIndicator.visibility=View.INVISIBLE
-//            markerView("bun")
-//            buttonColor("bun")
-//        }
-//        binding.categoryChicken.setOnClickListener {
-//            mMap!!.clear()
-//            markerView("chicken")
-//            buttonColor("chicken")
-//        }
-//        binding.categoryPizza.setOnClickListener {
-//            mMap!!.clear()
-//            markerView("chicken")
-//            buttonColor("pizza")
-//        }
-//        binding.categoryFast.setOnClickListener {
-//            mMap!!.clear()
-//            markerView("fastfood")
-//            buttonColor("fast")
-//        }
-//        binding.categoryJap.setOnClickListener {
-//            mMap!!.clear()
-//            markerView("japan")
-//            buttonColor("japan")
-//        }
-//        binding.categoryKor.setOnClickListener {
-//            mMap!!.clear()
-//            markerView("korean")
-//            buttonColor("korean")
-//        }
-//        binding.categoryDo.setOnClickListener {
-//            mMap!!.clear()
-//            markerView("bento")
-//            buttonColor("bento")
-//
-//        }
-//        binding.categoryCafe.setOnClickListener {
-//            mMap!!.clear()
-//            markerView("cafe")
-//            buttonColor("cafe")
-//
-//        }
-//        binding.categoryChi.setOnClickListener {
-//            mMap!!.clear()
-//            viewPager2.visibility=View.INVISIBLE
-//            springDotsIndicator.visibility=View.INVISIBLE
-//            markerView("chi")
-//            buttonColor("chi")
-//
-//        }
-
         binding.mapGo.setOnClickListener {
             val intent = Intent(context, AddressSearchActivity::class.java).putExtra("mhf","1")
                 .putExtra("page","MapHomeFragment")
@@ -270,6 +199,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
            //버튼 누르면
             mFragmentListener = parentFragment as HomeFragment
             mFragmentListener.onReceivedData(1)
+
         }
         return binding.root
     }
@@ -291,19 +221,22 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
     }
 
 
+
     override fun onMapReady(googleMap: GoogleMap) {
         mMap=googleMap
-        if(cnt==0) {
-            markerView("all")
-            buttonColor("all")
-            cnt+=1
-        }
+        mMap!!.clear()
+        viewPager2.visibility=View.GONE
+        springDotsIndicator.visibility=View.GONE
+        markerView("all")
+        buttonColor("all")
+
         binding.categoryAll.setOnClickListener {
             mMap!!.clear()
             viewPager2.visibility=View.GONE
             springDotsIndicator.visibility=View.GONE
             markerView("all")
             buttonColor("all")
+
         }
         binding.categoryAsian.setOnClickListener {
             mMap!!.clear()
@@ -378,12 +311,17 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             buttonColor("chi")
 
         }
+        //내위치 항상 표시하기
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(mainActivity)
+        setUpdateLocationListener2()
 
+        //내위치 버튼 클릭
         binding.myloc.setOnClickListener {
             viewPager2.visibility=View.GONE
             springDotsIndicator.visibility=View.GONE
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(mainActivity)
             setUpdateLocationListener()
+            setUpdateLocationListener2()
         }
 
         auth = Firebase.auth
@@ -423,19 +361,21 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
         //마커 클릭 시 카드 뷰 보이게 하기
         mMap!!.setOnMarkerClickListener (object :GoogleMap.OnMarkerClickListener{
             override fun onMarkerClick(p0: Marker): Boolean {
-                markerClick(p0.tag.toString())
+                markerClick(p0.tag.toString(), p0.position)
                 viewPager2.visibility=View.VISIBLE
                 springDotsIndicator.visibility=View.VISIBLE
-
                 return false
             }
 
 
         })
+
+        //지도 클릭시 마커 원상복구
         mMap!!.setOnMapClickListener(object : GoogleMap.OnMapClickListener {
             override fun onMapClick(latLng: LatLng) {
-               viewPager2.visibility = View.GONE
-                   springDotsIndicator.visibility = View.GONE
+                viewPager2.visibility = View.GONE
+                springDotsIndicator.visibility = View.GONE
+
 
             }
         })
@@ -456,7 +396,6 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             override fun onLocationResult(p0: LocationResult) {
                 p0?.let{
                    for ((i,location)  in it.locations.withIndex()){
-                       Log.d("로케이션","$i ${location.latitude},${location.longitude}")
                         setLastLocation(location)
 
                    }
@@ -467,13 +406,33 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
         fusedLocationClient.requestLocationUpdates(locationRequest,locationCallback, Looper.myLooper())
         //로케이션 요청 함수 호출
     }
+    @SuppressLint("MissingPermission")
+    fun setUpdateLocationListener2(){
+        val locationRequest=LocationRequest.create()
+        locationRequest.run{
+            priority=LocationRequest.PRIORITY_HIGH_ACCURACY
+        }
+
+        locationCallback=object  : LocationCallback (){
+            override fun onLocationResult(p0: LocationResult) {
+                p0?.let{
+                    for ((i,location)  in it.locations.withIndex()){
+                        setDrawLastLocation(location)
+                    }
+                }
+            }
+        }
+
+        fusedLocationClient.requestLocationUpdates(locationRequest,locationCallback, Looper.myLooper())
+        //로케이션 요청 함수 호출
+    }
     fun setLastLocation(location: Location){
         val myLocation=LatLng(location.latitude,location.longitude)
-        val discripter=getMarkerDrawable(R.drawable.marker)
-        val marker=MarkerOptions()
-            .position(myLocation)
-            .title("I'm here")
-            .icon(discripter)
+//        val discripter=getMarkerDrawable(R.drawable.marker)
+//        val marker=MarkerOptions()
+//            .position(myLocation)
+//            .title("I'm here")
+//            .icon(discripter)
 
         val cameraOption = CameraPosition.Builder()
             .target(myLocation)//현재 위치로 바꿀 것
@@ -481,9 +440,26 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             .build()
         val camera=CameraUpdateFactory.newCameraPosition(cameraOption)
 
-        mMap.clear()
+
         //mMap.addMarker(marker)
         mMap.moveCamera(camera)
+    }
+    fun setDrawLastLocation(location: Location){
+        val myLocation=LatLng(location.latitude,location.longitude)
+        val discripter=getMarkerDrawable(R.drawable.mylocation)
+        val marker=MarkerOptions()
+            .position(myLocation)
+            .title("I'm here")
+            .icon(discripter)
+
+//        val cameraOption = CameraPosition.Builder()
+//            .target(myLocation)//현재 위치로 바꿀 것
+//            .zoom(17f)
+//            .build()
+//        val camera=CameraUpdateFactory.newCameraPosition(cameraOption)
+
+        mMap.addMarker(marker)
+//        mMap.moveCamera(camera)
     }
 
     override fun onRequestPermissionsResult(
@@ -540,7 +516,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
         bitmapDrawable=mainActivity.resources.getDrawable(drawableId)as BitmapDrawable
 
         //마커 크기 변환(크게)
-        val scaleBitmap= Bitmap.createScaledBitmap(bitmapDrawable.bitmap,150,235,false)
+        val scaleBitmap= Bitmap.createScaledBitmap(bitmapDrawable.bitmap,130,160,false)
         return BitmapDescriptorFactory.fromBitmap(scaleBitmap)
     }
     private fun buttonColor(category:String){
@@ -706,11 +682,20 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
         })
     }
 
-    private fun markerClick(tag:String){
+    private fun markerClick(tag:String, position:LatLng){
+        //마커 클릭 됐을 때 마커 디자인 바꾸기
+        val discripter = getMarkerDrawable(R.drawable.marker_select)
+        val markerOptions = MarkerOptions()
+            .position(position)
+            .icon(discripter)
+        val marker: Marker? = mMap!!.addMarker(markerOptions)
+        marker!!.tag= "select"
+
         //마커가 클릭 됐을 때 같은 주소끼리 배열로 만들어서 viewPager에 보이게 하기
         //같은 placeAddress를 배열로 묶기
-        val cardList= mutableListOf<dataModel>()
-        val itemKey= mutableListOf<String>()
+        val cardList= ArrayList<dataModel>()
+        //val itemKey= mutableListOf<String>()
+        val itemKey= ArrayList<String>()
         for( i in 0 until dataList.size){
             if(dataList[i].placeAddress==tag) {
                 cardList.add(dataList[i])
@@ -719,13 +704,13 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
         }
         Log.d("keyitemkey", cardList.toString())
 //        viewPager2.adapter=bannerAdapter(cardList)
-        val vpAdapter=bannerAdapter(cardList,this)
+        val vpAdapter= bannerAdapter(cardList,this, mainActivity)
         viewPager2.adapter=vpAdapter
         viewPager2.orientation=ViewPager2.ORIENTATION_HORIZONTAL
         springDotsIndicator.setViewPager2(viewPager2)
 
         //viewPager2 클릭 이벤트
-        vpAdapter.setItemClickListener(object:bannerAdapter.OnItemClickListener{
+        vpAdapter.setItemClickListener(object: bannerAdapter.OnItemClickListener{
             override fun onClick(v: View, position: Int) {
                 val intent = Intent(context, DetailActivity::class.java)
                 //firebase에 있는 board에 대한 데이터의 id를 가져오기
@@ -736,6 +721,27 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
                 startActivity(intent)
             }
 
+        })
+
+        //viewpager2의 버튼 클릭 이벤트
+
+        vpAdapter.setBtnClickListener(object: bannerAdapter.OnBtnClickListener{
+            override fun onClick(v: View, position: Int) {
+                var fragment2 = MiniListFragment()
+                var bundle = Bundle()
+                bundle.putParcelableArrayList("list",cardList)
+                bundle.putStringArrayList("keyList",itemKey)
+                fragment2.arguments = bundle //fragment의 arguments에 데이터를 담은 bundle을 넘겨줌
+                parentFragmentManager
+                    .beginTransaction()
+                    .addToBackStack(null)
+                    .replace(R.id.home , fragment2)
+                    .commit()
+
+//                childFragmentManager.beginTransaction()
+//                    .replace(R.id.mhfLayout,fragment2).addToBackStack(null).commit()
+
+            }
         })
 
     }
@@ -774,5 +780,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
         Log.d("pushNoti",notification.toString())
         RetrofitInstance.api.postNotification(notification)
     }
+
+
 
 }

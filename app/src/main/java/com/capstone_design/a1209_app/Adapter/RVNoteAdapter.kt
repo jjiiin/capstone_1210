@@ -1,4 +1,4 @@
-package com.capstone_design.a1209_app
+package com.capstone_design.a1209_app.Adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.dataModels.notiData
-import com.capstone_design.a1209_app.fcm.NotiModel
 
 class RVNoteAdapter(val items:MutableList<notiData>):RecyclerView.Adapter<RVNoteAdapter.ViewHolder> (){
 
@@ -22,18 +22,7 @@ class RVNoteAdapter(val items:MutableList<notiData>):RecyclerView.Adapter<RVNote
         holder.content.text=item.content
         holder.date.text=item.date
         //image
-        when(item.category){
-            "asian"->holder.img.setImageResource(R.drawable.asian)
-            "bun"->holder.img.setImageResource(R.drawable.bun)
-            "bento"->holder.img.setImageResource(R.drawable.bento)
-            "chicken"->holder.img.setImageResource(R.drawable.chicken)
-            "pizza"->holder.img.setImageResource(R.drawable.pizza)
-            "fastfood"->holder.img.setImageResource(R.drawable.fastfood)
-            "japan"->holder.img.setImageResource(R.drawable.japan)
-            "korean"->holder.img.setImageResource(R.drawable.korean)
-            "cafe"->holder.img.setImageResource(R.drawable.cafe)
-            "chi"->holder.img.setImageResource(R.drawable.china)
-        }
+        holder.img.setImageResource(R.drawable.noti_new)
     }
 
     override fun getItemCount(): Int {

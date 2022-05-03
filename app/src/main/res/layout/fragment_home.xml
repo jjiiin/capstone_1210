@@ -7,7 +7,5 @@
         android:layout_height="match_parent"
         android:id="@+id/home"
         tools:context=".fragment.HomeFragment">
-
-
 </FrameLayout>
 </layout>
