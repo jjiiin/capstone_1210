@@ -23,7 +23,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import java.text.SimpleDateFormat
 
-class Chat_RVAdapter(val items: MutableList<Any>, val context: Context) :
+class Chat_RVAdapter(val items: MutableList<Any>, val context: Context, val chatroomkey: String) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private lateinit var auth: FirebaseAuth
@@ -33,6 +33,8 @@ class Chat_RVAdapter(val items: MutableList<Any>, val context: Context) :
     val LEFT_ACCOUNT_TALK = 3
     val ENTER = 4
     val NOTICE = 5
+    val RIGHT_PHOTO_TALK = 6
+    val LEFT_PHOTO_TALK = 7
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         //뷰홀더를 생성(레이아웃 생성)하는 코드 작성
@@ -67,6 +69,16 @@ class Chat_RVAdapter(val items: MutableList<Any>, val context: Context) :
                     .inflate(R.layout.chat_rv_item_notice, parent, false)
                 NoticeViewHolder(view)
             }
+            RIGHT_PHOTO_TALK -> {
+                val view = LayoutInflater.from(context)
+                    .inflate(R.layout.chat_rv_item_photo_right, parent, false)
+                RightPhotoViewHolder(view)
+            }
+            LEFT_PHOTO_TALK -> {
+                val view = LayoutInflater.from(context)
+                    .inflate(R.layout.chat_rv_item_photo_left, parent, false)
+                LeftPhotoViewHolder(view)
+            }
             else -> {
                 val view =
                     LayoutInflater.from(context).inflate(R.layout.chat_rv_item_left, parent, false)
@@ -90,7 +102,12 @@ class Chat_RVAdapter(val items: MutableList<Any>, val context: Context) :
             holder.bindItems(items[position])
         } else if (holder is NoticeViewHolder) {
             holder.bindItems(items[position])
+        } else if (holder is RightPhotoViewHolder) {
+            holder.bindItems(items[position])
+        } else if (holder is LeftPhotoViewHolder) {
+            holder.bindItems(items[position])
         }
+
 
     }
 
@@ -101,21 +118,25 @@ class Chat_RVAdapter(val items: MutableList<Any>, val context: Context) :
     override fun getItemViewType(position: Int): Int {
         auth = Firebase.auth
         val current_uid = auth.currentUser!!.uid
+        val item = items.get(position)
         //items 배열에는 ChatData와 AccountChatData가 들어있기 때문에 타입 체크 해줌
-        if (items.get(position).javaClass.name.toString() == "com.capstone_design.a1209_app.dataModels.AccountChatData") {
-            val data = items.get(position) as AccountChatData
+        if (item.javaClass.name.toString() == "com.capstone_design.a1209_app.dataModels.AccountChatData") {
+            val data = item as AccountChatData
             if (data.uid.equals(current_uid)) {
                 return RIGHT_ACCOUNT_TALK
             } else {
                 return LEFT_ACCOUNT_TALK
             }
-        } else if (items.get(position).javaClass.name.toString() == "com.capstone_design.a1209_app.dataModels.ChatData") {
-            val data = items.get(position) as ChatData
+        } else if (item.javaClass.name.toString() == "com.capstone_design.a1209_app.dataModels.ChatData") {
+            val data = item as ChatData
+            val chunked_msg = data.msg.chunked(7)[0]
             if (data.uid.equals(current_uid)) {
                 if (data.msg == "enter") {
                     return ENTER
                 } else if (data.uid == "notice") {
                     return NOTICE
+                } else if (chunked_msg == "(photo)") {  //사진인 경우
+                    return RIGHT_PHOTO_TALK
                 } else {
                     //내 채팅인 경우 0
                     return RIGHT_TALK
@@ -125,6 +146,8 @@ class Chat_RVAdapter(val items: MutableList<Any>, val context: Context) :
                     return ENTER
                 } else if (data.uid == "notice") {
                     return NOTICE
+                } else if (chunked_msg == "(photo)") {  //사진인 경우
+                    return LEFT_PHOTO_TALK
                 } else {
                     //다른 사람 채팅인 경우 1
                     return LEFT_TALK
@@ -270,6 +293,76 @@ class Chat_RVAdapter(val items: MutableList<Any>, val context: Context) :
             val item = item as ChatData
             val tv_notice = itemView.findViewById<TextView>(R.id.tv_notice)
             tv_notice.text = item.msg
+        }
+    }
+
+    inner class RightPhotoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bindItems(item: Any) {
+            val item = item as ChatData
+            //저장된 시간의 오전 오후 정보 추출
+            val ampmCheck = SimpleDateFormat("aa")
+            val ampm = ampmCheck.format(item.time)
+            //저장된 시간을 "hh:mm" 형식으로 표시
+            val dateFormat = SimpleDateFormat("hh:mm")
+            val time = dateFormat.format(item.time)
+            val rv_msgtime = itemView.findViewById<TextView>(R.id.rv_msg_time)
+
+            if (ampm.toString() == "AM") {
+                rv_msgtime.text = "오전 " + time.toString()
+            } else {
+                rv_msgtime.text = "오후 " + time.toString()
+            }
+            val storage: FirebaseStorage = FirebaseStorage.getInstance()
+            val storageRef: StorageReference = storage.getReference()
+            storageRef.child("chat_img/${chatroomkey}/" + item.msg.substring(7) + ".jpg")
+                .getDownloadUrl()
+                .addOnSuccessListener {
+                    Glide.with(context).load(it).into(itemView.findViewById(R.id.rv_msg_image))
+                }.addOnFailureListener {
+                    itemView.findViewById<ImageView>(R.id.rv_msg_image)
+                        .setImageResource(R.drawable.profile_cat)
+                }
+        }
+    }
+
+    inner class LeftPhotoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bindItems(item: Any) {
+            val item = item as ChatData
+            getImage(itemView, item.uid)
+            val rv_nickname = itemView.findViewById<TextView>(R.id.rv_nickname_textView)
+            rv_nickname.text = item.nickname
+            //저장된 시간의 오전 오후 정보 추출
+            val ampmCheck = SimpleDateFormat("aa")
+            val ampm = ampmCheck.format(item.time)
+            //저장된 시간을 "hh:mm" 형식으로 표시
+            val dateFormat = SimpleDateFormat("hh:mm")
+            val time = dateFormat.format(item.time)
+            val rv_msgtime = itemView.findViewById<TextView>(R.id.rv_msg_time)
+
+            if (ampm.toString() == "AM") {
+                rv_msgtime.text = "오전 " + time.toString()
+            } else {
+                rv_msgtime.text = "오후 " + time.toString()
+            }
+            itemView.findViewById<ImageView>(R.id.rv_profile_btn).setOnClickListener {
+                val intent =
+                    Intent(context, Evaluation_Display_Activity::class.java).putExtra(
+                        "uid",
+                        item.uid
+                    )
+                        .putExtra("nickname", item.nickname)
+                context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+            }
+            val storage: FirebaseStorage = FirebaseStorage.getInstance()
+            val storageRef: StorageReference = storage.getReference()
+            storageRef.child("chat_img/${chatroomkey}/" + item.msg.substring(7) + ".jpg")
+                .getDownloadUrl()
+                .addOnSuccessListener {
+                    Glide.with(context).load(it).into(itemView.findViewById(R.id.rv_msg_image))
+                }.addOnFailureListener {
+                    itemView.findViewById<ImageView>(R.id.rv_msg_image)
+                        .setImageResource(R.drawable.profile_cat)
+                }
         }
     }
 

@@ -1,12 +1,14 @@
 package com.capstone_design.a1209_app.chat
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -40,6 +42,9 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -47,7 +52,6 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 class ChatRoomActivity : AppCompatActivity() {
-
 
     //채팅에 닉네임 정보 저장하기 위한 변수
     lateinit var current_nickname: String
@@ -64,14 +68,15 @@ class ChatRoomActivity : AppCompatActivity() {
     val usersIdList = mutableListOf<String>()
     var boardKey: String = ""
     var isPlusBtnClick = 0
-
     var userNum = 0
     var num_maximumNum = 0
-
     var is_down_arrow_clicked = 0
-
     var hostUid = ""
     var roomTitle = ""
+    var chatroomkey = ""
+
+    //프로필 사진 요청 코드
+    private val DEFAULT_GALLERY_REQUEST_CODE = 0
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,18 +86,19 @@ class ChatRoomActivity : AppCompatActivity() {
 
         //채팅방 키 값 받아옴
         val intent = getIntent()
-        val chatroomkey = intent.getStringExtra("채팅방키");
+        chatroomkey = intent.getStringExtra("채팅방키").toString()
 
         //val return_intent = Intent(this, ChatFragment::class.java)
 
 
         //리사이클러뷰 어댑터 연결
         val rv = findViewById<RecyclerView>(R.id.recycler_view)
-        val rvAdapter = Chat_RVAdapter(chats, this)
+        val rvAdapter = Chat_RVAdapter(chats, this, chatroomkey)
         rv.adapter = rvAdapter
         rv.layoutManager = LinearLayoutManager(this)
+        //자동 스크롤(아이템 10개 가정)
+        rv.smoothScrollToPosition(10)
 
-        //채팅방 참여자 리사이클러뷰(드로어메뉴)
         val roomUser_rv = findViewById<RecyclerView>(R.id.rv_room_user_list)
         val roomuserRvadapter = RoomUser_RVAdapter(roomusersList, this, usersIdList)
         roomUser_rv.adapter = roomuserRvadapter
@@ -112,6 +118,12 @@ class ChatRoomActivity : AppCompatActivity() {
 
         //마감된 채팅방일때 작업
         isClosed(chatroomkey, this)
+
+        //게시글 key 가져오기
+        getBoardKey(chatroomkey)
+
+        //방장 uid 가져오기
+        getHostUid(chatroomkey)
 
         //버튼을 눌러 메뉴를 오픈할 수도 있고, 왼쪽에서 오른쪽으로 스왑해 오픈할 수 있습니다.
         //DrawerLayout의 id에 직접 openDrawer()메소드를 사용할 수 있습니다.
@@ -195,6 +207,15 @@ class ChatRoomActivity : AppCompatActivity() {
                 isPlusBtnClick = 0
             }
 
+        }
+
+        //갤러리 버튼 눌렀을 때
+        findViewById<LinearLayout>(R.id.gallery_layout).setOnClickListener {
+            //갤러리에서 사진 가져오기
+            val intent = Intent()
+            intent.action = Intent.ACTION_GET_CONTENT
+            intent.setType("image/")
+            startActivityForResult(intent, DEFAULT_GALLERY_REQUEST_CODE)
         }
 
         //내 계좌 버튼 눌렀을 때(계좌 메시지, 공지 보내기)
@@ -312,9 +333,6 @@ class ChatRoomActivity : AppCompatActivity() {
             )
         }
 
-        //파이어베이스의 비동기 방식 -> 동기 방식
-        getBoardKey(chatroomkey)
-        getHostUid(chatroomkey)
 
     }
 
@@ -547,5 +565,50 @@ class ChatRoomActivity : AppCompatActivity() {
     private fun testPush(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
         Log.d("pushNoti", notification.toString())
         RetrofitInstance.api.postNotification(notification)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode != Activity.RESULT_OK) {
+            return
+        }
+
+        when (requestCode) {
+            DEFAULT_GALLERY_REQUEST_CODE -> {
+                data ?: return
+                //갤러리에서 고른 사진의 uri
+                val photo_uri = data.data as Uri
+                var sub_uri = photo_uri.toString()
+                sub_uri = sub_uri.substring(sub_uri.length-10, sub_uri.length)
+                val current_time = System.currentTimeMillis()
+                //Log.d("시간",date.toString())
+                val chatData =
+                    ChatData(
+                        current_nickname,
+                        "(photo)" + sub_uri,
+                        Auth.current_email!!,
+                        Auth.current_uid,
+                        current_time
+                    )
+                //myRef.push().setValue(chatData)
+                chatRoomsRef.child(chatroomkey!!).child("messages").push().setValue(chatData)
+                //파이어베이스에 이미지 저장
+                //Storage 객체 만들고 참조
+                val fileName: String = sub_uri + ".jpg"
+                val storage: FirebaseStorage = FirebaseStorage.getInstance()
+                val storageRef: StorageReference = storage.getReference()
+                val uploadTask: UploadTask =
+                    storageRef.child("chat_img/${chatroomkey}/" + fileName).putFile(photo_uri!!)
+                //새로운 프로필 이미지 저장
+                uploadTask.addOnFailureListener { }
+                    .addOnSuccessListener {
+                        Toast.makeText(applicationContext, "사진저장!", Toast.LENGTH_SHORT).show()
+                    }
+            }
+            else -> {
+                Toast.makeText(this, "사진을 가져오지 못했습니다", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }
