@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import com.capstone_design.a1209_app.auth.IntroActivity
+import com.capstone_design.a1209_app.utils.FBRef
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -31,7 +32,7 @@ class SplashActivity : AppCompatActivity() {
             },2000)
 
         }
-        FBRef.usersRef.child(auth.currentUser!!.uid).child("splash").setValue("1")
+        //FBRef.usersRef.child(auth.currentUser!!.uid).child("splash").setValue("1")
 
 
     }

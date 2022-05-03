@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.capstone_design.a1209_app.Adapter.Rating_RVAdapter
 import com.capstone_design.a1209_app.chat.Chat_RVAdapter
 import com.capstone_design.a1209_app.dataModels.RatingData
 import com.capstone_design.a1209_app.databinding.ActivityBoardDetailEvaluationBinding
