@@ -43,9 +43,9 @@ class Mypage_Evaluation_Activity : AppCompatActivity() {
         getRatingData()
 
         //별점 불러오기
-       /* CoroutineScope(Dispatchers.IO).launch {
-            getRatingData()
-        }*/
+        /* CoroutineScope(Dispatchers.IO).launch {
+             getRatingData()
+         }*/
 
     }
 
@@ -57,26 +57,6 @@ class Mypage_Evaluation_Activity : AppCompatActivity() {
                     var rating_num = 0
                     for (data in snapshot.children) {
                         val ratingData = data.getValue(RatingData::class.java)
-                        val currentTime = Calendar.getInstance().time
-                        if ((currentTime.year - ratingData!!.saved_time.year) != 0) {
-                            ratingData.display_time =
-                                (currentTime.year - ratingData!!.saved_time.year).toString() + "년 전"
-                        } else if ((currentTime.month - ratingData!!.saved_time.month) != 0) {
-                            ratingData.display_time =
-                                (currentTime.month - ratingData!!.saved_time.month).toString() + "달 전"
-                        } else if ((currentTime.date - ratingData!!.saved_time.date) != 0) {
-                            ratingData.display_time =
-                                (currentTime.date - ratingData!!.saved_time.date).toString() + "일 전"
-                        } else if ((currentTime.hours - ratingData!!.saved_time.hours) != 0) {
-                            ratingData.display_time =
-                                (currentTime.hours - ratingData!!.saved_time.hours).toString() + "시간 전"
-                        } else if ((currentTime.minutes - ratingData!!.saved_time.minutes) != 0) {
-                            ratingData.display_time =
-                                (currentTime.minutes - ratingData!!.saved_time.minutes).toString() + "분 전"
-                        } else {
-                            ratingData.display_time =
-                                (currentTime.seconds - ratingData!!.saved_time.seconds).toString() + "초 전"
-                        }
 
                         rating_num++
                         ratingLists.add(ratingData!!)

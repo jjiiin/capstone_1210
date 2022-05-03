@@ -37,6 +37,12 @@ class NoteChild2Fragment : Fragment() {
     private var kwnotiHash=HashSet<kwNotiData>()
     private lateinit var binding: FragmentNoteChild2Binding
     private lateinit var auth: FirebaseAuth
+    //알람 고유키 저장
+    private var dataKeyList = mutableListOf<String>()
+
+    companion object {
+        var rvAdapter: RVKWAdapter? = null
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,7 +55,7 @@ class NoteChild2Fragment : Fragment() {
         auth= Firebase.auth
 
         val rv = binding.rvKWNoti
-        val rvAdapter = RVKWAdapter(dataModelList)
+        rvAdapter = RVKWAdapter(dataModelList, dataKeyList)
         rv.adapter = rvAdapter
         val layout = LinearLayoutManager(requireActivity().getApplicationContext())
         rv.layoutManager = layout
@@ -66,6 +72,8 @@ class NoteChild2Fragment : Fragment() {
                     var item=DataModel.getValue(kwNotiData::class.java)!!
                     if(item!=null) {
                         kwnotiHash.add(item)
+                        //알림 고유키 저장
+                        dataKeyList.add(DataModel.key.toString())
                     }
                 }
                 for( i in kwnotiHash){
@@ -74,18 +82,25 @@ class NoteChild2Fragment : Fragment() {
                     }
                 }
 
-                rvAdapter.notifyDataSetChanged()
+                rvAdapter!!.notifyDataSetChanged()
                 //dataModelList.reverse()
                 Log.d("data",dataModelList.toString())
             }
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
             }
         })
 
        return binding.root
     }
 
-
+    fun detectCheck() {
+        if (NoteFragment.isDeleteBtnClick == 0) {
+            rvAdapter!!.updateCheckBox(false)
+            rvAdapter!!.notifyDataSetChanged()
+        } else {
+            rvAdapter!!.updateCheckBox(true)
+            rvAdapter!!.notifyDataSetChanged()
+        }
+    }
 
 }

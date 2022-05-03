@@ -36,5 +36,10 @@ class ChangeDeliveryFeeActivity : AppCompatActivity() {
         binding.btnCancel.setOnClickListener {
             finish()
         }
+
+        //뒤로가기
+        binding.backbtn.setOnClickListener {
+            onBackPressed()
+        }
     }
 }

@@ -22,10 +22,125 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/receipt_profile_cat" />
+        <LinearLayout
+            android:id="@+id/layout1"
+            android:layout_width="40.5dp"
+            android:layout_height="40.5dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile1_layout1"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/profile_cat" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout2"
+            android:layout_width="40.5dp"
+            android:layout_height="40.5dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile1_layout2"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/profile_cat" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile2_layout2"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/profile_cat" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout3"
+            android:layout_width="40.5dp"
+            android:layout_height="40.5dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile1_layout3"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/profile_cat" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile2_layout3"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/profile_cat" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile3_layout3"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/profile_cat" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout4"
+            android:layout_width="40.5dp"
+            android:layout_height="40.5dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile1_layout4"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/profile_cat" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile2_layout4"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/profile_cat" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile3_layout4"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/profile_cat" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile4_layout4"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/profile_cat" />
+            </LinearLayout>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -44,9 +159,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="메시지"
-                    android:textStyle="bold"
                     android:textColor="#393939"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tv_userNum"

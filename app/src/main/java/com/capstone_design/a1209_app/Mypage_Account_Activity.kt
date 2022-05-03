@@ -17,53 +17,26 @@ import com.google.firebase.database.ktx.getValue
 class Mypage_Account_Activity : AppCompatActivity() {
 
     lateinit var binding: ActivityMypageAccountBinding
-    val items = mutableListOf<AccountData>()
-    lateinit var rvAdapter: Account_RVAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = DataBindingUtil.setContentView(this, R.layout.activity_mypage_account)
 
-        val rv = binding.rvMypageAccount
-        rvAdapter = Account_RVAdapter(items)
-        rv.adapter = rvAdapter
-        rv.layoutManager = LinearLayoutManager(this)
-
-        binding.btnDone.setOnClickListener {
-
-            val bankName: String = binding.tvBankName.text.toString()
-            val receiverName: String = binding.tvReceiverName.text.toString()
-            val accountNum: String = binding.tvAccountNum.text.toString()
-
-            val accountData = AccountData(bankName, receiverName, accountNum)
-            FBRef.usersRef.child(Auth.current_uid).child("account").setValue(accountData)
-
-            binding.tvBankName.setText("")
-            binding.tvReceiverName.setText("")
-            binding.tvAccountNum.setText("")
-        }
-
         //계좌 목록 불러오기
-        getAccountData()
+        getAccount()
+
+        binding.backbtn.setOnClickListener { onBackPressed() }
+
     }
 
-    fun getAccountData() {
-        FBRef.usersRef.child(Auth.current_uid).child("account")
-            .addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    items.clear()
-                   if(snapshot.getValue() != null){
-                       val data = snapshot.getValue<AccountData>()
-                       items.add(data!!)
-                   }
-                    rvAdapter.notifyDataSetChanged()
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
-                }
-
-            })
+    fun getAccount() {
+        FBRef.usersRef.child(Auth.current_uid).child("account").get()
+            .addOnSuccessListener {
+                val data = it.getValue(AccountData::class.java)!!
+                binding.tvBankName.text = data.bankName
+                binding.tvReceiverName.text = data.receiverName
+                binding.tvAccountNum.text = data.accountNum
+            }
+            .addOnFailureListener { }
     }
 }

@@ -11,11 +11,11 @@
         android:paddingBottom="26dp"
         tools:ignore="MissingConstraints">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/image_profile"
             android:layout_width="23dp"
             android:layout_height="23dp"
-            android:src="@drawable/review_profile1" />
+            android:src="@drawable/profile_cat" />
 
         <LinearLayout
             android:layout_width="match_parent"

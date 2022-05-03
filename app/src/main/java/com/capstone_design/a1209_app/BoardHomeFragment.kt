@@ -324,7 +324,6 @@ class BoardHomeFragment : Fragment(){
 
             }
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
             }
         })
         Log.d("bun2",items.toString())
@@ -359,7 +358,6 @@ class BoardHomeFragment : Fragment(){
 
             }
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
             }
         })
 

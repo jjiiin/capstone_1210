@@ -118,7 +118,9 @@ class ChatRoomActivity : AppCompatActivity() {
         findViewById<Button>(R.id.menu_btn).setOnClickListener {
             findViewById<DrawerLayout>(R.id.main_drawer_layout).openDrawer(GravityCompat.END)
         }
-
+        findViewById<ImageView>(R.id.backbtn).setOnClickListener {
+            onBackPressed()
+        }
 
         //채팅방 나가기
         findViewById<ConstraintLayout>(R.id.exit_room_layout).setOnClickListener {
@@ -126,11 +128,15 @@ class ChatRoomActivity : AppCompatActivity() {
             val dialog = Dialog(this)
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
             dialog.setContentView(R.layout.custom_dialog)
-            dialog.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+            dialog.window!!.setLayout(
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.WRAP_CONTENT
+            )
             dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialog.setCanceledOnTouchOutside(true)
             dialog.setCancelable(true)
-            dialog.findViewById<TextView>(R.id.tv_content).text = "삭제된 채팅방은 내용을 복구할 수 없어요.\n선택한 채팅방에서 나가시겠어요?"
+            dialog.findViewById<TextView>(R.id.tv_content).text =
+                "삭제된 채팅방은 내용을 복구할 수 없어요.\n선택한 채팅방에서 나가시겠어요?"
             dialog.show()
 
             val okButton = dialog.findViewById<Button>(R.id.btn_yes)
@@ -199,11 +205,15 @@ class ChatRoomActivity : AppCompatActivity() {
                     val dialog = Dialog(this)
                     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)    //둥근 테두리 적용되려면 써줘야됨(setContentView 전에 호출해야됨)
                     dialog.setContentView(R.layout.custom_dialog)
-                    dialog.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+                    dialog.window!!.setLayout(
+                        WindowManager.LayoutParams.MATCH_PARENT,
+                        WindowManager.LayoutParams.WRAP_CONTENT
+                    )
                     dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))     //둥근 테두리 적용되려면 써줘야됨
                     dialog.setCanceledOnTouchOutside(true)      //외부영역 클릭시 팝업창 없앰
                     dialog.setCancelable(true)      //back 버튼 클릭시 팝업창 없앰
-                    dialog.findViewById<TextView>(R.id.tv_content).text = "등록된 계좌가 없어요.\n마이페이지에서 계좌등록을 하시겠어요?"
+                    dialog.findViewById<TextView>(R.id.tv_content).text =
+                        "등록된 계좌가 없어요.\n마이페이지에서 계좌등록을 하시겠어요?"
                     dialog.show()
 
                     val okButton = dialog.findViewById<Button>(R.id.btn_yes)
@@ -238,7 +248,8 @@ class ChatRoomActivity : AppCompatActivity() {
                         "[공지] 송금 후, 주문서에서\n" +
                                 "'송금완료 버튼'을 눌러주세요 :)",
                         "notice",
-                        "notice"
+                        "notice",
+                        System.currentTimeMillis()
                     )
                     chatRoomsRef.child(chatroomkey!!).child("messages").push().setValue(chatData1)
                     chatRoomsRef.child(chatroomkey!!).child("messages").push().setValue(chatData2)
@@ -302,17 +313,8 @@ class ChatRoomActivity : AppCompatActivity() {
         }
 
         //파이어베이스의 비동기 방식 -> 동기 방식
-        CoroutineScope(Dispatchers.IO).launch {
-            getBoardKey(chatroomkey)
-            getMaximumUserNum(boardKey)
-            //정원 다 차면
-            if (userNum == num_maximumNum) {
-                chatRoomsRef.child(chatroomkey).child("isClosed").setValue(true)
-            } else {
-                chatRoomsRef.child(chatroomkey).child("isClosed").setValue(false)
-            }
-            getHostUid(chatroomkey)
-        }
+        getBoardKey(chatroomkey)
+        getHostUid(chatroomkey)
 
     }
 
@@ -366,7 +368,6 @@ class ChatRoomActivity : AppCompatActivity() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
                 }
 
             })
@@ -426,7 +427,6 @@ class ChatRoomActivity : AppCompatActivity() {
                     }
 
                     override fun onCancelled(error: DatabaseError) {
-                        TODO("Not yet implemented")
                     }
                 }
             )
@@ -451,40 +451,33 @@ class ChatRoomActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
             }
         })
     }
 
     //파이어베이스의 비동기 방식 -> 동기 방식
-    suspend fun getBoardKey(chatroomkey: String) =
-        suspendCoroutine<String> { continuation ->
-            chatRoomsRef.child(chatroomkey!!).child("boardKey")
-                .addValueEventListener(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        boardKey = snapshot.getValue<String>().toString()
-                        continuation.resume(boardKey)
-                    }
-
-                    override fun onCancelled(error: DatabaseError) {
-                    }
-                })
+    fun getBoardKey(chatroomkey: String) {
+        chatRoomsRef.child(chatroomkey!!).child("boardKey").get().addOnSuccessListener {
+            boardKey = it.getValue().toString()
+            getMaximumUserNum(boardKey, chatroomkey)
         }
+    }
 
-    suspend fun getMaximumUserNum(boardKey: String) = suspendCoroutine<Int> { continuation ->
-        board.child(boardKey).child("person").addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val string_maximumNum = snapshot.getValue<String>()
+    fun getMaximumUserNum(boardKey: String, chatroomkey: String) {
+        board.child(boardKey).child("person").get().addOnSuccessListener {
+            val string_maximumNum = it.getValue<String>()
+            if (string_maximumNum != null) {
                 num_maximumNum = string_maximumNum!!.replace("[^\\d]".toRegex(), "").toInt()
                 findViewById<TextView>(R.id.tv_maximumNum).setText(num_maximumNum.toString())
-                continuation.resume(num_maximumNum)
+                //정원 다 차면
+                if (userNum == num_maximumNum) {
+                    chatRoomsRef.child(chatroomkey).child("isClosed").setValue(true)
+                } else {
+                    chatRoomsRef.child(chatroomkey).child("isClosed").setValue(false)
+                }
             }
 
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-
-        })
+        }
     }
 
     //모집 끝난 글이면 처리하는 코드
@@ -505,7 +498,6 @@ class ChatRoomActivity : AppCompatActivity() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
                 }
 
 
@@ -513,34 +505,32 @@ class ChatRoomActivity : AppCompatActivity() {
     }
 
     //방장 uid 가져오기
-    suspend fun getHostUid(chatroomkey: String) = suspendCoroutine<String> { it ->
+    fun getHostUid(chatroomkey: String) {
         chatRoomsRef.child(chatroomkey).child("host")
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     hostUid = snapshot.getValue().toString()
-                    it.resume(hostUid)
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
                 }
 
             })
     }
 
-    fun push_evaluation(chatroomkey:String){
+    fun push_evaluation(chatroomkey: String) {
         usersRef.get().addOnSuccessListener {
-            for(data in it.children){
-                if(roomusersIdList.contains(data.key)){
-                    for(_data in data.children){
-                        if(_data.key.toString() == "token"){
-                            val token:String = _data.getValue().toString()
-                            //방장에게 송금알림 보내기
+            for (data in it.children) {
+                if (roomusersIdList.contains(data.key)) {
+                    for (_data in data.children) {
+                        if (_data.key.toString() == "token") {
+                            val token: String = _data.getValue().toString()
+                            //참여자들에게 알림 보내기
                             val notiData_paid = NotiModel(
                                 "Saveat - 알림",
                                 "채팅방원들의 신뢰도를 평가해주세요!",
                                 "임시",
-                                Auth.current_uid,
+                                data.key.toString(),
                                 roomTitle,
                                 chatroomkey
                             )

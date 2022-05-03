@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        tools:context=".Mypage_Edit_Activity">
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="14dp"
+            android:paddingBottom="15dp">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginRight="32dp"
+                android:src="@drawable/back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="내 정보 변경"
+                android:textColor="#101010"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/dropshadow"
+                    android:orientation="vertical"
+                    android:paddingTop="21.5dp"
+                    android:paddingBottom="30dp">
+
+                    <FrameLayout
+                        android:id="@+id/btn_gallery"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/image_profile"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:src="@drawable/profile_cat" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="bottom|end"
+                            android:src="@drawable/gallery_button" />
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="12.5dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_current_nickname"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="야미야미"
+                            android:textColor="#101010"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="7dp"
+                            android:text="님"
+                            android:textColor="#808080"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_email"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="saveit@naver.com"
+                        android:textColor="#808080"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="닉네임 변경"
+                        android:textColor="#808080"
+                        android:textSize="14sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:orientation="horizontal"
+                        android:weightSum="4">
+
+                        <EditText
+                            android:id="@+id/et_nickname"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="3"
+                            android:background="@drawable/receipt_text_border"
+                            android:hint="변경할 닉네임을 적어주세요"
+                            android:paddingLeft="12dp"
+                            android:textColor="#101010"
+                            android:textColorHint="#C4C4C4"
+                            android:textSize="14sp" />
+
+                        <Button
+                            android:id="@+id/btn_nickname_check"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/receipt_button"
+                            android:backgroundTint="#E0E0E0"
+                            android:clickable="false"
+                            android:text="중복확인"
+                            android:textColor="@color/white"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_nickname_pass"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:textColor="#00A531"
+                        android:textSize="10sp"
+                        android:visibility="invisible" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:text="현재 비밀번호"
+                        android:textColor="#808080"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/et_pwd"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/receipt_text_border"
+                        android:hint="비밀번호를 입력해 주세요"
+                        android:paddingLeft="12dp"
+                        android:textColor="#101010"
+                        android:textColorHint="#C4C4C4"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="32dp"
+                        android:text="새 비밀번호"
+                        android:textColor="#808080"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/et_new_pwd"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/receipt_text_border"
+                        android:hint="비밀번호를 재입력해 주세요"
+                        android:paddingLeft="12dp"
+                        android:textColor="#101010"
+                        android:textColorHint="#C4C4C4"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="32dp"
+                        android:text="새 비밀번호 확인"
+                        android:textColor="#808080"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/et_new_pwd_check"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/receipt_text_border"
+                        android:hint="비밀번호를 재입력해 주세요"
+                        android:paddingLeft="12dp"
+                        android:textColor="#101010"
+                        android:textColorHint="#C4C4C4"
+                        android:textSize="14sp" />
+
+                    <Button
+                        android:id="@+id/btn_done"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="50dp"
+                        android:background="@drawable/receipt_button"
+                        android:backgroundTint="#E0E0E0"
+                        android:text="변경 완료"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginTop="40dp"
+                        android:layout_marginBottom="21dp"
+                        android:text="회원탈퇴"
+                        android:textColor="#808080"
+                        android:textSize="12sp"
+                        android:textStyle="italic" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </ScrollView>
+
+    </LinearLayout>
+</layout>

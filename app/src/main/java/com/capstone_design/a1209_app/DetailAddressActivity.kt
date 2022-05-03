@@ -50,7 +50,6 @@ class DetailAddressActivity : AppCompatActivity() {
                 }
             }
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
             }
         })
         Log.d("dataModel",dataModelList.toString())

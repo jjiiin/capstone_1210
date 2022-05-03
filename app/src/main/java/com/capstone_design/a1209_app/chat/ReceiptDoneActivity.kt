@@ -69,7 +69,7 @@ class ReceiptDoneActivity : AppCompatActivity() {
 
         //뒤로가기 버튼
         binding.backbtn.setOnClickListener {
-            finish()
+            onBackPressed()
         }
 
         //파이어베이스의 비동기 방식 -> 동기 방식
@@ -121,24 +121,24 @@ class ReceiptDoneActivity : AppCompatActivity() {
                         }
 
                     }
+                    binding.tvFoodFee.text = (price_sum - delivery_fee).toString()
                     binding.tvPriceSum.text = price_sum.toString()
 
                     //만약 사용자가 주문서 다 작성했으면 방장에게 알람
-                 /*   if(userNum == receiptNum){
-                        val notiData_receipt = NotiModel(
-                            "Saveat - 알림",
-                            "모든 참여자가 주문서를 작성했어요",
-                            "임시",
-                            hostUid,
-                            roomTitle
-                        )
-                        val pushModel_receipt = PushNotification(notiData_receipt, "${Receipt_RVAdapter.host_token}")
-                        testPush(pushModel_receipt)
-                    }*/
+                    /*   if(userNum == receiptNum){
+                           val notiData_receipt = NotiModel(
+                               "Saveat - 알림",
+                               "모든 참여자가 주문서를 작성했어요",
+                               "임시",
+                               hostUid,
+                               roomTitle
+                           )
+                           val pushModel_receipt = PushNotification(notiData_receipt, "${Receipt_RVAdapter.host_token}")
+                           testPush(pushModel_receipt)
+                       }*/
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
                 }
 
             })
@@ -226,15 +226,14 @@ class ReceiptDoneActivity : AppCompatActivity() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
                 }
 
             })
     }
 
-   /* private fun testPush(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
-        Log.d("pushNoti", notification.toString())
-        RetrofitInstance.api.postNotification(notification)
-    }*/
+    /* private fun testPush(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
+         Log.d("pushNoti", notification.toString())
+         RetrofitInstance.api.postNotification(notification)
+     }*/
 
 }

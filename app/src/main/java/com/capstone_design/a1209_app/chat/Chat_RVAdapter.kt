@@ -1,18 +1,26 @@
 package com.capstone_design.a1209_app.chat
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.capstone_design.a1209_app.Evaluation_Display_Activity
 import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.dataModels.AccountChatData
 import com.capstone_design.a1209_app.dataModels.ChatData
+import com.capstone_design.a1209_app.utils.Auth
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import java.text.SimpleDateFormat
 
 class Chat_RVAdapter(val items: MutableList<Any>, val context: Context) :
@@ -128,9 +136,9 @@ class Chat_RVAdapter(val items: MutableList<Any>, val context: Context) :
     inner class LeftViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindItems(item: Any) {
             val item = item as ChatData
+            getImage(itemView, item.uid)
             val rv_nickname = itemView.findViewById<TextView>(R.id.rv_nickname_textView)
             rv_nickname.text = item.nickname
-
             val rv_msg = itemView.findViewById<TextView>(R.id.rv_msg_textView)
             rv_msg.text = item.msg
 
@@ -145,6 +153,16 @@ class Chat_RVAdapter(val items: MutableList<Any>, val context: Context) :
                 rv_msgtime.text = "오전 " + time.toString()
             } else {
                 rv_msgtime.text = "오후 " + time.toString()
+            }
+
+            itemView.findViewById<ImageView>(R.id.rv_profile_btn).setOnClickListener {
+                val intent =
+                    Intent(context, Evaluation_Display_Activity::class.java).putExtra(
+                        "uid",
+                        item.uid
+                    )
+                        .putExtra("nickname", item.nickname)
+                context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
             }
 
             //val rv_profile_btn = itemView.findViewById<Button>(R.id.rv_profile_btn)
@@ -206,6 +224,7 @@ class Chat_RVAdapter(val items: MutableList<Any>, val context: Context) :
     inner class LeftAccountViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindItems(item: Any) {
             val item = item as AccountChatData
+            getImage(itemView, item.uid)
             val rv_nickname = itemView.findViewById<TextView>(R.id.rv_nickname_textView)
             rv_nickname.text = item.nickname
             //저장된 시간의 오전 오후 정보 추출
@@ -225,6 +244,15 @@ class Chat_RVAdapter(val items: MutableList<Any>, val context: Context) :
             } else {
                 rv_msgtime.text = "오후 " + time.toString()
             }
+            itemView.findViewById<ImageView>(R.id.rv_profile_btn).setOnClickListener {
+                val intent =
+                    Intent(context, Evaluation_Display_Activity::class.java).putExtra(
+                        "uid",
+                        item.uid
+                    )
+                        .putExtra("nickname", item.nickname)
+                context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+            }
         }
     }
 
@@ -243,5 +271,17 @@ class Chat_RVAdapter(val items: MutableList<Any>, val context: Context) :
             val tv_notice = itemView.findViewById<TextView>(R.id.tv_notice)
             tv_notice.text = item.msg
         }
+    }
+
+    fun getImage(itemView: View, uid: String) {
+        val storage: FirebaseStorage = FirebaseStorage.getInstance()
+        val storageRef: StorageReference = storage.getReference()
+        storageRef.child("profile_img/" + uid + ".jpg").getDownloadUrl()
+            .addOnSuccessListener {
+                Glide.with(context).load(it).into(itemView.findViewById(R.id.rv_profile_btn))
+            }.addOnFailureListener {
+                itemView.findViewById<ImageView>(R.id.rv_profile_btn)
+                    .setImageResource(R.drawable.profile_cat)
+            }
     }
 }

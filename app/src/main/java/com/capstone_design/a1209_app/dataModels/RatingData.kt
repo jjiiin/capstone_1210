@@ -7,5 +7,5 @@ data class RatingData(
     val content: String = "",
     val writer: String = "",
     val saved_time: Date = Date(),
-    var display_time:String = ""
+    val writer_uid:String=""
 )

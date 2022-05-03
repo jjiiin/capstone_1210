@@ -7,7 +7,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
         android:background="@color/white"
         android:orientation="vertical"
         tools:context=".chat.ChangeDeliveryFeeActivity">
@@ -40,7 +39,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="22dp"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -74,7 +73,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=" 원 입니다"
+                        android:text=" 원 이에요."
                         android:textColor="#101010"
                         android:textSize="18sp" />
                 </LinearLayout>
@@ -83,12 +82,12 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
                 <ImageView
                     android:id="@+id/profile_img"
-                    android:layout_width="79dp"
-                    android:layout_height="62.87dp"
+                    android:layout_width="136dp"
+                    android:layout_height="110dp"
                     android:src="@drawable/change_delivery_fee_icon"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -113,6 +112,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
                 android:orientation="horizontal">
 
                 <EditText
@@ -154,6 +154,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent">
 

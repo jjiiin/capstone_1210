@@ -7,10 +7,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.capstone_design.a1209_app.Push_Evaluation_Activity
 import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.dataModels.ChatData
@@ -23,6 +22,8 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.HashMap
@@ -35,7 +36,7 @@ class ChatList_RVAdapter(
     RecyclerView.Adapter<ChatList_RVAdapter.ViewHolder>() {
     private lateinit var database: DatabaseReference
     private lateinit var auth: FirebaseAuth
-    private var isCheckBtn_Show = false
+    var isCheckBtn_Show = false
 
     companion object {
         val checked_chatRoomKey_List = mutableListOf<String>()
@@ -73,7 +74,8 @@ class ChatList_RVAdapter(
                     val intent =
                         Intent(context, ChatRoomActivity::class.java).putExtra("채팅방키", chatroomkey)
                     context.startActivity(intent.addFlags(FLAG_ACTIVITY_NEW_TASK))
-
+                    /* val intent = Intent(context, Push_Evaluation_Activity::class.java).putExtra("chatroomkey", chatroomkey)
+                     context.startActivity(intent.addFlags(FLAG_ACTIVITY_NEW_TASK))*/
                 }
             } else {
                 //휴지통 버튼 눌렀을때는 클릭해도 채팅방으로 넘어가는것을 막음
@@ -130,7 +132,6 @@ class ChatList_RVAdapter(
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
             }
 
         })
@@ -141,17 +142,147 @@ class ChatList_RVAdapter(
         FBRef.chatRoomsRef.child(chatroomkey).child("users")
             .addValueEventListener(object : ValueEventListener {
                 var num = 0
+                var uids = mutableListOf<String>()
                 override fun onDataChange(snapshot: DataSnapshot) {
                     for (data in snapshot.children) {
                         num++
+                        uids.add(data.key.toString())
                     }
                     itemView.findViewById<TextView>(R.id.tv_userNum).text = num.toString()
+                    //참가자 수에 따라서 채팅방 썸네일 다르게
+                    val storage: FirebaseStorage = FirebaseStorage.getInstance()
+                    val storageRef: StorageReference = storage.getReference()
+                    when(num){
+                        1->{
+                            itemView.findViewById<LinearLayout>(R.id.layout1).visibility = View.VISIBLE
+                            storageRef.child("profile_img/" + uids[0] + ".jpg").getDownloadUrl()
+                                .addOnSuccessListener {
+                                    Glide.with(context).load(it).into(itemView.findViewById(R.id.profile1_layout1))
+                                }.addOnFailureListener {
+                                    itemView.findViewById<ImageView>(R.id.profile1_layout1)
+                                        .setImageResource(R.drawable.profile_cat)
+                                }
+                        }
+                        2->{
+                            itemView.findViewById<LinearLayout>(R.id.layout2).visibility = View.VISIBLE
+                            storageRef.child("profile_img/" + uids[0] + ".jpg").getDownloadUrl()
+                                .addOnSuccessListener {
+                                    Glide.with(context).load(it).into(itemView.findViewById(R.id.profile1_layout2))
+                                }.addOnFailureListener {
+                                    itemView.findViewById<ImageView>(R.id.profile1_layout2)
+                                        .setImageResource(R.drawable.profile_cat)
+                                }
+                            storageRef.child("profile_img/" + uids[1] + ".jpg").getDownloadUrl()
+                                .addOnSuccessListener {
+                                    Glide.with(context).load(it).into(itemView.findViewById(R.id.profile2_layout2))
+                                }.addOnFailureListener {
+                                    itemView.findViewById<ImageView>(R.id.profile2_layout2)
+                                        .setImageResource(R.drawable.profile_cat)
+                                }
+                        }
+                        3->{
+                            itemView.findViewById<LinearLayout>(R.id.layout3).visibility = View.VISIBLE
+                            storageRef.child("profile_img/" + uids[0] + ".jpg").getDownloadUrl()
+                                .addOnSuccessListener {
+                                    Glide.with(context).load(it).into(itemView.findViewById(R.id.profile1_layout3))
+                                }.addOnFailureListener {
+                                    itemView.findViewById<ImageView>(R.id.profile1_layout3)
+                                        .setImageResource(R.drawable.profile_cat)
+                                }
+                            storageRef.child("profile_img/" + uids[1] + ".jpg").getDownloadUrl()
+                                .addOnSuccessListener {
+                                    Glide.with(context).load(it).into(itemView.findViewById(R.id.profile2_layout3))
+                                }.addOnFailureListener {
+                                    itemView.findViewById<ImageView>(R.id.profile2_layout3)
+                                        .setImageResource(R.drawable.profile_cat)
+                                }
+                            storageRef.child("profile_img/" + uids[2] + ".jpg").getDownloadUrl()
+                                .addOnSuccessListener {
+                                    Glide.with(context).load(it).into(itemView.findViewById(R.id.profile3_layout3))
+                                }.addOnFailureListener {
+                                    itemView.findViewById<ImageView>(R.id.profile3_layout3)
+                                        .setImageResource(R.drawable.profile_cat)
+                                }
+                        }
+                        4->{
+                            itemView.findViewById<LinearLayout>(R.id.layout4).visibility = View.VISIBLE
+                            storageRef.child("profile_img/" + uids[0] + ".jpg").getDownloadUrl()
+                                .addOnSuccessListener {
+                                    Glide.with(context).load(it).into(itemView.findViewById(R.id.profile1_layout4))
+                                }.addOnFailureListener {
+                                    itemView.findViewById<ImageView>(R.id.profile1_layout4)
+                                        .setImageResource(R.drawable.profile_cat)
+                                }
+                            storageRef.child("profile_img/" + uids[1] + ".jpg").getDownloadUrl()
+                                .addOnSuccessListener {
+                                    Glide.with(context).load(it).into(itemView.findViewById(R.id.profile2_layout4))
+                                }.addOnFailureListener {
+                                    itemView.findViewById<ImageView>(R.id.profile2_layout4)
+                                        .setImageResource(R.drawable.profile_cat)
+                                }
+                            storageRef.child("profile_img/" + uids[2] + ".jpg").getDownloadUrl()
+                                .addOnSuccessListener {
+                                    Glide.with(context).load(it).into(itemView.findViewById(R.id.profile3_layout4))
+                                }.addOnFailureListener {
+                                    itemView.findViewById<ImageView>(R.id.profile3_layout4)
+                                        .setImageResource(R.drawable.profile_cat)
+                                }
+                            storageRef.child("profile_img/" + uids[3] + ".jpg").getDownloadUrl()
+                                .addOnSuccessListener {
+                                    Glide.with(context).load(it).into(itemView.findViewById(R.id.profile4_layout4))
+                                }.addOnFailureListener {
+                                    itemView.findViewById<ImageView>(R.id.profile4_layout4)
+                                        .setImageResource(R.drawable.profile_cat)
+                                }
+                        }
+                        else->{
+                            itemView.findViewById<LinearLayout>(R.id.layout4).visibility = View.VISIBLE
+                            storageRef.child("profile_img/" + uids[0] + ".jpg").getDownloadUrl()
+                                .addOnSuccessListener {
+                                    Glide.with(context).load(it).into(itemView.findViewById(R.id.profile1_layout4))
+                                }.addOnFailureListener {
+                                    itemView.findViewById<ImageView>(R.id.profile1_layout4)
+                                        .setImageResource(R.drawable.profile_cat)
+                                }
+                            storageRef.child("profile_img/" + uids[1] + ".jpg").getDownloadUrl()
+                                .addOnSuccessListener {
+                                    Glide.with(context).load(it).into(itemView.findViewById(R.id.profile2_layout4))
+                                }.addOnFailureListener {
+                                    itemView.findViewById<ImageView>(R.id.profile2_layout4)
+                                        .setImageResource(R.drawable.profile_cat)
+                                }
+                            storageRef.child("profile_img/" + uids[2] + ".jpg").getDownloadUrl()
+                                .addOnSuccessListener {
+                                    Glide.with(context).load(it).into(itemView.findViewById(R.id.profile3_layout4))
+                                }.addOnFailureListener {
+                                    itemView.findViewById<ImageView>(R.id.profile3_layout4)
+                                        .setImageResource(R.drawable.profile_cat)
+                                }
+                            storageRef.child("profile_img/" + uids[3] + ".jpg").getDownloadUrl()
+                                .addOnSuccessListener {
+                                    Glide.with(context).load(it).into(itemView.findViewById(R.id.profile4_layout4))
+                                }.addOnFailureListener {
+                                    itemView.findViewById<ImageView>(R.id.profile4_layout4)
+                                        .setImageResource(R.drawable.profile_cat)
+                                }
+                        }
+                    }
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
                 }
 
             })
+    }
+    fun getImage(itemView: View, uid: String) {
+        val storage: FirebaseStorage = FirebaseStorage.getInstance()
+        val storageRef: StorageReference = storage.getReference()
+        storageRef.child("profile_img/" + uid + ".jpg").getDownloadUrl()
+            .addOnSuccessListener {
+                Glide.with(context).load(it).into(itemView.findViewById(R.id.rv_profile_btn))
+            }.addOnFailureListener {
+                itemView.findViewById<ImageView>(R.id.rv_profile_btn)
+                    .setImageResource(R.drawable.profile_cat)
+            }
     }
 }

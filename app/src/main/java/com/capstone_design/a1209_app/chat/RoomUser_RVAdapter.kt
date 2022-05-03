@@ -2,20 +2,24 @@ package com.capstone_design.a1209_app.chat
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.capstone_design.a1209_app.Evaluation_Display_Activity
 import com.capstone_design.a1209_app.R
-import com.capstone_design.a1209_app.dataModels.RatingData
 import com.capstone_design.a1209_app.dataModels.UserData
+import com.capstone_design.a1209_app.utils.Auth
 import com.capstone_design.a1209_app.utils.FBRef
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import de.hdodenhof.circleimageview.CircleImageView
 import java.util.*
 
 class RoomUser_RVAdapter(
@@ -51,6 +55,7 @@ class RoomUser_RVAdapter(
                         .putExtra("nickname", item.nickname)
                 context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
             }
+            getImage(uid)
         }
 
         fun getRating(uid: String) {
@@ -66,10 +71,20 @@ class RoomUser_RVAdapter(
                     }
 
                     override fun onCancelled(error: DatabaseError) {
-                        TODO("Not yet implemented")
                     }
 
                 })
+        }
+
+        fun getImage(uid:String) {
+            val storage: FirebaseStorage = FirebaseStorage.getInstance()
+            val storageRef: StorageReference = storage.getReference()
+            storageRef.child("profile_img/" + uid + ".jpg").getDownloadUrl()
+                .addOnSuccessListener {
+                    Glide.with(context).load(it).into(itemView.findViewById(R.id.rv_profile_btn))
+                }.addOnFailureListener {
+                    itemView.findViewById<ImageView>(R.id.rv_profile_btn).setImageResource(R.drawable.profile_cat)
+                }
         }
     }
 }

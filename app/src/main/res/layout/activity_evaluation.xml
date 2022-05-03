@@ -21,6 +21,7 @@
             android:paddingBottom="15dp">
 
             <ImageView
+                android:id="@+id/backbtn"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_marginRight="32dp"
@@ -35,7 +36,8 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_img"
             android:layout_width="90dp"
             android:layout_height="90dp"
             android:layout_gravity="center"
@@ -81,14 +83,13 @@
 
             <RatingBar
                 android:id="@+id/ratingBar"
-                android:layout_marginRight="14.2dp"
+                style="@style/CustomRatingBarStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="14.2dp"
                 android:numStars="5"
                 android:rating="3.5"
-                android:stepSize="0.5"
-                style="@style/CustomRatingBarStyle"
-                />
+                android:stepSize="0.5" />
 
             <TextView
                 android:id="@+id/tv_rating"
@@ -98,7 +99,6 @@
                 android:textColor="#393939"
                 android:textSize="20sp" />
         </LinearLayout>
-
 
 
         <EditText
@@ -118,11 +118,11 @@
             android:textSize="14sp" />
 
         <LinearLayout
-            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="6dp"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <TextView
@@ -165,9 +165,9 @@
         </LinearLayout>
 
         <LinearLayout
-            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <TextView

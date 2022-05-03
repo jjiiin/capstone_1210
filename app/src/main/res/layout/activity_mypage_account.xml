@@ -22,6 +22,7 @@
             android:paddingBottom="15dp">
 
             <ImageView
+                android:id="@+id/backbtn"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_marginRight="32dp"
@@ -36,54 +37,131 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <EditText
-            android:id="@+id/tv_bank_name"
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
-            android:backgroundTint="#C4C4C4"
-            android:hint="은행 이름"
-            android:textColorHint="#C4C4C4"
-            android:textSize="14sp" />
+            android:layout_marginTop="20dp"
+            android:background="@drawable/account_text_border"
+            android:orientation="horizontal"
+            android:paddingLeft="11dp"
+            android:paddingTop="23dp"
+            android:paddingRight="12.9dp"
+            android:paddingBottom="19dp">
 
-        <EditText
-            android:id="@+id/tv_receiver_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="12dp"
-            android:backgroundTint="#C4C4C4"
-            android:hint="예금주명 (ex. 세이빗, ㅅㅇㅂ)"
-            android:textColorHint="#C4C4C4"
-            android:textSize="14sp" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/tv_account_num"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="12dp"
-            android:backgroundTint="#C4C4C4"
-            android:hint="계좌번호 ( - 없이 입력해주세요.)"
-            android:textColorHint="#C4C4C4"
-            android:textSize="14sp" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btn_done"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="9dp"
-            android:layout_marginTop="39dp"
-            android:layout_marginRight="9dp"
-            android:background="@drawable/receipt_button"
-            android:backgroundTint="#fd5401"
-            android:text="등록"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:text="은행"
+                            android:textColor="#808080"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tv_bank_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="세이은행"
+                            android:textColor="#393939"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:text="이름"
+                            android:textColor="#808080"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tv_receiver_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="야미"
+                            android:textColor="#393939"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:text="계좌"
+                            android:textColor="#808080"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tv_account_num"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="278777777777"
+                            android:textColor="#393939"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+
+                    <ImageView
+                        android:id="@+id/btn_account_edit"
+                        android:layout_width="14.2dp"
+                        android:layout_height="14.2dp"
+                        android:src="@drawable/account_edit_btn" />
+
+                    <ImageView
+                        android:id="@+id/btn_account_delete"
+                        android:layout_width="9.11dp"
+                        android:layout_height="9.39dp"
+                        android:layout_marginLeft="20.5dp"
+                        android:src="@drawable/account_remove_btn" />
+
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
@@ -93,20 +171,5 @@
             android:text="* 채팅방에서 '계좌 보내기' 버튼을 누르면 전송되는 항목이에요."
             android:textColor="#C4C4C4"
             android:textSize="12sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="69dp"
-            android:text="등록된 현재 계좌"
-            android:textColor="#393939"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_mypage_account"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp" />
     </LinearLayout>
 </layout>

@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.chat.Receipt_RVAdapter.Companion.isAllPaid
 import com.capstone_design.a1209_app.dataModels.ReceiptData
@@ -24,6 +25,8 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.google.protobuf.Value
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -99,6 +102,7 @@ class Receipt_RVAdapter(
 
     inner class NOT_MINE_ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindItems(item: ReceiptData) {
+            getImage(itemView, item)
             val nickname = itemView.findViewById<TextView>(R.id.nickname_tv)
             nickname.text = item.nickname
 
@@ -117,8 +121,10 @@ class Receipt_RVAdapter(
 
             //방장의 주문서에는 송금완료 버튼 안보이게
             if (item.uid == hostUid) {
+                nickname.text = nickname.text.toString()+"(방장)"
                 itemView.findViewById<CheckBox>(R.id.checkbox_pay).visibility = View.GONE
                 itemView.findViewById<TextView>(R.id.tv_paid).visibility = View.GONE
+                itemView.findViewById<TextView>(R.id.tv_host_paid).visibility = View.VISIBLE
             } else {
                 //입금완료 체크박스
                 val checkBox_pay = itemView.findViewById<CheckBox>(R.id.checkbox_pay)
@@ -134,6 +140,7 @@ class Receipt_RVAdapter(
 
     inner class MINE_ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindItems(item: ReceiptData) {
+            getImage(itemView, item)
             val nickname = itemView.findViewById<TextView>(R.id.nickname_tv)
             nickname.text = item.nickname
 
@@ -160,8 +167,10 @@ class Receipt_RVAdapter(
 
             //방장의 주문서에는 송금완료 버튼 안보이게
             if (item.uid == hostUid) {
+                nickname.text = nickname.text.toString()+"(방장)"
                 itemView.findViewById<CheckBox>(R.id.checkbox_pay).visibility = View.GONE
                 itemView.findViewById<TextView>(R.id.tv_paid).visibility = View.GONE
+                itemView.findViewById<TextView>(R.id.tv_host_paid).visibility = View.VISIBLE
             } else {
                 //입금완료 체크박스
                 val checkBox_pay = itemView.findViewById<CheckBox>(R.id.checkbox_pay)
@@ -192,6 +201,18 @@ class Receipt_RVAdapter(
             }
         }
     }
+
+    fun getImage(itemView: View, item: ReceiptData) {
+        val storage: FirebaseStorage = FirebaseStorage.getInstance()
+        val storageRef: StorageReference = storage.getReference()
+        storageRef.child("profile_img/" + item.uid + ".jpg").getDownloadUrl()
+            .addOnSuccessListener {
+                Glide.with(context).load(it).into(itemView.findViewById(R.id.profile_img))
+            }.addOnFailureListener {
+                itemView.findViewById<ImageView>(R.id.profile_img)
+                    .setImageResource(R.drawable.profile_cat)
+            }
+    }
 }
 
 fun getIsPaid(chatroomKey: String, item: ReceiptData, itemView: View) {
@@ -203,7 +224,6 @@ fun getIsPaid(chatroomKey: String, item: ReceiptData, itemView: View) {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
             }
 
         })

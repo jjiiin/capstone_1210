@@ -8,6 +8,7 @@ import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.capstone_design.a1209_app.chat.Chat_RVAdapter
 import com.capstone_design.a1209_app.dataModels.RatingData
 import com.capstone_design.a1209_app.databinding.ActivityBoardDetailEvaluationBinding
@@ -16,6 +17,8 @@ import com.capstone_design.a1209_app.utils.FBRef
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -51,6 +54,7 @@ class Board_Detail_Evaluation_Activity : AppCompatActivity() {
         binding.tvNickname.text = nickname
 
         getRatingData()
+        getImage(uid)
 
         //별점 불러오기
         /* CoroutineScope(Dispatchers.IO).launch {
@@ -72,26 +76,6 @@ class Board_Detail_Evaluation_Activity : AppCompatActivity() {
                     } else {
                         for (data in snapshot.children) {
                             val ratingData = data.getValue(RatingData::class.java)
-                            val currentTime = Calendar.getInstance().time
-                            if ((currentTime.year - ratingData!!.saved_time.year) != 0) {
-                                ratingData.display_time =
-                                    (currentTime.year - ratingData!!.saved_time.year).toString() + "년 전"
-                            } else if ((currentTime.month - ratingData!!.saved_time.month) != 0) {
-                                ratingData.display_time =
-                                    (currentTime.month - ratingData!!.saved_time.month).toString() + "달 전"
-                            } else if ((currentTime.date - ratingData!!.saved_time.date) != 0) {
-                                ratingData.display_time =
-                                    (currentTime.date - ratingData!!.saved_time.date).toString() + "일 전"
-                            } else if ((currentTime.hours - ratingData!!.saved_time.hours) != 0) {
-                                ratingData.display_time =
-                                    (currentTime.hours - ratingData!!.saved_time.hours).toString() + "시간 전"
-                            } else if ((currentTime.minutes - ratingData!!.saved_time.minutes) != 0) {
-                                ratingData.display_time =
-                                    (currentTime.minutes - ratingData!!.saved_time.minutes).toString() + "분 전"
-                            } else {
-                                ratingData.display_time =
-                                    (currentTime.seconds - ratingData!!.saved_time.seconds).toString() + "초 전"
-                            }
 
                             rating_avg += ratingData!!.rating
                             rating_num++
@@ -112,9 +96,20 @@ class Board_Detail_Evaluation_Activity : AppCompatActivity() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
                 }
 
             })
+    }
+
+    fun getImage(uid: String) {
+        val storage: FirebaseStorage = FirebaseStorage.getInstance()
+        val storageRef: StorageReference = storage.getReference()
+        storageRef.child("profile_img/" + uid + ".jpg").getDownloadUrl()
+            .addOnSuccessListener {
+                Glide.with(applicationContext).load(it).into(findViewById(R.id.profile_img))
+            }.addOnFailureListener {
+                findViewById<ImageView>(R.id.profile_img)
+                    .setImageResource(R.drawable.profile_cat)
+            }
     }
 }

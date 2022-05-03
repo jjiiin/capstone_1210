@@ -220,7 +220,8 @@ class FirebaseService : FirebaseMessagingService() {
         auth = Firebase.auth
         FBRef.usersRef.child(uid).child("newNoti").push()
             .setValue(newNoti)
-
+        Log.d("알림","왔음")
+        Log.d("알림",uid.toString())
 
     }
 }

@@ -4,19 +4,10 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
-import com.android.volley.VolleyLog
-import com.android.volley.VolleyLog.TAG
 import com.capstone_design.a1209_app.auth.IntroActivity
-import com.capstone_design.a1209_app.utils.FBRef
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.messaging.FirebaseMessaging
 
 class SplashActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth

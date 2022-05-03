@@ -5,6 +5,8 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
@@ -22,6 +24,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -44,6 +48,7 @@ class DetailActivity : AppCompatActivity() {
     var user_num: Int = 0
     var host_token: String = ""
     var host_nickname: String = ""
+    var isMember = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,15 +58,8 @@ class DetailActivity : AppCompatActivity() {
         val key = intent.getStringExtra("key")
         Log.d("key", key.toString())
 
-        //파이어베이스의 비동기 방식 -> 동기 방식
-        CoroutineScope(Dispatchers.IO).launch {
-            getBoardData(key.toString()) //getBoardData()를 동기 방식으로 호출했습니다!!!!(혜경)
-            getHostRatingData()
-            getHostNickname()
-            getHostToken()
-            getCurrentNickname()
-            getUserNum()
-        }
+        getBoardData(key.toString())
+
         //방장 uid 가져오기
         //getHostUid(key.toString())
 
@@ -87,54 +85,57 @@ class DetailActivity : AppCompatActivity() {
             //채팅방 정보 저장
             //val chatRoomData = ChatRoomData(title, hostUID)
             //FBRef.chatRoomsRef.child(chatroomkey!!).setValue(chatRoomData)
-            FBRef.chatRoomsRef.child(chatroomkey!!).child("users").child(Auth.current_uid)
-                .setValue(true)
-            //각 사용자가 무슨 채팅방에 참여하고 있는지 저장
-            FBRef.userRoomsRef.child(Auth.current_uid).child(chatroomkey).setValue(true)
-            //글을 쓴 총대니까 채팅방으로 바로 이동
-            val intent = Intent(this, ChatRoomActivity::class.java).putExtra("채팅방키", chatroomkey)
-            startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
-
-            //입장 메시지
-            val enter_chatData =
-                ChatData(
-                    current_nickname,
-                    "enter",
-                    Auth.current_email!!,
-                    Auth.current_uid
+            Log.d("멤버", isMember.toString())
+            if (isMember == 0) {
+                FBRef.chatRoomsRef.child(chatroomkey!!).child("users").child(Auth.current_uid)
+                    .setValue(true)
+                //각 사용자가 무슨 채팅방에 참여하고 있는지 저장
+                FBRef.userRoomsRef.child(Auth.current_uid).child(chatroomkey).setValue(true)
+                //입장 메시지
+                val enter_chatData =
+                    ChatData(
+                        current_nickname,
+                        "enter",
+                        Auth.current_email!!,
+                        Auth.current_uid,
+                        System.currentTimeMillis()
+                    )
+                //주문서 작성해달라는 공지 메시지 보내기
+                val notice_chatData =
+                    ChatData(
+                        "notice",
+                        "[공지] 미리 주문서에 메뉴 올려주세요:)",
+                        "notice",
+                        "notice",
+                        System.currentTimeMillis()
+                    )
+                FBRef.chatRoomsRef.child(chatroomkey!!).child("messages").push()
+                    .setValue(enter_chatData)
+                FBRef.chatRoomsRef.child(chatroomkey!!).child("messages").push()
+                    .setValue(notice_chatData)
+                //방장에게 입장알림 보내기
+                val notiData_enter = NotiModel(
+                    "Saveat - 알림",
+                    "채팅방에 '${current_nickname}'님이 입장했어요.",
+                    "임시",
+                    hostUID,
+                    data.title
                 )
-            //주문서 작성해달라는 공지 메시지 보내기
-            val notice_chatData =
-                ChatData(
-                    "notice",
-                    "[공지] 미리 주문서에 메뉴 올려주세요:)",
-                    "notice",
-                    "notice"
-                )
-            FBRef.chatRoomsRef.child(chatroomkey!!).child("messages").push()
-                .setValue(enter_chatData)
-            FBRef.chatRoomsRef.child(chatroomkey!!).child("messages").push()
-                .setValue(notice_chatData)
+                val pushModel_enter = PushNotification(notiData_enter, "${host_token}")
+                testPush(pushModel_enter)
 
-            //방장에게 입장알림 보내기
-            val notiData_enter = NotiModel(
-                "Saveat - 알림",
-                "채팅방에 '${current_nickname}'님이 입장했어요.",
-                "임시",
-                hostUID,
-                data.title
-            )
-            val pushModel_enter = PushNotification(notiData_enter, "${host_token}")
-            testPush(pushModel_enter)
-
-            //방장에게 정원 알림 보내기
-            if ((user_num + 1) == data.person.replace("[^\\d]".toRegex(), "").toInt()) {
-                val notiData_full =
-                    NotiModel("Saveat - 알림", "채팅방 인원이 다 찼어요.", "임시", hostUID, data.title)
-                val pushModel_full = PushNotification(notiData_full, "${host_token}")
-                testPush(pushModel_full)
+                //방장에게 정원 알림 보내기
+                if ((user_num + 1) == data.person.replace("[^\\d]".toRegex(), "").toInt()) {
+                    val notiData_full =
+                        NotiModel("Saveat - 알림", "채팅방 인원이 다 찼어요.", "임시", hostUID, data.title)
+                    val pushModel_full = PushNotification(notiData_full, "${host_token}")
+                    testPush(pushModel_full)
+                }
             }
 
+            //채팅방으로 바로 이동
+            val intent = Intent(this, ChatRoomActivity::class.java).putExtra("채팅방키", chatroomkey)
+            startActivity(intent)
             //현재 액티비티 종료시키기
             finish()
         }
@@ -156,7 +157,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     //파이어베이스의 비동기 방식 -> 동기 방식으로 바꿨습니다!!!!!(혜경)(함수 호출도
-    suspend private fun getBoardData(key: String) = suspendCoroutine<String> { continuation ->
+    private fun getBoardData(key: String) {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
@@ -179,6 +180,8 @@ class DetailActivity : AppCompatActivity() {
                 lng = data!!.lng
                 address = data!!.place
                 linkurl = data!!.link
+
+                getImage(hostUID)
 
                 when (data!!.category) {
                     "asian" -> binding.detailCategory.text = "아시안, 양식"
@@ -210,7 +213,11 @@ class DetailActivity : AppCompatActivity() {
                     var imageUri = data.image
                     Glide.with(this@DetailActivity).load(imageUri).into(binding.detailImage)
                 }
-                continuation.resume(hostUID)
+                getHostRatingData()
+                getHostNickname()
+                getHostToken()
+                getCurrentNickname()
+                getUserNum()
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -223,7 +230,6 @@ class DetailActivity : AppCompatActivity() {
     }
 
     //방장 별점 가져오기
-    //파이어베이스의 비동기 방식 -> 동기 방식
     fun getHostRatingData() {
         FBRef.usersRef.child(hostUID).child("rating").get().addOnSuccessListener {
             if (it.getValue() == null) {
@@ -247,7 +253,7 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    fun getCurrentNickname(){
+    fun getCurrentNickname() {
         FBRef.usersRef.child(Auth.current_uid).child("nickname").get().addOnSuccessListener {
             current_nickname = it.getValue().toString()
         }
@@ -256,9 +262,16 @@ class DetailActivity : AppCompatActivity() {
     fun getUserNum() {
         user_num = 0
         FBRef.chatRoomsRef.child(chatroomkey).child("users").get().addOnSuccessListener {
-            user_num++
+            for (data in it.children) {
+
+                if (data.key.toString() == Auth.current_uid) {
+                    isMember = 1
+                }
+                user_num++
+
+            }
             binding.enterBtn.text = "채팅방 입장하기 (${user_num}/${
-            data.person.replace("[^\\d]".toRegex(), "").toInt()
+                data.person.replace("[^\\d]".toRegex(), "").toInt()
             })"
         }
 
@@ -271,9 +284,21 @@ class DetailActivity : AppCompatActivity() {
     }
 
     //새글 알림 보내기
-    fun getHostToken(){
+    fun getHostToken() {
         FBRef.usersRef.child(hostUID).child("token").get().addOnSuccessListener {
             host_token = it.value.toString()
         }
+    }
+
+    fun getImage(uid: String) {
+        val storage: FirebaseStorage = FirebaseStorage.getInstance()
+        val storageRef: StorageReference = storage.getReference()
+        storageRef.child("profile_img/" + uid + ".jpg").getDownloadUrl()
+            .addOnSuccessListener {
+                Glide.with(applicationContext).load(it).into(findViewById(R.id.profile_img))
+            }.addOnFailureListener {
+                findViewById<ImageView>(R.id.profile_img)
+                    .setImageResource(R.drawable.profile_cat)
+            }
     }
 }
