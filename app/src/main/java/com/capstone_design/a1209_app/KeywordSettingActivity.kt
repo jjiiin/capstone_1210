@@ -1,6 +1,6 @@
 package com.capstone_design.a1209_app
 
-import Adapter.KwRVAdapter
+import com.capstone_design.a1209_app.Adapter.KwRVAdapter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log

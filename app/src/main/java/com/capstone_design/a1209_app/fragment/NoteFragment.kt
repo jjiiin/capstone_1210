@@ -10,7 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.viewpager2.widget.ViewPager2
 import com.capstone_design.a1209_app.KeywordSettingActivity
 import com.capstone_design.a1209_app.R
-import Adapter.ViewPagerAdapter
+import com.capstone_design.a1209_app.Adapter.ViewPagerAdapter
 import com.capstone_design.a1209_app.databinding.FragmentNoteBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator

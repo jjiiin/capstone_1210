@@ -150,12 +150,13 @@
                     android:text="피자"
                     android:textSize="14sp" />
 
+
             </LinearLayout>
         </HorizontalScrollView>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="30dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginBottom="15dp"
@@ -191,18 +192,21 @@
 
                 <Switch
                     android:id="@+id/noti"
-                    android:layout_width="wrap_content"
+                    android:layout_width="30dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="90dp"
-                    android:switchMinWidth="23dp"
-                    android:switchPadding="20dp" />
+                    android:layout_gravity="center"
+                    android:checked="true"
+                    android:track="@drawable/switch_track_selector"
+                    android:thumb="@drawable/switch_thumb_selector"
+                    android:layout_marginLeft="120dp"
+                    />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="새 글 알림"
                     android:id="@+id/noti_text"
                     android:textSize="12sp"
+                    android:layout_marginLeft="3dp"
                     android:textColor="#c4c4c4"
                     android:letterSpacing="-0.02"
                     android:lineSpacingExtra="1sp"
@@ -211,17 +215,17 @@
                 <CheckBox
                     android:id="@+id/quick"
                     android:layout_marginLeft="14dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:textColor="#c4c4c4"
-                    android:letterSpacing="-0.02"
-                    android:layout_gravity="center"
-                    android:lineSpacingExtra="6sp"/>
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:background="@drawable/custom_checkbox"
+                    android:button="@null"
+                    android:layout_gravity="center"/>
                 <TextView
+                    android:id="@+id/quick_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="바로 주문만"
+                    android:layout_marginLeft="3dp"
                     android:textSize="12sp"
                     android:textColor="#c4c4c4"
                     android:letterSpacing="-0.02"
@@ -256,13 +260,13 @@
 
         <ImageView
             android:id="@+id/writeBtn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="20dp"
-            android:src="@drawable/icon"
+            android:layout_width="125dp"
+            android:layout_height="64dp"
+            android:src="@drawable/bhf_write"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="24dp"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

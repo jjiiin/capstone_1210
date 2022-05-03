@@ -9,18 +9,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.android.volley.VolleyLog
 import com.capstone_design.a1209_app.DetailActivity
 import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.board.BoardWirteActivity
-import Adapter.LvAdpater
+import com.capstone_design.a1209_app.Adapter.LvAdpater
 import com.capstone_design.a1209_app.dataModels.addressData
 import com.capstone_design.a1209_app.dataModels.dataModel
 import com.capstone_design.a1209_app.databinding.FragmentBoardHomeBinding
 import com.capstone_design.a1209_app.utils.FBRef
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.common.base.CharMatcher.invisible
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
@@ -105,6 +105,7 @@ class BoardHomeFragment : Fragment(){
             binding.notiText.visibility = View.VISIBLE
             if(cateList.contains("asians")) {
                 binding.noti.isChecked=true
+
             }
             listView("asian","0")
             buttonColor("asian")
@@ -232,10 +233,12 @@ class BoardHomeFragment : Fragment(){
                 token = task.result.toString()
                 //FBRef.usersRef.child(auth.currentUser!!.uid).child("token").setValue(token)
                 if(isChecked){
+                    binding.notiText.setTextColor(Color.parseColor("#FD5401"))
                     FBRef.notificationRef.child(category).child(auth.currentUser!!.uid).setValue(token)
                     FBRef.usersRef.child(auth.currentUser!!.uid).child("category").child(category).setValue("1")
                 }
                 else{
+                    binding.notiText.setTextColor(Color.parseColor("#C4C4C4"))
                     FBRef.notificationRef.child(category).child(auth.currentUser!!.uid).removeValue()
                     FBRef.usersRef.child(auth.currentUser!!.uid).child("category").child(category).setValue("0")
                 }
@@ -253,12 +256,14 @@ class BoardHomeFragment : Fragment(){
                 }else {
                     listView(category,"1")
                 }
+                binding.quickText.setTextColor(Color.parseColor("#FD0191"))
             }else{
                 if(category=="all"){
                     listViewAll("0")
                 }else {
                     listView(category,"0")
                 }
+                binding.quickText.setTextColor(Color.parseColor("#C4C4C4"))
             }
         }
 

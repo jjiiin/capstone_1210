@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/mhf_logo"
         android:layout_marginTop="14.7dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,9 +24,9 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="오늘은 무엇을 먹을까요?"
-        android:layout_marginTop="24.8dp"
-        android:layout_marginLeft="20dp"
+        android:text="오늘도 배달비 아껴볼까요?"
+        android:layout_marginTop="24.7dp"
+        android:layout_marginLeft="16dp"
         android:textColor="#101010"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -37,7 +37,7 @@
         android:id="@+id/imageView2"
         android:layout_width="35dp"
         android:layout_height="0dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="9dp"
         android:src="@drawable/mhf_loc"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,22 +68,31 @@
         android:id="@+id/imageView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="37dp"
-        android:layout_marginRight="15dp"
+        android:layout_marginTop="58dp"
+        android:layout_marginRight="16dp"
         android:src="@drawable/mhf_char"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        android:layout_marginTop="19dp"
+        app:layout_constraintTop_toBottomOf="@+id/addressTv"
+        tools:layout_editor_absoluteX="41dp" />
+
     <HorizontalScrollView
         android:id="@+id/horizontalScrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="17.8dp"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3">
+        android:layout_height="44dp"
+        android:background="#80FFFFFF"
+        app:layout_constraintTop_toTopOf="@+id/mapView">
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_gravity="center_vertical"
             android:layout_height="wrap_content">
 
             <Button
@@ -192,30 +201,25 @@
                 android:layout_width="50dp"
                 android:layout_height="28dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginRight="16dp"
                 android:background="@drawable/round_button"
                 android:text="피자"
-                android:layout_marginRight="16dp"
                 android:textColor="#c4c4c4"
                 android:textSize="14sp" />
         </LinearLayout>
     </HorizontalScrollView>
 
 
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/mapView"
-        android:layout_width="match_parent"
-        android:layout_height="550dp"
-        android:layout_marginTop="15dp"
-        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
+
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/mhfmyloc"
         android:id="@+id/myloc"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/mapView" />
+        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
@@ -246,25 +250,42 @@
         app:layout_constraintStart_toStartOf="parent"
         app:stiffness="300" />
 
+    <LinearLayout
+        android:id="@+id/boardSet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/board_back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="horizontal">
+
     <ImageView
         android:id="@+id/btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:src="@drawable/board_show"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginLeft="28dp"
+        android:layout_marginBottom="2dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/board_show" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginLeft="13dp"
+            android:src="@drawable/board_line"
+            android:layout_gravity="center_vertical"/>
+        <ImageView
+            android:id="@+id/writeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="13dp"
+            android:layout_marginBottom="2dp"
+            android:src="@drawable/board_write"
+            android:layout_gravity="center_vertical"/>
 
-    <ImageView
-        android:id="@+id/writeBtn"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginRight="18dp"
-        android:layout_marginBottom="20dp"
-        android:src="@drawable/icon"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

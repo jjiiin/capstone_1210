@@ -40,6 +40,7 @@ class SplashActivity : AppCompatActivity() {
             },2000)
 
         }
+        FBRef.usersRef.child(auth.currentUser!!.uid).child("splash").setValue("1")
 
 
     }

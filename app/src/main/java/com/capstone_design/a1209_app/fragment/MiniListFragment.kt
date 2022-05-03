@@ -7,8 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.capstone_design.a1209_app.R
-import Adapter.LvAdpater
+import com.capstone_design.a1209_app.Adapter.LvAdpater
 import android.content.Intent
+import android.graphics.Color
 import androidx.databinding.DataBindingUtil
 import com.capstone_design.a1209_app.DetailActivity
 import com.capstone_design.a1209_app.dataModels.dataModel
@@ -66,11 +67,13 @@ class MiniListFragment : Fragment(), FragmentListener {
                         cnt += 1
                     }
                 }
+                binding.quickText.setTextColor(Color.parseColor("#FD0191"))
             }else{
                 for (i in result) {
                     items.add(i)
                     cnt += 1
                 }
+                binding.quickText.setTextColor(Color.parseColor("#C4C4C4"))
             }
             adapter.notifyDataSetChanged()
             binding.count.text=cnt.toString()

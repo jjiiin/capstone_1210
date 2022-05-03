@@ -1,6 +1,6 @@
 package com.capstone_design.a1209_app
 
-import Adapter.Rating_RVAdapter
+import com.capstone_design.a1209_app.Adapter.Rating_RVAdapter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil

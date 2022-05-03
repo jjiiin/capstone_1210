@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone_design.a1209_app.R
-import Adapter.RVKWAdapter
+import com.capstone_design.a1209_app.Adapter.RVKWAdapter
 import com.capstone_design.a1209_app.dataModels.kwNotiData
 import com.capstone_design.a1209_app.databinding.FragmentNoteChild2Binding
 import com.google.firebase.auth.FirebaseAuth

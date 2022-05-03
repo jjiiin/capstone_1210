@@ -1,6 +1,6 @@
 package com.capstone_design.a1209_app
 
-import Adapter.RVAdapter
+import com.capstone_design.a1209_app.Adapter.RVAdapter
 import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
