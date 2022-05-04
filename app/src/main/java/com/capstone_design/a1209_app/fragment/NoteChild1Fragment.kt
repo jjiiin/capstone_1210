@@ -83,15 +83,15 @@ class NoteChild1Fragment : Fragment() {
         return binding.root
     }
 
-    fun detectCheck() {
-        if (NoteFragment.isDeleteBtnClick == 0) {
-            //아이템들 체크버튼 안보이게
-            rvAdapter!!.updateCheckBox(false)
-            rvAdapter!!.notifyDataSetChanged()
-        } else {
-            //아이템들 체크버튼 보이게
-            rvAdapter!!.updateCheckBox(true)
-            rvAdapter!!.notifyDataSetChanged()
-        }
-    }
+//    fun detectCheck() {
+//        if (NoteFragment.isDeleteBtnClick == 0) {
+//            //아이템들 체크버튼 안보이게
+//            rvAdapter!!.updateCheckBox(false)
+//            rvAdapter!!.notifyDataSetChanged()
+//        } else {
+//            //아이템들 체크버튼 보이게
+//            rvAdapter!!.updateCheckBox(true)
+//            rvAdapter!!.notifyDataSetChanged()
+//        }
+//    }
 }

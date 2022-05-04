@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto">
-<androidx.constraintlayout.widget.ConstraintLayout
+
+    <androidx.constraintlayout.widget.ConstraintLayout
     android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -225,8 +226,8 @@
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:visibility="gone"
-        android:layout_height="190dp"
-        android:layout_marginBottom="50dp"
+        android:layout_height="191dp"
+        android:layout_marginBottom="61dp"
         app:layout_constraintBottom_toBottomOf="@+id/mapView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -237,7 +238,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:visibility="gone"
-        android:layout_marginBottom="33dp"
+        android:layout_marginBottom="36dp"
         app:dampingRatio="0.5"
         app:dotsCornerRadius="20dp"
         app:dotsSize="9dp"
@@ -250,43 +251,49 @@
         app:layout_constraintStart_toStartOf="parent"
         app:stiffness="300" />
 
-    <LinearLayout
-        android:id="@+id/boardSet"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/board_back"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="24dp"
-        app:layout_constraintStart_toStartOf="parent"
-        android:orientation="horizontal">
 
-    <ImageView
-        android:id="@+id/btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="28dp"
-        android:layout_marginBottom="2dp"
-        android:layout_gravity="center_vertical"
-        android:src="@drawable/board_show" />
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_marginBottom="2dp"
-            android:layout_marginLeft="13dp"
-            android:src="@drawable/board_line"
-            android:layout_gravity="center_vertical"/>
-        <ImageView
-            android:id="@+id/writeBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="13dp"
-            android:layout_marginBottom="2dp"
-            android:src="@drawable/board_write"
-            android:layout_gravity="center_vertical"/>
 
-    </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/boardSet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/board_back"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <ImageView
+                    android:id="@+id/btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="28dp"
+                    android:layout_marginBottom="2dp"
+                    android:src="@drawable/board_show" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="13dp"
+                    android:layout_marginBottom="2dp"
+                    android:src="@drawable/board_line" />
+
+                <ImageView
+                    android:id="@+id/writeBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="13dp"
+                    android:layout_marginBottom="2dp"
+                    android:src="@drawable/board_write" />
+
+            </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

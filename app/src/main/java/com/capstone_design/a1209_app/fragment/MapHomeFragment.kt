@@ -1,6 +1,5 @@
 package com.capstone_design.a1209_app.fragment
 
-import com.capstone_design.a1209_app.Adapter.bannerAdapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -14,18 +13,24 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.android.volley.VolleyLog
-import com.capstone_design.a1209_app.*
+import com.capstone_design.a1209_app.Adapter.bannerAdapter
+import com.capstone_design.a1209_app.AddressSearchActivity
+import com.capstone_design.a1209_app.DetailActivity
+import com.capstone_design.a1209_app.MainActivity
 import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.board.BoardWirteActivity
 import com.capstone_design.a1209_app.dataModels.addressData
@@ -133,6 +138,25 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
 
 
 
+
+
+//        val boardSet=binding.boardSet
+//        val layoutParams = LinearLayout.LayoutParams(
+//            LinearLayout.LayoutParams.MATCH_PARENT,
+//            LinearLayout.LayoutParams.MATCH_PARENT
+//        )
+//        val boardSetParam = LinearLayout.LayoutParams(
+//            LinearLayout.LayoutParams.WRAP_CONTENT,
+//            LinearLayout.LayoutParams.WRAP_CONTENT
+//        )
+//        boardSetParam.bottomMargin=264
+//        linearLayout.addView(boardSet,boardSetParam)
+//
+//    setContentView(linearLayout, layoutParams);
+
+
+
+
         //키워드 알림
         // 1. 키워드 리스트 가져오기
         // 2. map-contents에서 item.title 만 놓고 비교하기
@@ -202,6 +226,20 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
 
         }
         return binding.root
+    }
+    //글목록-작성 세트 margin값 바꾸는 함수
+    fun changeMargin(set:Int){
+        if(set==1){
+            val linearLayout:LinearLayout=binding.boardSet
+            val params = linearLayout.layoutParams as ConstraintLayout.LayoutParams
+            params.bottomMargin=535
+            linearLayout.layoutParams = params
+        }else{
+            val linearLayout:LinearLayout=binding.boardSet
+            val params = linearLayout.layoutParams as ConstraintLayout.LayoutParams
+            params.bottomMargin=55
+            linearLayout.layoutParams = params
+        }
     }
 
     override fun onReceivedData(data: Int) {
@@ -362,6 +400,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
         mMap!!.setOnMarkerClickListener (object :GoogleMap.OnMarkerClickListener{
             override fun onMarkerClick(p0: Marker): Boolean {
                 markerClick(p0.tag.toString(), p0.position)
+                changeMargin(1)
                 viewPager2.visibility=View.VISIBLE
                 springDotsIndicator.visibility=View.VISIBLE
                 return false
@@ -375,7 +414,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             override fun onMapClick(latLng: LatLng) {
                 viewPager2.visibility = View.GONE
                 springDotsIndicator.visibility = View.GONE
-
+                changeMargin(0)
 
             }
         })
