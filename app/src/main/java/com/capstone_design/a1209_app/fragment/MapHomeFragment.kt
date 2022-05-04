@@ -446,10 +446,9 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
     }
     fun setDrawLastLocation(location: Location){
         val myLocation=LatLng(location.latitude,location.longitude)
-        val discripter=getMarkerDrawable(R.drawable.mylocation)
+        val discripter=getLocDrawable(R.drawable.mylocation)
         val marker=MarkerOptions()
             .position(myLocation)
-            .title("I'm here")
             .icon(discripter)
 
 //        val cameraOption = CameraPosition.Builder()
@@ -518,6 +517,15 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
         //마커 크기 변환(크게)
         val scaleBitmap= Bitmap.createScaledBitmap(bitmapDrawable.bitmap,130,160,false)
         return BitmapDescriptorFactory.fromBitmap(scaleBitmap)
+
+    }
+    fun getLocDrawable(drawableId:Int):BitmapDescriptor{
+        //마커 아이콘 만들기
+        var bitmapDrawable:BitmapDrawable
+        bitmapDrawable=mainActivity.resources.getDrawable(drawableId)as BitmapDrawable
+
+        //마커 크기 변환
+        return BitmapDescriptorFactory.fromBitmap(bitmapDrawable.bitmap)
     }
     private fun buttonColor(category:String){
         binding.categoryAsian.setBackgroundResource(R.drawable.round_button)
