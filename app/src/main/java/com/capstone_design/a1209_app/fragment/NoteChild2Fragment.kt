@@ -82,14 +82,14 @@ class NoteChild2Fragment : Fragment() {
        return binding.root
     }
 
-//    fun detectCheck() {
-//        if (NoteFragment.isDeleteBtnClick == 0) {
-//            rvAdapter!!.updateCheckBox(false)
-//            rvAdapter!!.notifyDataSetChanged()
-//        } else {
-//            rvAdapter!!.updateCheckBox(true)
-//            rvAdapter!!.notifyDataSetChanged()
-//        }
-//    }
+    fun detectCheck() {
+        if (NoteFragment.isDeleteBtnClick == 0) {
+            rvAdapter!!.updateCheckBox(false)
+            rvAdapter!!.notifyDataSetChanged()
+        } else {
+            rvAdapter!!.updateCheckBox(true)
+            rvAdapter!!.notifyDataSetChanged()
+        }
+    }
 
 }
