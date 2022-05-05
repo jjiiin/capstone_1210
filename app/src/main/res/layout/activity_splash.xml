@@ -8,9 +8,9 @@
     tools:context=".SplashActivity">
 <!--흰 배경에 로고-->
     <ImageView
-        android:layout_width="300dp"
-        android:layout_height="150dp"
-        android:src="@drawable/main_logo"
+        android:layout_width="198dp"
+        android:layout_height="98.56dp"
+        android:src="@drawable/splash"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

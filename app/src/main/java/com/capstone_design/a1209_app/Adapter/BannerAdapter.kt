@@ -56,6 +56,7 @@ class bannerAdapter(val items:MutableList<dataModel>, private val fragment: MapH
         }else{
             var imageUri=item.image
             Glide.with(context).load(imageUri).into(holder.img)
+            holder.img.clipToOutline=true
         }
 
         if(item.quick=="1"){

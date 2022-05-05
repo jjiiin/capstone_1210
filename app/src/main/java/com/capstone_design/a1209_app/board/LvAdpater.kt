@@ -91,6 +91,8 @@ class LvAdpater(
         } else {
             var imageUri = content.image
             Glide.with(context).load(imageUri).into(cv_img)
+            cv_img.clipToOutline=true
+
         }
 
         if (content.quick == "1") {
