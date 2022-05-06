@@ -272,6 +272,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             mMap!!.clear()
             viewPager2.visibility=View.GONE
             springDotsIndicator.visibility=View.GONE
+            changeMargin(0)
             markerView("all")
             buttonColor("all")
 
@@ -280,6 +281,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             mMap!!.clear()
             viewPager2.visibility=View.GONE
             springDotsIndicator.visibility=View.GONE
+            changeMargin(0)
             markerView("asian")
             buttonColor("asian")
         }
@@ -294,6 +296,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             mMap!!.clear()
             viewPager2.visibility=View.GONE
             springDotsIndicator.visibility=View.GONE
+            changeMargin(0)
             markerView("chicken")
             buttonColor("chicken")
         }
@@ -301,6 +304,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             mMap!!.clear()
             viewPager2.visibility=View.GONE
             springDotsIndicator.visibility=View.GONE
+            changeMargin(0)
             markerView("chicken")
             buttonColor("pizza")
         }
@@ -308,6 +312,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             mMap!!.clear()
             viewPager2.visibility=View.GONE
             springDotsIndicator.visibility=View.GONE
+            changeMargin(0)
             markerView("fastfood")
             buttonColor("fast")
         }
@@ -315,6 +320,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             mMap!!.clear()
             viewPager2.visibility=View.GONE
             springDotsIndicator.visibility=View.GONE
+            changeMargin(0)
             markerView("japan")
             buttonColor("japan")
         }
@@ -322,6 +328,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             mMap!!.clear()
             viewPager2.visibility=View.GONE
             springDotsIndicator.visibility=View.GONE
+            changeMargin(0)
             markerView("korean")
             buttonColor("korean")
         }
@@ -329,6 +336,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             mMap!!.clear()
             viewPager2.visibility=View.GONE
             springDotsIndicator.visibility=View.GONE
+            changeMargin(0)
             markerView("bento")
             buttonColor("bento")
 
@@ -337,6 +345,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             mMap!!.clear()
             viewPager2.visibility=View.GONE
             springDotsIndicator.visibility=View.GONE
+            changeMargin(0)
             markerView("cafe")
             buttonColor("cafe")
 
@@ -345,6 +354,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             mMap!!.clear()
             viewPager2.visibility=View.GONE
             springDotsIndicator.visibility=View.GONE
+            changeMargin(0)
             markerView("chi")
             buttonColor("chi")
 
@@ -372,11 +382,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
                     if (item != null) {
                         if (item.set=="1") {
                             val myLocation=LatLng(item.lat.toDouble(),item.lng.toDouble())
-                            val discripter = getMarkerDrawable(R.drawable.marker)
-                            val marker = MarkerOptions()
-                                .position(myLocation)
-                                .title(item.name)
-                                .icon(discripter)
+
                             //Log.d("item",item.toString())
                             val cameraOption = CameraPosition.Builder()
                                 .target(myLocation)
@@ -400,9 +406,11 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
         mMap!!.setOnMarkerClickListener (object :GoogleMap.OnMarkerClickListener{
             override fun onMarkerClick(p0: Marker): Boolean {
                 markerClick(p0.tag.toString(), p0.position)
-                changeMargin(1)
-                viewPager2.visibility=View.VISIBLE
-                springDotsIndicator.visibility=View.VISIBLE
+                if(p0.tag!="mylocation") {
+                    changeMargin(1)
+                    viewPager2.visibility = View.VISIBLE
+                    springDotsIndicator.visibility = View.VISIBLE
+                }
                 return false
             }
 
@@ -415,6 +423,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
                 viewPager2.visibility = View.GONE
                 springDotsIndicator.visibility = View.GONE
                 changeMargin(0)
+                Log.d("map_lat",latLng.toString())
 
             }
         })
@@ -489,14 +498,19 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
         val marker=MarkerOptions()
             .position(myLocation)
             .icon(discripter)
+        val marker2: Marker? = mMap!!.addMarker(marker)
+        marker2!!.tag = "mylocation"
 
+        viewPager2.visibility = View.GONE
+        springDotsIndicator.visibility = View.GONE
+        changeMargin(0)
 //        val cameraOption = CameraPosition.Builder()
 //            .target(myLocation)//현재 위치로 바꿀 것
 //            .zoom(17f)
 //            .build()
 //        val camera=CameraUpdateFactory.newCameraPosition(cameraOption)
 
-        mMap.addMarker(marker)
+//        mMap.addMarker(marker)
 //        mMap.moveCamera(camera)
     }
 
@@ -548,7 +562,8 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
         super.onDestroy()
     }
 
-    fun getMarkerDrawable(drawableId:Int):BitmapDescriptor{
+    @SuppressLint("UseCompatLoadingForDrawables")
+    fun getMarkerDrawable(drawableId:Int): BitmapDescriptor? {
         //마커 아이콘 만들기
         var bitmapDrawable:BitmapDrawable
         bitmapDrawable=mainActivity.resources.getDrawable(drawableId)as BitmapDrawable
@@ -558,6 +573,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
         return BitmapDescriptorFactory.fromBitmap(scaleBitmap)
 
     }
+    @SuppressLint("UseCompatLoadingForDrawables")
     fun getLocDrawable(drawableId:Int):BitmapDescriptor{
         //마커 아이콘 만들기
         var bitmapDrawable:BitmapDrawable
@@ -672,6 +688,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
                 dataList.clear()
                 tempList.clear()
                 itemsKeyList.clear()
+                mMap.clear()
                 for (data in snapshot.children) {
                     val item = data.getValue(dataModel::class.java)
                     if (item != null) {
@@ -731,13 +748,14 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
 
     private fun markerClick(tag:String, position:LatLng){
         //마커 클릭 됐을 때 마커 디자인 바꾸기
-        val discripter = getMarkerDrawable(R.drawable.marker_select)
-        val markerOptions = MarkerOptions()
-            .position(position)
-            .icon(discripter)
-        val marker: Marker? = mMap!!.addMarker(markerOptions)
-        marker!!.tag= "select"
-
+        if(tag!="mylocation") {
+            val discripter = getMarkerDrawable(R.drawable.marker_select)
+            val markerOptions = MarkerOptions()
+                .position(position)
+                .icon(discripter)
+            val marker: Marker? = mMap!!.addMarker(markerOptions)
+            marker!!.tag = "select"
+        }
         //마커가 클릭 됐을 때 같은 주소끼리 배열로 만들어서 viewPager에 보이게 하기
         //같은 placeAddress를 배열로 묶기
         val cardList= ArrayList<dataModel>()
