@@ -33,6 +33,7 @@ class NoteFragment : Fragment() {
     //몇 번째 탭이 선택됐는지
     var selectedTab: Int = 0
     var isClick = 0
+    var isClick2 = 0
 
     companion object {
         //휴지통 버튼 눌린것에따라 내부 프래그먼트에서 처리해주기위해
