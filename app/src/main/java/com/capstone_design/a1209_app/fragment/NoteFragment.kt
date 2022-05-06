@@ -29,8 +29,10 @@ class NoteFragment : Fragment() {
     private lateinit var binding: FragmentNoteBinding
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager: ViewPager2
+
     //몇 번째 탭이 선택됐는지
-    var selectedTab:Int = 0
+    var selectedTab: Int = 0
+    var isClick = 0
 
     companion object {
         //휴지통 버튼 눌린것에따라 내부 프래그먼트에서 처리해주기위해
@@ -62,19 +64,19 @@ class NoteFragment : Fragment() {
                 binding.deleteText.visibility = View.VISIBLE
                 binding.kwplus.visibility = View.INVISIBLE
                 isDeleteBtnClick = 1
-               if(selectedTab == 0){
-                   NoteChild1Fragment().detectCheck()
-               }else{
-                   NoteChild2Fragment().detectCheck()
-               }
+                if (selectedTab == 0) {
+                    NoteChild1Fragment().detectCheck()
+                } else {
+                    NoteChild2Fragment().detectCheck()
+                }
             } else {
                 binding.deleteBtn.setImageResource(R.drawable.trash_round)
                 binding.deleteText.visibility = View.INVISIBLE
                 binding.kwplus.visibility = View.VISIBLE
                 isDeleteBtnClick = 0
-                if(selectedTab == 0){
+                if (selectedTab == 0) {
                     NoteChild1Fragment().detectCheck()
-                }else{
+                } else {
                     NoteChild2Fragment().detectCheck()
                 }
             }
@@ -93,9 +95,9 @@ class NoteFragment : Fragment() {
             binding.deleteBtn.setImageResource(R.drawable.trash_round)
             binding.deleteText.visibility = View.INVISIBLE
             isDeleteBtnClick = 0
-            if(selectedTab == 0){
+            if (selectedTab == 0) {
                 NoteChild1Fragment().detectCheck()
-            }else{
+            } else {
                 NoteChild2Fragment().detectCheck()
             }
         }
