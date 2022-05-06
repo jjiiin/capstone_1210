@@ -29,6 +29,7 @@ class NoteFragment : Fragment() {
     private lateinit var binding: FragmentNoteBinding
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager: ViewPager2
+    private val click=0
 
     //몇 번째 탭이 선택됐는지
     var selectedTab: Int = 0
