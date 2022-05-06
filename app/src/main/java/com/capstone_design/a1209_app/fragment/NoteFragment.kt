@@ -112,10 +112,20 @@ class NoteFragment : Fragment() {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 viewPager.currentItem = tab!!.position
                 selectedTab = tab!!.position
+
+                if(tab!!.position.toString()=="1"){
+                    binding.kwplus.visibility=View.VISIBLE
+                }else{
+                    binding.kwplus.visibility=View.INVISIBLE
+                }
             }
 
-            override fun onTabUnselected(tab: TabLayout.Tab?) {}
-            override fun onTabReselected(tab: TabLayout.Tab?) {}
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+
+            }
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                
+            }
         })
         binding.kwplus.setOnClickListener {
             //키워드 설정 페이지로 넘어가기
