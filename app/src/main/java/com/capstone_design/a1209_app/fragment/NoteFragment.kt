@@ -29,7 +29,15 @@ class NoteFragment : Fragment() {
     private lateinit var binding: FragmentNoteBinding
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager: ViewPager2
-    val click=0
+    //몇 번째 탭이 선택됐는지
+    var selectedTab: Int = 0
+
+
+    companion object {
+        //휴지통 버튼 눌린것에따라 내부 프래그먼트에서 처리해주기위해
+        var isDeleteBtnClick = 0
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
