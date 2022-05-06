@@ -23,7 +23,7 @@ class NoteFragment : Fragment() {
     private lateinit var binding : FragmentNoteBinding
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager: ViewPager2
-
+    val click=0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
