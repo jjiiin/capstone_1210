@@ -69,7 +69,7 @@ class BoardWirteActivity : AppCompatActivity() {
         // Write a message to the database
         val database = Firebase.database
 
-        var category = ""
+        var category = "korean"
 
         //새글알림용 category
         var categoryNoti = ""
@@ -257,7 +257,7 @@ class BoardWirteActivity : AppCompatActivity() {
         personList.add(two)
         personList.add(three)
         personList.add(four)
-        var person = ""
+        var person = "1명"
         binding.person1List.setOnClickListener {
             person = "1명"
             personButtonSelect()
@@ -334,7 +334,12 @@ class BoardWirteActivity : AppCompatActivity() {
 
                     val time_dm = time
                     //스피너로 입력하기
-                    val fee_dm = binding.textFee.text.toString().plus("원")
+                    var fee_dm =""
+                     if(binding.textFee.text.toString()=="") {
+                         fee_dm = "0원"
+                     }else{
+                         fee_dm=binding.textFee.text.toString().plus("원")
+                     }
                     Log.d("BWA", fee_dm)
                     val place_dm = binding.placeList.text.toString()
                     val mention_dm = binding.mention.text.toString()

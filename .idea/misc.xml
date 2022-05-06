@@ -154,10 +154,11 @@
         <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/drawable/hf_category_pizza_selector.xml" value="0.143" />
         <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/drawable/hf_category_selector.xml" value="0.143" />
         <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/drawable/round_corner.xml" value="0.208" />
-        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/layout/activity_board_wirte.xml" value="0.21978021978021978" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/layout/activity_board_wirte.xml" value="0.1" />
         <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/layout/activity_splash.xml" value="0.14130434782608695" />
         <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/layout/board_write_confirm.xml" value="0.2" />
-        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/layout/fragment_map_home.xml" value="0.15896739130434784" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/layout/fragment_board_home.xml" value="0.1" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/layout/fragment_map_home.xml" value="0.1" />
         <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/layout/fragment_mini_list.xml" value="0.10056595559425337" />
         <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/layout/fragment_note.xml" value="0.10056595559425337" />
         <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/layout/listview_item.xml" value="0.14130434782608695" />
