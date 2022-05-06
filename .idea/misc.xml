@@ -117,6 +117,47 @@
         <entry key="..\:/Users/wjdwl/AndroidStudioProjects/1209_app/app/src/main/res/layout/standardbottom.xml" value="0.192481884057971" />
         <entry key="..\:/Users/wjdwl/AndroidStudioProjects/1209_app/app/src/main/res/menu/main_nav.xml" value="0.1980263157894737" />
         <entry key="..\:/Users/wjdwl/AndroidStudioProjects/1209_app/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.28063063063063065" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/drawable/bwa_am_selector.xml" value="0.193" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/drawable/bwa_direct_selector.xml" value="0.169" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/drawable/bwa_edittext.xml" value="0.143" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/drawable/bwa_four_selector.xml" value="0.1365" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/drawable/bwa_one_selector.xml" value="0.133" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/drawable/bwa_pm_selector.xml" value="0.193" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/drawable/bwa_quick_selector.xml" value="0.169" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/drawable/bwa_three_selector.xml" value="0.1365" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/drawable/bwa_two_selector.xml" value="0.1365" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/drawable/category_all.xml" value="0.2025" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/drawable/category_all_selector.xml" value="0.133" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/drawable/category_asian_selector.xml" value="0.1" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/drawable/category_bento_selector.xml" value="0.1" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/drawable/category_bun_selector.xml" value="0.1" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/drawable/category_cafe_selector.xml" value="0.1" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/drawable/category_chi_selector.xml" value="0.1" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/drawable/category_chicken_selector.xml" value="0.1" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/drawable/category_fastfood_selector.xml" value="0.1" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/drawable/category_japan_selector.xml" value="0.1" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/drawable/category_kor_selector.xml" value="0.143" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/drawable/category_pizza_selector.xml" value="0.1" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/drawable/dialog_edittext.xml" value="0.143" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/drawable/hf_category_asian_selector.xml" value="0.143" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/drawable/hf_category_bento_selector.xml" value="0.143" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/drawable/hf_category_bun_selector.xml" value="0.143" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/drawable/hf_category_cafe_selector.xml" value="0.143" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/drawable/hf_category_chi_selector.xml" value="0.143" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/drawable/hf_category_chicken_selector.xml" value="0.143" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/drawable/hf_category_fast_selector.xml" value="0.143" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/drawable/hf_category_jap_selector.xml" value="0.143" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/drawable/hf_category_kor_selector.xml" value="0.143" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/drawable/hf_category_pizza_selector.xml" value="0.143" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/drawable/hf_category_selector.xml" value="0.143" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/drawable/round_corner.xml" value="0.208" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/layout/activity_board_wirte.xml" value="0.21978021978021978" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/layout/activity_splash.xml" value="0.14130434782608695" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/layout/board_write_confirm.xml" value="0.2" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/layout/fragment_map_home.xml" value="0.15896739130434784" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/layout/fragment_mini_list.xml" value="0.10056595559425337" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/layout/listview_item.xml" value="0.14130434782608695" />
+        <entry key="..\:/Users/wjdwl/AndroidStudioProjects/capstone_1210/app/src/main/res/layout/mhf_cardview.xml" value="0.2" />
       </map>
     </option>
   </component>
