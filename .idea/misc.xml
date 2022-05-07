@@ -25,6 +25,7 @@
         <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/drawable/small_rating_fill.xml" value="0.4036458333333333" />
         <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/drawable/starstyles.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/layout/activity_change_delivery_fee.xml" value="0.22" />
+        <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/layout/activity_chat_room.xml" value="0.3875" />
         <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/layout/activity_display_evaluation.xml" value="0.4466666666666667" />
         <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/layout/activity_evaluation.xml" value="0.4466666666666667" />
         <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/layout/activity_join.xml" value="0.2703125" />
@@ -34,6 +35,7 @@
         <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/layout/chat_list_rv_item.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/layout/chat_rv_item_left.xml" value="0.2520833333333333" />
         <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/layout/chat_rv_item_right.xml" value="0.2520833333333333" />
+        <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/layout/chatroom_include_drawer.xml" value="0.3875" />
         <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/layout/custom_marker.xml" value="0.2520833333333333" />
         <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/layout/fragment_board_home.xml" value="0.2520833333333333" />
         <entry key="..\:/Users/gju06/Documents/capstone_1210/app/src/main/res/layout/fragment_chat.xml" value="0.2520833333333333" />
