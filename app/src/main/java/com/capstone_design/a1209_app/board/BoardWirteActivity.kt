@@ -69,7 +69,7 @@ class BoardWirteActivity : AppCompatActivity() {
         // Write a message to the database
         val database = Firebase.database
 
-        var category = "korean"
+        var category = ""
 
         //새글알림용 category
         var categoryNoti = ""
@@ -413,33 +413,37 @@ class BoardWirteActivity : AppCompatActivity() {
 
                     //카테고리에 해당하는 token 배열 가져오기
                     //var tokenList= mutableListOf<String>()
-                    val schRef: DatabaseReference = database.getReference("notification").child(category)
-                    schRef.addValueEventListener(object : ValueEventListener {
-                        val notiModel = NotiModel(
-                            "Saveat - 새글알림",
-                            "\"${categoryNoti}\" 카테고리에 새 글이 올라왔습니다.",
-                            formatted.toString()
-                        )
+                    if(category!="") {
+                        val schRef: DatabaseReference =
+                            database.getReference("notification").child(category)
+                        schRef.addValueEventListener(object : ValueEventListener {
+                            val notiModel = NotiModel(
+                                "Saveat - 새글알림",
+                                "\"${categoryNoti}\" 카테고리에 새 글이 올라왔습니다.",
+                                formatted.toString(),
+                                title_dm,
+                                chatroomkey
+                            )
 
-                        override fun onDataChange(snapshot: DataSnapshot) {
-                            for (DataModel in snapshot.children) {
-                                val item = DataModel.getValue(String::class.java)
-                                if (item != null) {
-                                    var token = item.toString()
-                                    val pushModel = PushNotification(notiModel, "${token}")
-                                    testPush(pushModel)
-                                    //Log.d("tokenList",item.toString())
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                for (DataModel in snapshot.children) {
+                                    val item = DataModel.getValue(String::class.java)
+                                    if (item != null) {
+                                        var token = item.toString()
+                                        val pushModel = PushNotification(notiModel, "${token}")
+                                        testPush(pushModel)
+                                        //Log.d("tokenList",item.toString())
+                                    }
                                 }
-                            }
 //                    Log.d("tockenList_1",tokenList.toString())
-                        }
+                            }
 
 
-                        override fun onCancelled(error: DatabaseError) {
-                            TODO("Not yet implemented")
-                        }
-                    })
-
+                            override fun onCancelled(error: DatabaseError) {
+                                TODO("Not yet implemented")
+                            }
+                        })
+                    }
                     //채팅방 정보에 게시글 키 저장
                     chatRoomsRef.child(chatroomkey!!).child("boardKey")
                         .setValue("${writer_uid}+${title_dm.replace(" ", "")}")

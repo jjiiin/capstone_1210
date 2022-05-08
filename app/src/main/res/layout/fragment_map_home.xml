@@ -13,8 +13,8 @@
     tools:context=".fragment.MapHomeFragment">
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="87dp"
+        android:layout_height="26.61dp"
         android:src="@drawable/mhf_logo"
         android:layout_marginTop="14.7dp"
         android:layout_marginLeft="16dp"
@@ -67,8 +67,8 @@
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="95dp"
+        android:layout_height="71dp"
         android:layout_marginTop="58dp"
         android:layout_marginRight="16dp"
         android:src="@drawable/mhf_char"
@@ -102,101 +102,80 @@
                 android:layout_width="50dp"
                 android:layout_height="28dp"
                 android:layout_marginLeft="16dp"
-                android:background="@drawable/select_round"
-                android:text="전체"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:background="@drawable/hf_category_all_selector"
+                 />
 
             <Button
                 android:id="@+id/category_kor"
                 android:layout_width="50dp"
                 android:layout_height="28dp"
                 android:layout_marginLeft="16dp"
-                android:background="@drawable/round_button"
-                android:text="한식"
-                android:textColor="#c4c4c4"
-                android:textSize="14sp" />
+                android:background="@drawable/hf_category_kor_selector"
+                />
 
             <Button
                 android:id="@+id/category_bun"
                 android:layout_width="50dp"
                 android:layout_height="28dp"
                 android:layout_marginLeft="10dp"
-                android:background="@drawable/round_button"
-                android:text="분식"
-                android:textColor="#c4c4c4"
-                android:textSize="14sp" />
+                android:background="@drawable/hf_category_bun_selector"
+                />
 
             <Button
                 android:id="@+id/category_chi"
                 android:layout_width="50dp"
                 android:layout_height="28dp"
                 android:layout_marginLeft="10dp"
-                android:background="@drawable/round_button"
-                android:text="중식"
-                android:textColor="#c4c4c4"
-                android:textSize="14sp" />
+                android:background="@drawable/hf_category_chi_selector"
+                />
 
             <Button
                 android:id="@+id/category_jap"
                 android:layout_width="50dp"
                 android:layout_height="28dp"
                 android:layout_marginLeft="10dp"
-                android:background="@drawable/round_button"
-                android:text="일식"
-                android:textColor="#c4c4c4"
-                android:textSize="14sp" />
+                android:background="@drawable/hf_category_jap_selector"
+                />
 
             <Button
                 android:id="@+id/category_asian"
                 android:layout_width="90dp"
                 android:layout_height="28dp"
                 android:layout_marginLeft="10dp"
-                android:background="@drawable/round_button"
-                android:text="아시안, 양식"
-                android:textColor="#c4c4c4"
-                android:textSize="14sp" />
+                android:background="@drawable/hf_category_asian_selector"
+                 />
 
             <Button
                 android:id="@+id/category_fast"
                 android:layout_width="80dp"
                 android:layout_height="28dp"
                 android:layout_marginLeft="10dp"
-                android:background="@drawable/round_button"
-                android:text="패스트푸드"
-                android:textColor="#c4c4c4"
-                android:textSize="14sp" />
+                android:background="@drawable/hf_category_fast_selector"
+               />
 
             <Button
                 android:id="@+id/category_do"
                 android:layout_width="60dp"
                 android:layout_height="28dp"
                 android:layout_marginLeft="10dp"
-                android:background="@drawable/round_button"
-                android:text="도시락"
-                android:textColor="#c4c4c4"
-                android:textSize="14sp" />
+                android:background="@drawable/hf_category_bento_selector"
+               />
 
             <Button
                 android:id="@+id/category_cafe"
                 android:layout_width="85dp"
                 android:layout_height="28dp"
                 android:layout_marginLeft="10dp"
-                android:background="@drawable/round_button"
-                android:text="카페,디저트"
-                android:textColor="#c4c4c4"
-                android:textSize="14sp" />
+                android:background="@drawable/hf_category_cafe_selector"
+                />
 
             <Button
                 android:id="@+id/category_chicken"
                 android:layout_width="50dp"
                 android:layout_height="28dp"
                 android:layout_marginLeft="10dp"
-                android:background="@drawable/round_button"
-                android:text="치킨"
-                android:textColor="#c4c4c4"
-                android:textSize="14sp" />
+                android:background="@drawable/hf_category_chicken_selector"
+               />
 
             <Button
                 android:id="@+id/category_pizza"
@@ -204,10 +183,8 @@
                 android:layout_height="28dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="16dp"
-                android:background="@drawable/round_button"
-                android:text="피자"
-                android:textColor="#c4c4c4"
-                android:textSize="14sp" />
+                android:background="@drawable/hf_category_pizza_selector"
+                />
         </LinearLayout>
     </HorizontalScrollView>
 
