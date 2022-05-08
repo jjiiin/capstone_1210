@@ -9,6 +9,7 @@
     android:orientation="vertical"
     tools:context=".board.BoardWirteActivity">
 <!--글쓰기 폼 화면-->
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -37,13 +38,13 @@
             android:text="글작성"/>
 
     </LinearLayout>
-    <HorizontalScrollView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="none">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
             <TextView
                 android:layout_width="wrap_content"
@@ -58,12 +59,14 @@
 
             <HorizontalScrollView
                 android:layout_marginTop="10dp"
+                android:scrollbars="none"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
                     <Button
                         android:id="@+id/category_kor"
@@ -135,6 +138,7 @@
                         android:layout_width="50dp"
                         android:layout_height="28dp"
                         android:layout_marginLeft="12dp"
+                        android:layout_marginRight="16dp"
                         android:background="@drawable/category_pizza_selector"
                          />
                 </LinearLayout>
@@ -179,13 +183,13 @@
                 android:layout_marginTop="10dp">
                 <EditText
                     android:id="@+id/picList"
-                    android:layout_width="313dp"
+                    android:layout_width="300dp"
                     android:layout_height="40dp"
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     android:paddingLeft="10dp"
                     android:hint="사진을 첨부해주세요"
-                    android:background="@drawable/dialog_edittext"/>
+                    android:background="@drawable/bwa_edittext"/>
 
                 <Button
                     android:id="@+id/picBtn"
@@ -214,29 +218,30 @@
 
                 <Button
                     android:id="@+id/person1List"
-                    android:layout_width="80dp"
+                    android:layout_width="75dp"
                     android:layout_height="40dp"
                     android:background ="@drawable/bwa_one_selector"/>
 
                 <Button
                     android:id="@+id/person2List"
-                    android:layout_width="80dp"
+                    android:layout_width="75dp"
                     android:layout_height="40dp"
                     android:background="@drawable/bwa_two_selector"
                     android:layout_marginLeft="12dp"
                    />
                 <Button
                     android:id="@+id/person3List"
-                    android:layout_width="80dp"
+                    android:layout_width="75dp"
                     android:layout_height="40dp"
                     android:background="@drawable/bwa_three_selector"
                     android:layout_marginLeft="12dp"/>
                 <Button
                     android:id="@+id/personN_list"
-                    android:layout_width="80dp"
+                    android:layout_width="75dp"
                     android:layout_height="40dp"
                     android:background="@drawable/bwa_four_selector"
                     android:layout_marginLeft="12dp" />
+
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -308,9 +313,6 @@
                     android:layout_width="67dp"
                     android:layout_height="40dp"
                     android:background="@drawable/bwa_pm_selector"/>
-
-
-
 
             </LinearLayout>
             <TextView
@@ -446,6 +448,6 @@
                 android:letterSpacing="-0.02"
                 android:text="등록"/>
         </LinearLayout>
-    </HorizontalScrollView>
+    </ScrollView>
 </LinearLayout>
 </layout>
