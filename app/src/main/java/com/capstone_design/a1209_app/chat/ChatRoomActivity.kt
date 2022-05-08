@@ -74,6 +74,7 @@ class ChatRoomActivity : AppCompatActivity() {
     var hostUid = ""
     var roomTitle = ""
     var chatroomkey = ""
+    var isClosed = false
 
     //프로필 사진 요청 코드
     private val DEFAULT_GALLERY_REQUEST_CODE = 0
@@ -130,6 +131,7 @@ class ChatRoomActivity : AppCompatActivity() {
         findViewById<Button>(R.id.menu_btn).setOnClickListener {
             findViewById<DrawerLayout>(R.id.main_drawer_layout).openDrawer(GravityCompat.END)
         }
+
         findViewById<ImageView>(R.id.backbtn).setOnClickListener {
             onBackPressed()
         }
@@ -302,7 +304,12 @@ class ChatRoomActivity : AppCompatActivity() {
 
         //마감버튼 눌렀을때
         findViewById<LinearLayout>(R.id.layout_chatroom_close).setOnClickListener {
-            chatRoomsRef.child(chatroomkey).child("isClosed").setValue(true)
+            if (isClosed) { //마감 상태이면 마감 해체하기
+                chatRoomsRef.child(chatroomkey).child("isClosed").setValue(false)
+            } else if (!isClosed) { //마감 상태 아니면 마감 처리하기
+                chatRoomsRef.child(chatroomkey).child("isClosed").setValue(true)
+            }
+
         }
 
         //채팅 보낼시 이벤트
@@ -473,7 +480,6 @@ class ChatRoomActivity : AppCompatActivity() {
         })
     }
 
-    //파이어베이스의 비동기 방식 -> 동기 방식
     fun getBoardKey(chatroomkey: String) {
         chatRoomsRef.child(chatroomkey!!).child("boardKey").get().addOnSuccessListener {
             boardKey = it.getValue().toString()
@@ -485,7 +491,7 @@ class ChatRoomActivity : AppCompatActivity() {
         board.child(boardKey).child("person").get().addOnSuccessListener {
             val string_maximumNum = it.getValue<String>()
             if (string_maximumNum != null) {
-                num_maximumNum = string_maximumNum!!.replace("[^\\d]".toRegex(), "").toInt()
+                num_maximumNum = string_maximumNum!!.toInt()
                 findViewById<TextView>(R.id.tv_maximumNum).setText(num_maximumNum.toString())
                 //정원 다 차면
                 if (userNum == num_maximumNum) {
@@ -503,16 +509,41 @@ class ChatRoomActivity : AppCompatActivity() {
         chatRoomsRef.child(chatroomkey).child("isClosed")
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.value == true) {
-                        findViewById<LinearLayout>(R.id.layout_usernum).background =
-                            ContextCompat.getDrawable(context, R.drawable.chatuser_rectangle_gray)
-                        findViewById<TextView>(R.id.tv_usernum).setTextColor(Color.parseColor("#C4C4C4"))
-                        findViewById<TextView>(R.id.tv_slash).setTextColor(Color.parseColor("#C4C4C4"))
-                        findViewById<TextView>(R.id.tv_maximumNum).setTextColor(Color.parseColor("#C4C4C4"))
-                        findViewById<ImageView>(R.id.img_down_arrow).imageTintList =
-                            ColorStateList.valueOf(Color.parseColor("#C4C4C4"))
-                        findViewById<ImageView>(R.id.img_chatroom_close).setImageResource(R.drawable.chatroom_close_btn_gray)
+                    if (snapshot != null) {
+                        if (snapshot.value == true) {
+                            findViewById<LinearLayout>(R.id.layout_usernum).background =
+                                ContextCompat.getDrawable(
+                                    context,
+                                    R.drawable.chatuser_rectangle_gray
+                                )
+                            findViewById<TextView>(R.id.tv_usernum).setTextColor(Color.parseColor("#C4C4C4"))
+                            findViewById<TextView>(R.id.tv_slash).setTextColor(Color.parseColor("#C4C4C4"))
+                            findViewById<TextView>(R.id.tv_maximumNum).setTextColor(
+                                Color.parseColor(
+                                    "#C4C4C4"
+                                )
+                            )
+                            findViewById<ImageView>(R.id.img_down_arrow).imageTintList =
+                                ColorStateList.valueOf(Color.parseColor("#C4C4C4"))
+                            findViewById<ImageView>(R.id.img_chatroom_close).setImageResource(R.drawable.chatroom_close_btn_gray)
+                            isClosed = true
+                        } else if (snapshot.value == false) {
+                            findViewById<LinearLayout>(R.id.layout_usernum).background =
+                                ContextCompat.getDrawable(context, R.drawable.chatuser_rectangle)
+                            findViewById<TextView>(R.id.tv_usernum).setTextColor(Color.parseColor("#FD5401"))
+                            findViewById<TextView>(R.id.tv_slash).setTextColor(Color.parseColor("#FD5401"))
+                            findViewById<TextView>(R.id.tv_maximumNum).setTextColor(
+                                Color.parseColor(
+                                    "#FD5401"
+                                )
+                            )
+                            findViewById<ImageView>(R.id.img_down_arrow).imageTintList =
+                                ColorStateList.valueOf(Color.parseColor("#FD5401"))
+                            findViewById<ImageView>(R.id.img_chatroom_close).setImageResource(R.drawable.chatroom_close_btn)
+                            isClosed = false
+                        }
                     }
+
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -580,7 +611,7 @@ class ChatRoomActivity : AppCompatActivity() {
                 //갤러리에서 고른 사진의 uri
                 val photo_uri = data.data as Uri
                 var sub_uri = photo_uri.toString()
-                sub_uri = sub_uri.substring(sub_uri.length-10, sub_uri.length)
+                sub_uri = sub_uri.substring(sub_uri.length - 10, sub_uri.length)
                 val current_time = System.currentTimeMillis()
                 //Log.d("시간",date.toString())
                 val chatData =

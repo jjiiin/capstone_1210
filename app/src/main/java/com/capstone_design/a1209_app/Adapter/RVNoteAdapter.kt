@@ -35,18 +35,18 @@ class RVNoteAdapter(val items: MutableList<notiData>, val context: Context, val 
         holder.date.text = item.date
         val key = keys[position]
         //image
-        holder.img.setImageResource(R.drawable.noti_new)
+
         when (item.category) {
-            "asian" -> holder.img.setImageResource(R.drawable.asian)
-            "bun" -> holder.img.setImageResource(R.drawable.bun)
-            "bento" -> holder.img.setImageResource(R.drawable.bento)
-            "chicken" -> holder.img.setImageResource(R.drawable.chicken)
-            "pizza" -> holder.img.setImageResource(R.drawable.pizza)
-            "fastfood" -> holder.img.setImageResource(R.drawable.fastfood)
-            "japan" -> holder.img.setImageResource(R.drawable.japan)
-            "korean" -> holder.img.setImageResource(R.drawable.korean)
-            "cafe" -> holder.img.setImageResource(R.drawable.cafe)
-            "chi" -> holder.img.setImageResource(R.drawable.china)
+            "asian" -> holder.img.setImageResource(R.drawable.noti_new)
+            "bun" ->holder.img.setImageResource(R.drawable.noti_new)
+            "bento" -> holder.img.setImageResource(R.drawable.noti_new)
+            "chicken" ->holder.img.setImageResource(R.drawable.noti_new)
+            "pizza" -> holder.img.setImageResource(R.drawable.noti_new)
+            "fastfood" -> holder.img.setImageResource(R.drawable.noti_new)
+            "japan" -> holder.img.setImageResource(R.drawable.noti_new)
+            "korean" -> holder.img.setImageResource(R.drawable.noti_new)
+            "cafe" -> holder.img.setImageResource(R.drawable.noti_new)
+            "chi" -> holder.img.setImageResource(R.drawable.noti_new)
             "full" -> holder.img.setImageResource(R.drawable.notification_chatroom_full)
             "enter" -> holder.img.setImageResource(R.drawable.notification_enter)
             "pay" -> holder.img.setImageResource(R.drawable.notification_paid)

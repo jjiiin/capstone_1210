@@ -5,8 +5,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:background="@color/white"
         android:layout_height="match_parent"
+        android:background="@color/white"
         tools:context=".NoteFragment">
 
         <LinearLayout
@@ -53,8 +53,8 @@
                         android:layout_height="16dp"
                         android:layout_gravity="center"
                         android:layout_marginRight="20dp"
-                        android:visibility="invisible"
                         android:src="@drawable/chat_plus"
+                        android:visibility="invisible"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/deleteBtn"
                         app:layout_constraintTop_toTopOf="parent" />

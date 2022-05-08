@@ -29,6 +29,7 @@ class NoteFragment : Fragment() {
     private lateinit var binding: FragmentNoteBinding
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager: ViewPager2
+
     //몇 번째 탭이 선택됐는지
     var selectedTab: Int = 0
 
@@ -71,7 +72,9 @@ class NoteFragment : Fragment() {
             } else {
                 binding.deleteBtn.setImageResource(R.drawable.trash_round)
                 binding.deleteText.visibility = View.INVISIBLE
-                binding.kwplus.visibility = View.VISIBLE
+                if (selectedTab == 1) {
+                    binding.kwplus.visibility = View.VISIBLE
+                }
                 isDeleteBtnClick = 0
                 if (selectedTab == 0) {
                     NoteChild1Fragment().detectCheck()
@@ -110,18 +113,19 @@ class NoteFragment : Fragment() {
                 viewPager.currentItem = tab!!.position
                 selectedTab = tab!!.position
 
-                if(tab!!.position.toString()=="1"){
-                    binding.kwplus.visibility=View.VISIBLE
-                }else{
-                    binding.kwplus.visibility=View.INVISIBLE
+                if (tab!!.position.toString() == "1") {
+                    binding.kwplus.visibility = View.VISIBLE
+                } else {
+                    binding.kwplus.visibility = View.INVISIBLE
                 }
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
 
             }
+
             override fun onTabReselected(tab: TabLayout.Tab?) {
-                
+
             }
         })
         binding.kwplus.setOnClickListener {

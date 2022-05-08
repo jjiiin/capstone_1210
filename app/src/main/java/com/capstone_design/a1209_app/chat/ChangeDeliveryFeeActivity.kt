@@ -21,6 +21,7 @@ class ChangeDeliveryFeeActivity : AppCompatActivity() {
         //현재 1/n 가격 출력
         binding.tvIndividualDeliveryFee.text = ReceiptDoneActivity.indiv_delivery_fee.toString()
 
+        //변경한 1/n 가격 저장
         binding.btnDone.setOnClickListener {
             val data = binding.etDeliveryFee.text.toString().toInt()
             FBRef.chatRoomsRef.child(chatroomkey!!)

@@ -59,14 +59,14 @@
             android:name="org.apache.http.legacy"
             android:required="false" /> <!-- 지인님 api key -->
 
-            <meta-data
+           <!-- <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyB6nWMxeXA4h-S3Yx5VxlVXfqXE6EUkBgw" />
+            android:value="AIzaSyB6nWMxeXA4h-S3Yx5VxlVXfqXE6EUkBgw" />-->
 
 <!--        &lt;!&ndash; 혜경 maps api key &ndash;&gt;-->
-<!--        <meta-data-->
-<!--            android:name="com.google.android.geo.API_KEY"-->
-<!--            android:value="AIzaSyDjimMhkVC4kNZN77Hcy46iL8G0OVoZUAk" />-->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDjimMhkVC4kNZN77Hcy46iL8G0OVoZUAk" />
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="fc81b72e05032dce7689cf5b13b5a9cc" />
