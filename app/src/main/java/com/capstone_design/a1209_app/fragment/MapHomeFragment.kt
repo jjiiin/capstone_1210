@@ -1,5 +1,9 @@
 package com.capstone_design.a1209_app.fragment
 
+import com.capstone_design.a1209_app.fragment.HomeFragment
+import com.capstone_design.a1209_app.fragment.MiniListFragment
+
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -16,6 +20,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -79,6 +84,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
     private lateinit var viewPager2: ViewPager2
     private lateinit var springDotsIndicator: SpringDotsIndicator
     private lateinit var myLocation:Location
+    private val categoryList = mutableListOf<Button>()
 
     private var category="all"
     private var cnt=0
@@ -94,6 +100,18 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
     private var bannerPosition = Int.MAX_VALUE/2
     private val intervalTime = 1500.toLong()
 
+    //Button
+    var cate_all: Button? =null
+    var cate_kor: Button?=null
+    var cate_asian: Button? =null
+    var cate_bun: Button? =null
+    var cate_jap: Button ? =null
+    var cate_chicken: Button ? =null
+    var cate_pizza: Button ? =null
+    var cate_fast: Button ? =null
+    var cate_bento: Button ? =null
+    var cate_cafe: Button ? =null
+    var cate_chi: Button ? =null
 
     val permission=arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION)
     val PERM_FLAG=99
@@ -136,23 +154,29 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
         viewPager2=binding.viewPager
         springDotsIndicator=binding.springDotsIndicator
 
-
-
-
-
-//        val boardSet=binding.boardSet
-//        val layoutParams = LinearLayout.LayoutParams(
-//            LinearLayout.LayoutParams.MATCH_PARENT,
-//            LinearLayout.LayoutParams.MATCH_PARENT
-//        )
-//        val boardSetParam = LinearLayout.LayoutParams(
-//            LinearLayout.LayoutParams.WRAP_CONTENT,
-//            LinearLayout.LayoutParams.WRAP_CONTENT
-//        )
-//        boardSetParam.bottomMargin=264
-//        linearLayout.addView(boardSet,boardSetParam)
-//
-//    setContentView(linearLayout, layoutParams);
+        //버튼 클릭시 category에 값 할당하기
+        cate_all= binding.categoryAll
+        categoryList.add(cate_all!!)
+        cate_kor= binding.categoryKor
+        categoryList.add(cate_kor!!)
+        cate_asian = binding.categoryAsian
+        categoryList.add(cate_asian!!)
+        cate_bun = binding.categoryBun
+        categoryList.add(cate_bun!!)
+        cate_jap = binding.categoryJap
+        categoryList.add(cate_jap!!)
+        cate_chicken = binding.categoryChicken
+        categoryList.add(cate_chicken!!)
+        cate_pizza= binding.categoryPizza
+        categoryList.add(cate_pizza!!)
+        cate_fast = binding.categoryFast
+        categoryList.add(cate_fast!!)
+        cate_bento = binding.categoryDo
+        categoryList.add(cate_bento!!)
+        cate_cafe = binding.categoryCafe
+        categoryList.add(cate_cafe!!)
+        cate_chi = binding.categoryChi
+        categoryList.add(cate_chi!!)
 
 
 
@@ -266,7 +290,8 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
         viewPager2.visibility=View.GONE
         springDotsIndicator.visibility=View.GONE
         markerView("all")
-        buttonColor("all")
+        buttonSelect()
+        cate_all?.isSelected=true
 
         binding.categoryAll.setOnClickListener {
             mMap!!.clear()
@@ -274,7 +299,8 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             springDotsIndicator.visibility=View.GONE
             changeMargin(0)
             markerView("all")
-            buttonColor("all")
+            buttonSelect()
+            cate_all?.isSelected = true
 
         }
         binding.categoryAsian.setOnClickListener {
@@ -283,14 +309,16 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             springDotsIndicator.visibility=View.GONE
             changeMargin(0)
             markerView("asian")
-            buttonColor("asian")
+            buttonSelect()
+            cate_asian?.isSelected = true
         }
         binding.categoryBun.setOnClickListener {
             mMap!!.clear()
             viewPager2.visibility=View.INVISIBLE
             springDotsIndicator.visibility=View.INVISIBLE
             markerView("bun")
-            buttonColor("bun")
+            buttonSelect()
+            cate_bun?.isSelected = true
         }
         binding.categoryChicken.setOnClickListener {
             mMap!!.clear()
@@ -298,7 +326,8 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             springDotsIndicator.visibility=View.GONE
             changeMargin(0)
             markerView("chicken")
-            buttonColor("chicken")
+            buttonSelect()
+            cate_chicken?.isSelected = true
         }
         binding.categoryPizza.setOnClickListener {
             mMap!!.clear()
@@ -306,7 +335,8 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             springDotsIndicator.visibility=View.GONE
             changeMargin(0)
             markerView("chicken")
-            buttonColor("pizza")
+            buttonSelect()
+            cate_pizza?.isSelected = true
         }
         binding.categoryFast.setOnClickListener {
             mMap!!.clear()
@@ -314,7 +344,8 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             springDotsIndicator.visibility=View.GONE
             changeMargin(0)
             markerView("fastfood")
-            buttonColor("fast")
+            buttonSelect()
+            cate_fast?.isSelected = true
         }
         binding.categoryJap.setOnClickListener {
             mMap!!.clear()
@@ -322,7 +353,8 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             springDotsIndicator.visibility=View.GONE
             changeMargin(0)
             markerView("japan")
-            buttonColor("japan")
+            buttonSelect()
+            cate_jap?.isSelected = true
         }
         binding.categoryKor.setOnClickListener {
             mMap!!.clear()
@@ -330,7 +362,8 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             springDotsIndicator.visibility=View.GONE
             changeMargin(0)
             markerView("korean")
-            buttonColor("korean")
+            buttonSelect()
+            cate_kor?.isSelected = true
         }
         binding.categoryDo.setOnClickListener {
             mMap!!.clear()
@@ -338,7 +371,8 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             springDotsIndicator.visibility=View.GONE
             changeMargin(0)
             markerView("bento")
-            buttonColor("bento")
+            buttonSelect()
+            cate_bento?.isSelected = true
 
         }
         binding.categoryCafe.setOnClickListener {
@@ -347,7 +381,8 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             springDotsIndicator.visibility=View.GONE
             changeMargin(0)
             markerView("cafe")
-            buttonColor("cafe")
+            buttonSelect()
+            cate_cafe?.isSelected = true
 
         }
         binding.categoryChi.setOnClickListener {
@@ -356,7 +391,8 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             springDotsIndicator.visibility=View.GONE
             changeMargin(0)
             markerView("chi")
-            buttonColor("chi")
+            buttonSelect()
+            cate_chi?.isSelected = true
 
         }
         //내위치 항상 표시하기
@@ -582,100 +618,10 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
         //마커 크기 변환
         return BitmapDescriptorFactory.fromBitmap(bitmapDrawable.bitmap)
     }
-    private fun buttonColor(category:String){
-        binding.categoryAsian.setBackgroundResource(R.drawable.round_button)
-        binding.categoryAsian.setTextColor(Color.BLACK)
-        binding.categoryAsian.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
-
-
-        binding.categoryBun.setBackgroundResource(R.drawable.round_button)
-        binding.categoryBun.setTextColor(Color.BLACK)
-        binding.categoryBun.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
-
-
-        binding.categoryKor.setBackgroundResource(R.drawable.round_button)
-        binding.categoryKor.setTextColor(Color.BLACK)
-        binding.categoryKor.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
-
-
-        binding.categoryJap.setBackgroundResource(R.drawable.round_button)
-        binding.categoryJap.setTextColor(Color.BLACK)
-        binding.categoryJap.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
-
-
-
-        binding.categoryChi.setBackgroundResource(R.drawable.round_button)
-        binding.categoryChi.setTextColor(Color.BLACK)
-        binding.categoryChi.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
-
-
-        binding.categoryFast.setBackgroundResource(R.drawable.round_button)
-        binding.categoryFast.setTextColor(Color.BLACK)
-        binding.categoryFast.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
-
-
-        binding.categoryDo.setBackgroundResource(R.drawable.round_button)
-        binding.categoryDo.setTextColor(Color.BLACK)
-        binding.categoryDo.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
-
-
-
-        binding.categoryCafe.setBackgroundResource(R.drawable.round_button)
-        binding.categoryCafe.setTextColor(Color.BLACK)
-        binding.categoryCafe.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
-
-
-        binding.categoryChicken.setBackgroundResource(R.drawable.round_button)
-        binding.categoryChicken.setTextColor(Color.BLACK)
-        binding.categoryChicken.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
-
-
-        binding.categoryPizza.setBackgroundResource(R.drawable.round_button)
-        binding.categoryPizza.setTextColor(Color.BLACK)
-        binding.categoryPizza.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
-
-        binding.categoryAll.setBackgroundResource(R.drawable.round_button)
-        binding.categoryAll.setTextColor(Color.BLACK)
-        binding.categoryAll.setTypeface(binding.categoryAll.typeface, Typeface.NORMAL)
-
-
-        when(category){
-            "asian"->{binding.categoryAsian.setBackgroundResource(R.drawable.select_round)
-                binding.categoryAsian.setTextColor(Color.WHITE)
-                binding.categoryAsian.setTypeface(binding.categoryAsian.typeface, Typeface.BOLD)}
-            "bun"->{binding.categoryBun.setBackgroundResource(R.drawable.select_round)
-                binding.categoryBun.setTextColor(Color.WHITE)
-                binding.categoryBun.setTypeface(binding.categoryBun.typeface, Typeface.BOLD)}
-            "korean"->{binding.categoryKor.setBackgroundResource(R.drawable.select_round)
-                binding.categoryKor.setTextColor(Color.WHITE)
-                binding.categoryKor.setTypeface(binding.categoryKor.typeface, Typeface.BOLD)}
-            "japan"->{binding.categoryJap.setBackgroundResource(R.drawable.select_round)
-                binding.categoryJap.setTextColor(Color.WHITE)
-                binding.categoryJap.setTypeface(binding.categoryJap.typeface, Typeface.BOLD)}
-            "chi"->{binding.categoryChi.setBackgroundResource(R.drawable.select_round)
-                binding.categoryChi.setTextColor(Color.WHITE)
-                binding.categoryChi.setTypeface(binding.categoryChi.typeface, Typeface.BOLD)}
-            "fast"->{binding.categoryFast.setBackgroundResource(R.drawable.select_round)
-                binding.categoryFast.setTextColor(Color.WHITE)
-                binding.categoryFast.setTypeface(binding.categoryFast.typeface, Typeface.BOLD)}
-            "bento"->{binding.categoryDo.setBackgroundResource(R.drawable.select_round)
-                binding.categoryDo.setTextColor(Color.WHITE)
-                binding.categoryDo.setTypeface(binding.categoryDo.typeface, Typeface.BOLD)}
-            "cafe"->{binding.categoryCafe.setBackgroundResource(R.drawable.select_round)
-                binding.categoryCafe.setTextColor(Color.WHITE)
-                binding.categoryCafe.setTypeface(binding.categoryCafe.typeface, Typeface.BOLD)}
-            "chicken"->{binding.categoryChicken.setBackgroundResource(R.drawable.select_round)
-                binding.categoryChicken.setTextColor(Color.WHITE)
-                binding.categoryChicken.setTypeface(binding.categoryChicken.typeface, Typeface.BOLD)}
-            "pizza"->{binding.categoryPizza.setBackgroundResource(R.drawable.select_round)
-                binding.categoryPizza.setTextColor(Color.WHITE)
-                binding.categoryPizza.setTypeface(binding.categoryPizza.typeface, Typeface.BOLD)}
-            "all"->{binding.categoryAll.setBackgroundResource(R.drawable.select_round)
-                binding.categoryAll.setTextColor(Color.WHITE)
-                binding.categoryAll.setTypeface(binding.categoryAll.typeface, Typeface.BOLD)}
-
+    private fun buttonSelect() {
+        for (i in categoryList) {
+            i.isSelected = false
         }
-
     }
 
     //모든 data담아두는 List
