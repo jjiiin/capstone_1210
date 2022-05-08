@@ -16,6 +16,7 @@ import com.capstone_design.a1209_app.AddressSearchActivity
 import com.capstone_design.a1209_app.CustomDialog
 import com.capstone_design.a1209_app.chat.ChatRoomActivity
 import com.capstone_design.a1209_app.R
+import com.capstone_design.a1209_app.dataModels.ChatData
 import com.capstone_design.a1209_app.dataModels.dataModel
 import com.capstone_design.a1209_app.dataModels.ChatRoomData
 import com.capstone_design.a1209_app.dataModels.addressData
@@ -50,8 +51,8 @@ class BoardWirteActivity : AppCompatActivity() {
     private var lat = ""
     private var lng = ""
 
-    private val categoryList=mutableListOf<Button>()
-    private val personList=mutableListOf<Button>()
+    private val categoryList = mutableListOf<Button>()
+    private val personList = mutableListOf<Button>()
 
     private var placeAddress = ""
     private var placeDetail = ""
@@ -61,6 +62,7 @@ class BoardWirteActivity : AppCompatActivity() {
     var setImage: Boolean = false
     var questPicture: Uri? = null
     private var imageUri: Uri? = null
+    lateinit var current_nickname: String
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,26 +76,29 @@ class BoardWirteActivity : AppCompatActivity() {
         //새글알림용 category
         var categoryNoti = ""
 
+        //현재 사용자 닉네임 가져오기
+        getCurrentNickname()
+
         //버튼 클릭시 category에 값 할당하기
-        val cate_kor: Button =binding.categoryKor
+        val cate_kor: Button = binding.categoryKor
         categoryList.add(cate_kor)
-        val cate_asian: Button =binding.categoryAsian
+        val cate_asian: Button = binding.categoryAsian
         categoryList.add(cate_asian)
-        val cate_bun: Button =binding.categoryBun
+        val cate_bun: Button = binding.categoryBun
         categoryList.add(cate_bun)
-        val cate_jap: Button =binding.categoryJap
+        val cate_jap: Button = binding.categoryJap
         categoryList.add(cate_jap)
-        val cate_chicken: Button =binding.categoryChicken
+        val cate_chicken: Button = binding.categoryChicken
         categoryList.add(cate_chicken)
-        val cate_pizza: Button =binding.categoryPizza
+        val cate_pizza: Button = binding.categoryPizza
         categoryList.add(cate_pizza)
-        val cate_fast: Button =binding.categoryFast
+        val cate_fast: Button = binding.categoryFast
         categoryList.add(cate_fast)
-        val cate_bento: Button =binding.categoryDo
+        val cate_bento: Button = binding.categoryDo
         categoryList.add(cate_bento)
-        val cate_cafe: Button =binding.categoryCafe
+        val cate_cafe: Button = binding.categoryCafe
         categoryList.add(cate_cafe)
-        val cate_chi: Button =binding.categoryChi
+        val cate_chi: Button = binding.categoryChi
         categoryList.add(cate_chi)
 
 
@@ -101,25 +106,25 @@ class BoardWirteActivity : AppCompatActivity() {
             categoryNoti = "한식"
             category = "korean"
             buttonSelect()
-            cate_kor.isSelected=true
+            cate_kor.isSelected = true
         }
 
         binding.categoryAsian.setOnClickListener {
             buttonSelect()
-            cate_asian.isSelected=true
+            cate_asian.isSelected = true
             category = "asian"
             categoryNoti = "아시안, 양식"
         }
         binding.categoryBun.setOnClickListener {
             buttonSelect()
-            cate_bun.isSelected=true
+            cate_bun.isSelected = true
             category = "bun"
             categoryNoti = "분식"
         }
         binding.categoryChicken.setOnClickListener {
             categoryNoti = "치킨"
             buttonSelect()
-            cate_chicken.isSelected=true
+            cate_chicken.isSelected = true
             category = "chicken"
 
         }
@@ -127,62 +132,62 @@ class BoardWirteActivity : AppCompatActivity() {
             categoryNoti = "피자"
             category = "pizza"
             buttonSelect()
-            cate_pizza.isSelected=true
+            cate_pizza.isSelected = true
         }
         binding.categoryFast.setOnClickListener {
             categoryNoti = "패스트푸드"
             category = "fastfood"
             buttonSelect()
-            cate_fast.isSelected=true
+            cate_fast.isSelected = true
         }
         binding.categoryJap.setOnClickListener {
             categoryNoti = "일식"
             category = "japan"
             buttonSelect()
-            cate_jap.isSelected=true
+            cate_jap.isSelected = true
         }
 
         binding.categoryDo.setOnClickListener {
             categoryNoti = "도시락"
             category = "bento"
             buttonSelect()
-            cate_bento.isSelected=true
+            cate_bento.isSelected = true
         }
         binding.categoryCafe.setOnClickListener {
             categoryNoti = "카페, 디저트"
             category = "cafe"
             buttonSelect()
-            cate_cafe.isSelected=true
+            cate_cafe.isSelected = true
         }
         binding.categoryChi.setOnClickListener {
             categoryNoti = "중식"
             category = "chi"
             buttonSelect()
-            cate_chi.isSelected=true
+            cate_chi.isSelected = true
         }
 
         var quick = ""
-        val timequick:Button=binding.quick
-        val timeSelect:Button=binding.timeSelect
+        val timequick: Button = binding.quick
+        val timeSelect: Button = binding.timeSelect
         binding.quick.setOnClickListener {
-            quick="1"
-            time="바로 주문"
-            timequick.isSelected=true
-            timeSelect.isSelected=false
-            binding.directInput.isEnabled=false
+            quick = "1"
+            time = "바로 주문"
+            timequick.isSelected = true
+            timeSelect.isSelected = false
+            binding.directInput.isEnabled = false
         }
 
 
 
         binding.timeSelect.setOnClickListener {
-            quick=""
+            quick = ""
             var hour = ""
             var min = ""
             var day = ""
 
-            timeSelect.isSelected=true
-            timequick.isSelected=false
-            binding.directInput.isEnabled=true
+            timeSelect.isSelected = true
+            timequick.isSelected = false
+            binding.directInput.isEnabled = true
             //스피너로 시간 구현하기
             var hourData = resources.getStringArray(R.array.array_hours)
             var minData = resources.getStringArray(R.array.array_minutes)
@@ -197,50 +202,51 @@ class BoardWirteActivity : AppCompatActivity() {
             adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             binding.spinnerMinutes.adapter = adapter2
             binding.spinnerMinutes.setSelection(0)
-            binding.spinnerHours.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(p0: AdapterView<*>?) {
+            binding.spinnerHours.onItemSelectedListener =
+                object : AdapterView.OnItemSelectedListener {
+                    override fun onNothingSelected(p0: AdapterView<*>?) {
 
-                }
+                    }
 
-                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                    hour = hourData[p2]
+                    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                        hour = hourData[p2]
 
 
 
-                    binding.spinnerMinutes.onItemSelectedListener =
-                        object : AdapterView.OnItemSelectedListener {
-                            override fun onNothingSelected(p0: AdapterView<*>?) {
-
-                            }
-
-                            override fun onItemSelected(
-                                p0: AdapterView<*>?,
-                                p1: View?,
-                                p2: Int,
-                                p3: Long
-                            ) {
-                                min = minData[p2]
-
-                                val timeAm:Button=binding.timeAm
-                                val timePm:Button=binding.timePm
-                                binding.timeAm.setOnClickListener {
-                                    timePm.isSelected=false
-                                    timeAm.isSelected=true
-                                    day = "AM"
-                                    time = "${day} ${hour}${min}"
-                                }
-                                binding.timePm.setOnClickListener {
-                                    timeAm.isSelected=false
-                                    timePm.isSelected=true
-                                    day = "PM"
-                                    time = "${day} ${hour}${min}"
+                        binding.spinnerMinutes.onItemSelectedListener =
+                            object : AdapterView.OnItemSelectedListener {
+                                override fun onNothingSelected(p0: AdapterView<*>?) {
 
                                 }
 
+                                override fun onItemSelected(
+                                    p0: AdapterView<*>?,
+                                    p1: View?,
+                                    p2: Int,
+                                    p3: Long
+                                ) {
+                                    min = minData[p2]
+
+                                    val timeAm: Button = binding.timeAm
+                                    val timePm: Button = binding.timePm
+                                    binding.timeAm.setOnClickListener {
+                                        timePm.isSelected = false
+                                        timeAm.isSelected = true
+                                        day = "AM"
+                                        time = "${day} ${hour}${min}"
+                                    }
+                                    binding.timePm.setOnClickListener {
+                                        timeAm.isSelected = false
+                                        timePm.isSelected = true
+                                        day = "PM"
+                                        time = "${day} ${hour}${min}"
+
+                                    }
+
+                                }
                             }
-                        }
+                    }
                 }
-            }
 
         }
 
@@ -248,38 +254,38 @@ class BoardWirteActivity : AppCompatActivity() {
             pickImage()
         }
 
-        val one:Button=binding.person1List
-        val two:Button=binding.person2List
-        val three:Button=binding.person3List
-        val four:Button=binding.personNList
+        val one: Button = binding.person1List
+        val two: Button = binding.person2List
+        val three: Button = binding.person3List
+        val four: Button = binding.personNList
 
         personList.add(one)
         personList.add(two)
         personList.add(three)
         personList.add(four)
-        var person = "1명"
+        var person = "2"
         binding.person1List.setOnClickListener {
-            person = "1명"
+            person = "2"
             personButtonSelect()
-            one.isSelected=true
+            one.isSelected = true
         }
 
         binding.person2List.setOnClickListener {
-            person = "2명"
+            person = "3"
             personButtonSelect()
-            two.isSelected=true
+            two.isSelected = true
         }
 
         binding.person3List.setOnClickListener {
-            person = "3명"
+            person = "4"
             personButtonSelect()
-            three.isSelected=true
+            three.isSelected = true
         }
 
         binding.personNList.setOnClickListener {
-            person = "4명"
+            person = "5"
             personButtonSelect()
-            four.isSelected=true
+            four.isSelected = true
         }
         //주소검색
         binding.searchBtn.setOnClickListener {
@@ -317,9 +323,9 @@ class BoardWirteActivity : AppCompatActivity() {
 
         binding.saveBtn.setOnClickListener {
 
-            val dialog= CustomDialog()
+            val dialog = CustomDialog()
 
-            dialog.setButtonClickListener(object :CustomDialog.OnButtonClickListener{
+            dialog.setButtonClickListener(object : CustomDialog.OnButtonClickListener {
                 override fun onButton1Clicked() {
                     //"아니오를 누른다면
                 }
@@ -334,12 +340,12 @@ class BoardWirteActivity : AppCompatActivity() {
 
                     val time_dm = time
                     //스피너로 입력하기
-                    var fee_dm =""
-                     if(binding.textFee.text.toString()=="") {
-                         fee_dm = "0원"
-                     }else{
-                         fee_dm=binding.textFee.text.toString().plus("원")
-                     }
+                    var fee_dm = ""
+                    if (binding.textFee.text.toString() == "") {
+                        fee_dm = "0원"
+                    } else {
+                        fee_dm = binding.textFee.text.toString().plus("원")
+                    }
                     Log.d("BWA", fee_dm)
                     val place_dm = binding.placeList.text.toString()
                     val mention_dm = binding.mention.text.toString()
@@ -379,7 +385,8 @@ class BoardWirteActivity : AppCompatActivity() {
                     val chatRoomData = ChatRoomData(title_dm, writer_uid)
                     //채팅방 정보 저장
                     chatRoomsRef.child(chatroomkey!!).setValue(chatRoomData)
-                    chatRoomsRef.child(chatroomkey!!).child("users").child(writer_uid).setValue(true)
+                    chatRoomsRef.child(chatroomkey!!).child("users").child(writer_uid)
+                        .setValue(true)
                     //각 사용자가 무슨 채팅방에 참여하고 있는지 저장
                     userRoomsRef.child(writer_uid).child(chatroomkey).setValue(true)
 
@@ -447,7 +454,8 @@ class BoardWirteActivity : AppCompatActivity() {
                     //채팅방 정보에 게시글 키 저장
                     chatRoomsRef.child(chatroomkey!!).child("boardKey")
                         .setValue("${writer_uid}+${title_dm.replace(" ", "")}")
-
+                    //채팅방 정보에 게시글 키 저장
+                    chatRoomsRef.child(chatroomkey!!).child("isClosed").setValue(false)
                     //지인(map-contents)
                     FBRef.board.child("${writer_uid}+${code}").setValue(model)
 //                    //글을 쓴 총대니까 채팅방으로 바로 이동
@@ -465,7 +473,31 @@ class BoardWirteActivity : AppCompatActivity() {
         }
 
     }
-    private fun Chat(roomKey:String){
+
+    private fun Chat(roomKey: String) {
+        //입장 메시지
+        val enter_chatData =
+            ChatData(
+                current_nickname,
+                "enter",
+                Auth.current_email!!,
+                Auth.current_uid,
+                System.currentTimeMillis()
+            )
+        //주문서 작성해달라는 공지 메시지 보내기
+        val notice_chatData =
+            ChatData(
+                "notice",
+                "[공지] 미리 주문서에 메뉴 올려주세요:)",
+                "notice",
+                "notice",
+                System.currentTimeMillis()
+            )
+        chatRoomsRef.child(roomKey!!).child("messages").push()
+            .setValue(enter_chatData)
+        chatRoomsRef.child(roomKey!!).child("messages").push()
+            .setValue(notice_chatData)
+
         //글을 쓴 총대니까 채팅방으로 바로 이동
         val intent = Intent(this, ChatRoomActivity::class.java).putExtra("채팅방키", roomKey)
         startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
@@ -503,16 +535,21 @@ class BoardWirteActivity : AppCompatActivity() {
         }
     }
 
-    private fun buttonSelect(){
-        for(i in categoryList) {
-            i.isSelected=false
+    private fun buttonSelect() {
+        for (i in categoryList) {
+            i.isSelected = false
         }
     }
 
-    private fun personButtonSelect(){
-        for(i in personList) {
-            i.isSelected=false
+    private fun personButtonSelect() {
+        for (i in personList) {
+            i.isSelected = false
         }
     }
 
+    fun getCurrentNickname() {
+        FBRef.usersRef.child(Auth.current_uid).child("nickname").get().addOnSuccessListener {
+            current_nickname = it.getValue().toString()
+        }
+    }
 }

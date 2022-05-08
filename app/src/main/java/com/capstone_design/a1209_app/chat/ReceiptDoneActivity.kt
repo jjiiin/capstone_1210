@@ -187,7 +187,11 @@ class ReceiptDoneActivity : AppCompatActivity() {
                         for (data in snapshot.children) {
                             userNum++
                         }
-                        indiv_delivery_fee = delivery_fee / userNum
+                        if (delivery_fee == 0) {
+                            indiv_delivery_fee = 0
+                        } else {
+                            indiv_delivery_fee = delivery_fee / userNum
+                        }
                         FBRef.chatRoomsRef.child(chatroomkey!!).child("receipts")
                             .child("individual_fee").setValue(
                                 indiv_delivery_fee
