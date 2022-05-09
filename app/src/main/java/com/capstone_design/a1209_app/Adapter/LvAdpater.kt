@@ -41,12 +41,6 @@ class LvAdpater(private val boardList: MutableList<dataModel>, private val conte
             converView =
                 LayoutInflater.from(parent?.context).inflate(R.layout.listview_item, parent, false)
         }
-//        val cv_title : TextView= converView!!.findViewById(R.id.item_title)
-//        //val cv_img=converView!!.findViewById(R.id.item_image)
-//        val cv_place: TextView=converView!!.findViewById(R.id.item_place)
-//        val cv_fee: TextView=converView!!.findViewById(R.id.item_fee)
-//        val cv_time: TextView=converView!!.findViewById(R.id.item_time)
-//        val cv_person: TextView=converView!!.findViewById(R.id.item_person)
         // 왜 커밋이 안되지
         val cv_title = converView!!.findViewById<TextView>(R.id.item_title)
         val cv_img = converView!!.findViewById<ImageView>(R.id.item_image)

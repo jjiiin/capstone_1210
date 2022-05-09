@@ -98,9 +98,10 @@
                                 <ImageView
                                     android:layout_width="11dp"
                                     android:layout_height="18dp"
-                                    android:src="@drawable/mark_character" />
+                                    android:src="@drawable/mhf_loc" />
 
                                 <TextView
+                                    android:id="@+id/addressTv"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="6dp"
@@ -109,6 +110,7 @@
                                     android:textSize="16sp" />
 
                                 <ImageView
+                                    android:id="@+id/mapGo"
                                     android:layout_width="7.4dp"
                                     android:layout_height="12dp"
                                     android:layout_marginLeft="9.6dp"
@@ -242,6 +244,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/layout_my_written"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"

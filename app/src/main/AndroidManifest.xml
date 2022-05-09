@@ -19,6 +19,9 @@
         android:theme="@style/Theme.1209_app"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".MyWrittenActivity"
+            android:exported="false" />
+        <activity
             android:name=".Mypage_Account_Setting_Activity"
             android:exported="false" />
         <activity
@@ -58,12 +61,12 @@
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" /> <!-- 지인님 api key -->
-
-           <!-- <meta-data
+        <!--
+ <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyB6nWMxeXA4h-S3Yx5VxlVXfqXE6EUkBgw" />-->
-
-<!--        &lt;!&ndash; 혜경 maps api key &ndash;&gt;-->
+            android:value="AIzaSyB6nWMxeXA4h-S3Yx5VxlVXfqXE6EUkBgw" />
+        -->
+        <!-- &lt;!&ndash; 혜경 maps api key &ndash;&gt; -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDjimMhkVC4kNZN77Hcy46iL8G0OVoZUAk" />

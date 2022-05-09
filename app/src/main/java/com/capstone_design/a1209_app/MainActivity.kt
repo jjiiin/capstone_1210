@@ -23,6 +23,7 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
     private  var mbinding : ActivityMainBinding?=null
     private val binding get()=mbinding!!
+    private var page=""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -34,8 +35,10 @@ class MainActivity : AppCompatActivity() {
         var bn_main=binding.bnNav
         bn_main.itemIconTintList = null
 
-
-
+        page=intent.getStringExtra("page").toString()
+        if(page=="my"){
+            setFragment(MyFragment())
+        }
 
         bn_main.run{
             setOnNavigationItemSelectedListener {
@@ -74,7 +77,7 @@ class MainActivity : AppCompatActivity() {
 
     fun setFragment(fragment: Fragment){
         val transaction=supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.frameLayout, fragment)
+        transaction.replace(R.id.fl_container, fragment)
         transaction.commit()
     }
 }

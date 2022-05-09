@@ -20,4 +20,20 @@
         <item name="android:minHeight">14dp</item>
         <item name="android:maxHeight">14dp</item>
     </style>
+<!--    &lt;!&ndash;Custom Font 적용&ndash;&gt;-->
+<!--    <style name="customTextViewFontStyle" parent="@android:style/Widget.DeviceDefault.TextView">-->
+<!--        <item name="android:fontFamily">@font/custom_font_family</item>-->
+<!--    </style>-->
+
+<!--    <style name="customButtonFontStyle" parent="@android:style/Widget.DeviceDefault.Button.Borderless">-->
+<!--        <item name="android:fontFamily">@font/custom_font_family</item>-->
+<!--    </style>-->
+
+<!--    <style name="customEditTextFontStyle" parent="@android:style/Widget.DeviceDefault.EditText">-->
+<!--        <item name="android:fontFamily">@font/custom_font_family</item>-->
+<!--    </style>-->
+
+<!--    <style name="customRadioButtonFontStyle" parent="@android:style/Widget.DeviceDefault.CompoundButton.RadioButton">-->
+<!--        <item name="android:fontFamily">@font/custom_font_family</item>-->
+<!--    </style>-->
 </resources>

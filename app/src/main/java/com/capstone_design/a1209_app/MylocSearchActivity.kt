@@ -140,7 +140,7 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
                     this, Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED
             ){
                 buildGoogleApiClient()
-                mMap!!.isMyLocationEnabled=true
+                mMap!!.isMyLocationEnabled=false
             }
         }else{
             buildGoogleApiClient()
@@ -328,7 +328,7 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
         bitmapDrawable=resources.getDrawable(drawableId)as BitmapDrawable
 
         //마커 크기 변환(크게)
-        val scaleBitmap= Bitmap.createScaledBitmap(bitmapDrawable.bitmap,150,235,false)
+        val scaleBitmap= Bitmap.createScaledBitmap(bitmapDrawable.bitmap,130,160,false)
         return BitmapDescriptorFactory.fromBitmap(scaleBitmap)
     }
     fun bottomSheet(loc:String,latLng: LatLng){

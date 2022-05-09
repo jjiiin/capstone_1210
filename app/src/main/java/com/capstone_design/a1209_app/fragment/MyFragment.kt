@@ -11,12 +11,18 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.capstone_design.a1209_app.*
 import com.capstone_design.a1209_app.auth.IntroActivity
+import com.capstone_design.a1209_app.dataModels.addressData
 import com.capstone_design.a1209_app.databinding.FragmentMyBinding
 import com.capstone_design.a1209_app.utils.Auth
 import com.capstone_design.a1209_app.utils.FBRef
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 
@@ -24,6 +30,7 @@ import com.google.firebase.storage.StorageReference
 class MyFragment : Fragment() {
     private lateinit var binding: FragmentMyBinding
     var isAccountExist = false
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +54,27 @@ class MyFragment : Fragment() {
 
         }
 
+        //현재 설정해둔 주소 출력하기
+        auth = Firebase.auth
+        val database = Firebase.database
+        val schRef: DatabaseReference =
+            database.getReference("users").child(auth.currentUser?.uid.toString()).child("address")
+        schRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (DataModel in snapshot.children) {
+                    val item = DataModel.getValue(addressData::class.java)
+                    if (item != null) {
+                        if(item.set=="1")
+                            binding.addressTv.text=item.address
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+
         binding.layoutAccountSetting.setOnClickListener {
             if (isAccountExist) {
                 val intent = Intent(context, Mypage_Account_Activity::class.java)
@@ -60,6 +88,18 @@ class MyFragment : Fragment() {
 
         binding.btnEdit.setOnClickListener {
             val intent = Intent(context, Mypage_Edit_Activity::class.java)
+            startActivity(intent)
+        }
+
+        binding.layoutMyWritten.setOnClickListener {
+            val intent = Intent(context, MyWrittenActivity::class.java)
+            startActivity(intent)
+        }
+
+
+        binding.mapGo.setOnClickListener {
+            val intent = Intent(context, AddressSearchActivity::class.java)
+                .putExtra("page","MyFragment")
             startActivity(intent)
         }
 

@@ -6,6 +6,7 @@
     android:background="@color/white"
     android:gravity="center_vertical"
     android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
     android:orientation="horizontal">
 
     <CheckBox
