@@ -62,6 +62,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="15dp"
             android:layout_marginRight="16dp"
+            android:paddingTop="10dp"
             android:layout_weight="1"
             app:layout_constraintBottom_toTopOf="@+id/bottom"
             app:layout_constraintTop_toBottomOf="@+id/layout_usernum" />
@@ -94,8 +95,8 @@
             android:background="@drawable/chatuser_rectangle"
             android:gravity="center_vertical|center_horizontal"
             android:orientation="horizontal"
+            android:layout_marginRight="17dp"
             app:layout_constraintEnd_toStartOf="@+id/menu_btn"
-            app:layout_constraintStart_toEndOf="@+id/tv_chatroom_title"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView

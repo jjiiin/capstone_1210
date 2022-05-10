@@ -16,6 +16,7 @@ import com.capstone_design.a1209_app.chat.ChatList_RVAdapter
 import com.capstone_design.a1209_app.chat.ChatRoomActivity
 import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.dataModels.notiData
+import java.util.*
 
 class RVNoteAdapter(val items: MutableList<notiData>, val context: Context, val keys:MutableList<String>) :
     RecyclerView.Adapter<RVNoteAdapter.ViewHolder>() {
@@ -32,7 +33,6 @@ class RVNoteAdapter(val items: MutableList<notiData>, val context: Context, val 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
         holder.content.text = item.content
-        holder.date.text = item.date
         val key = keys[position]
         //image
         holder.img.setImageResource(R.drawable.noti_new)
@@ -58,6 +58,27 @@ class RVNoteAdapter(val items: MutableList<notiData>, val context: Context, val 
         }
         if (item.chatroom_title != "") {
             holder.chatroom_title.text = item.chatroom_title
+        }
+
+        val currentTime = Calendar.getInstance().time
+        if ((currentTime.year - item.date.year) != 0) {
+            holder.date.text =
+                (currentTime.year - item.date.year).toString() + "년 전"
+        } else if ((currentTime.month - item.date.month) != 0) {
+            holder.date.text =
+                (currentTime.month - item.date.month).toString() + "달 전"
+        } else if ((currentTime.date - item.date.date) != 0) {
+            holder.date.text =
+                (currentTime.date - item.date.date).toString() + "일 전"
+        } else if ((currentTime.hours - item.date.hours) != 0) {
+            holder.date.text =
+                (currentTime.hours - item.date.hours).toString() + "시간 전"
+        } else if ((currentTime.minutes - item.date.minutes) != 0) {
+            holder.date.text =
+                (currentTime.minutes - item.date.minutes).toString() + "분 전"
+        } else {
+            holder.date.text =
+                (currentTime.seconds - item.date.seconds).toString() + "초 전"
         }
         holder.bind(item, key)
     }

@@ -40,6 +40,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 class BoardWirteActivity : AppCompatActivity() {
     //글쓰기 화면에 스피너 넣어야함.
@@ -414,10 +415,10 @@ class BoardWirteActivity : AppCompatActivity() {
                     //push알림
                     //앱에서 직접 다른 사람에게 푸시메세지 보내기
                     //새글알림
-                    val current = LocalDateTime.now()
+                   /* val current = LocalDateTime.now()
                     val formatter = DateTimeFormatter.ISO_DATE
-                    val formatted = current.format(formatter)
-
+                    val formatted = current.format(formatter)*/
+                    val time = Calendar.getInstance().time
                     //카테고리에 해당하는 token 배열 가져오기
                     //var tokenList= mutableListOf<String>()
                     val schRef: DatabaseReference =
@@ -426,7 +427,7 @@ class BoardWirteActivity : AppCompatActivity() {
                         val notiModel = NotiModel(
                             "Saveat - 새글알림",
                             "\"${categoryNoti}\" 카테고리에 새 글이 올라왔습니다.",
-                            formatted.toString()
+                            time
                         )
 
                         override fun onDataChange(snapshot: DataSnapshot) {
@@ -473,13 +474,14 @@ class BoardWirteActivity : AppCompatActivity() {
 
     private fun Chat(roomKey: String) {
         //입장 메시지
+        val time = Calendar.getInstance().time
         val enter_chatData =
             ChatData(
                 current_nickname,
                 "enter",
                 Auth.current_email!!,
                 Auth.current_uid,
-                System.currentTimeMillis()
+                time
             )
         //주문서 작성해달라는 공지 메시지 보내기
         val notice_chatData =
@@ -488,7 +490,7 @@ class BoardWirteActivity : AppCompatActivity() {
                 "[공지] 미리 주문서에 메뉴 올려주세요:)",
                 "notice",
                 "notice",
-                System.currentTimeMillis()
+                time
             )
         chatRoomsRef.child(roomKey!!).child("messages").push()
             .setValue(enter_chatData)

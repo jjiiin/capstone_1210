@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.dataModels.kwNotiData
+import java.util.*
 
 class RVKWAdapter(val items:MutableList<kwNotiData>, val keys:MutableList<String>): RecyclerView.Adapter<RVKWAdapter.ViewHolder> () {
     private var isCheckBtn_Show = false
@@ -22,9 +23,28 @@ class RVKWAdapter(val items:MutableList<kwNotiData>, val keys:MutableList<String
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item=items[position]
         holder.content.text=item.content
-        holder.date.text=item.date
         val key = keys[position]
         holder.bind(key)
+        val currentTime = Calendar.getInstance().time
+        if ((currentTime.year - item.date.year) != 0) {
+            holder.date.text =
+                (currentTime.year - item.date.year).toString() + "년 전"
+        } else if ((currentTime.month - item.date.month) != 0) {
+            holder.date.text =
+                (currentTime.month - item.date.month).toString() + "달 전"
+        } else if ((currentTime.date - item.date.date) != 0) {
+            holder.date.text =
+                (currentTime.date - item.date.date).toString() + "일 전"
+        } else if ((currentTime.hours - item.date.hours) != 0) {
+            holder.date.text =
+                (currentTime.hours - item.date.hours).toString() + "시간 전"
+        } else if ((currentTime.minutes - item.date.minutes) != 0) {
+            holder.date.text =
+                (currentTime.minutes - item.date.minutes).toString() + "분 전"
+        } else {
+            holder.date.text =
+                (currentTime.seconds - item.date.seconds).toString() + "초 전"
+        }
     }
 
     override fun getItemCount(): Int {

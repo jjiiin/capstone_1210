@@ -7,7 +7,7 @@ data class AccountChatData(
     val msg: String = "",
     val email: String = "",
     val uid: String = "",
-    val time: Long = 0,
+    val time: Date = Date(),
     val bankName: String = "",
     val receiverName: String = "",
     val accountNum: String = ""

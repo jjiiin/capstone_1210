@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:text="heehee"
-                android:textSize="15sp" />
+                android:textSize="12sp" />
 
             <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="wrap_content"
@@ -128,6 +128,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_marginLeft="6dp"
+            android:textSize="10sp"
+            android:textColor="#C4C4C4"
             android:text="오후 4:23" />
     </LinearLayout>
 

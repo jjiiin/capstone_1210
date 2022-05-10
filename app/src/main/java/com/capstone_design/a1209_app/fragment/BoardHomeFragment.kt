@@ -44,7 +44,7 @@ class BoardHomeFragment : Fragment(){
     val database = Firebase.database
     val myRef = database.getReference("BoardWirte")
     private var buttoncolor="all"
-//    private lateinit var category:String
+    //    private lateinit var category:String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -77,11 +77,11 @@ class BoardHomeFragment : Fragment(){
             override fun onDataChange(snapshot: DataSnapshot) {
                 for(data in snapshot.children){
                     if(data!=null){
-                            if(data.value=="1"){
-                                Log.d("data_",data.key.toString()+category)
-                                cateList.add(data.key.toString())
-                                //binding.noti.isChecked=true
-                            }
+                        if(data.value=="1"){
+                            Log.d("data_",data.key.toString()+category)
+                            cateList.add(data.key.toString())
+                            //binding.noti.isChecked=true
+                        }
                     }
                 }
             }
@@ -269,77 +269,77 @@ class BoardHomeFragment : Fragment(){
 
         binding.LvMain.adapter=adapter
 
-            binding.LvMain.setOnItemClickListener { parent, view, position, id ->
-                val intent = Intent(context, DetailActivity::class.java)
-                //firebase에 있는 board에 대한 데이터의 id를 가져오기
-                intent.putExtra("key", itemsKeyList[position])
-                Log.d("key", itemsKeyList[position])
-                startActivity(intent)
-            }
-
-            binding.writeBtn.setOnClickListener {
-                val intent = Intent(context, BoardWirteActivity::class.java)
-                startActivity(intent)
-            }
-
-            return binding.root
+        binding.LvMain.setOnItemClickListener { parent, view, position, id ->
+            val intent = Intent(context, DetailActivity::class.java)
+            //firebase에 있는 board에 대한 데이터의 id를 가져오기
+            intent.putExtra("key", itemsKeyList[position])
+            Log.d("key", itemsKeyList[position])
+            startActivity(intent)
         }
 
+        binding.writeBtn.setOnClickListener {
+            val intent = Intent(context, BoardWirteActivity::class.java)
+            startActivity(intent)
+        }
+
+        return binding.root
+    }
+
     private fun buttonColor(category:String){
-                binding.categoryAsian.setBackgroundResource(R.drawable.round_button)
-                binding.categoryAsian.setTextColor(Color.BLACK)
-                binding.categoryAsian.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
+        binding.categoryAsian.setBackgroundResource(R.drawable.round_button)
+        binding.categoryAsian.setTextColor(Color.BLACK)
+        binding.categoryAsian.setTypeface(binding.categoryAsian.typeface, Typeface.NORMAL)
 
 
-                binding.categoryBun.setBackgroundResource(R.drawable.round_button)
-                binding.categoryBun.setTextColor(Color.BLACK)
-                binding.categoryBun.setTypeface(binding.categoryBun.typeface, Typeface.NORMAL)
+        binding.categoryBun.setBackgroundResource(R.drawable.round_button)
+        binding.categoryBun.setTextColor(Color.BLACK)
+        binding.categoryBun.setTypeface(binding.categoryBun.typeface, Typeface.NORMAL)
 
 
-                binding.categoryKor.setBackgroundResource(R.drawable.round_button)
-                binding.categoryKor.setTextColor(Color.BLACK)
-                binding.categoryKor.setTypeface(binding.categoryKor.typeface, Typeface.NORMAL)
+        binding.categoryKor.setBackgroundResource(R.drawable.round_button)
+        binding.categoryKor.setTextColor(Color.BLACK)
+        binding.categoryKor.setTypeface(binding.categoryKor.typeface, Typeface.NORMAL)
 
 
-                binding.categoryJap.setBackgroundResource(R.drawable.round_button)
-                binding.categoryJap.setTextColor(Color.BLACK)
-                binding.categoryJap.setTypeface(binding.categoryJap.typeface, Typeface.NORMAL)
-
-
-
-                binding.categoryChi.setBackgroundResource(R.drawable.round_button)
-                binding.categoryChi.setTextColor(Color.BLACK)
-                binding.categoryChi.setTypeface(binding.categoryChi.typeface, Typeface.NORMAL)
-
-
-                binding.categoryFast.setBackgroundResource(R.drawable.round_button)
-                binding.categoryFast.setTextColor(Color.BLACK)
-                binding.categoryFast.setTypeface(binding.categoryFast.typeface, Typeface.NORMAL)
-
-
-                binding.categoryDo.setBackgroundResource(R.drawable.round_button)
-                binding.categoryDo.setTextColor(Color.BLACK)
-                binding.categoryDo.setTypeface(binding.categoryDo.typeface, Typeface.NORMAL)
+        binding.categoryJap.setBackgroundResource(R.drawable.round_button)
+        binding.categoryJap.setTextColor(Color.BLACK)
+        binding.categoryJap.setTypeface(binding.categoryJap.typeface, Typeface.NORMAL)
 
 
 
-                binding.categoryCafe.setBackgroundResource(R.drawable.round_button)
-                binding.categoryCafe.setTextColor(Color.BLACK)
-                binding.categoryCafe.setTypeface(binding.categoryCafe.typeface, Typeface.NORMAL)
+        binding.categoryChi.setBackgroundResource(R.drawable.round_button)
+        binding.categoryChi.setTextColor(Color.BLACK)
+        binding.categoryChi.setTypeface(binding.categoryChi.typeface, Typeface.NORMAL)
 
 
-                binding.categoryChicken.setBackgroundResource(R.drawable.round_button)
-                binding.categoryChicken.setTextColor(Color.BLACK)
-                binding.categoryChicken.setTypeface(binding.categoryChicken.typeface, Typeface.NORMAL)
+        binding.categoryFast.setBackgroundResource(R.drawable.round_button)
+        binding.categoryFast.setTextColor(Color.BLACK)
+        binding.categoryFast.setTypeface(binding.categoryFast.typeface, Typeface.NORMAL)
 
 
-                binding.categoryPizza.setBackgroundResource(R.drawable.round_button)
-                binding.categoryPizza.setTextColor(Color.BLACK)
-                binding.categoryPizza.setTypeface(binding.categoryPizza.typeface, Typeface.NORMAL)
+        binding.categoryDo.setBackgroundResource(R.drawable.round_button)
+        binding.categoryDo.setTextColor(Color.BLACK)
+        binding.categoryDo.setTypeface(binding.categoryDo.typeface, Typeface.NORMAL)
 
-                binding.categoryAll.setBackgroundResource(R.drawable.round_button)
-                binding.categoryAll.setTextColor(Color.BLACK)
-                binding.categoryAll.setTypeface(binding.categoryAll.typeface, Typeface.NORMAL)
+
+
+        binding.categoryCafe.setBackgroundResource(R.drawable.round_button)
+        binding.categoryCafe.setTextColor(Color.BLACK)
+        binding.categoryCafe.setTypeface(binding.categoryCafe.typeface, Typeface.NORMAL)
+
+
+        binding.categoryChicken.setBackgroundResource(R.drawable.round_button)
+        binding.categoryChicken.setTextColor(Color.BLACK)
+        binding.categoryChicken.setTypeface(binding.categoryChicken.typeface, Typeface.NORMAL)
+
+
+        binding.categoryPizza.setBackgroundResource(R.drawable.round_button)
+        binding.categoryPizza.setTextColor(Color.BLACK)
+        binding.categoryPizza.setTypeface(binding.categoryPizza.typeface, Typeface.NORMAL)
+
+        binding.categoryAll.setBackgroundResource(R.drawable.round_button)
+        binding.categoryAll.setTextColor(Color.BLACK)
+        binding.categoryAll.setTypeface(binding.categoryAll.typeface, Typeface.NORMAL)
 
 
         when(category){
@@ -418,9 +418,9 @@ class BoardHomeFragment : Fragment(){
                                         &&item.lat.toDouble()>=lat.toDouble()-0.005
                                         &&item.lng.toDouble()<= lng.toDouble()+0.005
                                         &&item.lng.toDouble()>=lng.toDouble()-0.005){
-                                items.add(item!!)
-                                cnt+=1
-                                itemsKeyList.add(data.key.toString())}
+                                        items.add(item!!)
+                                        cnt+=1
+                                        itemsKeyList.add(data.key.toString())}
                             }
                         }else{
                             if (category == item.category) {
@@ -428,9 +428,9 @@ class BoardHomeFragment : Fragment(){
                                     &&item.lat.toDouble()>=lat.toDouble()-0.005
                                     &&item.lng.toDouble()<= lng.toDouble()+0.005
                                     &&item.lng.toDouble()>=lng.toDouble()-0.005){
-                                items.add(item!!)
-                                cnt+=1
-                                itemsKeyList.add(data.key.toString())}
+                                    items.add(item!!)
+                                    cnt+=1
+                                    itemsKeyList.add(data.key.toString())}
                             }
                         }
                     }
@@ -505,30 +505,30 @@ class BoardHomeFragment : Fragment(){
                     val item = data.getValue(dataModel::class.java)
                     if (item != null) {
                         //Log.d("item_right",item.toString())
-                            if(quick=="1") {
-                                if(item.quick=="1") {
-                                    if(item.lat.toDouble()<= lat.toDouble()+0.005
-                                        &&item.lat.toDouble()>=lat.toDouble()-0.005
-                                        &&item.lng.toDouble()<= lng.toDouble()+0.005
-                                        &&item.lng.toDouble()>=lng.toDouble()-0.005){
-                                    items.add(item!!)
-                                    cnt+=1
-                                    Log.d("lat, lng",lat+lng)
-                                    itemsKeyList.add(data.key.toString())}
-                                }
-                            }else{
-                                Log.d("item_right","호출")
-                                Log.d("item_right",lat+" "+lng)
+                        if(quick=="1") {
+                            if(item.quick=="1") {
                                 if(item.lat.toDouble()<= lat.toDouble()+0.005
                                     &&item.lat.toDouble()>=lat.toDouble()-0.005
                                     &&item.lng.toDouble()<= lng.toDouble()+0.005
                                     &&item.lng.toDouble()>=lng.toDouble()-0.005){
-                                        items.add(item!!)
-                                        Log.d("item_right",item.toString())
-                                        cnt+=1
-                                        Log.d("lat, lng",lat+" "+lng)
-                                        itemsKeyList.add(data.key.toString())}
+                                    items.add(item!!)
+                                    cnt+=1
+                                    Log.d("lat, lng",lat+lng)
+                                    itemsKeyList.add(data.key.toString())}
                             }
+                        }else{
+                            Log.d("item_right","호출")
+                            Log.d("item_right",lat+" "+lng)
+                            if(item.lat.toDouble()<= lat.toDouble()+0.005
+                                &&item.lat.toDouble()>=lat.toDouble()-0.005
+                                &&item.lng.toDouble()<= lng.toDouble()+0.005
+                                &&item.lng.toDouble()>=lng.toDouble()-0.005){
+                                items.add(item!!)
+                                Log.d("item_right",item.toString())
+                                cnt+=1
+                                Log.d("lat, lng",lat+" "+lng)
+                                itemsKeyList.add(data.key.toString())}
+                        }
                     }
                     binding.count.text=cnt.toString()
                     adapter.notifyDataSetChanged()

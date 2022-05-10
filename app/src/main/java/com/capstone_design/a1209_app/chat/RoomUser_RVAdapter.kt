@@ -2,6 +2,7 @@ package com.capstone_design.a1209_app.chat
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,7 +49,12 @@ class RoomUser_RVAdapter(
         fun bindItems(item: UserData, uid: String) {
             itemView.findViewById<TextView>(R.id.rv_nickname_textView).setText(item.nickname)
             getRating(uid)
-
+            if(uid == ChatRoomActivity.hostUid){
+                itemView.findViewById<ImageView>(R.id.host_icon).visibility = View.VISIBLE
+            }
+            if(uid == Auth.current_uid){
+                itemView.findViewById<ImageView>(R.id.me_badge).visibility = View.VISIBLE
+            }
             itemView.setOnClickListener {
                 val intent =
                     Intent(context, Evaluation_Display_Activity::class.java).putExtra("uid", uid)

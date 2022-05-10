@@ -64,6 +64,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
@@ -814,11 +816,12 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun notification(keyword:String,title:String){
         Log.d("kwnoti",keyword)
-        val current = LocalDateTime.now()
+        val time = Calendar.getInstance().time
+      /*  val current = LocalDateTime.now()
         val formatter = DateTimeFormatter.ISO_DATE
-        val formatted = current.format(formatter)
-        val notiModel= NotiModel("Saveat - 키워드알림","\"${keyword}\" 배달 쉐어가 오픈됐습니다.",formatted.toString())
-        val kwnoti=kwNotiData("\"${keyword}\" 배달 쉐어가 오픈됐습니다.",formatted.toString(),title)
+        val formatted = current.format(formatter)*/
+        val notiModel= NotiModel("Saveat - 키워드알림","\"${keyword}\" 배달 쉐어가 오픈됐습니다.",time)
+        val kwnoti=kwNotiData("\"${keyword}\" 배달 쉐어가 오픈됐습니다.",time)
 
         FBRef.usersRef.child(auth.currentUser?.uid.toString()).child("kwNoti").push().setValue(kwnoti)
         val token=true

@@ -7,5 +7,5 @@ data class ChatData(
     val msg: String = "",
     val email: String = "",
     val uid: String = "",
-    val time: Long = 0
+    val time: Date = Date()
 )

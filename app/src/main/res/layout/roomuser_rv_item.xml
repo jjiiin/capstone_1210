@@ -5,11 +5,35 @@
     android:background="@color/white"
     android:gravity="center_vertical">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/rv_profile_btn"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:src="@drawable/profile_cat" />
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/host_icon"
+            android:layout_width="21dp"
+            android:layout_height="17dp"
+            android:layout_gravity="top|center_horizontal"
+            android:layout_marginTop="-2dp"
+            android:src="@drawable/host_icon"
+            android:visibility="gone" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/rv_profile_btn"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_gravity="center"
+            android:src="@drawable/profile_cat" />
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/me_badge"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginLeft="8dp"
+        android:src="@drawable/me_badge"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/rv_nickname_textView"
