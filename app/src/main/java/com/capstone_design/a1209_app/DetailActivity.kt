@@ -29,6 +29,7 @@ import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -92,13 +93,14 @@ class DetailActivity : AppCompatActivity() {
                 //각 사용자가 무슨 채팅방에 참여하고 있는지 저장
                 FBRef.userRoomsRef.child(Auth.current_uid).child(chatroomkey).setValue(true)
                 //입장 메시지
+                val time = Calendar.getInstance().time
                 val enter_chatData =
                     ChatData(
                         current_nickname,
                         "enter",
                         Auth.current_email!!,
                         Auth.current_uid,
-                        System.currentTimeMillis()
+                        time
                     )
                 //주문서 작성해달라는 공지 메시지 보내기
                 val notice_chatData =
@@ -107,7 +109,7 @@ class DetailActivity : AppCompatActivity() {
                         "[공지] 미리 주문서에 메뉴 올려주세요:)",
                         "notice",
                         "notice",
-                        System.currentTimeMillis()
+                        time
                     )
                 FBRef.chatRoomsRef.child(chatroomkey!!).child("messages").push()
                     .setValue(enter_chatData)
@@ -117,7 +119,7 @@ class DetailActivity : AppCompatActivity() {
                 val notiData_enter = NotiModel(
                     "Saveat - 알림",
                     "채팅방에 '${current_nickname}'님이 입장했어요.",
-                    "임시",
+                    Calendar.getInstance().time,
                     hostUID,
                     data.title
                 )
@@ -127,7 +129,7 @@ class DetailActivity : AppCompatActivity() {
                 //방장에게 정원 알림 보내기
                 if ((user_num + 1) == data.person.replace("[^\\d]".toRegex(), "").toInt()) {
                     val notiData_full =
-                        NotiModel("Saveat - 알림", "채팅방 인원이 다 찼어요.", "임시", hostUID, data.title)
+                        NotiModel("Saveat - 알림", "채팅방 인원이 다 찼어요.", Calendar.getInstance().time, hostUID, data.title)
                     val pushModel_full = PushNotification(notiData_full, "${host_token}")
                     testPush(pushModel_full)
                 }

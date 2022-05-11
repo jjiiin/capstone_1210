@@ -371,9 +371,9 @@ class BoardHomeFragment : Fragment() {
                                         &&item.lat.toDouble()>=lat.toDouble()-0.005
                                         &&item.lng.toDouble()<= lng.toDouble()+0.005
                                         &&item.lng.toDouble()>=lng.toDouble()-0.005){
-                                items.add(item!!)
-                                cnt+=1
-                                itemsKeyList.add(data.key.toString())}
+                                        items.add(item!!)
+                                        cnt+=1
+                                        itemsKeyList.add(data.key.toString())}
                             }
                         }else{
                             if (category == item.category) {
@@ -381,9 +381,9 @@ class BoardHomeFragment : Fragment() {
                                     &&item.lat.toDouble()>=lat.toDouble()-0.005
                                     &&item.lng.toDouble()<= lng.toDouble()+0.005
                                     &&item.lng.toDouble()>=lng.toDouble()-0.005){
-                                items.add(item!!)
-                                cnt+=1
-                                itemsKeyList.add(data.key.toString())}
+                                    items.add(item!!)
+                                    cnt+=1
+                                    itemsKeyList.add(data.key.toString())}
                             }
                         }
                     }
@@ -458,30 +458,30 @@ class BoardHomeFragment : Fragment() {
                     val item = data.getValue(dataModel::class.java)
                     if (item != null) {
                         //Log.d("item_right",item.toString())
-                            if(quick=="1") {
-                                if(item.quick=="1") {
-                                    if(item.lat.toDouble()<= lat.toDouble()+0.005
-                                        &&item.lat.toDouble()>=lat.toDouble()-0.005
-                                        &&item.lng.toDouble()<= lng.toDouble()+0.005
-                                        &&item.lng.toDouble()>=lng.toDouble()-0.005){
-                                    items.add(item!!)
-                                    cnt+=1
-                                    Log.d("lat, lng",lat+lng)
-                                    itemsKeyList.add(data.key.toString())}
-                                }
-                            }else{
-                                Log.d("item_right","호출")
-                                Log.d("item_right",lat+" "+lng)
+                        if(quick=="1") {
+                            if(item.quick=="1") {
                                 if(item.lat.toDouble()<= lat.toDouble()+0.005
                                     &&item.lat.toDouble()>=lat.toDouble()-0.005
                                     &&item.lng.toDouble()<= lng.toDouble()+0.005
                                     &&item.lng.toDouble()>=lng.toDouble()-0.005){
-                                        items.add(item!!)
-                                        Log.d("item_right",item.toString())
-                                        cnt+=1
-                                        Log.d("lat, lng",lat+" "+lng)
-                                        itemsKeyList.add(data.key.toString())}
+                                    items.add(item!!)
+                                    cnt+=1
+                                    Log.d("lat, lng",lat+lng)
+                                    itemsKeyList.add(data.key.toString())}
                             }
+                        }else{
+                            Log.d("item_right","호출")
+                            Log.d("item_right",lat+" "+lng)
+                            if(item.lat.toDouble()<= lat.toDouble()+0.005
+                                &&item.lat.toDouble()>=lat.toDouble()-0.005
+                                &&item.lng.toDouble()<= lng.toDouble()+0.005
+                                &&item.lng.toDouble()>=lng.toDouble()-0.005){
+                                items.add(item!!)
+                                Log.d("item_right",item.toString())
+                                cnt+=1
+                                Log.d("lat, lng",lat+" "+lng)
+                                itemsKeyList.add(data.key.toString())}
+                        }
                     }
                     binding.count.text=cnt.toString()
                     adapter.notifyDataSetChanged()

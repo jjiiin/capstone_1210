@@ -22,6 +22,7 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -104,7 +105,7 @@ class ReceiptBeforeAvtivity : AppCompatActivity() {
                     val notiData_receipt = NotiModel(
                         "Saveat - 알림",
                         "모든 참여자가 주문서를 작성했어요",
-                        "임시",
+                        Calendar.getInstance().time,
                         hostUid,
                         roomTitle
                     )

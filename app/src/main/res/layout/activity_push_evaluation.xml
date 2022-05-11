@@ -320,7 +320,7 @@
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:background="@drawable/receipt_button"
-                    android:backgroundTint="#E0E0E0"
+                    android:backgroundTint="#FD5401"
                     android:text="완료"
                     android:textColor="#ffffff"
                     android:textSize="14sp"

@@ -48,6 +48,7 @@ import com.google.firebase.storage.UploadTask
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -71,13 +72,16 @@ class ChatRoomActivity : AppCompatActivity() {
     var userNum = 0
     var num_maximumNum = 0
     var is_down_arrow_clicked = 0
-    var hostUid = ""
     var roomTitle = ""
     var chatroomkey = ""
     var isClosed = false
 
     //프로필 사진 요청 코드
     private val DEFAULT_GALLERY_REQUEST_CODE = 0
+
+    companion object{
+        var hostUid = ""
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -111,6 +115,9 @@ class ChatRoomActivity : AppCompatActivity() {
         //채팅 불러오기
         getMessages(chatroomkey!!, chats, rvAdapter)
 
+        //방장 uid 가져오기
+        getHostUid(chatroomkey)
+
         //채팅방 참여자 업데이트 감지
         getRoomUser(chatroomkey, roomuserRvadapter)
 
@@ -123,8 +130,6 @@ class ChatRoomActivity : AppCompatActivity() {
         //게시글 key 가져오기
         getBoardKey(chatroomkey)
 
-        //방장 uid 가져오기
-        getHostUid(chatroomkey)
 
         //버튼을 눌러 메뉴를 오픈할 수도 있고, 왼쪽에서 오른쪽으로 스왑해 오픈할 수 있습니다.
         //DrawerLayout의 id에 직접 openDrawer()메소드를 사용할 수 있습니다.
@@ -254,14 +259,15 @@ class ChatRoomActivity : AppCompatActivity() {
                     }
                 } else {    //등록된 계좌 있으면
                     val data = it.getValue(AccountData::class.java)
-                    val current_time = System.currentTimeMillis()
+                    val time = Calendar.getInstance().time
+                    //val current_time = System.currentTimeMillis()
                     val chatData1 =
                         AccountChatData(
                             current_nickname,
                             "(account)",
                             Auth.current_email!!,
                             Auth.current_uid,
-                            current_time,
+                            time,
                             data!!.bankName,
                             data.receiverName,
                             data.accountNum
@@ -272,7 +278,7 @@ class ChatRoomActivity : AppCompatActivity() {
                                 "'송금완료 버튼'을 눌러주세요 :)",
                         "notice",
                         "notice",
-                        System.currentTimeMillis()
+                        time
                     )
                     chatRoomsRef.child(chatroomkey!!).child("messages").push().setValue(chatData1)
                     chatRoomsRef.child(chatroomkey!!).child("messages").push().setValue(chatData2)
@@ -316,7 +322,8 @@ class ChatRoomActivity : AppCompatActivity() {
         val sendBtn = findViewById<Button>(R.id.btn_chat_send)
         sendBtn.setOnClickListener {
             val message = findViewById<EditText>(R.id.editText_chat_msg)
-            val current_time = System.currentTimeMillis()
+            val time = Calendar.getInstance().time
+            //val current_time = System.currentTimeMillis()
             //Log.d("시간",date.toString())
             val chatData =
                 ChatData(
@@ -324,7 +331,7 @@ class ChatRoomActivity : AppCompatActivity() {
                     message.text.toString(),
                     Auth.current_email!!,
                     Auth.current_uid,
-                    current_time
+                    time
                 )
             //myRef.push().setValue(chatData)
             chatRoomsRef.child(chatroomkey!!).child("messages").push().setValue(chatData)
@@ -497,7 +504,7 @@ class ChatRoomActivity : AppCompatActivity() {
                 if (userNum == num_maximumNum) {
                     chatRoomsRef.child(chatroomkey).child("isClosed").setValue(true)
                 } else {
-                    chatRoomsRef.child(chatroomkey).child("isClosed").setValue(false)
+                    //chatRoomsRef.child(chatroomkey).child("isClosed").setValue(false)
                 }
             }
 
@@ -578,7 +585,7 @@ class ChatRoomActivity : AppCompatActivity() {
                             val notiData_paid = NotiModel(
                                 "Saveat - 알림",
                                 "채팅방원들의 신뢰도를 평가해주세요!",
-                                "임시",
+                                Calendar.getInstance().time,
                                 data.key.toString(),
                                 roomTitle,
                                 chatroomkey
@@ -612,7 +619,8 @@ class ChatRoomActivity : AppCompatActivity() {
                 val photo_uri = data.data as Uri
                 var sub_uri = photo_uri.toString()
                 sub_uri = sub_uri.substring(sub_uri.length - 10, sub_uri.length)
-                val current_time = System.currentTimeMillis()
+                val time = Calendar.getInstance().time
+                //val current_time = System.currentTimeMillis()
                 //Log.d("시간",date.toString())
                 val chatData =
                     ChatData(
@@ -620,7 +628,7 @@ class ChatRoomActivity : AppCompatActivity() {
                         "(photo)" + sub_uri,
                         Auth.current_email!!,
                         Auth.current_uid,
-                        current_time
+                        time
                     )
                 //myRef.push().setValue(chatData)
                 chatRoomsRef.child(chatroomkey!!).child("messages").push().setValue(chatData)
