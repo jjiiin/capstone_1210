@@ -125,7 +125,7 @@ class LvAdpater(private val boardList: MutableList<dataModel>, private val conte
                     if (snapshot.value == true) {
                         var paint = Paint()
                         paint.setColor(Color.WHITE)
-                        paint.alpha = 210
+                        paint.alpha = 235
                         //카드뷰를 덮는 레이아웃에 붙투명 흰색 적용
                         card_view_layout.setBackgroundColor(paint.color)
                         //카드뷰 클릭해도 아무일도 일어나지않게

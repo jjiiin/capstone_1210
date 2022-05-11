@@ -24,6 +24,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 //유저의 토큰 정보 가져와서
 //Firebas서버로 메세지 보내라고 명령하고
@@ -49,9 +50,10 @@ class FirebaseService : FirebaseMessagingService() {
 
         val title = message.data["title"].toString()
         val body = message.data["content"].toString()
-        val current = LocalDateTime.now()
+        val time = Calendar.getInstance().time
+      /*  val current = LocalDateTime.now()
         val formatter = DateTimeFormatter.ISO_DATE
-        val formatted = current.format(formatter)
+        val formatted = current.format(formatter)*/
         val receiver_uid = message.data["receiver_uid"].toString()
         val chatroom_title = message.data["chatroom_title"].toString()
         val chatroom_key = message.data["chatroom_key"].toString()
@@ -61,17 +63,17 @@ class FirebaseService : FirebaseMessagingService() {
         sendNotification(title, body, chatroom_key)
 
         if (body.contains("카테고리")) {
-            newNotification(body, formatted)
+            newNotification(body, time)
         } else if (body.contains("인원")) {
-            fullUserNotification(receiver_uid, body, formatted, chatroom_title)
+            fullUserNotification(receiver_uid, body, time, chatroom_title)
         } else if (body.contains("입장")) {
-            enterNotification(receiver_uid, body, formatted, chatroom_title)
+            enterNotification(receiver_uid, body, time, chatroom_title)
         } else if (body.contains("송금")) {
-            payNotification(receiver_uid, body, formatted, chatroom_title)
+            payNotification(receiver_uid, body, time, chatroom_title)
         } else if (body.contains("주문서")) {
-            receiptNotification(receiver_uid, body, formatted, chatroom_title)
+            receiptNotification(receiver_uid, body, time, chatroom_title)
         } else if (body.contains("신뢰도")) {
-            EvaluationNotification(receiver_uid, body, formatted, chatroom_title, chatroom_key)
+            EvaluationNotification(receiver_uid, body, time, chatroom_title, chatroom_key)
         }
     }
 
@@ -113,7 +115,7 @@ class FirebaseService : FirebaseMessagingService() {
     }
 
     //firebase-users-notilist에 올리기(새글알림)
-    private fun newNotification(body: String, date: String) {
+    private fun newNotification(body: String, date: Date) {
         var category = ""
         if (body.contains("일식")) {
             category = "japan"
@@ -157,7 +159,7 @@ class FirebaseService : FirebaseMessagingService() {
     private fun fullUserNotification(
         uid: String,
         body: String,
-        date: String,
+        date: Date,
         chatroom_title: String
     ) {
 
@@ -170,7 +172,7 @@ class FirebaseService : FirebaseMessagingService() {
     }
 
     //firebase-users-notilist에 올리기(정원 다 참 알림)
-    private fun enterNotification(uid: String, body: String, date: String, chatroom_title: String) {
+    private fun enterNotification(uid: String, body: String, date: Date, chatroom_title: String) {
 
         val newNoti = notiData("enter", body, date, chatroom_title)
         auth = Firebase.auth
@@ -181,7 +183,7 @@ class FirebaseService : FirebaseMessagingService() {
     }
 
     //firebase-users-notilist에 올리기(송금 알림)
-    private fun payNotification(uid: String, body: String, date: String, chatroom_title: String) {
+    private fun payNotification(uid: String, body: String, date: Date, chatroom_title: String) {
 
         val newNoti = notiData("pay", body, date, chatroom_title)
         auth = Firebase.auth
@@ -195,7 +197,7 @@ class FirebaseService : FirebaseMessagingService() {
     private fun receiptNotification(
         uid: String,
         body: String,
-        date: String,
+        date: Date,
         chatroom_title: String
     ) {
 
@@ -211,7 +213,7 @@ class FirebaseService : FirebaseMessagingService() {
     private fun EvaluationNotification(
         uid: String,
         body: String,
-        date: String,
+        date: Date,
         chatroom_title: String,
         chatroom_key: String
     ) {

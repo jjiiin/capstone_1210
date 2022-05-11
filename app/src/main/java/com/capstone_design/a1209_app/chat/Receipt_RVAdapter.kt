@@ -31,6 +31,7 @@ import com.google.protobuf.Value
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -121,11 +122,18 @@ class Receipt_RVAdapter(
 
             //방장의 주문서에는 송금완료 버튼 안보이게
             if (item.uid == hostUid) {
-                nickname.text = nickname.text.toString()+"(방장)"
+                if(item.uid != Auth.current_uid){
+                    itemView.findViewById<TextView>(R.id.nickname_tv).background = null
+                }
+                nickname.text = nickname.text.toString() + "(방장)"
                 itemView.findViewById<CheckBox>(R.id.checkbox_pay).visibility = View.GONE
                 itemView.findViewById<TextView>(R.id.tv_paid).visibility = View.GONE
                 itemView.findViewById<TextView>(R.id.tv_host_paid).visibility = View.VISIBLE
+                itemView.findViewById<ImageView>(R.id.host_icon).visibility = View.VISIBLE
             } else {
+                if(item.uid != Auth.current_uid){
+                    itemView.findViewById<TextView>(R.id.nickname_tv).background = null
+                }
                 //입금완료 체크박스
                 val checkBox_pay = itemView.findViewById<CheckBox>(R.id.checkbox_pay)
                 //다른사람 송금완료 버튼은 안눌리게
@@ -167,11 +175,18 @@ class Receipt_RVAdapter(
 
             //방장의 주문서에는 송금완료 버튼 안보이게
             if (item.uid == hostUid) {
-                nickname.text = nickname.text.toString()+"(방장)"
+                if(item.uid != Auth.current_uid){
+                    itemView.findViewById<TextView>(R.id.nickname_tv).background = null
+                }
+                nickname.text = nickname.text.toString() + "(방장)"
                 itemView.findViewById<CheckBox>(R.id.checkbox_pay).visibility = View.GONE
                 itemView.findViewById<TextView>(R.id.tv_paid).visibility = View.GONE
                 itemView.findViewById<TextView>(R.id.tv_host_paid).visibility = View.VISIBLE
+                itemView.findViewById<ImageView>(R.id.host_icon).visibility = View.VISIBLE
             } else {
+                if(item.uid != Auth.current_uid){
+                    itemView.findViewById<TextView>(R.id.nickname_tv).background = null
+                }
                 //입금완료 체크박스
                 val checkBox_pay = itemView.findViewById<CheckBox>(R.id.checkbox_pay)
                 checkBox_pay.setOnClickListener {
@@ -246,7 +261,7 @@ fun checkAllPaid(chatroomKey: String, hostUid: String, roomTitle: String) {
             val notiData_paid = NotiModel(
                 "Saveat - 알림",
                 "모든 참여자가 송금을 완료했어요",
-                "임시",
+                Calendar.getInstance().time,
                 hostUid,
                 roomTitle
             )

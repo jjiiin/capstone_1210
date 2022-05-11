@@ -164,19 +164,17 @@ class Chat_RVAdapter(val items: MutableList<Any>, val context: Context, val chat
             rv_nickname.text = item.nickname
             val rv_msg = itemView.findViewById<TextView>(R.id.rv_msg_textView)
             rv_msg.text = item.msg
-
-            //저장된 시간의 오전 오후 정보 추출
-            val ampmCheck = SimpleDateFormat("aa")
-            val ampm = ampmCheck.format(item.time)
-            //저장된 시간을 "hh:mm" 형식으로 표시
-            val dateFormat = SimpleDateFormat("hh:mm")
-            val time = dateFormat.format(item.time)
             val rv_msgtime = itemView.findViewById<TextView>(R.id.rv_msg_time)
-            if (ampm.toString() == "AM") {
-                rv_msgtime.text = "오전 " + time.toString()
-            } else {
-                rv_msgtime.text = "오후 " + time.toString()
+            var ampm = ""
+            var hour = 0
+            if (item.time.hours > 12) {
+                ampm = "오후"
+                hour = item.time.hours - 12
+            }else{
+                ampm = "오전"
+                hour = item.time.hours
             }
+            rv_msgtime.text = "${ampm} ${hour}:${item.time.minutes}"
 
             itemView.findViewById<ImageView>(R.id.rv_profile_btn).setOnClickListener {
                 val intent =
@@ -188,14 +186,6 @@ class Chat_RVAdapter(val items: MutableList<Any>, val context: Context, val chat
                 context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
             }
 
-            //val rv_profile_btn = itemView.findViewById<Button>(R.id.rv_profile_btn)
-            /* rv_profile_btn.setOnClickListener {
-                 Intent(context, ProfileActivity::class.java).apply {
-                     putExtra("이메일", item.email)
-                     putExtra("닉네임", item.nickname)
-                 }.run { context.startActivity(this) }
-             }*/
-
         }
     }
 
@@ -205,42 +195,39 @@ class Chat_RVAdapter(val items: MutableList<Any>, val context: Context, val chat
             val item = item as ChatData
             val rv_msg = itemView.findViewById<TextView>(R.id.rv_msg_textView)
             rv_msg.text = item.msg
-
-            //저장된 시간의 오전 오후 정보 추출
-            val ampmCheck = SimpleDateFormat("aa")
-            val ampm = ampmCheck.format(item.time)
-            //저장된 시간을 "hh:mm" 형식으로 표시
-            val dateFormat = SimpleDateFormat("hh:mm")
-            val time = dateFormat.format(item.time)
             val rv_msgtime = itemView.findViewById<TextView>(R.id.rv_msg_time)
-            if (ampm.toString() == "AM") {
-                rv_msgtime.text = "오전 " + time.toString()
-            } else {
-                rv_msgtime.text = "오후 " + time.toString()
+            var ampm = ""
+            var hour = 0
+            if (item.time.hours > 12) {
+                ampm = "오후"
+                hour = item.time.hours - 12
+            }else{
+                ampm = "오전"
+                hour = item.time.hours
             }
+            rv_msgtime.text = "${ampm} ${hour}:${item.time.minutes}"
         }
     }
 
     inner class RightAccountiewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindItems(item: Any) {
             val item = item as AccountChatData
-            //저장된 시간의 오전 오후 정보 추출
-            val ampmCheck = SimpleDateFormat("aa")
-            val ampm = ampmCheck.format(item.time)
-            //저장된 시간을 "hh:mm" 형식으로 표시
-            val dateFormat = SimpleDateFormat("hh:mm")
-            val time = dateFormat.format(item.time)
             val rv_msgtime = itemView.findViewById<TextView>(R.id.rv_msg_time)
+            var ampm = ""
+            var hour = 0
+            if (item.time.hours > 12) {
+                ampm = "오후"
+                hour = item.time.hours - 12
+            }else{
+                ampm = "오전"
+                hour = item.time.hours
+            }
+            rv_msgtime.text = "${ampm} ${hour}:${item.time.minutes}"
 
             itemView.findViewById<TextView>(R.id.tv_bank_name).text = item.bankName
             itemView.findViewById<TextView>(R.id.tv_receiver_name).text = item.receiverName
             itemView.findViewById<TextView>(R.id.tv_account_num).text = item.accountNum
 
-            if (ampm.toString() == "AM") {
-                rv_msgtime.text = "오전 " + time.toString()
-            } else {
-                rv_msgtime.text = "오후 " + time.toString()
-            }
         }
     }
 
@@ -250,23 +237,22 @@ class Chat_RVAdapter(val items: MutableList<Any>, val context: Context, val chat
             getImage(itemView, item.uid)
             val rv_nickname = itemView.findViewById<TextView>(R.id.rv_nickname_textView)
             rv_nickname.text = item.nickname
-            //저장된 시간의 오전 오후 정보 추출
-            val ampmCheck = SimpleDateFormat("aa")
-            val ampm = ampmCheck.format(item.time)
-            //저장된 시간을 "hh:mm" 형식으로 표시
-            val dateFormat = SimpleDateFormat("hh:mm")
-            val time = dateFormat.format(item.time)
             val rv_msgtime = itemView.findViewById<TextView>(R.id.rv_msg_time)
+            var ampm = ""
+            var hour = 0
+            if (item.time.hours > 12) {
+                ampm = "오후"
+                hour = item.time.hours - 12
+            }else{
+                ampm = "오전"
+                hour = item.time.hours
+            }
+            rv_msgtime.text = "${ampm} ${hour}:${item.time.minutes}"
 
             itemView.findViewById<TextView>(R.id.tv_bank_name).text = item.bankName
             itemView.findViewById<TextView>(R.id.tv_receiver_name).text = item.receiverName
             itemView.findViewById<TextView>(R.id.tv_account_num).text = item.accountNum
 
-            if (ampm.toString() == "AM") {
-                rv_msgtime.text = "오전 " + time.toString()
-            } else {
-                rv_msgtime.text = "오후 " + time.toString()
-            }
             itemView.findViewById<ImageView>(R.id.rv_profile_btn).setOnClickListener {
                 val intent =
                     Intent(context, Evaluation_Display_Activity::class.java).putExtra(
@@ -299,19 +285,18 @@ class Chat_RVAdapter(val items: MutableList<Any>, val context: Context, val chat
     inner class RightPhotoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindItems(item: Any) {
             val item = item as ChatData
-            //저장된 시간의 오전 오후 정보 추출
-            val ampmCheck = SimpleDateFormat("aa")
-            val ampm = ampmCheck.format(item.time)
-            //저장된 시간을 "hh:mm" 형식으로 표시
-            val dateFormat = SimpleDateFormat("hh:mm")
-            val time = dateFormat.format(item.time)
             val rv_msgtime = itemView.findViewById<TextView>(R.id.rv_msg_time)
-
-            if (ampm.toString() == "AM") {
-                rv_msgtime.text = "오전 " + time.toString()
-            } else {
-                rv_msgtime.text = "오후 " + time.toString()
+            var ampm = ""
+            var hour = 0
+            if (item.time.hours > 12) {
+                ampm = "오후"
+                hour = item.time.hours - 12
+            }else{
+                ampm = "오전"
+                hour = item.time.hours
             }
+            rv_msgtime.text = "${ampm} ${hour}:${item.time.minutes}"
+
             val storage: FirebaseStorage = FirebaseStorage.getInstance()
             val storageRef: StorageReference = storage.getReference()
             storageRef.child("chat_img/${chatroomkey}/" + item.msg.substring(7) + ".jpg")
@@ -331,19 +316,18 @@ class Chat_RVAdapter(val items: MutableList<Any>, val context: Context, val chat
             getImage(itemView, item.uid)
             val rv_nickname = itemView.findViewById<TextView>(R.id.rv_nickname_textView)
             rv_nickname.text = item.nickname
-            //저장된 시간의 오전 오후 정보 추출
-            val ampmCheck = SimpleDateFormat("aa")
-            val ampm = ampmCheck.format(item.time)
-            //저장된 시간을 "hh:mm" 형식으로 표시
-            val dateFormat = SimpleDateFormat("hh:mm")
-            val time = dateFormat.format(item.time)
             val rv_msgtime = itemView.findViewById<TextView>(R.id.rv_msg_time)
-
-            if (ampm.toString() == "AM") {
-                rv_msgtime.text = "오전 " + time.toString()
-            } else {
-                rv_msgtime.text = "오후 " + time.toString()
+            var ampm = ""
+            var hour = 0
+            if (item.time.hours > 12) {
+                ampm = "오후"
+                hour = item.time.hours - 12
+            }else{
+                ampm = "오전"
+                hour = item.time.hours
             }
+            rv_msgtime.text = "${ampm} ${hour}:${item.time.minutes}"
+            
             itemView.findViewById<ImageView>(R.id.rv_profile_btn).setOnClickListener {
                 val intent =
                     Intent(context, Evaluation_Display_Activity::class.java).putExtra(

@@ -116,18 +116,39 @@ class ChatList_RVAdapter(
                     val chatData = data.getValue<ChatData>()
                     //최근 메시지 띄우기
                     itemView.findViewById<TextView>(R.id.tv_msg).text = chatData!!.msg
-                    //저장된 시간의 오전 오후 정보 추출
-                    val ampmCheck = SimpleDateFormat("aa")
-                    val ampm = ampmCheck.format(chatData.time)
-                    //저장된 시간을 "hh:mm" 형식으로 표시
-                    val dateFormat = SimpleDateFormat("hh:mm")
-                    val time = dateFormat.format(chatData.time)
+                    val currentTime = Calendar.getInstance().time
                     val rv_msgtime = itemView.findViewById<TextView>(R.id.tv_time)
-                    if (ampm.toString() == "AM") {
-                        rv_msgtime.text = "오전 " + time.toString()
+                    if ((currentTime.year - chatData.time.year) != 0) {
+                        rv_msgtime.text =
+                            (currentTime.year - chatData.time.year).toString() + "년 전"
+                    } else if ((currentTime.month - chatData.time.month) != 0) {
+                        rv_msgtime.text =
+                            (currentTime.month - chatData.time.month).toString() + "달 전"
+                    } else if ((currentTime.date - chatData.time.date) != 0) {
+                        rv_msgtime.text =
+                            (currentTime.date - chatData.time.date).toString() + "일 전"
+                    } else if ((currentTime.hours - chatData.time.hours) != 0) {
+                        rv_msgtime.text =
+                            (currentTime.hours - chatData.time.hours).toString() + "시간 전"
+                    } else if ((currentTime.minutes - chatData.time.minutes) != 0) {
+                        rv_msgtime.text =
+                            (currentTime.minutes - chatData.time.minutes).toString() + "분 전"
                     } else {
-                        rv_msgtime.text = "오후 " + time.toString()
+                        rv_msgtime.text =
+                            (currentTime.seconds - chatData.time.seconds).toString() + "초 전"
                     }
+                    //저장된 시간의 오전 오후 정보 추출
+                    /* val ampmCheck = SimpleDateFormat("aa")
+                     val ampm = ampmCheck.format(chatData.time)
+                     //저장된 시간을 "hh:mm" 형식으로 표시
+                     val dateFormat = SimpleDateFormat("hh:mm")
+                     val time = dateFormat.format(chatData.time)
+                     val rv_msgtime = itemView.findViewById<TextView>(R.id.tv_time)
+                     if (ampm.toString() == "AM") {
+                         rv_msgtime.text = "오전 " + time.toString()
+                     } else {
+                         rv_msgtime.text = "오후 " + time.toString()
+                     }*/
                 }
             }
 
@@ -152,115 +173,134 @@ class ChatList_RVAdapter(
                     //참가자 수에 따라서 채팅방 썸네일 다르게
                     val storage: FirebaseStorage = FirebaseStorage.getInstance()
                     val storageRef: StorageReference = storage.getReference()
-                    when(num){
-                        1->{
-                            itemView.findViewById<LinearLayout>(R.id.layout1).visibility = View.VISIBLE
+                    when (num) {
+                        1 -> {
+                            itemView.findViewById<LinearLayout>(R.id.layout1).visibility =
+                                View.VISIBLE
                             storageRef.child("profile_img/" + uids[0] + ".jpg").getDownloadUrl()
                                 .addOnSuccessListener {
-                                    Glide.with(context).load(it).into(itemView.findViewById(R.id.profile1_layout1))
+                                    Glide.with(context).load(it)
+                                        .into(itemView.findViewById(R.id.profile1_layout1))
                                 }.addOnFailureListener {
                                     itemView.findViewById<ImageView>(R.id.profile1_layout1)
                                         .setImageResource(R.drawable.profile_cat)
                                 }
                         }
-                        2->{
-                            itemView.findViewById<LinearLayout>(R.id.layout2).visibility = View.VISIBLE
+                        2 -> {
+                            itemView.findViewById<LinearLayout>(R.id.layout2).visibility =
+                                View.VISIBLE
                             storageRef.child("profile_img/" + uids[0] + ".jpg").getDownloadUrl()
                                 .addOnSuccessListener {
-                                    Glide.with(context).load(it).into(itemView.findViewById(R.id.profile1_layout2))
+                                    Glide.with(context).load(it)
+                                        .into(itemView.findViewById(R.id.profile1_layout2))
                                 }.addOnFailureListener {
                                     itemView.findViewById<ImageView>(R.id.profile1_layout2)
                                         .setImageResource(R.drawable.profile_cat)
                                 }
                             storageRef.child("profile_img/" + uids[1] + ".jpg").getDownloadUrl()
                                 .addOnSuccessListener {
-                                    Glide.with(context).load(it).into(itemView.findViewById(R.id.profile2_layout2))
+                                    Glide.with(context).load(it)
+                                        .into(itemView.findViewById(R.id.profile2_layout2))
                                 }.addOnFailureListener {
                                     itemView.findViewById<ImageView>(R.id.profile2_layout2)
                                         .setImageResource(R.drawable.profile_cat)
                                 }
                         }
-                        3->{
-                            itemView.findViewById<LinearLayout>(R.id.layout3).visibility = View.VISIBLE
+                        3 -> {
+                            itemView.findViewById<LinearLayout>(R.id.layout3).visibility =
+                                View.VISIBLE
                             storageRef.child("profile_img/" + uids[0] + ".jpg").getDownloadUrl()
                                 .addOnSuccessListener {
-                                    Glide.with(context).load(it).into(itemView.findViewById(R.id.profile1_layout3))
+                                    Glide.with(context).load(it)
+                                        .into(itemView.findViewById(R.id.profile1_layout3))
                                 }.addOnFailureListener {
                                     itemView.findViewById<ImageView>(R.id.profile1_layout3)
                                         .setImageResource(R.drawable.profile_cat)
                                 }
                             storageRef.child("profile_img/" + uids[1] + ".jpg").getDownloadUrl()
                                 .addOnSuccessListener {
-                                    Glide.with(context).load(it).into(itemView.findViewById(R.id.profile2_layout3))
+                                    Glide.with(context).load(it)
+                                        .into(itemView.findViewById(R.id.profile2_layout3))
                                 }.addOnFailureListener {
                                     itemView.findViewById<ImageView>(R.id.profile2_layout3)
                                         .setImageResource(R.drawable.profile_cat)
                                 }
                             storageRef.child("profile_img/" + uids[2] + ".jpg").getDownloadUrl()
                                 .addOnSuccessListener {
-                                    Glide.with(context).load(it).into(itemView.findViewById(R.id.profile3_layout3))
+                                    Glide.with(context).load(it)
+                                        .into(itemView.findViewById(R.id.profile3_layout3))
                                 }.addOnFailureListener {
                                     itemView.findViewById<ImageView>(R.id.profile3_layout3)
                                         .setImageResource(R.drawable.profile_cat)
                                 }
                         }
-                        4->{
-                            itemView.findViewById<LinearLayout>(R.id.layout4).visibility = View.VISIBLE
+                        4 -> {
+                            itemView.findViewById<LinearLayout>(R.id.layout4).visibility =
+                                View.VISIBLE
                             storageRef.child("profile_img/" + uids[0] + ".jpg").getDownloadUrl()
                                 .addOnSuccessListener {
-                                    Glide.with(context).load(it).into(itemView.findViewById(R.id.profile1_layout4))
+                                    Glide.with(context).load(it)
+                                        .into(itemView.findViewById(R.id.profile1_layout4))
                                 }.addOnFailureListener {
                                     itemView.findViewById<ImageView>(R.id.profile1_layout4)
                                         .setImageResource(R.drawable.profile_cat)
                                 }
                             storageRef.child("profile_img/" + uids[1] + ".jpg").getDownloadUrl()
                                 .addOnSuccessListener {
-                                    Glide.with(context).load(it).into(itemView.findViewById(R.id.profile2_layout4))
+                                    Glide.with(context).load(it)
+                                        .into(itemView.findViewById(R.id.profile2_layout4))
                                 }.addOnFailureListener {
                                     itemView.findViewById<ImageView>(R.id.profile2_layout4)
                                         .setImageResource(R.drawable.profile_cat)
                                 }
                             storageRef.child("profile_img/" + uids[2] + ".jpg").getDownloadUrl()
                                 .addOnSuccessListener {
-                                    Glide.with(context).load(it).into(itemView.findViewById(R.id.profile3_layout4))
+                                    Glide.with(context).load(it)
+                                        .into(itemView.findViewById(R.id.profile3_layout4))
                                 }.addOnFailureListener {
                                     itemView.findViewById<ImageView>(R.id.profile3_layout4)
                                         .setImageResource(R.drawable.profile_cat)
                                 }
                             storageRef.child("profile_img/" + uids[3] + ".jpg").getDownloadUrl()
                                 .addOnSuccessListener {
-                                    Glide.with(context).load(it).into(itemView.findViewById(R.id.profile4_layout4))
+                                    Glide.with(context).load(it)
+                                        .into(itemView.findViewById(R.id.profile4_layout4))
                                 }.addOnFailureListener {
                                     itemView.findViewById<ImageView>(R.id.profile4_layout4)
                                         .setImageResource(R.drawable.profile_cat)
                                 }
                         }
-                        else->{
-                            itemView.findViewById<LinearLayout>(R.id.layout4).visibility = View.VISIBLE
+                        else -> {
+                            itemView.findViewById<LinearLayout>(R.id.layout4).visibility =
+                                View.VISIBLE
                             storageRef.child("profile_img/" + uids[0] + ".jpg").getDownloadUrl()
                                 .addOnSuccessListener {
-                                    Glide.with(context).load(it).into(itemView.findViewById(R.id.profile1_layout4))
+                                    Glide.with(context).load(it)
+                                        .into(itemView.findViewById(R.id.profile1_layout4))
                                 }.addOnFailureListener {
                                     itemView.findViewById<ImageView>(R.id.profile1_layout4)
                                         .setImageResource(R.drawable.profile_cat)
                                 }
                             storageRef.child("profile_img/" + uids[1] + ".jpg").getDownloadUrl()
                                 .addOnSuccessListener {
-                                    Glide.with(context).load(it).into(itemView.findViewById(R.id.profile2_layout4))
+                                    Glide.with(context).load(it)
+                                        .into(itemView.findViewById(R.id.profile2_layout4))
                                 }.addOnFailureListener {
                                     itemView.findViewById<ImageView>(R.id.profile2_layout4)
                                         .setImageResource(R.drawable.profile_cat)
                                 }
                             storageRef.child("profile_img/" + uids[2] + ".jpg").getDownloadUrl()
                                 .addOnSuccessListener {
-                                    Glide.with(context).load(it).into(itemView.findViewById(R.id.profile3_layout4))
+                                    Glide.with(context).load(it)
+                                        .into(itemView.findViewById(R.id.profile3_layout4))
                                 }.addOnFailureListener {
                                     itemView.findViewById<ImageView>(R.id.profile3_layout4)
                                         .setImageResource(R.drawable.profile_cat)
                                 }
                             storageRef.child("profile_img/" + uids[3] + ".jpg").getDownloadUrl()
                                 .addOnSuccessListener {
-                                    Glide.with(context).load(it).into(itemView.findViewById(R.id.profile4_layout4))
+                                    Glide.with(context).load(it)
+                                        .into(itemView.findViewById(R.id.profile4_layout4))
                                 }.addOnFailureListener {
                                     itemView.findViewById<ImageView>(R.id.profile4_layout4)
                                         .setImageResource(R.drawable.profile_cat)
@@ -274,6 +314,7 @@ class ChatList_RVAdapter(
 
             })
     }
+
     fun getImage(itemView: View, uid: String) {
         val storage: FirebaseStorage = FirebaseStorage.getInstance()
         val storageRef: StorageReference = storage.getReference()

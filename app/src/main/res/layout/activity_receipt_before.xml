@@ -46,7 +46,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="22dp"
+                android:layout_gravity="center"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -87,11 +87,11 @@
 
                 <ImageView
                     android:id="@+id/profile_img"
-                    android:layout_width="79dp"
-                    android:layout_height="79dp"
-                    android:src="@drawable/receipt_profile_cat"
+                    android:layout_width="99dp"
+                    android:layout_height="67dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    android:src="@drawable/receipt_profile_cat"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -100,7 +100,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="21dp"
+            android:layout_marginTop="32dp"
             android:orientation="vertical">
 
             <TextView
