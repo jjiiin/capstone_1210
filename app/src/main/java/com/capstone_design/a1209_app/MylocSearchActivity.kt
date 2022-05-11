@@ -344,7 +344,6 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
                 .putExtra("경도",latLng.longitude)
                 .putExtra("page",page)
             startActivity(intent)
-            finish()
         }
     }
 
