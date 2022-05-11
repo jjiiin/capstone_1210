@@ -1,5 +1,6 @@
 package com.capstone_design.a1209_app
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.DisplayMetrics
@@ -17,6 +18,7 @@ import com.capstone_design.a1209_app.utils.FBRef
 import com.google.firebase.database.ktx.getValue
 import com.capstone_design.a1209_app.dataModels.UserData
 import com.capstone_design.a1209_app.databinding.ActivityPushEvaluationBinding
+import com.capstone_design.a1209_app.fragment.MapHomeFragment
 import com.capstone_design.a1209_app.utils.Auth
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -34,6 +36,8 @@ class Push_Evaluation_Activity : AppCompatActivity() {
     var clicked_uid = ""
     var currentUserNickname = ""
     var last_click_btn_id = 0   //직전에 눌린 버튼의 id (새로운 버튼 클릭시 이 id의 버튼 클릭 해제하기 위해)
+    var last_click_uid = ""   //직전에 눌린 프로필의 uid
+    var ratingDatas = mutableListOf<HashMap<String, Any>>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,8 +91,24 @@ class Push_Evaluation_Activity : AppCompatActivity() {
             val content: String = binding.etContents.text.toString()
             val time = Calendar.getInstance().time
             val writer_uid = Auth.current_uid
-            FBRef.usersRef.child(clicked_uid!!).child("rating_datas").push()
-                .setValue(RatingData(rating, content, currentUserNickname!!, time, writer_uid))
+            val ratingData = HashMap<String, Any>()
+            ratingData.put("uid", last_click_uid)
+            ratingData.put(
+                "data",
+                RatingData(rating, content, currentUserNickname!!, time, writer_uid)
+            )
+            if (ratingDatas.size > last_click_btn_id) { //해당 번째 프로필의 평가가 저장되어 있다면 평가 덮어쓰기
+                ratingDatas.set(last_click_btn_id, ratingData)
+            } else {    //해당 번째 프로필의 평가가 저장되어 있지않다면 평가 추가
+                ratingDatas.add(last_click_btn_id, ratingData)
+            }
+            for (data in ratingDatas) {
+                val uid = data.get("uid")
+                val ratingData = data.get("data")
+                FBRef.usersRef.child(uid.toString()).child("rating_datas").push()
+                    .setValue(ratingData)
+            }
+            finish()
         }
     }
 
@@ -171,6 +191,7 @@ class Push_Evaluation_Activity : AppCompatActivity() {
                         imageView!!.setPadding(pic_padding.toInt())
                         imageView.setBackgroundResource(R.drawable.profile_img_border)
                         last_click_btn_id = imageView.id
+                        last_click_uid = item.get("uid").toString()
                     }
                     index++
                 }
@@ -190,16 +211,43 @@ class Push_Evaluation_Activity : AppCompatActivity() {
         View.OnClickListener {
         override fun onClick(v: View?) {
             if (v!!.id != last_click_btn_id) {    //직전에 선택된 버튼과 내가 지금 누른 버튼이 다를 때, 직전 버튼 클릭 해제(테두리 없앰)
+                val rating: Float = binding.tvRating.text.toString().toFloat()
+                val content: String = binding.etContents.text.toString()
+                val time = Calendar.getInstance().time
+                val writer_uid = Auth.current_uid
                 findViewById<ImageView>(last_click_btn_id).setPadding(0)
                 findViewById<ImageView>(last_click_btn_id).background = null
+                //직전에 선택했던 프로필의 평가 저장
+                val ratingData = HashMap<String, Any>()
+                ratingData.put("uid", last_click_uid)
+                ratingData.put(
+                    "data",
+                    RatingData(rating, content, currentUserNickname!!, time, writer_uid)
+                )
+                if (ratingDatas.size > last_click_btn_id) { //해당 번째 프로필의 평가가 저장되어 있다면 평가 덮어쓰기
+                    ratingDatas.set(last_click_btn_id, ratingData)
+                } else {    //해당 번째 프로필의 평가가 저장되어 있지않다면 평가 추가
+                    ratingDatas.add(last_click_btn_id, ratingData)
+                }
+                //다음 사람 평가를 위해 초기화
+                binding.etContents.setText("")
+                binding.tvRating.setText("3.5")
+                binding.ratingBar.rating = 3.5F
             }
             last_click_btn_id = v.id
+            last_click_uid = item.get("uid").toString()
             clicked_nickname = item.get("nickname").toString()
             clicked_uid = item.get("uid").toString()
             binding.tvNickname.text = clicked_nickname
             //현재 클릭한 버튼에에테두리 적용
             v!!.setPadding(pic_padding.toInt())
             v.setBackgroundResource(R.drawable.profile_img_border)
+            if (ratingDatas.size > last_click_btn_id) { //만약 프로필 버튼을 클릭해 평가를 다시하는 경우
+                val data = ratingDatas.get(last_click_btn_id).get("data") as RatingData
+                binding.etContents.setText(data.content)
+                binding.tvRating.setText(data.rating.toString())
+                binding.ratingBar.rating = data.rating
+            }
         }
 
     }

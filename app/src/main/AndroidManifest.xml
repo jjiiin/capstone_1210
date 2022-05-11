@@ -19,6 +19,9 @@
         android:theme="@style/Theme.1209_app"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".Mypage_Notification_Setting"
+            android:exported="false" />
+        <activity
             android:name=".MyWrittenActivity"
             android:exported="false" />
         <activity

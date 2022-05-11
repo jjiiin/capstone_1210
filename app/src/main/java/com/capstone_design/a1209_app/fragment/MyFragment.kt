@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.capstone_design.a1209_app.*
 import com.capstone_design.a1209_app.auth.IntroActivity
+import com.capstone_design.a1209_app.dataModels.RatingData
 import com.capstone_design.a1209_app.dataModels.addressData
 import com.capstone_design.a1209_app.databinding.FragmentMyBinding
 import com.capstone_design.a1209_app.utils.Auth
@@ -49,9 +50,13 @@ class MyFragment : Fragment() {
         getImage()
         getAccount()
 
-        binding.tvLogout.setOnClickListener {
+        binding.layoutLogout.setOnClickListener {
             Auth.auth.signOut()
 
+        }
+
+        binding.layoutNotiSetting.setOnClickListener{
+            startActivity(Intent(context, Mypage_Notification_Setting::class.java))
         }
 
         //현재 설정해둔 주소 출력하기
@@ -107,6 +112,38 @@ class MyFragment : Fragment() {
     }
 
     fun getRating() {
+        FBRef.usersRef.child(Auth.current_uid).child("rating_datas")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    var rating_sum = 0f
+                    var rating_num = 0
+                    if (snapshot.value == null) {
+                        binding.tvRating.text = "3.5"
+                        binding.ratingBar.rating = 3.5F
+                    } else {
+                        for (data in snapshot.children) {
+                            val ratingData = data.getValue(RatingData::class.java)
+                            rating_sum += ratingData!!.rating
+                            rating_num++
+                        }
+                        var rating_avg = rating_sum / rating_num
+                        //소수점 일의자리까지 반올림
+                        rating_avg = String.format(
+                            "%.1f",
+                            rating_avg
+                        ).toFloat()
+                        binding.tvRating.text = rating_avg.toString()
+                        binding.ratingBar.rating = rating_avg
+                    }
+
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                }
+
+            })
+    }
+    /*fun getRating() {
         FBRef.usersRef.child(Auth.current_uid).child("rating")
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -124,7 +161,7 @@ class MyFragment : Fragment() {
                 }
 
             })
-    }
+    }*/
 
     fun getNickName() {
         FBRef.usersRef.child(Auth.current_uid).child("nickname")

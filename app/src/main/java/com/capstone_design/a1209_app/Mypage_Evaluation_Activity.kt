@@ -47,7 +47,6 @@ class Mypage_Evaluation_Activity : AppCompatActivity() {
                     var rating_num = 0
                     for (data in snapshot.children) {
                         val ratingData = data.getValue(RatingData::class.java)
-
                         rating_num++
                         ratingLists.add(ratingData!!)
                     }
