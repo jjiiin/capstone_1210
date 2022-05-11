@@ -361,6 +361,7 @@ class BoardHomeFragment : Fragment() {
         boardRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 items.clear()
+                itemsKeyList.clear()
                 for (data in snapshot.children) {
                     val item = data.getValue(dataModel::class.java)
                     if (item != null) {
@@ -454,6 +455,7 @@ class BoardHomeFragment : Fragment() {
         boardRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 items.clear()
+                itemsKeyList.clear()
                 for (data in snapshot.children) {
                     val item = data.getValue(dataModel::class.java)
                     if (item != null) {
