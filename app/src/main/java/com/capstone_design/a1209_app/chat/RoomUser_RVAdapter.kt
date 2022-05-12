@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.capstone_design.a1209_app.Evaluation_Display_Activity
 import com.capstone_design.a1209_app.R
+import com.capstone_design.a1209_app.dataModels.RatingData
 import com.capstone_design.a1209_app.dataModels.UserData
 import com.capstone_design.a1209_app.utils.Auth
 import com.capstone_design.a1209_app.utils.FBRef
@@ -64,7 +65,7 @@ class RoomUser_RVAdapter(
             getImage(uid)
         }
 
-        fun getRating(uid: String) {
+       /* fun getRating(uid: String) {
             FBRef.usersRef.child(uid).child("rating")
                 .addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
@@ -74,6 +75,37 @@ class RoomUser_RVAdapter(
                             val rating = snapshot.value.toString()
                             itemView.findViewById<TextView>(R.id.tv_rating).text = rating
                         }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                    }
+
+                })
+        }*/
+
+        fun getRating(uid: String) {
+            FBRef.usersRef.child(uid).child("rating_datas")
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        var rating_sum = 0f
+                        var rating_num = 0
+                        if (snapshot.value == null) {
+                            itemView.findViewById<TextView>(R.id.tv_rating).text = "3.5"
+                        } else {
+                            for (data in snapshot.children) {
+                                val ratingData = data.getValue(RatingData::class.java)
+                                rating_sum += ratingData!!.rating
+                                rating_num++
+                            }
+                            var rating_avg = rating_sum / rating_num
+                            //소수점 일의자리까지 반올림
+                            rating_avg = String.format(
+                                "%.1f",
+                                rating_avg
+                            ).toFloat()
+                            itemView.findViewById<TextView>(R.id.tv_rating).text = rating_avg.toString()
+                        }
+
                     }
 
                     override fun onCancelled(error: DatabaseError) {

@@ -90,7 +90,7 @@ class Evaluation_Display_Activity : AppCompatActivity() {
                         rating_avg /= rating_num
                         //소수점 일의자리까지 반올림
                         rating_avg = String.format("%.1f", rating_avg).toFloat()
-                        FBRef.usersRef.child(uid!!).child("rating").setValue(rating_avg.toString())
+                        /*FBRef.usersRef.child(uid!!).child("rating").setValue(rating_avg.toString())*/
                         binding.tvRating.text = rating_avg.toString()
                         binding.ratingBar.rating = rating_avg
                         binding.tvRatingNum.text = rating_num.toString()

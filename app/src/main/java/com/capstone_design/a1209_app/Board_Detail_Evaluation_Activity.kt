@@ -77,7 +77,6 @@ class Board_Detail_Evaluation_Activity : AppCompatActivity() {
                     } else {
                         for (data in snapshot.children) {
                             val ratingData = data.getValue(RatingData::class.java)
-
                             rating_avg += ratingData!!.rating
                             rating_num++
                             ratingLists.add(ratingData!!)
@@ -87,7 +86,7 @@ class Board_Detail_Evaluation_Activity : AppCompatActivity() {
                         //소수점 일의자리까지 반올림
                         rating_avg = String.format("%.1f", rating_avg).toFloat()
                         //사용자가 받은 평가 다 불러온 다음에 "평균 별점" 갱신함
-                        FBRef.usersRef.child(uid!!).child("rating").setValue(rating_avg.toString())
+                       /* FBRef.usersRef.child(uid!!).child("rating").setValue(rating_avg.toString())*/
                         binding.tvRating.text = rating_avg.toString()
                         binding.ratingBar.rating = rating_avg
                         binding.tvRatingNum.text = rating_num.toString()

@@ -64,6 +64,7 @@
             android:layout_marginRight="16dp"
             android:paddingTop="10dp"
             android:layout_weight="1"
+            android:overScrollMode="never"
             app:layout_constraintBottom_toTopOf="@+id/bottom"
             app:layout_constraintTop_toBottomOf="@+id/layout_usernum" />
 
@@ -73,8 +74,8 @@
             android:layout_height="53dp"
             android:src="@drawable/chatroom_close_btn"
             android:visibility="gone"
+            android:layout_marginRight="17dp"
             app:layout_constraintEnd_toStartOf="@+id/menu_btn"
-            app:layout_constraintStart_toEndOf="@+id/tv_chatroom_title"
             app:layout_constraintTop_toTopOf="@id/layout_usernum" />
 
         <LinearLayout
