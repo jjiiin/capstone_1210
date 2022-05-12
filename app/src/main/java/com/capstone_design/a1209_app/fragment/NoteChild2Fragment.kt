@@ -61,19 +61,26 @@ class NoteChild2Fragment : Fragment() {
                     var item=DataModel.getValue(kwNotiData::class.java)!!
                     if(item!=null) {
                         kwnotiHash.add(item)
-                        //알림 고유키 저장
-                        dataKeyList.add(DataModel.key.toString())
+                            //알림 고유키 저장
+                            dataKeyList.add(DataModel.key.toString())
                     }
                 }
-                for( i in kwnotiHash){
-                    if(i!=null) {
+                for(i in kwnotiHash){
+                    if(dataModelList.isEmpty()){
                         dataModelList.add(i)
+                    }else{
+                        for(j in dataModelList){
+                            if(j.content != i.content){
+                                dataModelList.add(i)
+                            }
+                        }
                     }
                 }
 
+
                 rvAdapter!!.notifyDataSetChanged()
                 //dataModelList.reverse()
-                Log.d("data",dataModelList.toString())
+                Log.d("data_kw",dataModelList.toString())
             }
             override fun onCancelled(error: DatabaseError) {
             }

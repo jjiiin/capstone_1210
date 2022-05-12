@@ -63,7 +63,7 @@ class FirebaseService : FirebaseMessagingService() {
         sendNotification(title, body, chatroom_key)
 
         if (body.contains("카테고리")) {
-            newNotification(body, time)
+            newNotification(body, time,)
         } else if (body.contains("인원")) {
             fullUserNotification(receiver_uid, body, time, chatroom_title)
         } else if (body.contains("입장")) {

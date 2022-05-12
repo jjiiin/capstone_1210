@@ -45,12 +45,14 @@ class KeywordSettingActivity : AppCompatActivity() {
         rv.layoutManager = layout
         rv.setHasFixedSize(true)
         //키워드 리스트 뽑아오기
-        var cnt = 0
+
         val schRef =FBRef.usersRef.child(auth.currentUser!!.uid).child("keyword")
         schRef.addValueEventListener(object : ValueEventListener {
+            var cnt=0
             override fun onDataChange(snapshot: DataSnapshot) {
                 rv.removeAllViewsInLayout()
                 dataModelList.clear()
+                cnt=0
                 for (DataModel in snapshot.children) {
                     if(DataModel!=null) {
                         dataModelList.add(DataModel.getValue(String::class.java)!!)

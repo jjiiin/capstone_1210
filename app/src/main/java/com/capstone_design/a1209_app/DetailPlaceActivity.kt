@@ -57,7 +57,7 @@ class DetailPlaceActivity : AppCompatActivity(), OnMapReadyCallback {
         bitmapDrawable=resources.getDrawable(drawableId)as BitmapDrawable
 
         //마커 크기 변환(크게)
-        val scaleBitmap= Bitmap.createScaledBitmap(bitmapDrawable.bitmap,150,235,false)
+        val scaleBitmap= Bitmap.createScaledBitmap(bitmapDrawable.bitmap,130,160,false)
         return BitmapDescriptorFactory.fromBitmap(scaleBitmap)
     }
 }
