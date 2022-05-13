@@ -38,6 +38,7 @@ import com.capstone_design.a1209_app.DetailActivity
 import com.capstone_design.a1209_app.MainActivity
 import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.board.BoardWirteActivity
+import com.capstone_design.a1209_app.dataModels.UserData
 import com.capstone_design.a1209_app.dataModels.addressData
 import com.capstone_design.a1209_app.dataModels.dataModel
 import com.capstone_design.a1209_app.dataModels.kwNotiData
@@ -62,6 +63,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
@@ -210,7 +212,11 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
         //키워드 알림 켜져있을때만(switch_enterNoti) 키워드 알림보내기
         FBRef.usersRef.child(Auth.current_uid).child("switch_kwNoti").get()
             .addOnSuccessListener {
-                keywordSwitch = it.getValue() as Boolean
+                if(it.getValue() == null){
+                    keywordSwitch = true
+                }else{
+                    keywordSwitch = it.getValue() as Boolean
+                }
                 if (keywordSwitch == true) {
                     FBRef.board.addValueEventListener(object : ValueEventListener {
                         override fun onDataChange(snapshot: DataSnapshot) {
@@ -832,9 +838,10 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
     }
 
     fun getKeywordSwitch() {
-        FBRef.usersRef.child(Auth.current_uid).child("switch_enterNoti").get()
+        FBRef.usersRef.child(Auth.current_uid).get()
             .addOnSuccessListener {
-                keywordSwitch = it.getValue() as Boolean
+                val data = it.getValue<UserData>()
+                keywordSwitch = data!!.switch_kwNoti
             }
     }
 

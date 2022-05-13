@@ -235,7 +235,9 @@ fun getIsPaid(chatroomKey: String, item: ReceiptData, itemView: View) {
     FBRef.chatRoomsRef.child(chatroomKey).child("receipts").child(item.uid)
         .child("check_paid").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                checkBox_pay.isChecked = snapshot.getValue() as Boolean
+                if(snapshot.getValue() != null){
+                    checkBox_pay.isChecked = snapshot.getValue() as Boolean
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -248,11 +250,14 @@ fun checkAllPaid(chatroomKey: String, hostUid: String, roomTitle: String) {
     FBRef.chatRoomsRef.child(chatroomKey).child("receipts").get().addOnSuccessListener {
         for (data in it.children) {
             if (data.getValue()!!.javaClass.toString() == "class java.util.HashMap") {
-                val data = data.getValue<ReceiptData>()
-                isAllPaid = data!!.check_paid
-                if (isAllPaid == false) {
-                    break
+                if(data.getValue() != null){
+                    val data = data.getValue<ReceiptData>()
+                    isAllPaid = data!!.check_paid
+                    if (isAllPaid == false) {
+                        break
+                    }
                 }
+
             }
         }
         //모두 송금했으면 방장에게 알림 보내기
