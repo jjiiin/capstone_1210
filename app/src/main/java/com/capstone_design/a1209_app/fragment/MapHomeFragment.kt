@@ -39,6 +39,8 @@ import com.capstone_design.a1209_app.MainActivity
 import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.board.BoardWirteActivity
 import com.capstone_design.a1209_app.dataModels.UserData
+import com.capstone_design.a1209_app.dataModels.NotiData
+import com.capstone_design.a1209_app.dataModels.UserData
 import com.capstone_design.a1209_app.dataModels.addressData
 import com.capstone_design.a1209_app.dataModels.dataModel
 import com.capstone_design.a1209_app.dataModels.kwNotiData
@@ -70,6 +72,7 @@ import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.lang.NumberFormatException
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -79,7 +82,7 @@ import kotlin.collections.ArrayList
 class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
     private lateinit var binding: FragmentMapHomeBinding
     private lateinit var mFragmentListener: FragmentListener
-    val viewPagerList = mutableListOf<dataModel>()
+    private var kwNotiList = mutableListOf<kwNotiData>()
     private lateinit var auth: FirebaseAuth
     private lateinit var mView: MapView
     private lateinit var mMap: GoogleMap
@@ -208,6 +211,32 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             }
         })
 
+        FBRef.usersRef.child(Auth.current_uid).child("kwNoti").addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (data in snapshot.children) {
+                    var item=data.getValue(kwNotiData::class.java)!!
+                    if(item!=null){
+                        if(kwNotiList.isEmpty()){
+                            kwNotiList.add(item)
+                        }else{
+                            for(j in kwNotiList){
+                                if(j.roomKey != item.roomKey){
+                                    kwNotiList.add(item)
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        }
+        )
+
         //키워드 알림 - 키워드 리스트와 글 목록 비교하기
         //키워드 알림 켜져있을때만(switch_enterNoti) 키워드 알림보내기
         FBRef.usersRef.child(Auth.current_uid).child("switch_kwNoti").get()
@@ -225,7 +254,11 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
                                 if (item != null) {
                                     for (i in keywordList) {
                                         if (item.title.contains(i)) {
-                                            notification(i, item.title)
+                                            for( j in kwNotiList) {
+                                                if(j.roomKey!=item.chatroomkey) {
+                                                    notification(i, item.title, item.chatroomkey)
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -310,8 +343,14 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
         mMap!!.clear()
         viewPager2.visibility = View.GONE
         springDotsIndicator.visibility = View.GONE
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(mainActivity)
         markerView("all")
         buttonSelect()
+        var myLoc=true
+        if(myLoc){
+            setUpdateLocationListener2()
+        }
+
         cate_all?.isSelected = true
 
         binding.categoryAll.setOnClickListener {
@@ -322,6 +361,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             markerView("all")
             buttonSelect()
             cate_all?.isSelected = true
+            setUpdateLocationListener2()
 
         }
         binding.categoryAsian.setOnClickListener {
@@ -332,6 +372,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             markerView("asian")
             buttonSelect()
             cate_asian?.isSelected = true
+            setUpdateLocationListener2()
         }
         binding.categoryBun.setOnClickListener {
             mMap!!.clear()
@@ -340,6 +381,8 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             markerView("bun")
             buttonSelect()
             cate_bun?.isSelected = true
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(mainActivity)
+            setUpdateLocationListener2()
         }
         binding.categoryChicken.setOnClickListener {
             mMap!!.clear()
@@ -349,6 +392,8 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             markerView("chicken")
             buttonSelect()
             cate_chicken?.isSelected = true
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(mainActivity)
+            setUpdateLocationListener2()
         }
         binding.categoryPizza.setOnClickListener {
             mMap!!.clear()
@@ -358,6 +403,8 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             markerView("chicken")
             buttonSelect()
             cate_pizza?.isSelected = true
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(mainActivity)
+            setUpdateLocationListener2()
         }
         binding.categoryFast.setOnClickListener {
             mMap!!.clear()
@@ -367,6 +414,8 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             markerView("fastfood")
             buttonSelect()
             cate_fast?.isSelected = true
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(mainActivity)
+            setUpdateLocationListener2()
         }
         binding.categoryJap.setOnClickListener {
             mMap!!.clear()
@@ -376,6 +425,8 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             markerView("japan")
             buttonSelect()
             cate_jap?.isSelected = true
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(mainActivity)
+            setUpdateLocationListener2()
         }
         binding.categoryKor.setOnClickListener {
             mMap!!.clear()
@@ -385,6 +436,8 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             markerView("korean")
             buttonSelect()
             cate_kor?.isSelected = true
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(mainActivity)
+            setUpdateLocationListener2()
         }
         binding.categoryDo.setOnClickListener {
             mMap!!.clear()
@@ -394,6 +447,8 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             markerView("bento")
             buttonSelect()
             cate_bento?.isSelected = true
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(mainActivity)
+            setUpdateLocationListener2()
 
         }
         binding.categoryCafe.setOnClickListener {
@@ -404,6 +459,8 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             markerView("cafe")
             buttonSelect()
             cate_cafe?.isSelected = true
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(mainActivity)
+            setUpdateLocationListener2()
 
         }
         binding.categoryChi.setOnClickListener {
@@ -414,6 +471,8 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             markerView("chi")
             buttonSelect()
             cate_chi?.isSelected = true
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(mainActivity)
+            setUpdateLocationListener2()
 
         }
         //내위치 항상 표시하기
@@ -800,14 +859,14 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun notification(keyword: String, title: String) {
+    private fun notification(keyword: String, title: String, roomKey:String) {
         Log.d("kwnoti", keyword)
         val time = Calendar.getInstance().time
         /*  val current = LocalDateTime.now()
           val formatter = DateTimeFormatter.ISO_DATE
           val formatted = current.format(formatter)*/
         val notiModel = NotiModel("Saveat - 키워드알림", "\"${keyword}\" 배달 쉐어가 오픈됐습니다.", time)
-        val kwnoti = kwNotiData("\"${keyword}\" 배달 쉐어가 오픈됐습니다.", time)
+        val kwnoti = kwNotiData("\"${keyword}\" 배달 쉐어가 오픈됐습니다.", time,title,roomKey)
 
         FBRef.usersRef.child(auth.currentUser?.uid.toString()).child("kwNoti").push()
             .setValue(kwnoti)

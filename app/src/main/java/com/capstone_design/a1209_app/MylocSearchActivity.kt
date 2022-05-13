@@ -85,6 +85,12 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
             setUpdateLocationListener()
         }
+        var cnt=0
+        if(cnt==0){
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+            setUpdateLocationListener()
+            cnt+=1
+        }
 
         //지도 클릭시 마커 가져오기
         mMap!!.setOnMapClickListener{
@@ -240,8 +246,8 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
 
     override fun onConnected(p0: Bundle?) {
         mLocationRequest= LocationRequest()
-        mLocationRequest.interval=30000
-        mLocationRequest.fastestInterval=30000
+        //mLocationRequest.interval=30000
+        //mLocationRequest.fastestInterval=30000
         mLocationRequest.priority=LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
         if(ContextCompat.checkSelfPermission(
                 this,
@@ -306,10 +312,9 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
             bottomSheet(locText,myLocation)
         }
 
-        val discripter=getMarkerDrawable(R.drawable.marker)
+        val discripter=getLocDrawable(R.drawable.mylocation)
         val marker=MarkerOptions()
             .position(myLocation)
-            .title("I'm here")
             .icon(discripter)
 
         val cameraOption = CameraPosition.Builder()
@@ -330,6 +335,14 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
         //마커 크기 변환(크게)
         val scaleBitmap= Bitmap.createScaledBitmap(bitmapDrawable.bitmap,130,160,false)
         return BitmapDescriptorFactory.fromBitmap(scaleBitmap)
+    }
+    fun getLocDrawable(drawableId: Int): BitmapDescriptor {
+        //마커 아이콘 만들기
+        var bitmapDrawable: BitmapDrawable
+        bitmapDrawable =resources.getDrawable(drawableId)as BitmapDrawable
+
+        //마커 크기 변환
+        return BitmapDescriptorFactory.fromBitmap(bitmapDrawable.bitmap)
     }
     fun bottomSheet(loc:String,latLng: LatLng){
         val setTextView:TextView=findViewById(R.id.setTv)

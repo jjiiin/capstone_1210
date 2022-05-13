@@ -75,17 +75,16 @@
 
         <TextView
             android:id="@+id/setTv"
-            android:layout_width="wrap_content"
+            android:layout_width="363dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:text="위치를 설정해주세요"
             android:layout_marginTop="4dp"
+            android:layout_marginLeft="16dp"
+            android:text="위치를 설정해주세요.위치를 설정해주세요.위치를 설정해주세요.위치를 설정해주세요."
             android:textColor="@color/black"
             android:textSize="17sp"
             android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@+id/tv5"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv5" />
 
         <Button
             android:id="@+id/setBtn"

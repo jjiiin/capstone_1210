@@ -15,7 +15,7 @@ import androidx.core.content.ContextCompat.getSystemService
 import com.capstone_design.a1209_app.MainActivity
 import com.capstone_design.a1209_app.Push_Evaluation_Activity
 import com.capstone_design.a1209_app.R
-import com.capstone_design.a1209_app.dataModels.notiData
+import com.capstone_design.a1209_app.dataModels.NotiData
 import com.capstone_design.a1209_app.utils.FBRef
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -158,7 +158,7 @@ class FirebaseService : FirebaseMessagingService() {
         if (body.contains("카페")) {
             category = "cafe"
         }
-        val newNoti = notiData(category, body, date)
+        val newNoti = NotiData(category,body,date)
         auth = Firebase.auth
         FBRef.usersRef.child(auth.currentUser?.uid.toString()).child("newNoti").push()
             .setValue(newNoti)
@@ -174,7 +174,7 @@ class FirebaseService : FirebaseMessagingService() {
         chatroom_title: String
     ) {
 
-        val newNoti = notiData("full", body, date, chatroom_title)
+        val newNoti = NotiData("full", body, date, chatroom_title)
         auth = Firebase.auth
         FBRef.usersRef.child(uid).child("newNoti").push()
             .setValue(newNoti)
@@ -185,7 +185,7 @@ class FirebaseService : FirebaseMessagingService() {
     //firebase-users-notilist에 올리기(정원 다 참 알림)
     private fun enterNotification(uid: String, body: String, date: Date, chatroom_title: String) {
 
-        val newNoti = notiData("enter", body, date, chatroom_title)
+        val newNoti = NotiData("enter", body, date, chatroom_title)
         auth = Firebase.auth
         FBRef.usersRef.child(uid).child("newNoti").push()
             .setValue(newNoti)
@@ -196,7 +196,7 @@ class FirebaseService : FirebaseMessagingService() {
     //firebase-users-notilist에 올리기(송금 알림)
     private fun payNotification(uid: String, body: String, date: Date, chatroom_title: String) {
 
-        val newNoti = notiData("pay", body, date, chatroom_title)
+        val newNoti = NotiData("pay", body, date, chatroom_title)
         auth = Firebase.auth
         FBRef.usersRef.child(uid).child("newNoti").push()
             .setValue(newNoti)
@@ -212,7 +212,7 @@ class FirebaseService : FirebaseMessagingService() {
         chatroom_title: String
     ) {
 
-        val newNoti = notiData("receipt", body, date, chatroom_title)
+        val newNoti = NotiData("receipt", body, date, chatroom_title)
         auth = Firebase.auth
         FBRef.usersRef.child(uid).child("newNoti").push()
             .setValue(newNoti)
@@ -229,7 +229,7 @@ class FirebaseService : FirebaseMessagingService() {
         chatroom_key: String
     ) {
 
-        val newNoti = notiData("evaluation", body, date, chatroom_title, chatroom_key)
+        val newNoti = NotiData("evaluation", body, date, chatroom_title, chatroom_key)
         auth = Firebase.auth
         FBRef.usersRef.child(uid).child("newNoti").push()
             .setValue(newNoti)

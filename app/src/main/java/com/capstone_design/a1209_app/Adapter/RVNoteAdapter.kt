@@ -15,10 +15,10 @@ import com.capstone_design.a1209_app.Push_Evaluation_Activity
 import com.capstone_design.a1209_app.chat.ChatList_RVAdapter
 import com.capstone_design.a1209_app.chat.ChatRoomActivity
 import com.capstone_design.a1209_app.R
-import com.capstone_design.a1209_app.dataModels.notiData
+import com.capstone_design.a1209_app.dataModels.NotiData
 import java.util.*
 
-class RVNoteAdapter(val items: MutableList<notiData>, val context: Context, val keys:MutableList<String>) :
+class RVNoteAdapter(val items: MutableList<NotiData>, val context: Context, val keys:MutableList<String>) :
     RecyclerView.Adapter<RVNoteAdapter.ViewHolder>() {
     private var isCheckBtn_Show = false
     companion object {
@@ -97,7 +97,7 @@ class RVNoteAdapter(val items: MutableList<notiData>, val context: Context, val 
         val img: ImageView = itemView.findViewById(R.id.item_image)
         val chatroom_title = itemView.findViewById<TextView>(R.id.noti_chatroom_title)
 
-        fun bind(item: notiData, key:String) {
+        fun bind(item: NotiData, key:String) {
             if (item.category == "evaluation") {
                 //신뢰도 알림 클릭하면 신뢰도 평가 화면으로 이동
                 itemView.setOnClickListener {
