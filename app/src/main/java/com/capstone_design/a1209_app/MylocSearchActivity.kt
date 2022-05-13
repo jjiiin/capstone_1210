@@ -85,6 +85,12 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
             setUpdateLocationListener()
         }
+        var cnt=0
+        if(cnt==0){
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+            setUpdateLocationListener()
+            cnt+=1
+        }
 
         //지도 클릭시 마커 가져오기
         mMap!!.setOnMapClickListener{
@@ -240,8 +246,8 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
 
     override fun onConnected(p0: Bundle?) {
         mLocationRequest= LocationRequest()
-        mLocationRequest.interval=30000
-        mLocationRequest.fastestInterval=30000
+        //mLocationRequest.interval=30000
+        //mLocationRequest.fastestInterval=30000
         mLocationRequest.priority=LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
         if(ContextCompat.checkSelfPermission(
                 this,
