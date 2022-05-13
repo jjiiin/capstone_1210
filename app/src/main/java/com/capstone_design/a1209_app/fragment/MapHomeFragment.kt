@@ -39,8 +39,6 @@ import com.capstone_design.a1209_app.MainActivity
 import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.board.BoardWirteActivity
 import com.capstone_design.a1209_app.dataModels.UserData
-import com.capstone_design.a1209_app.dataModels.NotiData
-import com.capstone_design.a1209_app.dataModels.UserData
 import com.capstone_design.a1209_app.dataModels.addressData
 import com.capstone_design.a1209_app.dataModels.dataModel
 import com.capstone_design.a1209_app.dataModels.kwNotiData
