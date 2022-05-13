@@ -5,5 +5,6 @@ import java.util.*
 data class kwNotiData(
     val content: String = "",
     val date: Date = Date(),
-    val title: String = ""
+    val title: String = "",
+    val roomKey:String=""
 )

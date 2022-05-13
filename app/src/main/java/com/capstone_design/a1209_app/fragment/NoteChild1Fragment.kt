@@ -10,7 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.Adapter.RVNoteAdapter
-import com.capstone_design.a1209_app.dataModels.notiData
+import com.capstone_design.a1209_app.dataModels.NotiData
 import com.capstone_design.a1209_app.databinding.FragmentNoteChild1Binding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -22,7 +22,7 @@ import com.google.firebase.ktx.Firebase
 
 
 class NoteChild1Fragment : Fragment() {
-    private var dataModelList = mutableListOf<notiData>()
+    private var dataModelList = mutableListOf<NotiData>()
     private lateinit var binding: FragmentNoteChild1Binding
     private lateinit var auth: FirebaseAuth
     //알람 고유키 저장
@@ -62,7 +62,7 @@ class NoteChild1Fragment : Fragment() {
                 dataModelList.clear()
                 dataKeyList.clear()
                 for (DataModel in snapshot.children) {
-                    var item = DataModel.getValue(notiData::class.java)!!
+                    var item = DataModel.getValue(NotiData::class.java)!!
                     if (item != null) {
                         dataModelList.add(item)
                         //알림 고유키 저장

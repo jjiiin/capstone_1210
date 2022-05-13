@@ -38,6 +38,7 @@ import com.capstone_design.a1209_app.DetailActivity
 import com.capstone_design.a1209_app.MainActivity
 import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.board.BoardWirteActivity
+import com.capstone_design.a1209_app.dataModels.NotiData
 import com.capstone_design.a1209_app.dataModels.addressData
 import com.capstone_design.a1209_app.dataModels.dataModel
 import com.capstone_design.a1209_app.dataModels.kwNotiData
@@ -77,7 +78,7 @@ import kotlin.collections.ArrayList
 class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
     private lateinit var binding: FragmentMapHomeBinding
     private lateinit var mFragmentListener: FragmentListener
-    val viewPagerList = mutableListOf<dataModel>()
+    private var kwNotiList = mutableListOf<kwNotiData>()
     private lateinit var auth: FirebaseAuth
     private lateinit var mView: MapView
     private lateinit var mMap: GoogleMap
@@ -206,6 +207,32 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             }
         })
 
+        FBRef.usersRef.child(Auth.current_uid).child("kwNoti").addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (data in snapshot.children) {
+                    var item=data.getValue(kwNotiData::class.java)!!
+                    if(item!=null){
+                        if(kwNotiList.isEmpty()){
+                            kwNotiList.add(item)
+                        }else{
+                            for(j in kwNotiList){
+                                if(j.roomKey != item.roomKey){
+                                    kwNotiList.add(item)
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        }
+        )
+
         //키워드 알림 - 키워드 리스트와 글 목록 비교하기
         //키워드 알림 켜져있을때만(switch_enterNoti) 키워드 알림보내기
         FBRef.usersRef.child(Auth.current_uid).child("switch_kwNoti").get()
@@ -219,7 +246,11 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
                                 if (item != null) {
                                     for (i in keywordList) {
                                         if (item.title.contains(i)) {
-                                            notification(i, item.title)
+                                            for( j in kwNotiList) {
+                                                if(j.roomKey!=item.chatroomkey) {
+                                                    notification(i, item.title, item.chatroomkey)
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -794,14 +825,14 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun notification(keyword: String, title: String) {
+    private fun notification(keyword: String, title: String, roomKey:String) {
         Log.d("kwnoti", keyword)
         val time = Calendar.getInstance().time
         /*  val current = LocalDateTime.now()
           val formatter = DateTimeFormatter.ISO_DATE
           val formatted = current.format(formatter)*/
         val notiModel = NotiModel("Saveat - 키워드알림", "\"${keyword}\" 배달 쉐어가 오픈됐습니다.", time)
-        val kwnoti = kwNotiData("\"${keyword}\" 배달 쉐어가 오픈됐습니다.", time)
+        val kwnoti = kwNotiData("\"${keyword}\" 배달 쉐어가 오픈됐습니다.", time,title,roomKey)
 
         FBRef.usersRef.child(auth.currentUser?.uid.toString()).child("kwNoti").push()
             .setValue(kwnoti)
