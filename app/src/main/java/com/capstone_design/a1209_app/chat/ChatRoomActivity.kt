@@ -167,6 +167,9 @@ class ChatRoomActivity : AppCompatActivity() {
 
                 //UserRooms에서 채팅방 키 삭제(결과: 해당 유저의 화면에서 안보이게됨)
                 userRoomsRef.child(Auth.current_uid).child(chatroomkey!!).removeValue()
+                //주문서 삭제
+                chatRoomsRef.child(chatroomkey!!).child("receipts").child(Auth.current_uid)
+                    .removeValue()
                 //팝업창 없앰
                 dialog.dismiss()
                 finish()

@@ -428,9 +428,7 @@ class BoardWirteActivity : AppCompatActivity() {
                             val notiModel = NotiModel(
                                 "Saveat - 새글알림",
                                 "\"${categoryNoti}\" 카테고리에 새 글이 올라왔습니다.",
-                               time,
-                                title_dm,
-                                chatroomkey
+                               time
                             )
 
                             override fun onDataChange(snapshot: DataSnapshot) {

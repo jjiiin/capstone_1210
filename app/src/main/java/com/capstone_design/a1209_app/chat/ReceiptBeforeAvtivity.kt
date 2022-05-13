@@ -65,6 +65,7 @@ class ReceiptBeforeAvtivity : AppCompatActivity() {
                         getIsAllDone(chatroomkey, hostUid!!, roomTitle!!)
                     }
                 }
+            //Log.d("몇명", "마지막")
             val intent =
                 Intent(this, ReceiptDoneActivity::class.java)
             intent.putExtra("채팅방키", chatroomkey)
@@ -85,6 +86,7 @@ class ReceiptBeforeAvtivity : AppCompatActivity() {
             for (data in it.children) {
                 userNum++
             }
+            //Log.d("몇명", userNum.toString())
             continuation.resume(userNum)
         }
     }
@@ -101,6 +103,7 @@ class ReceiptBeforeAvtivity : AppCompatActivity() {
                 }
                 //모두 영수증 작성 완료했으면
                 if (userNum == receiptNum) {
+                    //Log.d("몇명", "보냄")
                     //방장에게 영수증 알림 보내기
                     val notiData_receipt = NotiModel(
                         "Saveat - 알림",
@@ -111,7 +114,7 @@ class ReceiptBeforeAvtivity : AppCompatActivity() {
                     )
                     val pushModel_receipt =
                         PushNotification(notiData_receipt, "${host_token}")
-                    //testPush(pushModel_receipt)
+                    testPush(pushModel_receipt)
                 }
             }
     }

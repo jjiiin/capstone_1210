@@ -51,9 +51,9 @@ class FirebaseService : FirebaseMessagingService() {
         val title = message.data["title"].toString()
         val body = message.data["content"].toString()
         val time = Calendar.getInstance().time
-      /*  val current = LocalDateTime.now()
-        val formatter = DateTimeFormatter.ISO_DATE
-        val formatted = current.format(formatter)*/
+        /*  val current = LocalDateTime.now()
+          val formatter = DateTimeFormatter.ISO_DATE
+          val formatted = current.format(formatter)*/
         val receiver_uid = message.data["receiver_uid"].toString()
         val chatroom_title = message.data["chatroom_title"].toString()
         val chatroom_key = message.data["chatroom_key"].toString()
@@ -97,21 +97,32 @@ class FirebaseService : FirebaseMessagingService() {
 
     private fun sendNotification(title: String, body: String, chatroom_key: String = "") {
 
-        //푸쉬알림 클릭시 Activity 실행되게 (Activity에서 intent 쓰는 것과 마찬가지로 PendingIntent 사용)
-        val intent = Intent(this, Push_Evaluation_Activity::class.java)
-        intent.putExtra("chatroomkey", chatroom_key)
-        val mPendingIntent =
-            PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-
-        var builder = NotificationCompat.Builder(this, "Test_Channel")
-            .setSmallIcon(R.drawable.main_logo)
-            .setContentTitle(title)
-            .setContentText(body)
-            .setContentIntent(mPendingIntent)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-        with(NotificationManagerCompat.from(this)) {
-            notify(123, builder.build())
+        if (body.contains("신뢰도")) {
+                //푸쉬알림 클릭시 Activity 실행되게 (Activity에서 intent 쓰는 것과 마찬가지로 PendingIntent 사용)
+                val intent = Intent(this, Push_Evaluation_Activity::class.java)
+                intent.putExtra("chatroomkey", chatroom_key)
+                val mPendingIntent =
+                    PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+                var builder = NotificationCompat.Builder(this, "Test_Channel")
+                    .setSmallIcon(R.drawable.main_logo)
+                    .setContentTitle(title)
+                    .setContentText(body)
+                    .setContentIntent(mPendingIntent)
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                with(NotificationManagerCompat.from(this)) {
+                    notify(123, builder.build())
+                }
+            } else {
+            var builder = NotificationCompat.Builder(this, "Test_Channel")
+                .setSmallIcon(R.drawable.main_logo)
+                .setContentTitle(title)
+                .setContentText(body)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            with(NotificationManagerCompat.from(this)) {
+                notify(123, builder.build())
+            }
         }
+
     }
 
     //firebase-users-notilist에 올리기(새글알림)
@@ -222,8 +233,8 @@ class FirebaseService : FirebaseMessagingService() {
         auth = Firebase.auth
         FBRef.usersRef.child(uid).child("newNoti").push()
             .setValue(newNoti)
-        Log.d("알림","왔음")
-        Log.d("알림",uid.toString())
+        Log.d("알림", "왔음")
+        Log.d("알림", uid.toString())
 
     }
 }

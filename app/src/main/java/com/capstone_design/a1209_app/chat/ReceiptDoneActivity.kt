@@ -181,6 +181,7 @@ class ReceiptDoneActivity : AppCompatActivity() {
 
     suspend fun CalculateIndividualFee(chatroomkey: String) =
         suspendCoroutine<Int> { continuation ->
+            var resumed = false
             FBRef.chatRoomsRef.child(chatroomkey!!).child("users")
                 .addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
@@ -197,7 +198,11 @@ class ReceiptDoneActivity : AppCompatActivity() {
                                 indiv_delivery_fee
                             )
                         binding.tvIndividualDeliveryFee.text = indiv_delivery_fee.toString()
-                        continuation.resume(indiv_delivery_fee)
+                        if(!resumed){
+                            continuation.resume(indiv_delivery_fee)
+                            resumed = true
+                        }
+
                     }
 
                     override fun onCancelled(error: DatabaseError) {

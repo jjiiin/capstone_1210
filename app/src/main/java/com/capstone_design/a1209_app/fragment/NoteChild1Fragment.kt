@@ -51,7 +51,10 @@ class NoteChild1Fragment : Fragment() {
         val rv = binding.rvNote
         rvAdapter = RVNoteAdapter(dataModelList, requireContext(), dataKeyList)
         rv.adapter = rvAdapter
-        val layout = LinearLayoutManager(requireActivity().getApplicationContext())
+        var layout = LinearLayoutManager(requireActivity().getApplicationContext())
+        //리사이클러뷰 역순으로 보여주기
+        layout.setReverseLayout(true)
+        layout.setStackFromEnd(true)
         rv.layoutManager = layout
         rv.setHasFixedSize(true)
 

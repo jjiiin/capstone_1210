@@ -137,18 +137,6 @@ class ChatList_RVAdapter(
                         rv_msgtime.text =
                             (currentTime.seconds - chatData.time.seconds).toString() + "초 전"
                     }
-                    //저장된 시간의 오전 오후 정보 추출
-                    /* val ampmCheck = SimpleDateFormat("aa")
-                     val ampm = ampmCheck.format(chatData.time)
-                     //저장된 시간을 "hh:mm" 형식으로 표시
-                     val dateFormat = SimpleDateFormat("hh:mm")
-                     val time = dateFormat.format(chatData.time)
-                     val rv_msgtime = itemView.findViewById<TextView>(R.id.tv_time)
-                     if (ampm.toString() == "AM") {
-                         rv_msgtime.text = "오전 " + time.toString()
-                     } else {
-                         rv_msgtime.text = "오후 " + time.toString()
-                     }*/
                 }
             }
 
@@ -177,6 +165,12 @@ class ChatList_RVAdapter(
                         1 -> {
                             itemView.findViewById<LinearLayout>(R.id.layout1).visibility =
                                 View.VISIBLE
+                            itemView.findViewById<LinearLayout>(R.id.layout2).visibility =
+                                View.GONE
+                            itemView.findViewById<LinearLayout>(R.id.layout3).visibility =
+                                View.GONE
+                            itemView.findViewById<LinearLayout>(R.id.layout4).visibility =
+                                View.GONE
                             storageRef.child("profile_img/" + uids[0] + ".jpg").getDownloadUrl()
                                 .addOnSuccessListener {
                                     Glide.with(context).load(it)
@@ -189,6 +183,12 @@ class ChatList_RVAdapter(
                         2 -> {
                             itemView.findViewById<LinearLayout>(R.id.layout2).visibility =
                                 View.VISIBLE
+                            itemView.findViewById<LinearLayout>(R.id.layout1).visibility =
+                                View.GONE
+                            itemView.findViewById<LinearLayout>(R.id.layout3).visibility =
+                                View.GONE
+                            itemView.findViewById<LinearLayout>(R.id.layout4).visibility =
+                                View.GONE
                             storageRef.child("profile_img/" + uids[0] + ".jpg").getDownloadUrl()
                                 .addOnSuccessListener {
                                     Glide.with(context).load(it)
@@ -209,6 +209,12 @@ class ChatList_RVAdapter(
                         3 -> {
                             itemView.findViewById<LinearLayout>(R.id.layout3).visibility =
                                 View.VISIBLE
+                            itemView.findViewById<LinearLayout>(R.id.layout1).visibility =
+                                View.GONE
+                            itemView.findViewById<LinearLayout>(R.id.layout2).visibility =
+                                View.GONE
+                            itemView.findViewById<LinearLayout>(R.id.layout4).visibility =
+                                View.GONE
                             storageRef.child("profile_img/" + uids[0] + ".jpg").getDownloadUrl()
                                 .addOnSuccessListener {
                                     Glide.with(context).load(it)
@@ -237,6 +243,12 @@ class ChatList_RVAdapter(
                         4 -> {
                             itemView.findViewById<LinearLayout>(R.id.layout4).visibility =
                                 View.VISIBLE
+                            itemView.findViewById<LinearLayout>(R.id.layout1).visibility =
+                                View.GONE
+                            itemView.findViewById<LinearLayout>(R.id.layout2).visibility =
+                                View.GONE
+                            itemView.findViewById<LinearLayout>(R.id.layout3).visibility =
+                                View.GONE
                             storageRef.child("profile_img/" + uids[0] + ".jpg").getDownloadUrl()
                                 .addOnSuccessListener {
                                     Glide.with(context).load(it)
@@ -273,6 +285,12 @@ class ChatList_RVAdapter(
                         else -> {
                             itemView.findViewById<LinearLayout>(R.id.layout4).visibility =
                                 View.VISIBLE
+                            itemView.findViewById<LinearLayout>(R.id.layout1).visibility =
+                                View.GONE
+                            itemView.findViewById<LinearLayout>(R.id.layout2).visibility =
+                                View.GONE
+                            itemView.findViewById<LinearLayout>(R.id.layout3).visibility =
+                                View.GONE
                             storageRef.child("profile_img/" + uids[0] + ".jpg").getDownloadUrl()
                                 .addOnSuccessListener {
                                     Glide.with(context).load(it)

@@ -91,66 +91,68 @@ class DetailActivity : AppCompatActivity() {
             //채팅방 정보 저장
             //val chatRoomData = ChatRoomData(title, hostUID)
             //FBRef.chatRoomsRef.child(chatroomkey!!).setValue(chatRoomData)
-            if (isMember == 0) {
-                //멤버가 아닌경우에만 (처음 입장하는 사용자일경우에만)
-                FBRef.chatRoomsRef.child(chatroomkey!!).child("users").child(Auth.current_uid)
-                    .setValue(true)
-                //각 사용자가 무슨 채팅방에 참여하고 있는지 저장
-                FBRef.userRoomsRef.child(Auth.current_uid).child(chatroomkey).setValue(true)
-                //입장 메시지
-                val time = Calendar.getInstance().time
-                val enter_chatData =
-                    ChatData(
-                        current_nickname,
-                        "enter",
-                        Auth.current_email!!,
-                        Auth.current_uid,
-                        time
-                    )
-                //주문서 작성해달라는 공지 메시지 보내기
-                val notice_chatData =
-                    ChatData(
-                        "notice",
-                        "[공지] 미리 주문서에 메뉴 올려주세요:)",
-                        "notice",
-                        "notice",
-                        time
-                    )
-                FBRef.chatRoomsRef.child(chatroomkey!!).child("messages").push()
-                    .setValue(enter_chatData)
-                FBRef.chatRoomsRef.child(chatroomkey!!).child("messages").push()
-                    .setValue(notice_chatData)
+             if (isMember == 0) {
+            //멤버가 아닌경우에만 (처음 입장하는 사용자일경우에만)
+            FBRef.chatRoomsRef.child(chatroomkey!!).child("users").child(Auth.current_uid)
+                .setValue(true)
+            //각 사용자가 무슨 채팅방에 참여하고 있는지 저장
+            FBRef.userRoomsRef.child(Auth.current_uid).child(chatroomkey).setValue(true)
+            //입장 메시지
+            val time = Calendar.getInstance().time
+            val enter_chatData =
+                ChatData(
+                    current_nickname,
+                    "enter",
+                    Auth.current_email!!,
+                    Auth.current_uid,
+                    time
+                )
+            //주문서 작성해달라는 공지 메시지 보내기
+            val notice_chatData =
+                ChatData(
+                    "notice",
+                    "[공지] 미리 주문서에 메뉴 올려주세요:)",
+                    "notice",
+                    "notice",
+                    time
+                )
+            FBRef.chatRoomsRef.child(chatroomkey!!).child("messages").push()
+                .setValue(enter_chatData)
+            FBRef.chatRoomsRef.child(chatroomkey!!).child("messages").push()
+                .setValue(notice_chatData)
 
-                //방장에게 입장알림 보내기
-                if (enterSwitch == true) {
-                    val notiData_enter = NotiModel(
-                        "Saveat - 알림",
-                        "채팅방에 '${current_nickname}'님이 입장했어요.",
-                        Calendar.getInstance().time,
-                        hostUID,
-                        data.title
-                    )
-                    val pushModel_enter = PushNotification(notiData_enter, "${host_token}")
-                    testPush(pushModel_enter)
-                }
-
-                //모두에게 정원 알림 보내기
-                if ((user_num + 1) == data.person.replace("[^\\d]".toRegex(), "").toInt()) {
-                    for (token in usersTokens) {
-                        val notiData_full =
-                            NotiModel(
-                                "Saveat - 알림",
-                                "채팅방 인원이 다 찼어요.",
-                                Calendar.getInstance().time,
-                                token,
-                                data.title
-                            )
-                        val pushModel_full = PushNotification(notiData_full, "${token}")
-                        testPush(pushModel_full)
-                    }
-
-                }
+            //방장에게 입장알림 보내기
+            if (enterSwitch == true) {
+                val notiData_enter = NotiModel(
+                    "Saveat - 알림",
+                    "채팅방에 '${current_nickname}'님이 입장했어요.",
+                    Calendar.getInstance().time,
+                    hostUID,
+                    data.title
+                )
+                val pushModel_enter = PushNotification(notiData_enter, "${host_token}")
+                testPush(pushModel_enter)
             }
+
+            //모두에게 정원 알림 보내기
+            if ((user_num + 1) == data.person.replace("[^\\d]".toRegex(), "").toInt()) {
+                for (i in 0 until usersUid.size) {
+                    Log.d("사용자", usersUid[i])
+                    Log.d("사용자", usersTokens[i])
+                    val notiData_full =
+                        NotiModel(
+                            "Saveat - 알림",
+                            "채팅방 인원이 다 찼어요.",
+                            Calendar.getInstance().time,
+                            usersUid[i],
+                            data.title
+                        )
+                    val pushModel_full = PushNotification(notiData_full, "${usersTokens[i]}")
+                    testPush(pushModel_full)
+                }
+
+            }
+             }
 
             //채팅방으로 바로 이동
             val intent = Intent(this, ChatRoomActivity::class.java).putExtra("채팅방키", chatroomkey)
@@ -283,19 +285,19 @@ class DetailActivity : AppCompatActivity() {
     }
 
     //방장 별점 가져오기
-   /* fun getHostRatingData() {
-        FBRef.usersRef.child(hostUID).child("rating").get().addOnSuccessListener {
-            if (it.getValue() == null) {
-                binding.tvRating.text = "3.5"
-                binding.ratingBar.rating = 3.5F
-            } else {
-                val rating = it.getValue().toString()
-                //별점 세팅
-                binding.tvRating.text = rating
-                binding.ratingBar.rating = rating.toFloat()
-            }
-        }
-    }*/
+    /* fun getHostRatingData() {
+         FBRef.usersRef.child(hostUID).child("rating").get().addOnSuccessListener {
+             if (it.getValue() == null) {
+                 binding.tvRating.text = "3.5"
+                 binding.ratingBar.rating = 3.5F
+             } else {
+                 val rating = it.getValue().toString()
+                 //별점 세팅
+                 binding.tvRating.text = rating
+                 binding.ratingBar.rating = rating.toFloat()
+             }
+         }
+     }*/
 
     //방장 닉네임 가져오기
     //파이어베이스의 비동기 방식 -> 동기 방식
@@ -332,9 +334,10 @@ class DetailActivity : AppCompatActivity() {
     }
 
     fun getEnterSwitch() {
-        FBRef.usersRef.child(Auth.current_uid).child("switch_enterNoti").get()
+        FBRef.usersRef.child(Auth.current_uid).get()
             .addOnSuccessListener {
-                enterSwitch = it.getValue() as Boolean
+                val data = it.getValue<UserData>()
+                enterSwitch = data!!.switch_enterNoti
             }
     }
 

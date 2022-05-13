@@ -1,5 +1,6 @@
 package com.capstone_design.a1209_app.chat
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.Log
@@ -117,12 +118,18 @@ class RoomUser_RVAdapter(
         fun getImage(uid:String) {
             val storage: FirebaseStorage = FirebaseStorage.getInstance()
             val storageRef: StorageReference = storage.getReference()
-            storageRef.child("profile_img/" + uid + ".jpg").getDownloadUrl()
-                .addOnSuccessListener {
-                    Glide.with(context).load(it).into(itemView.findViewById(R.id.rv_profile_btn))
-                }.addOnFailureListener {
-                    itemView.findViewById<ImageView>(R.id.rv_profile_btn).setImageResource(R.drawable.profile_cat)
-                }
+            val context = context as Activity
+            if(context.isFinishing){
+                return
+            }else{
+                storageRef.child("profile_img/" + uid + ".jpg").getDownloadUrl()
+                    .addOnSuccessListener {
+                        Glide.with(context).load(it).into(itemView.findViewById(R.id.rv_profile_btn))
+                    }.addOnFailureListener {
+                        itemView.findViewById<ImageView>(R.id.rv_profile_btn).setImageResource(R.drawable.profile_cat)
+                    }
+            }
+
         }
     }
 }
