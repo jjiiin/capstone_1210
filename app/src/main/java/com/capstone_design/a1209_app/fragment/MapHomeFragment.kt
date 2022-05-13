@@ -69,6 +69,7 @@ import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.lang.NumberFormatException
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -335,8 +336,14 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
         mMap!!.clear()
         viewPager2.visibility = View.GONE
         springDotsIndicator.visibility = View.GONE
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(mainActivity)
         markerView("all")
         buttonSelect()
+        var myLoc=true
+        if(myLoc){
+            setUpdateLocationListener2()
+        }
+
         cate_all?.isSelected = true
 
         binding.categoryAll.setOnClickListener {
@@ -347,6 +354,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             markerView("all")
             buttonSelect()
             cate_all?.isSelected = true
+            setUpdateLocationListener2()
 
         }
         binding.categoryAsian.setOnClickListener {
@@ -357,6 +365,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             markerView("asian")
             buttonSelect()
             cate_asian?.isSelected = true
+            setUpdateLocationListener2()
         }
         binding.categoryBun.setOnClickListener {
             mMap!!.clear()
@@ -365,6 +374,8 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             markerView("bun")
             buttonSelect()
             cate_bun?.isSelected = true
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(mainActivity)
+            setUpdateLocationListener2()
         }
         binding.categoryChicken.setOnClickListener {
             mMap!!.clear()
@@ -374,6 +385,8 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             markerView("chicken")
             buttonSelect()
             cate_chicken?.isSelected = true
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(mainActivity)
+            setUpdateLocationListener2()
         }
         binding.categoryPizza.setOnClickListener {
             mMap!!.clear()
@@ -383,6 +396,8 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             markerView("chicken")
             buttonSelect()
             cate_pizza?.isSelected = true
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(mainActivity)
+            setUpdateLocationListener2()
         }
         binding.categoryFast.setOnClickListener {
             mMap!!.clear()
@@ -392,6 +407,8 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             markerView("fastfood")
             buttonSelect()
             cate_fast?.isSelected = true
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(mainActivity)
+            setUpdateLocationListener2()
         }
         binding.categoryJap.setOnClickListener {
             mMap!!.clear()
@@ -401,6 +418,8 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             markerView("japan")
             buttonSelect()
             cate_jap?.isSelected = true
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(mainActivity)
+            setUpdateLocationListener2()
         }
         binding.categoryKor.setOnClickListener {
             mMap!!.clear()
@@ -410,6 +429,8 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             markerView("korean")
             buttonSelect()
             cate_kor?.isSelected = true
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(mainActivity)
+            setUpdateLocationListener2()
         }
         binding.categoryDo.setOnClickListener {
             mMap!!.clear()
@@ -419,6 +440,8 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             markerView("bento")
             buttonSelect()
             cate_bento?.isSelected = true
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(mainActivity)
+            setUpdateLocationListener2()
 
         }
         binding.categoryCafe.setOnClickListener {
@@ -429,6 +452,8 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             markerView("cafe")
             buttonSelect()
             cate_cafe?.isSelected = true
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(mainActivity)
+            setUpdateLocationListener2()
 
         }
         binding.categoryChi.setOnClickListener {
@@ -439,6 +464,8 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             markerView("chi")
             buttonSelect()
             cate_chi?.isSelected = true
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(mainActivity)
+            setUpdateLocationListener2()
 
         }
         //내위치 항상 표시하기
