@@ -81,7 +81,7 @@
         <service
             android:name=".fcm.FirebaseService"
             android:exported="false">
-            ㅅ
+
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
