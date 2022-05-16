@@ -645,7 +645,7 @@ class ChatRoomActivity : AppCompatActivity() {
                 //새로운 프로필 이미지 저장
                 uploadTask.addOnFailureListener { }
                     .addOnSuccessListener {
-                        Toast.makeText(applicationContext, "사진저장!", Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(applicationContext, "사진저장!", Toast.LENGTH_SHORT).show()
                     }
             }
             else -> {
