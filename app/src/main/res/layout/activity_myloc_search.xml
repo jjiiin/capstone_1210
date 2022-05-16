@@ -12,7 +12,7 @@
         android:id="@+id/mapView"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="570dp"
+        android:layout_height="600dp"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout" />
 
     <FrameLayout
@@ -79,7 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginLeft="16dp"
-            android:text="위치를 설정해주세요.위치를 설정해주세요.위치를 설정해주세요.위치를 설정해주세요."
+            android:text="위치를 설정해주세요."
             android:textColor="@color/black"
             android:textSize="17sp"
             android:textStyle="bold"
