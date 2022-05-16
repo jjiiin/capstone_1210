@@ -23,6 +23,7 @@ import com.google.firebase.ktx.Firebase
 
 class NoteChild2Fragment : Fragment() {
     private var dataModelList = mutableListOf<kwNotiData>()
+    private var dataModelList_ = mutableListOf<kwNotiData>()
     private var kwnotiHash=HashSet<kwNotiData>()
     private lateinit var binding: FragmentNoteChild2Binding
     private lateinit var auth: FirebaseAuth
@@ -69,15 +70,7 @@ class NoteChild2Fragment : Fragment() {
                     }
                 }
                 for(i in kwnotiHash){
-                    if(dataModelList.isEmpty()){
-                        dataModelList.add(i)
-                    }else{
-                        for(j in dataModelList){
-                            if(j.content != i.content){
-                                dataModelList.add(i)
-                            }
-                        }
-                    }
+                    dataModelList.add(i)
                 }
 
 

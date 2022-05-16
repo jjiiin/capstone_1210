@@ -181,7 +181,7 @@
                     android:checked="true"
                     android:track="@drawable/switch_track_selector"
                     android:thumb="@drawable/switch_thumb_selector"
-                    android:layout_marginLeft="120dp"
+                    android:layout_marginLeft="115dp"
                     />
                 <TextView
                     android:layout_width="wrap_content"

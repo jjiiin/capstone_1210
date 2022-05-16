@@ -93,9 +93,10 @@ class AddressSearchActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
                 if(page=="BoardWirteActivity"){
-                    val intent = Intent(this@AddressSearchActivity, BoardWirteActivity::class.java)
-                    intent.flags=Intent.FLAG_ACTIVITY_SINGLE_TOP
-                    startActivity(intent)
+//                    val intent = Intent(this@AddressSearchActivity, BoardWirteActivity::class.java)
+//                    intent.flags=Intent.FLAG_ACTIVITY_SINGLE_TOP
+//                    startActivity(intent)
+                    finish()
                 }
                 if(page=="MyActivity"){
                     val intent = Intent(this@AddressSearchActivity, MainActivity::class.java).putExtra("page","my")

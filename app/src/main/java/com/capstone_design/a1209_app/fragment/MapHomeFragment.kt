@@ -81,6 +81,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
     private lateinit var binding: FragmentMapHomeBinding
     private lateinit var mFragmentListener: FragmentListener
     private var kwNotiList = mutableListOf<kwNotiData>()
+    private var kwNotiList_ = mutableListOf<String>()
     private lateinit var auth: FirebaseAuth
     private lateinit var mView: MapView
     private lateinit var mMap: GoogleMap
@@ -209,31 +210,22 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             }
         })
 
+
+        //키워드 알림 목록 받아오기
         FBRef.usersRef.child(Auth.current_uid).child("kwNoti").addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
+                kwNotiList_.clear()
                 for (data in snapshot.children) {
                     var item=data.getValue(kwNotiData::class.java)!!
                     if(item!=null){
-                        if(kwNotiList.isEmpty()){
-                            kwNotiList.add(item)
-                        }else{
-                            for(j in kwNotiList){
-                                if(j.roomKey != item.roomKey){
-                                    kwNotiList.add(item)
-                                }
-                            }
-                        }
+                        kwNotiList_.add(item.roomKey)
+                        Log.d("kwnoti_",kwNotiList_.toString())
                     }
-
                 }
             }
-
             override fun onCancelled(error: DatabaseError) {
-
             }
-
-        }
-        )
+        })
 
         //키워드 알림 - 키워드 리스트와 글 목록 비교하기
         //키워드 알림 켜져있을때만(switch_enterNoti) 키워드 알림보내기
@@ -252,8 +244,10 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
                                 if (item != null) {
                                     for (i in keywordList) {
                                         if (item.title.contains(i)) {
-                                            for( j in kwNotiList) {
-                                                if(j.roomKey!=item.chatroomkey) {
+                                            if(kwNotiList_.isEmpty()){
+                                                notification(i, item.title, item.chatroomkey)
+                                            }else {
+                                                if(!kwNotiList_.contains(item.chatroomkey)){
                                                     notification(i, item.title, item.chatroomkey)
                                                 }
                                             }
@@ -309,7 +303,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
         if (set == 1) {
             val linearLayout: LinearLayout = binding.boardSet
             val params = linearLayout.layoutParams as ConstraintLayout.LayoutParams
-            params.bottomMargin = 535
+            params.bottomMargin = 720
             linearLayout.layoutParams = params
         } else {
             val linearLayout: LinearLayout = binding.boardSet
@@ -342,12 +336,9 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
         viewPager2.visibility = View.GONE
         springDotsIndicator.visibility = View.GONE
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(mainActivity)
+        setUpdateLocationListener2()
         markerView("all")
         buttonSelect()
-        var myLoc=true
-        if(myLoc){
-            setUpdateLocationListener2()
-        }
 
         cate_all?.isSelected = true
 
@@ -473,9 +464,9 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
             setUpdateLocationListener2()
 
         }
-        //내위치 항상 표시하기
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(mainActivity)
-        setUpdateLocationListener2()
+//        //내위치 항상 표시하기
+//        fusedLocationClient = LocationServices.getFusedLocationProviderClient(mainActivity)
+//        setUpdateLocationListener2()
 
         //내위치 버튼 클릭
         binding.myloc.setOnClickListener {

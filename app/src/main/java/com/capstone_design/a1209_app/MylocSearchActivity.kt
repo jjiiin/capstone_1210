@@ -183,6 +183,7 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
         }catch (e: Exception) {
             e.printStackTrace()
             Toast.makeText(this, "좌표를 변환하지 못했습니다.", Toast.LENGTH_LONG).show()
+            Log.d("error_",e.toString())
         }
         if (mResultList != null) {
             val address=mResultList!![0]
@@ -245,8 +246,8 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
 
     override fun onConnected(p0: Bundle?) {
         mLocationRequest= LocationRequest()
-        //mLocationRequest.interval=30000
-        //mLocationRequest.fastestInterval=30000
+        mLocationRequest.interval=30000
+        mLocationRequest.fastestInterval=30000
         mLocationRequest.priority=LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
         if(ContextCompat.checkSelfPermission(
                 this,
@@ -356,6 +357,7 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
                 .putExtra("경도",latLng.longitude)
                 .putExtra("page",page)
             startActivity(intent)
+            finish()
         }
     }
 

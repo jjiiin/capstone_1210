@@ -79,12 +79,13 @@ class DetailAddressActivity : AppCompatActivity() {
                 startActivity(intent)
                 finish()
             }
-            else{
-//                val intent = Intent(this, BoardWirteActivity::class.java)
-//                    .putExtra("page", page)
-////                Log.d("DAA", page)
-//                intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
-//                startActivity(intent)
+            else if(page=="BoardWriteActivity"){
+                val intent = Intent(this, AddressSearchActivity::class.java)
+//                Log.d("DAA", page)
+                intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+                startActivity(intent)
+                finish()
+            }else{
                 finish()
             }
             }

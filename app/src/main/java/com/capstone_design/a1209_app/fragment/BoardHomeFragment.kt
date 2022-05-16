@@ -133,7 +133,7 @@ class BoardHomeFragment : Fragment() {
             binding.quick.isChecked = false
             binding.noti.visibility = View.VISIBLE
             binding.notiText.visibility = View.VISIBLE
-            if (cateList.contains("asians")) {
+            if (cateList.contains("asian")) {
                 binding.noti.isChecked = true
 
             }
