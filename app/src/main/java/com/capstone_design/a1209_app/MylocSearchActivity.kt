@@ -162,7 +162,6 @@ class MylocSearchActivity : AppCompatActivity(), OnMapReadyCallback, LocationLis
         val discripter=getMarkerDrawable(R.drawable.marker)
         val markerOptions=MarkerOptions()
         markerOptions.position(latLng)
-        markerOptions.title("touch")
         markerOptions.icon(discripter)
         mMap!!.addMarker(markerOptions)
 

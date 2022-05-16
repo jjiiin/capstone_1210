@@ -525,6 +525,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
                     changeMargin(1)
                     viewPager2.visibility = View.VISIBLE
                     springDotsIndicator.visibility = View.VISIBLE
+                    mMap!!.uiSettings.isMapToolbarEnabled=false
                 }
                 return false
             }
