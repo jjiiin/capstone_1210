@@ -1,5 +1,7 @@
 package com.capstone_design.a1209_app.Adapter
 
+import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Paint
 import android.util.Log
@@ -12,6 +14,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.capstone_design.a1209_app.DetailActivity
 import com.capstone_design.a1209_app.R
 import com.capstone_design.a1209_app.dataModels.dataModel
 import com.capstone_design.a1209_app.utils.FBRef
@@ -19,7 +22,11 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 
-class LvAdpater(private val boardList: MutableList<dataModel>, private val context: Fragment) :
+class LvAdpater(
+    private val boardList: MutableList<dataModel>,
+    private val context: Context,
+    val boardKeyList: MutableList<String>
+) :
     BaseAdapter() {
 
     override fun getCount(): Int {
@@ -95,7 +102,7 @@ class LvAdpater(private val boardList: MutableList<dataModel>, private val conte
         //모집정원
         tv_maximum_userNum.text = content.person
         getUserNum(content.chatroomkey, tv_current_userNum)
-        isClosed(content.chatroomkey, card_view_layout, converView)
+        isClosed(content.chatroomkey, card_view_layout, converView, boardKeyList[position])
         return converView!!
     }
 
@@ -118,7 +125,7 @@ class LvAdpater(private val boardList: MutableList<dataModel>, private val conte
     }
 
     //모집 끝난 글이면 처리하는 코드
-    fun isClosed(chatroomkey: String, card_view_layout: LinearLayout, converView: View) {
+    fun isClosed(chatroomkey: String, card_view_layout: LinearLayout, converView: View, boardKey:String) {
         FBRef.chatRoomsRef.child(chatroomkey).child("isClosed")
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -130,6 +137,13 @@ class LvAdpater(private val boardList: MutableList<dataModel>, private val conte
                         card_view_layout.setBackgroundColor(paint.color)
                         //카드뷰 클릭해도 아무일도 일어나지않게
                         converView.setOnClickListener { }
+                    } else {
+                        card_view_layout.background = null
+                        converView.setOnClickListener {
+                            val intent = Intent(context, DetailActivity::class.java)
+                            intent.putExtra("key", boardKey)
+                            context.startActivity(intent)
+                        }
                     }
                 }
 

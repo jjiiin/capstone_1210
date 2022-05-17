@@ -75,6 +75,7 @@ class ChatRoomActivity : AppCompatActivity() {
     var roomTitle = ""
     var chatroomkey = ""
     var isClosed = false
+    lateinit var rv:RecyclerView
 
     //프로필 사진 요청 코드
     private val DEFAULT_GALLERY_REQUEST_CODE = 0
@@ -97,7 +98,7 @@ class ChatRoomActivity : AppCompatActivity() {
 
 
         //리사이클러뷰 어댑터 연결
-        val rv = findViewById<RecyclerView>(R.id.recycler_view)
+        rv = findViewById<RecyclerView>(R.id.recycler_view)
         val rvAdapter = Chat_RVAdapter(chats, this, chatroomkey)
         rv.adapter = rvAdapter
         rv.layoutManager = LinearLayoutManager(this)
@@ -397,7 +398,7 @@ class ChatRoomActivity : AppCompatActivity() {
                         }
 
                     }
-
+                    rv.smoothScrollToPosition(chats.size-1)
                     //items에 변화가 생기면 반영
                     rvAdapter.notifyDataSetChanged()
                 }

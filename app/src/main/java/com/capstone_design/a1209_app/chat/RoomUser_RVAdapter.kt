@@ -58,6 +58,7 @@ class RoomUser_RVAdapter(
                 itemView.findViewById<ImageView>(R.id.me_badge).visibility = View.VISIBLE
             }
             itemView.setOnClickListener {
+                Log.d("뭘까", item.toString())
                 val intent =
                     Intent(context, Evaluation_Display_Activity::class.java).putExtra("uid", uid)
                         .putExtra("nickname", item.nickname)

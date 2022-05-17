@@ -60,7 +60,7 @@ class BoardHomeFragment : Fragment() {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_board_home, container, false)
         auth = Firebase.auth
-        adapter = LvAdpater(items, this)
+        adapter = LvAdpater(items, requireContext()!!, itemsKeyList)
         binding.count.text = items.size.toString()
 
         //버튼 클릭시 category에 값 할당하기
@@ -388,9 +388,10 @@ class BoardHomeFragment : Fragment() {
                             }
                         }
                     }
-
                     adapter.notifyDataSetChanged()
                 }
+                Log.d("리스트", items.toString())
+                Log.d("리스트", itemsKeyList.toString())
 //                itemsKeyList.reverse()
 //                items.reverse()
                 binding.count.text=cnt.toString()

@@ -80,7 +80,7 @@ class MiniListFragment : Fragment(), FragmentListener {
         }
 
 
-        adapter = LvAdpater(items, this)
+        adapter = LvAdpater(items, requireContext()!!, keyList)
         binding.LvMain.adapter=adapter
 
         binding.LvMain.setOnItemClickListener { parent, view, position, id ->

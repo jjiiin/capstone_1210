@@ -21,6 +21,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 
 class Chat_RVAdapter(val items: MutableList<Any>, val context: Context, val chatroomkey: String) :
@@ -296,21 +297,7 @@ class Chat_RVAdapter(val items: MutableList<Any>, val context: Context, val chat
                 hour = item.time.hours
             }
             rv_msgtime.text = "${ampm} ${hour}:${item.time.minutes}"
-            val storage: FirebaseStorage = FirebaseStorage.getInstance()
-            val storageRef: StorageReference = storage.getReference()
-            var isSuccess = false
-            storageRef.child("chat_img/${chatroomkey}/" + item.msg.substring(7) + ".jpg")
-                .getDownloadUrl()
-                .addOnSuccessListener {
-                    Log.d("성공", "성공")
-                    isSuccess = true
-                    Glide.with(context).load(it).into(itemView.findViewById(R.id.rv_msg_image))
-                }.addOnFailureListener {
-                    Log.d("성공", it.toString())
-                    isSuccess = false
-                    itemView.findViewById<ImageView>(R.id.rv_msg_image)
-                        .setImageResource(R.drawable.profile_cat)
-                }
+            getChatPhoto(item, itemView)
 
         }
     }
@@ -341,18 +328,7 @@ class Chat_RVAdapter(val items: MutableList<Any>, val context: Context, val chat
                         .putExtra("nickname", item.nickname)
                 context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
             }
-            val storage: FirebaseStorage = FirebaseStorage.getInstance()
-            val storageRef: StorageReference = storage.getReference()
-            storageRef.child("chat_img/${chatroomkey}/" + item.msg.substring(7) + ".jpg")
-                .getDownloadUrl()
-                .addOnSuccessListener {
-                    Log.d("성공", "성공")
-                    Glide.with(context).load(it).into(itemView.findViewById(R.id.rv_msg_image))
-                }.addOnFailureListener {
-                    Log.d("성공", it.toString())
-                    itemView.findViewById<ImageView>(R.id.rv_msg_image)
-                        .setImageResource(R.drawable.profile_cat)
-                }
+            getChatPhoto(item, itemView)
         }
     }
 
@@ -366,5 +342,22 @@ class Chat_RVAdapter(val items: MutableList<Any>, val context: Context, val chat
                 itemView.findViewById<ImageView>(R.id.rv_profile_btn)
                     .setImageResource(R.drawable.profile_cat)
             }
+    }
+
+    fun getChatPhoto(item:ChatData, itemView: View, n:Int = 5){
+        when{
+            n < 0 -> return
+            else->{
+                val storage: FirebaseStorage = FirebaseStorage.getInstance()
+                val storageRef: StorageReference = storage.getReference()
+                storageRef.child("chat_img/${chatroomkey}/" + item.msg.substring(7) + ".jpg").getDownloadUrl()
+                    .addOnSuccessListener {
+                        Glide.with(context).load(it).into(itemView.findViewById(R.id.rv_msg_image))
+                    }.addOnFailureListener {
+                        getChatPhoto(item, itemView, n-1)
+                    }
+            }
+        }
+
     }
 }
