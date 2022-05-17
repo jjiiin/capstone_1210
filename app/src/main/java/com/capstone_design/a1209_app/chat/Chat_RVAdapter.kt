@@ -171,7 +171,7 @@ class Chat_RVAdapter(val items: MutableList<Any>, val context: Context, val chat
             if (item.time.hours > 12) {
                 ampm = "오후"
                 hour = item.time.hours - 12
-            }else{
+            } else {
                 ampm = "오전"
                 hour = item.time.hours
             }
@@ -202,7 +202,7 @@ class Chat_RVAdapter(val items: MutableList<Any>, val context: Context, val chat
             if (item.time.hours > 12) {
                 ampm = "오후"
                 hour = item.time.hours - 12
-            }else{
+            } else {
                 ampm = "오전"
                 hour = item.time.hours
             }
@@ -219,7 +219,7 @@ class Chat_RVAdapter(val items: MutableList<Any>, val context: Context, val chat
             if (item.time.hours > 12) {
                 ampm = "오후"
                 hour = item.time.hours - 12
-            }else{
+            } else {
                 ampm = "오전"
                 hour = item.time.hours
             }
@@ -244,7 +244,7 @@ class Chat_RVAdapter(val items: MutableList<Any>, val context: Context, val chat
             if (item.time.hours > 12) {
                 ampm = "오후"
                 hour = item.time.hours - 12
-            }else{
+            } else {
                 ampm = "오전"
                 hour = item.time.hours
             }
@@ -292,7 +292,7 @@ class Chat_RVAdapter(val items: MutableList<Any>, val context: Context, val chat
             if (item.time.hours > 12) {
                 ampm = "오후"
                 hour = item.time.hours - 12
-            }else{
+            } else {
                 ampm = "오전"
                 hour = item.time.hours
             }
@@ -314,7 +314,7 @@ class Chat_RVAdapter(val items: MutableList<Any>, val context: Context, val chat
             if (item.time.hours > 12) {
                 ampm = "오후"
                 hour = item.time.hours - 12
-            }else{
+            } else {
                 ampm = "오전"
                 hour = item.time.hours
             }
@@ -344,20 +344,17 @@ class Chat_RVAdapter(val items: MutableList<Any>, val context: Context, val chat
             }
     }
 
-    fun getChatPhoto(item:ChatData, itemView: View, n:Int = 100){
-        when{
-            n < 0 -> return
-            else->{
-                val storage: FirebaseStorage = FirebaseStorage.getInstance()
-                val storageRef: StorageReference = storage.getReference()
-                storageRef.child("chat_img/${chatroomkey}/" + item.msg.substring(7) + ".jpg").getDownloadUrl()
-                    .addOnSuccessListener {
-                        Glide.with(context).load(it).into(itemView.findViewById(R.id.rv_msg_image))
-                    }.addOnFailureListener {
-                        getChatPhoto(item, itemView, n-1)
-                    }
+    fun getChatPhoto(item: ChatData, itemView: View) {
+        val storage: FirebaseStorage = FirebaseStorage.getInstance()
+        val storageRef: StorageReference = storage.getReference()
+        storageRef.child("chat_img/${chatroomkey}/" + item.msg.substring(7) + ".jpg")
+            .getDownloadUrl()
+            .addOnSuccessListener {
+                Glide.with(context).load(it).into(itemView.findViewById(R.id.rv_msg_image))
+            }.addOnFailureListener {
+                itemView.findViewById<ImageView>(R.id.rv_msg_image)
+                    .setImageResource(R.drawable.bubble_tea)
             }
-        }
 
     }
 }
