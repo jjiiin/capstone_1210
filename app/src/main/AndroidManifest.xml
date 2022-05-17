@@ -129,6 +129,9 @@
         <activity
             android:name=".MainActivity"
             android:exported="true" />
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false"/>
     </application>
 
 </manifest>
