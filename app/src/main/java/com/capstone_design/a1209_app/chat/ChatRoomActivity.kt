@@ -620,15 +620,17 @@ class ChatRoomActivity : AppCompatActivity() {
                 data ?: return
                 //갤러리에서 고른 사진의 uri
                 val photo_uri = data.data as Uri
-                var sub_uri = photo_uri.toString()
-                sub_uri = sub_uri.substring(sub_uri.length - 10, sub_uri.length)
+                val split = photo_uri.toString().split("/")
+                val size = split.size
+                val id = split[size-1]
+                //sub_uri = sub_uri.substring(sub_uri.length - 10, sub_uri.length)
                 val time = Calendar.getInstance().time
                 //val current_time = System.currentTimeMillis()
                 //Log.d("시간",date.toString())
                 val chatData =
                     ChatData(
                         current_nickname,
-                        "(photo)" + sub_uri,
+                        "(photo)" + id,
                         Auth.current_email!!,
                         Auth.current_uid,
                         time
@@ -637,7 +639,7 @@ class ChatRoomActivity : AppCompatActivity() {
                 chatRoomsRef.child(chatroomkey!!).child("messages").push().setValue(chatData)
                 //파이어베이스에 이미지 저장
                 //Storage 객체 만들고 참조
-                val fileName: String = sub_uri + ".jpg"
+                val fileName: String = id + ".jpg"
                 val storage: FirebaseStorage = FirebaseStorage.getInstance()
                 val storageRef: StorageReference = storage.getReference()
                 val uploadTask: UploadTask =
@@ -645,7 +647,6 @@ class ChatRoomActivity : AppCompatActivity() {
                 //새로운 프로필 이미지 저장
                 uploadTask.addOnFailureListener { }
                     .addOnSuccessListener {
-                        //Toast.makeText(applicationContext, "사진저장!", Toast.LENGTH_SHORT).show()
                     }
             }
             else -> {

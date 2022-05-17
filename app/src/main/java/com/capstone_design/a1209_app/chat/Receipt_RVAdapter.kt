@@ -183,6 +183,8 @@ class Receipt_RVAdapter(
                 itemView.findViewById<TextView>(R.id.tv_paid).visibility = View.GONE
                 itemView.findViewById<TextView>(R.id.tv_host_paid).visibility = View.VISIBLE
                 itemView.findViewById<ImageView>(R.id.host_icon).visibility = View.VISIBLE
+                FBRef.chatRoomsRef.child(chatroomKey).child("receipts").child(item.uid)
+                    .child("check_paid").setValue(true)
             } else {
                 if(item.uid != Auth.current_uid){
                     itemView.findViewById<TextView>(R.id.nickname_tv).background = null
@@ -262,6 +264,7 @@ fun checkAllPaid(chatroomKey: String, hostUid: String, roomTitle: String) {
         }
         //모두 송금했으면 방장에게 알림 보내기
         if (isAllPaid) {
+            Log.d("알람", "알람감")
             //방장에게 송금알림 보내기
             val notiData_paid = NotiModel(
                 "Saveat - 알림",

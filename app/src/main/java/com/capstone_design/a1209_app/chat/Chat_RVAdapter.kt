@@ -296,17 +296,22 @@ class Chat_RVAdapter(val items: MutableList<Any>, val context: Context, val chat
                 hour = item.time.hours
             }
             rv_msgtime.text = "${ampm} ${hour}:${item.time.minutes}"
-
             val storage: FirebaseStorage = FirebaseStorage.getInstance()
             val storageRef: StorageReference = storage.getReference()
+            var isSuccess = false
             storageRef.child("chat_img/${chatroomkey}/" + item.msg.substring(7) + ".jpg")
                 .getDownloadUrl()
                 .addOnSuccessListener {
+                    Log.d("성공", "성공")
+                    isSuccess = true
                     Glide.with(context).load(it).into(itemView.findViewById(R.id.rv_msg_image))
                 }.addOnFailureListener {
+                    Log.d("성공", it.toString())
+                    isSuccess = false
                     itemView.findViewById<ImageView>(R.id.rv_msg_image)
                         .setImageResource(R.drawable.profile_cat)
                 }
+
         }
     }
 
@@ -327,7 +332,6 @@ class Chat_RVAdapter(val items: MutableList<Any>, val context: Context, val chat
                 hour = item.time.hours
             }
             rv_msgtime.text = "${ampm} ${hour}:${item.time.minutes}"
-            
             itemView.findViewById<ImageView>(R.id.rv_profile_btn).setOnClickListener {
                 val intent =
                     Intent(context, Evaluation_Display_Activity::class.java).putExtra(
@@ -342,8 +346,10 @@ class Chat_RVAdapter(val items: MutableList<Any>, val context: Context, val chat
             storageRef.child("chat_img/${chatroomkey}/" + item.msg.substring(7) + ".jpg")
                 .getDownloadUrl()
                 .addOnSuccessListener {
+                    Log.d("성공", "성공")
                     Glide.with(context).load(it).into(itemView.findViewById(R.id.rv_msg_image))
                 }.addOnFailureListener {
+                    Log.d("성공", it.toString())
                     itemView.findViewById<ImageView>(R.id.rv_msg_image)
                         .setImageResource(R.drawable.profile_cat)
                 }
