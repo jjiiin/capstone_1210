@@ -56,7 +56,7 @@ class Evaluation_Display_Activity : AppCompatActivity() {
         }
         //평가하러가기
         binding.imageDoEvaluate.setOnClickListener {
-            val intent = Intent(this, Evaluation_Activity::class.java).putExtra("uid", uid)
+            val intent = Intent(this, Evaluation_Activity::class.java).putExtra("uid", uid).putExtra("nickname", nickname)
             startActivity(intent)
         }
         getImage(uid)

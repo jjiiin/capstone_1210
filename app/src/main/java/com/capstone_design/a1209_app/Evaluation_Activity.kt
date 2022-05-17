@@ -21,7 +21,7 @@ import java.util.*
 class Evaluation_Activity : AppCompatActivity() {
 
     lateinit var binding: ActivityEvaluationBinding
-    var nickname: String = ""
+    var current_nickname: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,9 +31,11 @@ class Evaluation_Activity : AppCompatActivity() {
 
         //해당 uid의 신뢰도 평가
         val uid = intent.getStringExtra("uid")
-        binding.tvNickname.text = nickname
+        val nickname = intent.getStringExtra("nickname")
         getImage(uid.toString())
         getNickName()
+
+        binding.tvNickname.text = nickname
 
         //뒤로가기
         binding.backbtn.setOnClickListener {
@@ -79,7 +81,7 @@ class Evaluation_Activity : AppCompatActivity() {
             val time = Calendar.getInstance().time
             val writer_uid = Auth.current_uid
             FBRef.usersRef.child(uid!!).child("rating_datas").push()
-                .setValue(RatingData(rating, content, nickname!!, time, writer_uid))
+                .setValue(RatingData(rating, content, current_nickname!!, time, writer_uid))
             finish()
         }
         binding.btnCancel.setOnClickListener {
@@ -104,7 +106,7 @@ class Evaluation_Activity : AppCompatActivity() {
         FBRef.usersRef.child(Auth.current_uid).get().addOnSuccessListener {
             for (data in it.children) {
                 if (data.key.toString() == "nickname") {
-                    nickname = data.getValue().toString()
+                    current_nickname = data.getValue().toString()
                 }
             }
         }
