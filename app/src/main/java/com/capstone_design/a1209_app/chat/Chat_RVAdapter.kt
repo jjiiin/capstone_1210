@@ -344,7 +344,7 @@ class Chat_RVAdapter(val items: MutableList<Any>, val context: Context, val chat
             }
     }
 
-    fun getChatPhoto(item:ChatData, itemView: View, n:Int = 5){
+    fun getChatPhoto(item:ChatData, itemView: View, n:Int = 100){
         when{
             n < 0 -> return
             else->{
