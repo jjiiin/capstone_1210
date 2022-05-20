@@ -474,6 +474,7 @@ class ChatRoomActivity : AppCompatActivity() {
         usersRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 roomusersList.clear()
+                usersIdList.clear()
                 for (data in snapshot.children) {
                     if (roomusersIdList.contains(data.key)) {
                         val user = data.getValue(UserData::class.java)
