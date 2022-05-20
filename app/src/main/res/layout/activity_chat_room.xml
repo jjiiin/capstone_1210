@@ -48,8 +48,8 @@
             android:textColor="#101010"
             android:textSize="18sp"
             android:textStyle="bold"
+            android:layout_marginLeft="32dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/layout_usernum"
             app:layout_constraintStart_toEndOf="@+id/backbtn"
             app:layout_constraintTop_toTopOf="parent" />
 
