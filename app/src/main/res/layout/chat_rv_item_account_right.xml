@@ -99,7 +99,8 @@
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
             android:layout_marginBottom="9dp"
-            android:background="@color/white"
+            android:background="@drawable/account_copy_button"
+            android:backgroundTint="@color/white"
             android:text="복사하기"
             android:textColor="#101010"
             android:textSize="14sp" />

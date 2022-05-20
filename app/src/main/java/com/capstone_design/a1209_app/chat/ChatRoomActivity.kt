@@ -103,7 +103,7 @@ class ChatRoomActivity : AppCompatActivity() {
         rv.adapter = rvAdapter
         rv.layoutManager = LinearLayoutManager(this)
         //자동 스크롤(아이템 10개 가정)
-        rv.smoothScrollToPosition(10)
+        //rv.smoothScrollToPosition(10)
 
         val roomUser_rv = findViewById<RecyclerView>(R.id.rv_room_user_list)
         val roomuserRvadapter = RoomUser_RVAdapter(roomusersList, this, usersIdList)
@@ -398,7 +398,9 @@ class ChatRoomActivity : AppCompatActivity() {
                         }
 
                     }
+                    //자동 스크롤
                     rv.smoothScrollToPosition(chats.size-1)
+
                     //items에 변화가 생기면 반영
                     rvAdapter.notifyDataSetChanged()
                 }
