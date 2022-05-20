@@ -81,7 +81,6 @@ class DetailAddressActivity : AppCompatActivity() {
             }
             else if(page=="BoardWriteActivity"){
                 val intent = Intent(this, AddressSearchActivity::class.java)
-//                Log.d("DAA", page)
                 intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
                 startActivity(intent)
                 finish()

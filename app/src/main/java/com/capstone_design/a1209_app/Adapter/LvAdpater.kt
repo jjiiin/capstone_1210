@@ -86,11 +86,13 @@ class LvAdpater(
         } else {
             var imageUri = content.image
             Glide.with(context).load(imageUri).into(cv_img)
+            cv_img.clipToOutline=true
         }
 
         if (content.quick == "1") {
             cv_quick.visibility = View.VISIBLE
-        } else {
+            //cv_quick.visibility = View.INVISIBLE
+        }else{
             cv_quick.visibility = View.INVISIBLE
         }
 

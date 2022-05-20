@@ -82,6 +82,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
     private lateinit var mFragmentListener: FragmentListener
     private var kwNotiList = mutableListOf<kwNotiData>()
     private var kwNotiList_ = mutableListOf<String>()
+    private var kwNotiList_temp = mutableListOf<String>()
     private lateinit var auth: FirebaseAuth
     private lateinit var mView: MapView
     private lateinit var mMap: GoogleMap
@@ -138,8 +139,6 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_map_home, container, false)
         getKeywordSwitch()
         auth = Firebase.auth
@@ -219,6 +218,7 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
                     var item=data.getValue(kwNotiData::class.java)!!
                     if(item!=null){
                         kwNotiList_.add(item.roomKey)
+                        kwNotiList_temp.add(item.roomKey)
                         Log.d("kwnoti_",kwNotiList_.toString())
                     }
                 }
@@ -246,9 +246,11 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
                                         if (item.title.contains(i)) {
                                             if(kwNotiList_.isEmpty()){
                                                 notification(i, item.title, item.chatroomkey)
+                                                kwNotiList_temp.add(item.chatroomkey)
                                             }else {
-                                                if(!kwNotiList_.contains(item.chatroomkey)){
+                                                if(compareKwnoti(item.chatroomkey)){
                                                     notification(i, item.title, item.chatroomkey)
+                                                    kwNotiList_temp.add(item.chatroomkey)
                                                 }
                                             }
                                         }
@@ -893,6 +895,17 @@ class MapHomeFragment : Fragment(), FragmentListener, OnMapReadyCallback {
                 keywordSwitch = data!!.switch_kwNoti
             }
     }
+
+    fun compareKwnoti(kwnoti:String):Boolean{
+        var check=false
+        if(!kwNotiList_temp.contains(kwnoti)){
+            check=true
+        }
+
+        return check
+
+    }
+
 
 
 }

@@ -33,8 +33,9 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="10dp"
-                android:scaleType="fitXY"
-                android:background="@drawable/round_corner" />
+                android:background="@drawable/round_corner"
+                android:scaleType="fitXY" />
+
             <ImageView
                 android:id="@+id/quick"
                 android:layout_width="wrap_content"
@@ -248,8 +249,8 @@
 
         <ImageView
             android:id="@+id/listBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="62dp"
+            android:layout_height="26dp"
             android:src="@drawable/look"
             android:layout_gravity="right"
             android:layout_marginRight="10dp"

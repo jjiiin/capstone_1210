@@ -233,6 +233,7 @@ class DetailActivity : AppCompatActivity() {
                 } else {
                     var imageUri = data.image
                     Glide.with(this@DetailActivity).load(imageUri).into(binding.detailImage)
+                    binding.detailImage.clipToOutline = true
                 }
                 getHostRating()
                 //getHostRatingData()

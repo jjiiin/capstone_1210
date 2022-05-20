@@ -13,11 +13,12 @@
 
         <ImageView
             android:id="@+id/detail_image"
+            android:scaleType="fitXY"
             android:layout_width="68dp"
             android:layout_height="68dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="16dp"
-            android:src="@drawable/chicken"
+            android:background="@drawable/round_corner"
             app:layout_constraintBottom_toTopOf="@+id/detail_category"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

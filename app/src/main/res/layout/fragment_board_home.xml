@@ -181,7 +181,7 @@
                     android:checked="true"
                     android:track="@drawable/switch_track_selector"
                     android:thumb="@drawable/switch_thumb_selector"
-                    android:layout_marginLeft="115dp"
+                    android:layout_marginLeft="135dp"
                     />
                 <TextView
                     android:layout_width="wrap_content"
@@ -218,12 +218,12 @@
 
             </LinearLayout>
 
-        </LinearLayout>
 
+        </LinearLayout>
         <ListView
             android:id="@+id/LvMain"
             android:layout_width="match_parent"
-            android:layout_height="530dp"
+            android:layout_height="570dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:divider="@null"
@@ -233,25 +233,27 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:reverseLayout="true"
-            app:stackFromEnd="true"></ListView>
-
+            app:stackFromEnd="true"/>
 
     </LinearLayout>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/writeBtn"
-            android:layout_width="125dp"
-            android:layout_height="64dp"
-            android:src="@drawable/bhf_write"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginBottom="24dp"
-            app:layout_constraintStart_toStartOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <ImageView
+                    android:id="@+id/writeBtn"
+                    android:layout_width="125dp"
+                    android:layout_height="64dp"
+                    android:layout_marginBottom="24dp"
+                    android:src="@drawable/bhf_write"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 </FrameLayout>
 </layout>

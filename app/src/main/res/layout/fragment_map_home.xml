@@ -36,9 +36,9 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="35dp"
-        android:layout_height="0dp"
-        android:layout_marginLeft="9dp"
+        android:layout_width="10dp"
+        android:layout_height="16.73dp"
+        android:layout_marginLeft="20dp"
         android:src="@drawable/mhf_loc"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,7 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5.8dp"
         android:text="세이빗동 빗길 23-10"
-        android:layout_marginLeft="-3dp"
+        android:layout_marginLeft="6dp"
         android:textColor="#808080"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/imageView2"
@@ -61,7 +61,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/mhf_go"
-        android:layout_marginTop="5.8dp"
+        android:layout_marginTop="4.5dp"
         app:layout_constraintStart_toEndOf="@+id/addressTv"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -194,11 +194,11 @@
 
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:src="@drawable/mhfmyloc"
         android:id="@+id/myloc"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
 
