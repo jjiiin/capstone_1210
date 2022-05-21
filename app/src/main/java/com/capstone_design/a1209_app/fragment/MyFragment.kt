@@ -188,7 +188,7 @@ class MyFragment : Fragment() {
         val storageRef: StorageReference = storage.getReference()
         storageRef.child("profile_img/" + Auth.current_uid + ".jpg").getDownloadUrl()
             .addOnSuccessListener {
-                Glide.with(requireContext()).load(it).into(binding.imageProfile)
+                Glide.with(requireActivity()).load(it).into(binding.imageProfile)
             }.addOnFailureListener {
                 binding.imageProfile.setImageResource(R.drawable.profile_cat)
             }
