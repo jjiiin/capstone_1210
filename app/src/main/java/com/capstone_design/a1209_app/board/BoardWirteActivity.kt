@@ -427,7 +427,7 @@ class BoardWirteActivity : AppCompatActivity() {
                         schRef.addValueEventListener(object : ValueEventListener {
                             val notiModel = NotiModel(
                                 "Saveat - 새글알림",
-                                "\"${categoryNoti}\" 카테고리에 새 글이 올라왔습니다.",
+                                "\"${categoryNoti}\" 카테고리에 새 글이 올라왔어요.",
                                time
                             )
 

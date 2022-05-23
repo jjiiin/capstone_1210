@@ -42,12 +42,6 @@ class FirebaseService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
 
-//        Log.e(TAG, message.notification?.title.toString())
-//        Log.e(TAG, message.notification?.body.toString())
-//
-//        val title=message.notification?.title.toString()
-//        val body=message.notification?.body.toString()
-
         val title = message.data["title"].toString()
         val body = message.data["content"].toString()
         val time = Calendar.getInstance().time
@@ -59,7 +53,6 @@ class FirebaseService : FirebaseMessagingService() {
         val chatroom_key = message.data["chatroom_key"].toString()
 
         createNotificationChannel()
-
         sendNotification(title, body, chatroom_key)
 
         if (body.contains("카테고리")) {
