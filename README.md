@@ -12,7 +12,10 @@
  1. 근처 100M 근방에 사는 사람들과 같이 배달을 시킬 수 있는 플랫폼을 만들어 배달메이트 매칭, <br/>배달비 절감효과 제공.
  2. 최소 금액을 맞추기 위해 추가주문을 해야하는 1인가구의 불편함 해소.
  <br/><br/>
+ 
+ 
 <h3>✅Skills✅</h3>
 <p style="display:inline"/><img src="https://img.shields.io/badge/Android-3DDC84?style=flat&logo=Android&logoColor=white"/>
 <img src="https://img.shields.io/badge/Firebase-FFCA28?style=flat&logo=Firebase&logoColor=white"/>
 <img src="https://img.shields.io/badge/Kotlin-7F52FF?style=flat&logo=Kotlin&logoColor=white"/>
+<img src="https://img.shields.io/badge/Google Maps-4285F4?style=flat&logo=Google Maps&logoColor=white"/>
